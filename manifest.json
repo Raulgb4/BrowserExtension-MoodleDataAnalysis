@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Moodle Data Analysis",
+  "name": "Moodle Data Analyzer",
   "description": "A Chrome extension for visualizing Moodle course data.",
   "version": "1.0.0",
   "action": {

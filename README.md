@@ -1,4 +1,4 @@
-# 📌 Moodle Data Analysis Extension
+# 📌 Moodle Data Analyzer
 
 🚀 **Google Chrome Extension for Extracting, Processing, and Visualizing Moodle Course Data**  
 This project consists of a browser extension designed to help educators analyze student activity and engagement in **Moodle**, by extracting data directly from the **pages of the Moodle platform** using scraping techniques.
