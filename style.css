@@ -1,0 +1,41 @@
+/* Moodle-inspired styling for the Chrome extension popup */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 12px;
+    width: 260px;
+    background-color: #ffffff; /* White background like Moodle */
+    color: #333333; /* Neutral text color */
+}
+
+/* Header title style */
+h1 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #f98012; /* Moodle orange */
+}
+
+/* Analyze button styled like Moodle */
+button {
+    padding: 6px 12px;
+    font-size: 14px;
+    background-color: #f98012; /* Moodle orange */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #e16e00; /* Darker orange on hover */
+}
+
+/* Output display area */
+#output {
+    margin-top: 15px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    color: #444;
+}
