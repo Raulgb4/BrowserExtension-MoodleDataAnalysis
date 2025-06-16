@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  # === Moodle Web Application ===
+  moodle:
+    image: bitnami/moodle:latest  # Pulls the latest Moodle image maintained by Bitnami
+    ports:
+      - "8080:8080"   # HTTP access (http://localhost:8080)
+      - "8443:8443"   # HTTPS access (https://localhost:8443) - optional
+    environment:
+      # Default admin credentials for Moodle
+      - MOODLE_USERNAME=admin
+      - MOODLE_PASSWORD=admin123
+      - MOODLE_EMAIL=raulgarciabalongo@hotmail.com
+      - MOODLE_SITE_NAME=MoodleTALF2023
+      # Database connection parameters
+      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_NAME=bitnami_moodle
+      - MOODLE_DATABASE_USER=bn_moodle
+      - MOODLE_DATABASE_PASSWORD=bitnami123
+      - PHP_UPLOAD_MAX_FILESIZE=512M
+      - PHP_POST_MAX_SIZE=512M
+    depends_on:
+      - mariadb  # Ensure MariaDB starts before Moodle
+    volumes:
+      - moodle_data:/bitnami/moodle  # Persistent volume for Moodle application data
+
+  # === MariaDB Database ===
+  mariadb:
+    image: bitnami/mariadb:latest  # Bitnami MariaDB image compatible with Moodle
+    environment:
+      - MARIADB_ROOT_PASSWORD=bitnami123
+      - MARIADB_DATABASE=bitnami_moodle
+      - MARIADB_USER=bn_moodle
+      - MARIADB_PASSWORD=bitnami123
+    volumes:
+      - mariadb_data:/bitnami/mariadb  # Persistent volume for database files
+
+# === Named Volumes ===
+volumes:
+  moodle_data:
+  mariadb_data:
