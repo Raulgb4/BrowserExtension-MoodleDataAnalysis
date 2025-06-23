@@ -5,12 +5,20 @@
     <title>Moodle Data Analyzer</title>
     <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-<h1>Moodle Data Analyzer</h1>
+<body class="font-sans m-0 p-3 w-[260px] bg-white text-neutral-800">
+<!-- Título principal -->
+<h1 class="text-[16px] mb-3 text-[#f98012] font-bold">Moodle Data Analyzer</h1>
 
-<button id="analyzeButton">Start Analysis</button>
+<!-- Botón de análisis -->
+<button
+        id="analyzeButton"
+        class="w-[100px] h-[100px] text-[14px] bg-[#f98012] text-white border-none rounded-full cursor-pointer font-bold flex items-center justify-center mx-auto mt-4 hover:bg-[#e16e00]"
+>
+    Start Analysis
+</button>
 
-<div id="output"></div>
+<!-- Zona de salida de texto -->
+<div id="output" class="mt-4 text-sm whitespace-pre-wrap text-[#444]"></div>
 
 <script src="popup.js"></script>
 </body>

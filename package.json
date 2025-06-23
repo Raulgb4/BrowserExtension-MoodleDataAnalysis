@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch --config webpack.config.js"
+    "watch": "webpack --watch --config webpack.config.js",
+    "tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/style.css --watch"
   },
   "keywords": [],
   "author": "",
