@@ -29,8 +29,7 @@ export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
  */
 export const PAGINATION = {
 
-    // ESTOS 2 DATOS TENEMOS QUE SCRAPEARLOS DE LA PÁGINA, NO SON FIJOS
-    TOTAL_STUDENTS: 216, // e.g., ?perpage=216
+    // ESTE DATO TENEMOS QUE OBTENERLO A PARTIR DEL NÚMERO DE INTENTOS DE QUIZ
     QUIZ_ATTEMPTS_PAGE_SIZE: 142, // e.g., ?pagesize=142
 };
 
@@ -52,8 +51,15 @@ export const URLS = {
      * @param id Course ID
      * @param perPage Optional override of participants per page
      */
-    PARTICIPANTS: (id: string | number, perPage = PAGINATION.TOTAL_STUDENTS) =>
-        `/user/index.php?id=${id}&perpage=${perPage}`,
+    PARTICIPANTS: (id: string | number, perPage?: number) =>
+        `/user/index.php?id=${id}&perpage=${perPage ?? 1000}`,
+
+    /**
+     * Activity report page
+     * @param id Course ID
+     */
+    ACTIVITY_REPORT: (id: string | number) =>
+        `/report/outline/index.php?id=${id}`,
 
     /**
      * Quiz results page with pagination override
@@ -63,12 +69,6 @@ export const URLS = {
     QUIZ_RESULTS: (id: string | number, pageSize = PAGINATION.QUIZ_ATTEMPTS_PAGE_SIZE) =>
         `/mod/quiz/report.php?id=${id}&mode=overview&pagesize=${pageSize}`,
 
-    /**
-     * Activity report page
-     * @param id Course ID
-     */
-    ACTIVITY_REPORT: (id: string | number) =>
-        `report/outline/index.php?id=${id}`,
 
     /**
      * Forum report page with pagination override
@@ -76,6 +76,6 @@ export const URLS = {
      * @param perPage Optional override of forum messages per page
      * @param forumId
      */
-    FORUM_REPORT: (id: string | number, forumId : string | number, perPage  = PAGINATION.TOTAL_STUDENTS) =>
-        `/mod/forum/report/summary/index.php?courseid=${id}&forumid=${forumId}&perpage=${perPage}`,
+    FORUM_REPORT: (id: string | number, forumId : string | number, perPage?: number) =>
+        `/mod/forum/report/summary/index.php?courseid=${id}&forumid=${forumId}&perpage=${perPage ?? 1000}`,
 };
