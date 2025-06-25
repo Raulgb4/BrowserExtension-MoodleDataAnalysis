@@ -28,6 +28,8 @@ services:
   # === MariaDB Database ===
   mariadb:
     image: bitnami/mariadb:latest  # Bitnami MariaDB image compatible with Moodle
+    ports:
+      - "3306:3306"   # HTTP access (http://localhost:3306)
     environment:
       - MARIADB_ROOT_PASSWORD=bitnami123
       - MARIADB_DATABASE=bitnami_moodle
