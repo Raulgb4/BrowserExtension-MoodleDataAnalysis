@@ -24,16 +24,6 @@ export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
 
 /**
- * Default values used to disable Moodle's pagination mechanisms
- * by requesting all data in a single page (when possible).
- */
-export const PAGINATION = {
-
-    // ESTE DATO TENEMOS QUE OBTENERLO A PARTIR DEL NÚMERO DE INTENTOS DE QUIZ
-    QUIZ_ATTEMPTS_PAGE_SIZE: 142, // e.g., ?pagesize=142
-};
-
-/**
  * Route templates for building Moodle URLs programmatically.
  * These are used during scraping or link generation.
  */
@@ -66,8 +56,8 @@ export const URLS = {
      * @param id Quiz ID
      * @param pageSize Optional override of quiz attempts page size
      */
-    QUIZ_RESULTS: (id: string | number, pageSize = PAGINATION.QUIZ_ATTEMPTS_PAGE_SIZE) =>
-        `/mod/quiz/report.php?id=${id}&mode=overview&pagesize=${pageSize}`,
+    QUIZ_RESULTS: (id: string | number, pageSize?: number) =>
+        `/mod/quiz/report.php?id=${id}&mode=overview&pagesize=${pageSize ?? 1000}`,
 
 
     /**
