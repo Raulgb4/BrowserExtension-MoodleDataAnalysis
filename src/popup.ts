@@ -51,7 +51,14 @@ function extractCourseId(url: string): string | null {
     }
 }
 
-
+/**
+ * Initializes the popup UI when the DOM is fully loaded.
+ *
+ * This script handles the main logic of the browser extension's popup interface.
+ * It checks if the current tab is a Moodle course page, extracts the course ID,
+ * and enables a button that triggers the scraping of course-related data such as
+ * the total number of students and participant details.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     // Get a reference to the analysis button
     const analyzeButton = document.getElementById('analyzeButton') as HTMLButtonElement | null;
@@ -60,17 +67,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output') as HTMLDivElement | null;
     const spinner = document.getElementById('spinner') as HTMLDivElement | null;
 
+    // Ensure all required elements exist before proceeding
     if (!analyzeButton || !output || !spinner) {
         console.error('Required elements not found.');
         return;
     }
 
-    // Obtain the current tab's URL
-    // Query the currently active tab in the current window
+    // Query the currently active tab in the browser window
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         const tab = tabs[0];
 
-        // Validate the tab and its URL
+        // Ensure the tab and its URL are valid
         if (!tab || !tab.url) {
             output.textContent = 'No active tab found or it has no URL.';
             analyzeButton.classList.add('hidden');
@@ -79,14 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const url = tab.url;
 
-        // Check if the URL matches a Moodle course page
+        // Check whether the URL corresponds to a Moodle course page
         if (!isCoursePage(url)) {
             output.textContent = 'This is not a Moodle course page.';
             analyzeButton.classList.add('hidden');
             return;
         }
 
-        // Extract the course ID from the URL
+        // Extract the course ID from the URL's query string
         const courseId = extractCourseId(url);
         if (!courseId) {
             output.textContent = 'No course found or it has no course id.';
@@ -94,51 +101,48 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Update the UI with confirmation and show the analysis button
+        // Show confirmation message and display the analyze button
         output.textContent = `Course detected (ID: ${courseId}). Click the button to analyze.`;
         analyzeButton.classList.remove('hidden');
 
-        // Handle click event on the analysis button
+        // Add a click handler to trigger scraping when the button is pressed
         analyzeButton.addEventListener('click', () => {
             analyzeButton.classList.add('hidden');
             spinner.classList.remove('hidden');
 
-            // Simulate async work (can be replaced later with actual scraping logic)
+            // Simulate delay (can be replaced with loading indicators or real work)
             setTimeout(() => {
                 spinner.classList.add('hidden');
 
-                // Generate initial scraping URLs (with default perPage)
-                const urls = getScrapeUrls(courseId);
+                // First, determine the real number of students to avoid pagination
+                const preliminaryUrl = getScrapeUrls(courseId).participants;
 
-                // Format the URLs for display
-                const formatted = Object.entries(urls)
-                    .map(([key, value]) => `✔ ${key}: ${value}`)
-                    .join('\n');
-
-                output.textContent = `Scraping targets for course ID ${courseId}:\n\n${formatted}`;
-
-                scrapeTotalStudents(urls.participants).then(totalStudents => {
+                scrapeTotalStudents(preliminaryUrl).then(totalStudents => {
                     if (totalStudents !== null) {
                         console.log("✅ Total students detected:", totalStudents);
 
-                        const updatedUrls = getScrapeUrls(courseId, totalStudents);
-                        const formattedUpdated = Object.entries(updatedUrls)
+                        // Generate URLs using exact student count
+                        const urls = getScrapeUrls(courseId, totalStudents);
+
+                        // Format and display the final scraping targets
+                        const formatted = Object.entries(urls)
                             .map(([key, value]) => `✔ ${key}: ${value}`)
                             .join('\n');
 
-                        output.textContent = `Updated scraping targets (real student count):\n\n${formattedUpdated}`;
+                        output.textContent = `Scraping targets for course ID ${courseId}:\n\n${formatted}`;
 
-                        // 🟢 Ahora scrapeamos la tabla de participantes
-                        scrapeParticipants(updatedUrls.participants).then(participants => {
+                        // Scrape participants
+                        scrapeParticipants(urls.participants).then(participants => {
                             console.log("Participants list:", participants);
-                            console.log("🔢 Total participants scraped:", participants.length);
+                            console.log("Total participants scraped:", participants.length);
                         });
 
                     } else {
-                        console.warn("⚠Unable to extract total student count.");
+                        console.warn("Unable to extract total student count.");
                     }
                 });
             }, 3000); // Simulate a delay of 3 seconds
+
         });
     });
 

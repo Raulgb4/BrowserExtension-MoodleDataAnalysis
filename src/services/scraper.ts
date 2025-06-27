@@ -146,7 +146,7 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
                 const group = cells[3]?.innerText.trim() ?? '';
 
                 const rawLastAccess = cells[4]?.innerText.trim() ?? '';
-                const lastAccessToCourse = normalizeDuration(rawLastAccess);
+                const lastAccessToCourse = rawLastAccess === 'Never' ? 'Never' : normalizeDuration(rawLastAccess);
 
                 const rawStatus = cells[5]?.innerText.trim() ?? '';
                 const cleanedStatus = rawStatus.replace(/\s+/g, ' ').trim();
