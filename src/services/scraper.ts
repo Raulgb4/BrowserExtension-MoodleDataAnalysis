@@ -87,39 +87,29 @@ export async function scrapeTotalStudents(participantsUrl: string): Promise<numb
 }
 
 /**
- * Scrapes detailed participant information from the Moodle participants table.
+ * Scrapes the participants table from a given Moodle participants page URL,
+ * extracting relevant information for each user enrolled in the course.
  *
- * This asynchronous function fetches the HTML content of the specified Moodle participants page
- * and extracts individual participant records by parsing the corresponding HTML table structure.
+ * This function performs the following steps:
+ * 1. Fetches the HTML content of the participants page.
+ * 2. Parses the HTML using the DOMParser API.
+ * 3. Selects the dynamic core table containing participant data.
+ * 4. Iterates over each row of the table and extracts:
+ *    - Full participant name (excluding avatar initials),
+ *    - Assigned role (e.g., Student, Teacher),
+ *    - Associated group(s),
+ *    - Last access duration (normalized to a standard time format),
+ *    - Current status (e.g., Active, Not current).
+ * 5. Returns a clean, structured list of `Participant` objects.
  *
- * It targets the dynamic table marked with the `data-region="core_table/dynamic"` attribute,
- * and iterates over each `<tr>` element within the `<tbody>`, which represents a row in the participants list.
- *
- * For each row, the following fields are extracted:
- *
- * - **Full name**: Retrieved from the `<a>` element within the `<th>` element with class `cell c1`.
- * - **Role**: Retrieved from the 3rd `<td>` cell (index 2).
- * - **Group**: Retrieved from the 4th `<td>` cell (index 3).
- * - **Last access to course**: Retrieved from the 5th `<td>` cell (index 4).
- * - **Status**: Retrieved from the 6th `<td>` cell (index 5).
- *
- * These fields are used to construct a list of `Participant` objects conforming to the `Participant` interface.
- *
- * If the structure of the page does not match expectations, or if an error occurs during the fetch or parsing,
- * the function gracefully returns an empty array.
- *
- * This method is useful for extracting rich student metadata, enabling further analysis of roles,
- * activity levels, and group composition within a Moodle course.
- *
- * @param participantsUrl - Full URL to the Moodle participants page (e.g., `/user/index.php?id=COURSE_ID`)
- *
- * @returns A `Promise` that resolves to:
- *   - An array of `Participant` objects, each containing parsed participant information.
- *   - An empty array `[]` if parsing fails or an error occurs.
+ * @param participantsUrl - The full URL of the Moodle course participants page.
+ * @returns A Promise resolving to an array of `Participant` objects.
+ *          If the page cannot be parsed or an error occurs, it returns an empty array.
  *
  * @example
- * const participants = await scrapeParticipants("http://localhost:8080/user/index.php?id=2");
- * console.log("Participants:", participants);
+ * const url = "http://localhost:8080/user/index.php?id=2";
+ * const participants = await scrapeParticipants(url);
+ * console.log(participants);
  */
 export async function scrapeParticipants(participantsUrl: string): Promise<Participant[]> {
     try {
@@ -135,7 +125,18 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
 
         for (const row of rows) {
             const nameCell = row.querySelector('th.cell.c1');
-            const participantName = nameCell?.querySelector('a')?.textContent?.trim() ?? '';
+
+            let participantName = '';
+            const anchor = nameCell?.querySelector('a');
+            if (anchor) {
+                // Iteramos sobre los nodos hijos del <a> y cogemos el primer nodo de texto (el nombre real)
+                for (const node of anchor.childNodes) {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        participantName = node.textContent?.trim() ?? '';
+                        break;
+                    }
+                }
+            }
 
             const cells = row.querySelectorAll('td');
 
