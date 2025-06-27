@@ -1,15 +1,46 @@
-//import './tailwind.css';
-// popup.ts
-// This script runs when the popup is opened and handles UI interactions.
+/**
+ * popup.ts
+ *
+ * This script is executed when the browser extension popup is opened.
+ * It is responsible for handling the main UI logic of the popup window,
+ * including checking whether the active tab corresponds to a Moodle course page,
+ * extracting the course ID from the URL, and initiating data scraping tasks.
+ *
+ * Author: Raúl García Balongo
+ * Date: 2025
+ */
 
-import {COURSE_PAGE_REGEX} from "./config/constants";
-import {getScrapeUrls} from "./utils/urlBuilder";
+// Utility functions and constants
+import { COURSE_PAGE_REGEX } from "./utils/urlBuilder";
+import { getScrapeUrls } from "./utils/urlBuilder";
+
+// Scraping services
 import { scrapeTotalStudents, scrapeParticipants } from "./services/scraper";
 
+/**
+ * Determines if the given URL corresponds to a Moodle course main page.
+ *
+ * @param url - The full URL string to check.
+ * @returns `true` if the URL matches the expected Moodle course view pattern, `false` otherwise.
+ *
+ * Example:
+ *   isCoursePage("http://localhost:8080/course/view.php?id=2") => true
+ */
 function isCoursePage(url: string): boolean {
     return COURSE_PAGE_REGEX.test(url);
 }
 
+/**
+ * Extracts the course ID from a Moodle course page URL.
+ *
+ * This function parses the URL and retrieves the value of the `id` parameter.
+ *
+ * @param url - The full URL string from which to extract the course ID.
+ * @returns The course ID as a string if found, otherwise `null`.
+ *
+ * Example:
+ *   extractCourseId("http://localhost:8080/course/view.php?id=42") => "42"
+ */
 function extractCourseId(url: string): string | null {
     try {
         const parsedUrl = new URL(url);
@@ -19,6 +50,7 @@ function extractCourseId(url: string): string | null {
         return null;
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // Get a reference to the analysis button
