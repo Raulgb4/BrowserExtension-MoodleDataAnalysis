@@ -15,7 +15,13 @@ import { COURSE_PAGE_REGEX } from "./utils/urlBuilder";
 import { getScrapeUrls } from "./utils/urlBuilder";
 
 // Scraping services
-import { scrapeTotalStudents, scrapeParticipants } from "./services/scraper";
+import {
+    scrapeTotalStudents,
+    scrapeParticipants,
+    scrapeURLResources,
+    scrapeChoices,
+    scrapeWorkshops, scrapeResources, scrapeForums, scrapeQuizzes
+} from "./services/scraper";
 
 /**
  * Determines if the given URL corresponds to a Moodle course main page.
@@ -119,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 scrapeTotalStudents(preliminaryUrl).then(totalStudents => {
                     if (totalStudents !== null) {
-                        console.log("✅ Total students detected:", totalStudents);
+                        console.log("Total students detected:", totalStudents);
 
                         // Generate URLs using exact student count
                         const urls = getScrapeUrls(courseId, totalStudents);
@@ -135,6 +141,37 @@ document.addEventListener('DOMContentLoaded', () => {
                         scrapeParticipants(urls.participants).then(participants => {
                             console.log("Participants list:", participants);
                             console.log("Total participants scraped:", participants.length);
+                        });
+
+                        // Scrape URL resources (instead of participants)
+                        scrapeURLResources(urls.activityReport).then(urlResources => {
+                            console.log("URL Resources list:", urlResources);
+                            console.log("Total URL resources scraped:", urlResources.length);
+                        });
+
+                        scrapeChoices(urls.activityReport).then(choices => {
+                            console.log("Choices list:", choices);
+                            console.log("Total choices scraped:", choices.length);
+                        });
+
+                        scrapeWorkshops(urls.activityReport).then(workshops => {
+                            console.log("Workshops list:", workshops);
+                            console.log("Total workshops scraped:", workshops.length);
+                        });
+
+                        scrapeResources(urls.activityReport).then(resources => {
+                            console.log("Resources list:", resources);
+                            console.log("Total resources scraped:", resources.length);
+                        });
+
+                        scrapeQuizzes(urls.activityReport).then(quizzes => {
+                            console.log("Quizzes list:", quizzes);
+                            console.log("Total quizzes scraped:", quizzes.length);
+                        });
+
+                        scrapeForums(urls.activityReport).then(forums => {
+                            console.log("Forums list:", forums);
+                            console.log("Total forums scraped:", forums.length);
                         });
 
                     } else {

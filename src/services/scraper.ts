@@ -1,4 +1,7 @@
-import { Participant } from '../models/Participant';
+import {Participant} from '../models/Participant';
+import {Choice, URLResource, Workshop, Resource} from "../models/ActivityBase";
+import {Quiz} from "../models/Quiz";
+import {Forum} from "../models/Forum";
 
 /**
  * Normalizes a duration string like "5 days 13 hours" or "46 mins 32 secs"
@@ -85,7 +88,6 @@ export async function scrapeTotalStudents(participantsUrl: string): Promise<numb
         return null;
     }
 }
-
 /**
  * Scrapes the participants table from a given Moodle participants page URL,
  * extracting relevant information for each user enrolled in the course.
@@ -170,3 +172,217 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
         return [];
     }
 }
+
+
+/** TO DO:
+ *
+ * El objetivo actual es desarrollar en el archivo scraper.ts un conjunto de funciones de scrapeo, cada una especializada
+ * en extraer información de un tipo concreto de actividad Moodle. En concreto, los tipos de elementos que quiero manejar
+ * son: URLResource, Choice, Workshop, Resource, Quiz y Forum.
+ *
+ * La razón por la que opto por crear una función separada para cada tipo es que, aunque todos
+ * los elementos aparecen mezclados en una misma tabla dentro de la página http://localhost:8080/report/outline/index.php?id=2,
+ * cada tipo de actividad requiere un tratamiento diferente. Algunos elementos como los recursos (URLResource, Resource) solo
+ * necesitan los datos visibles directamente en la tabla (nombre de la actividad, número de visitas y fecha del último acceso).
+ * Sin embargo, otros elementos como los Quiz o los Forum necesitan realizar un scrapeo adicional (subscrapeo) porque la tabla
+ * principal solo ofrece una vista superficial. Para estos casos, es necesario seguir el enlace que apunta a la actividad
+ * concreta, extraer el id del enlace, y desde ahí acceder a otras páginas o reportes específicos para completar la información.
+ *
+ * Por tanto, la estrategia consiste en:
+ *     Extraer todos los elementos de la tabla presente en la página del informe de actividad (outline report).
+ *     Identificar el tipo de cada elemento a través del href o clases del icono asociado.
+ *     Enviar cada fila al scraper correspondiente según su tipo (scrapeURLResources, scrapeQuizzes, etc.), que decidirá
+ *     si es suficiente con los datos de la tabla o si necesita hacer un subscrapeo adicional.
+ */
+
+export async function scrapeURLResources(activityReportUrl: string): Promise<URLResource[]> {
+    try{
+        const response = await fetch(activityReportUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const table = doc.querySelector('table#outlinereport');
+        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const urlResources: URLResource[] = [];
+
+        for (const row of rows) {
+            // TO DO
+        }
+        /*
+        for (const row of rows) {
+            // ✅ Usamos selectores más robustos incluyendo la clase 'cell'
+            const activityCell = row.querySelector('td.activityname');
+            const viewsCell = row.querySelector('td.numviews');
+            const lastAccessCell = row.querySelector('td.lastaccess');
+
+            // ❗️Si alguna celda clave no se encuentra, saltamos la fila
+            if (!activityCell || !viewsCell || !lastAccessCell) {
+                console.warn("Skipping row due to missing cells.");
+                continue;
+            }
+
+            // 🧪 Mostramos HTML de la fila para debug si hace falta
+            // console.log("Row HTML:", row.innerHTML);
+
+            // ✅ Extraemos el <a> dentro de la celda de actividad
+            const anchor = activityCell.querySelector('a');
+            const href = anchor?.getAttribute('href') ?? '';
+
+            // 🧪 Mostrar el href para debug
+            // console.log("Detected href:", href);
+
+            // ✅ Filtramos solo actividades de tipo URL
+            if (!href.includes('/mod/url/')) continue;
+
+            // ✅ Extraemos datos limpios
+            const activityName = anchor?.textContent?.trim() ?? '';
+            const numViews = viewsCell.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell.textContent?.trim() || 'Never';
+
+            // ✅ Construimos el objeto URLResource
+            const urlResource: URLResource = {
+                activityName,
+                numViews,
+                lastAccess
+            };
+
+            urlResources.push(urlResource);
+        }
+        */
+
+        return urlResources;
+
+    } catch (error) {
+        console.error("Error scraping URLResources:", error);
+        return [];
+    }
+}
+
+export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]> {
+    try{
+        const response = await fetch(activityReportUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const table = doc.querySelector('table#outlinereport');
+        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const choices: Choice[] = [];
+
+        for (const row of rows) {
+            // TO DO
+        }
+
+        return choices;
+
+    } catch (error) {
+        console.error("Error scraping Choices:", error);
+        return [];
+    }
+}
+
+
+export async function scrapeWorkshops(activityReportUrl: string): Promise<Workshop[]> {
+    try{
+        const response = await fetch(activityReportUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const table = doc.querySelector('table#outlinereport');
+        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const workshops: Workshop[] = [];
+
+        for (const row of rows) {
+            // TO DO
+        }
+
+        return workshops;
+
+    } catch (error) {
+        console.error("Error scraping Workshops:", error);
+        return [];
+    }
+}
+
+export async function scrapeResources(activityReportUrl: string): Promise<Resource[]> {
+    try{
+        const response = await fetch(activityReportUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const table = doc.querySelector('table#outlinereport');
+        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const resources: Resource[] = [];
+
+        for (const row of rows) {
+            // TO DO
+        }
+
+        return resources;
+
+    } catch (error) {
+        console.error("Error scraping Resources:", error);
+        return [];
+    }
+}
+
+
+export async function scrapeQuizzes(activityReportUrl: string): Promise<Quiz[]> {
+    try{
+        const response = await fetch(activityReportUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const table = doc.querySelector('table#outlinereport');
+        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const quizzes: Quiz[] = [];
+
+        for (const row of rows) {
+            // TO DO
+        }
+
+        return quizzes;
+
+    } catch (error) {
+        console.error("Error scraping Quizzes:", error);
+        return [];
+    }
+}
+
+
+export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> {
+    try{
+        const response = await fetch(activityReportUrl);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const table = doc.querySelector('table#outlinereport');
+        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const forums: Forum[] = [];
+
+        for (const row of rows) {
+            // TO DO
+        }
+
+        return forums;
+
+    } catch (error) {
+        console.error("Error scraping Forums:", error);
+        return [];
+    }
+}
+
+
+
+
