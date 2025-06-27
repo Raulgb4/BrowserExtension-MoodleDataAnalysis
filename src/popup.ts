@@ -4,6 +4,7 @@
 
 import {COURSE_PAGE_REGEX} from "./config/constants";
 import {getScrapeUrls} from "./utils/urlBuilder";
+import { scrapeTotalStudents, scrapeParticipants } from "./services/scraper";
 
 function isCoursePage(url: string): boolean {
     return COURSE_PAGE_REGEX.test(url);
@@ -84,44 +85,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 output.textContent = `Scraping targets for course ID ${courseId}:\n\n${formatted}`;
 
-                // Fetch the HTML content of the participants page
-                fetch(urls.participants)
-                    .then(response => response.text())
-                    .then(html => {
-                        // Parse the HTML response
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
+                scrapeTotalStudents(urls.participants).then(totalStudents => {
+                    if (totalStudents !== null) {
+                        console.log("✅ Total students detected:", totalStudents);
 
-                        // Locate the dynamic table element with student count
-                        const dynamicTable = doc.querySelector('[data-region="core_table/dynamic"]');
+                        const updatedUrls = getScrapeUrls(courseId, totalStudents);
+                        const formattedUpdated = Object.entries(updatedUrls)
+                            .map(([key, value]) => `✔ ${key}: ${value}`)
+                            .join('\n');
 
-                        if (dynamicTable) {
-                            const totalRows = dynamicTable.getAttribute("data-table-total-rows");
-                            const totalStudents = totalRows ? parseInt(totalRows, 10) : null;
+                        output.textContent = `Updated scraping targets (real student count):\n\n${formattedUpdated}`;
 
-                            if (totalStudents !== null) {
-                                console.log("Total students detected:", totalStudents);
+                        // 🟢 Ahora scrapeamos la tabla de participantes
+                        scrapeParticipants(updatedUrls.participants).then(participants => {
+                            console.log("Participants list:", participants);
+                            console.log("🔢 Total participants scraped:", participants.length);
+                        });
 
-                                // Generate new URLs using the actual student count
-                                const updateUrls = getScrapeUrls(courseId, totalStudents);
-
-                                const formattedUpdated = Object.entries(updateUrls)
-                                    .map(([key, value]) => `✔ ${key}: ${value}`)
-                                    .join('\n');
-
-                                // Update the UI with the new URLs
-                                output.textContent = `Updated scraping targets (real student count):\n\n${formattedUpdated}`;
-                            } else {
-                                console.warn("data-table-total-rows attribute not found or invalid.");
-                            }
-                        } else {
-                            console.warn("Dynamic table not found in the participants page.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error fetching participants page:", error);
-                    });
-
+                    } else {
+                        console.warn("⚠Unable to extract total student count.");
+                    }
+                });
             }, 3000); // Simulate a delay of 3 seconds
         });
     });
