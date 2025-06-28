@@ -1,6 +1,16 @@
 /**
- * Represents a participant enrolled in a Moodle course.
+ * @file Participant.ts
+ * @description Defines the structure of a participant enrolled in a Moodle course.
+ *
+ * This interface represents the key details extracted for each user enrolled in a course,
+ * including their full name, assigned role, group affiliations, last access information,
+ * and current status. It is used by the extension to organize and analyze participation data
+ * scraped from the Moodle participants page.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
  */
+
 export interface Participant {
     /**
      * Full name of the participant.

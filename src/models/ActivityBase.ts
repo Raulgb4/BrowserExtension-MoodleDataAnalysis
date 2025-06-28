@@ -1,7 +1,13 @@
 /**
- * Represents the common structure shared by most Moodle activity types.
- * This base interface includes generic metrics such as the activity name,
- * number of views, and the last access time, as scraped from the Moodle DOM.
+ * @file ActivityBase.ts
+ * @description Defines the base interface representing the common structure shared by most Moodle activity types.
+ *
+ * This interface is intended to be extended by specific activity models (e.g., Quiz, Choice, Forum)
+ * and includes generic fields such as the activity name, number of views, and last access date.
+ * These values are typically extracted from the Moodle Activity Report DOM.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
  */
 export interface ActivityBase {
     /**

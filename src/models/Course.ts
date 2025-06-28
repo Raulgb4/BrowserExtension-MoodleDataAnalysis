@@ -1,11 +1,21 @@
-import { URLResource, Choice, Workshop, Resource } from './ActivityBase';
-import { Quiz } from './Quiz';
-import { Forum } from './Forum';
-import { Participant } from './Participant';
-
 /**
- * Represents a Moodle course (subject) with its associated activities and participants.
+ * @file Course.ts
+ * @description Defines the `Course` interface representing a Moodle course and its associated data.
+ *
+ * A `Course` object encapsulates the complete set of scraped information for a single Moodle course,
+ * including participants and different types of activities such as URL resources, choices, workshops,
+ * files, quizzes, and forums. This interface serves as the top-level structure used for data aggregation
+ * and further analysis or visualization within the extension.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
  */
+
+import {URLResource, Choice, Workshop, Resource} from './ActivityBase';
+import {Quiz} from './Quiz';
+import {Forum} from './Forum';
+import {Participant} from './Participant';
+
 export interface Course {
     /**
      * Unique identifier of the course (corresponds to the `id` parameter in the Moodle URL).

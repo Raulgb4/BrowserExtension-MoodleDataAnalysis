@@ -1,15 +1,16 @@
 /**
- * urlBuilder.ts
+ * @file urlBuilder.ts
+ * @description Centralized module for constructing and managing Moodle-related URLs
+ * used throughout the browser extension for scraping course data and reports.
  *
- * Centralized module for constructing and managing Moodle-related URLs
- * used across the browser extension for scraping data. This includes:
- * - Base URLs for different Moodle environments (e.g., local, production)
- * - Regular expressions to identify Moodle pages
- * - Parameterized route templates for key Moodle resources
- * - Helper function to generate full scraping target URLs based on course ID
+ * Provides utility functions to generate absolute paths for:
+ * - Course homepage
+ * - Participants list
+ * - Activity reports
+ * - Quiz and forum endpoints
  *
- * Author: Raúl García Balongo
- * Date: 2025
+ * @author Raúl García Balongo
+ * @date 2025
  */
 
 /** Base URLs for different Moodle environments */
@@ -76,18 +77,39 @@ export const URLS = {
 
     /**
      * Returns the path to a forum participation summary report.
+     * @param id main forum ID
+     */
+    FORUM_MAIN: (id: string | number) =>
+        `/mod/forum/view.php?id=${id}`,
+
+    // ⚠️ DANGEROUS ZONE ⚠️
+    // The two functions below will eventually be moved into `scraper.ts`
+    // to support nested scraping logic (subscraping). This comment indicates
+    // a planned refactoring to remove them from this URL definitions module.
+
+    /**
+     * Returns the path to a forum participation summary report.
      * @param id Course ID
      * @param forumId Forum ID
      * @param perPage Number of posts per page (default: 1000)
      */
-    FORUM_REPORT: (id: string | number, forumId: string | number, perPage?: number) =>
+    FORUM_REPORTS: (id: string | number, forumId: string | number, perPage?: number) =>
         `/mod/forum/report/summary/index.php?courseid=${id}&forumid=${forumId}&perpage=${perPage ?? 1000}`,
+
+    /**
+     * Returns the path to a forum participation summary report.
+     * @param forumId Forum ID
+     */
+    FORUM_SUBSCRIPTIONS: (forumId: string | number) =>
+        `/mod/forum/subscribers.php?id=${forumId}`,
+
+
 };
 
 /**
  * Generates the full set of scraping URLs required for a given course.
  * This function returns absolute URLs, combining the base URL and
- * the appropriate route templates from the URLS object.
+ * the appropriate route templates from the URLs object.
  *
  * This is used by the extension to access core Moodle pages like:
  * - Course homepage
@@ -95,20 +117,45 @@ export const URLS = {
  * - Activity report
  *
  * @param courseId - The ID of the Moodle course to scrape.
- * @param totalStudents - Optional participant count used to override pagination.
+ * @param totalParticipants - Optional participant count used to override pagination.
  *
  * @returns An object mapping logical names (e.g., "course", "participants") to full URLs.
  */
-export function getScrapeUrls(courseId: string | number, totalStudents?: number): Record<string, string> {
+export function getScrapeUrls(courseId: string | number, totalParticipants?: number): Record<string, string> {
     return {
         course: `${BASE}${URLS.COURSE(courseId)}`,
-        participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalStudents)}`,
+        participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`,
         activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`
     };
 }
 
-export function getScrapeUrlQuiz(quizId: string |number, totalStudents?: number): Record<string, string> {
+/**
+ * Generates the URL used to access the quiz results page for a specific quiz activity.
+ *
+ * This is used to scrape individual student quiz data, such as names,
+ * durations, and grades.
+ *
+ * @param id - The ID of the quiz activity.
+ * @param totalParticipants - Optional. Ensures all student attempts are visible on one page.
+ * @returns An object with a `quizResults` key mapping to the full quiz results URL.
+ */
+export function getScrapeUrlQuiz(id: string | number, totalParticipants?: number): Record<string, string> {
     return {
-        quizResults: `${BASE}${URLS.QUIZ_RESULTS(quizId, totalStudents)}`,
+        quizResults: `${BASE}${URLS.QUIZ_RESULTS(id, totalParticipants)}`,
+    };
+}
+
+/**
+ * Generates the URL used to access the main page of a specific forum.
+ *
+ * This is intended for scraping forum-level data such as discussions
+ * and participation metrics. Currently only returns the forum overview page.
+ *
+ * @param id - The ID of the forum activity.
+ * @returns An object with a `forumMain` key mapping to the full forum main page URL.
+ */
+export function getScrapeUrlForum(id: string | number): Record<string, string> {
+    return {
+        forumMain: `${BASE}${URLS.FORUM_MAIN(id)}`,
     };
 }

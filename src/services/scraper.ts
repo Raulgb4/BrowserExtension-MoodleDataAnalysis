@@ -1,3 +1,11 @@
+/**
+ * @file scraper.ts
+ * @description Centralized module for scraping various Moodle course sections,
+ * including participants, quizzes, resources, and forum data.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
 import {Participant} from '../models/Participant';
 import {Choice, URLResource, Workshop, Resource} from "../models/ActivityBase";
 import {Quiz, QuizStudentData} from "../models/Quiz";
@@ -37,7 +45,7 @@ export function normalizeDuration(input: string): string {
 }
 
 /**
- * Scrapes the total number of students enrolled in a Moodle course from the participants page.
+ * Scrapes the total number of participants enrolled in a Moodle course from the participant page.
  *
  * This asynchronous function performs an HTTP `fetch` request to the provided `participantsUrl`,
  * which should point to the participants listing page of a Moodle course (e.g., `/user/index.php?id=COURSE_ID`).
@@ -46,10 +54,10 @@ export function normalizeDuration(input: string): string {
  * The function then searches for the HTML table element responsible for displaying the dynamic list of participants.
  * This table contains a special attribute called `data-table-total-rows`, which represents the total number of enrolled users.
  *
- * If this attribute is found and correctly parsed into a valid integer, the function returns it as the total number of students.
+ * If this attribute is found and correctly parsed into a valid integer, the function returns it as the total number of participants.
  * If the attribute is missing or invalid, or if any error occurs during fetching or parsing, the function returns `null`.
  *
- * This scraping logic is used to dynamically determine pagination sizes and resource limits for subsequent
+ * This scraping logic is used to dynamically determine pagination sizes and resource limits for later
  * data scraping tasks, such as retrieving all participants, forums, or quiz results.
  *
  * @param participantsUrl - The full URL to the Moodle participants page of a specific course.
@@ -60,14 +68,14 @@ export function normalizeDuration(input: string): string {
  *          - `null` if the total could not be determined due to missing attributes or unexpected errors.
  *
  * @example
- * const total = await scrapeTotalStudents("http://localhost:8080/user/index.php?id=2");
+ * const total = await scrapeTotalParticipants("http://localhost:8080/user/index.php?id=2");
  * if (total !== null) {
- *   console.log("Total students:", total);
+ *   console.log("Total participants:", total);
  * } else {
  *   console.warn("Unable to extract student count.");
  * }
  */
-export async function scrapeTotalStudents(participantsUrl: string): Promise<number | null> {
+export async function scrapeNumParticipants(participantsUrl: string): Promise<number | null> {
     try {
         const response = await fetch(participantsUrl);
         const html = await response.text();
@@ -85,19 +93,19 @@ export async function scrapeTotalStudents(participantsUrl: string): Promise<numb
 
         return null;
     } catch (error) {
-        console.error("Error scraping total students:", error);
+        console.error("Error scraping total participants:", error);
         return null;
     }
 }
 
 /**
- * Scrapes the participants table from a given Moodle participants page URL,
+ * Scrapes the participant table from a given Moodle participants page URL,
  * extracting relevant information for each user enrolled in the course.
  *
  * This function performs the following steps:
- * 1. Fetches the HTML content of the participants page.
+ * 1. Fetches the HTML content of the participant page.
  * 2. Parses the HTML using the DOMParser API.
- * 3. Selects the dynamic core table containing participant data.
+ * 3. Select the dynamic core table containing participant data.
  * 4. Iterates over each row of the table and extracts:
  *    - Full participant name (excluding avatar initials),
  *    - Assigned role (e.g., Student, Teacher),
@@ -174,30 +182,39 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
     }
 }
 
-
-/** TO DO:
+/**
+ * Scrapes all external URL-based resources from the Moodle activity report page.
  *
- * El objetivo actual es desarrollar en el archivo scraper.ts un conjunto de funciones de scrapeo, cada una especializada
- * en extraer información de un tipo concreto de actividad Moodle. En concreto, los tipos de elementos que quiero manejar
- * son: URLResource, Choice, Workshop, Resource, Quiz y Forum.
+ * This function is designed to extract information about activities of type `url`
+ * (external links added to the course), which are listed in a single unified table
+ * on the activity outline report page (`report/outline/index.php`).
  *
- * La razón por la que opto por crear una función separada para cada tipo es que, aunque todos
- * los elementos aparecen mezclados en una misma tabla dentro de la página http://localhost:8080/report/outline/index.php?id=2,
- * cada tipo de actividad requiere un tratamiento diferente. Algunos elementos como los recursos (URLResource, Resource) solo
- * necesitan los datos visibles directamente en la tabla (nombre de la actividad, número de visitas y fecha del último acceso).
- * Sin embargo, otros elementos como los Quiz o los Forum necesitan realizar un scrapeo adicional (subscrapeo) porque la tabla
- * principal solo ofrece una vista superficial. Para estos casos, es necesario seguir el enlace que apunta a la actividad
- * concreta, extraer el id del enlace, y desde ahí acceder a otras páginas o reportes específicos para completar la información.
+ * The scraping process performs the following steps:
+ * 1. Send an HTTP request to the activity report page (`activityReportUrl`).
+ * 2. Parses the received HTML into a DOM structure using the DOMParser API.
+ * 3. Locate the main activity table with the ID `outlinereport`.
+ * 4. Iterates over each row in the table to identify rows containing a `url` activity:
+ *    - These are detected by checking that the activity link's href contains `/mod/url/`.
+ * 5. For each matching row, it extracts:
+ *    - The activity name (as displayed in the first column),
+ *    - The number of views (from the second column),
+ *    - The last access date/time (from the third column).
+ * 6. Creates a `URLResource` object for each matched activity and adds it to a list.
  *
- * Por tanto, la estrategia consiste en:
- *     Extraer todos los elementos de la tabla presente en la página del informe de actividad (outline report).
- *     Identificar el tipo de cada elemento a través del href o clases del icono asociado.
- *     Enviar cada fila al scraper correspondiente según su tipo (scrapeURLResources, scrapeQuizzes, etc.), que decidirá
- *     si es suficiente con los datos de la tabla o si necesita hacer un subscrapeo adicional.
+ * If an error occurs at any stage (e.g., network issue, parsing error), the function logs
+ * the error to the console and returns an empty array to avoid crashing the application.
+ *
+ * @param activityReportUrl - The full URL of the Moodle activity report page for a course.
+ * @returns A Promise resolving to an array of `URLResource` objects.
+ *          Each object contains `activityName`, `numViews`, and `lastAccess`.
+ *
+ * @example
+ * const url = "http://localhost:8080/report/outline/index.php?id=2";
+ * const resources = await scrapeURLResources(url);
+ * console.log(resources);
  */
-
 export async function scrapeURLResources(activityReportUrl: string): Promise<URLResource[]> {
-    try{
+    try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
 
@@ -240,8 +257,41 @@ export async function scrapeURLResources(activityReportUrl: string): Promise<URL
     }
 }
 
+/**
+ * (⚠️TO DO: RESPONSES SECTION SUBSCRAPING) Scrapes all `Choice` activities from the Moodle activity report page.
+ *
+ * This function is responsible for extracting data about activities of type `choice`,
+ * which represent multiple-choice polls where students can select one or more options.
+ * These activities are listed along with other activity types in the same HTML table
+ * on the course's outline report page (`report/outline/index.php`).
+ *
+ * The scraping process follows these steps:
+ * 1. Send an HTTP request to the given `activityReportUrl`.
+ * 2. Parses the retrieved HTML using the DOMParser API to construct a DOM tree.
+ * 3. Locate the activity table with the ID `outlinereport`.
+ * 4. Iterates over all `<tr>` rows inside the table body (`<tbody>`).
+ * 5. Filters rows to include only those where the activity link's `href`
+ *    contains the substring `/mod/choice/`, indicating a `choice` activity.
+ * 6. For each matching row, extract the following data:
+ *    - `activityName`: The title of the poll (from the activity link text),
+ *    - `numViews`: Number of times the activity has been accessed,
+ *    - `lastAccess`: Timestamp or label indicating the user's last access (e.g., "Never").
+ * 7. Each set of extracted data is stored in a `Choice` object, which is added to the result list.
+ *
+ * If any error occurs during the process (network failure, parsing issues, etc.),
+ * it is logged to the console, and the function returns an empty array to ensure the extension remains stable.
+ *
+ * @param activityReportUrl - The full URL of the Moodle activity report page for a course.
+ * @returns A Promise resolving to an array of `Choice` objects.
+ *          Each object contains `activityName`, `numViews`, and `lastAccess`.
+ *
+ * @example
+ * const url = "http://localhost:8080/report/outline/index.php?id=2";
+ * const choices = await scrapeChoices(url);
+ * console.log(choices);
+ */
 export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]> {
-    try{
+    try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
 
@@ -284,8 +334,40 @@ export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]
     }
 }
 
+/**
+ * Scrapes all `Workshop` activities from the Moodle activity report page.
+ *
+ * This function is designed to extract metadata about peer-assessment activities
+ * (of type `workshop`) from the course’s outline report page (`report/outline/index.php`).
+ * These activities appear in the same table as other activity types and must be filtered
+ * based on their unique URL pattern.
+ *
+ * The scraping process includes the following steps:
+ * 1. Send an HTTP GET request to the provided `activityReportUrl`.
+ * 2. Parses the returned HTML document using `DOMParser` to access DOM elements.
+ * 3. Locates the `<table>` with ID `outlinereport`, which lists course activities.
+ * 4. Iterates over all `<tr>` elements in the table body.
+ * 5. Filters rows to include only those that contain `/mod/workshop/` in the `<a href>` URL.
+ * 6. For each matching workshop activity, extracts:
+ *    - `activityName`: The name of the workshop activity,
+ *    - `numViews`: How many times the activity has been accessed,
+ *    - `lastAccess`: The last time the user accessed the activity (or "Never" if empty).
+ * 7. Each set of extracted values is stored in a `Workshop` object and appended to the result list.
+ *
+ * If any network error or parsing issue occurs, the error is logged to the console,
+ * and the function returns an empty array to prevent the extension from breaking.
+ *
+ * @param activityReportUrl - The full URL of the Moodle activity report page.
+ * @returns A Promise resolving to an array of `Workshop` objects,
+ *          each containing `activityName`, `numViews`, and `lastAccess`.
+ *
+ * @example
+ * const url = "http://localhost:8080/report/outline/index.php?id=2";
+ * const workshops = await scrapeWorkshops(url);
+ * console.log(workshops);
+ */
 export async function scrapeWorkshops(activityReportUrl: string): Promise<Workshop[]> {
-    try{
+    try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
 
@@ -328,8 +410,29 @@ export async function scrapeWorkshops(activityReportUrl: string): Promise<Worksh
     }
 }
 
+/**
+ * Scrapes all `Resource` activities from the Moodle activity report page.
+ *
+ * This function extracts metadata about static course resources (e.g., files, PDFs, documents)
+ * by parsing the outline report and filtering rows that represent `/mod/resource/` entries.
+ *
+ * The process includes:
+ * 1. Fetching the HTML content from the activity report URL.
+ * 2. Locating the table with ID `outlinereport`.
+ * 3. Iterating over each row in the table to identify resources.
+ * 4. For each resource row, extracting:
+ *    - `activityName`: Title of the resource,
+ *    - `numViews`: Number of times it was accessed,
+ *    - `lastAccess`: Last time the resource was accessed (or `"Never"`).
+ *
+ * The result is a structured array of `Resource` objects.
+ * If an error occurs during the process, it is logged and an empty array is returned.
+ *
+ * @param activityReportUrl - Full URL to the Moodle course's activity report.
+ * @returns A Promise resolving to a list of `Resource` objects.
+ */
 export async function scrapeResources(activityReportUrl: string): Promise<Resource[]> {
-    try{
+    try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
 
@@ -372,8 +475,40 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
     }
 }
 
-export async function scrapeQuizzes(activityReportUrl: string, totalStudents: number): Promise<Quiz[]> {
-    try{
+/**
+ * (⚠️TO DO: CHECK THE RESULT DATA, DELETE NULL ENTRIES) Scrapes all `Quiz` activities from the Moodle activity report page,
+ * and performs a secondary scrape to extract per-student quiz results.
+ *
+ * This function performs a two-level scraping process:
+ *
+ * 1. **Main Activity Report Scrape**:
+ *    - Fetches the activity report page.
+ *    - Parses the `#outlinereport` table.
+ *    - Filters rows whose links match the `/mod/quiz/` path.
+ *    - Extracts basic metadata:
+ *      - `activityName`: Name of the quiz activity.
+ *      - `numViews`: Number of views.
+ *      - `lastAccess`: Last access date/time.
+ *      - `id`: Quiz identifier extracted from the URL.
+ *
+ * 2. **Subscraping for Quiz Results**:
+ *    - Builds a URL using `getScrapeUrlQuiz()` to access detailed quiz results.
+ *    - Fetches the quiz attempts table (`#attempts`).
+ *    - Iterates through each row and extracts:
+ *      - `studentName`: Name of the student.
+ *      - `duration`: Duration of the quiz attempt (normalized).
+ *      - `grade`: Grade obtained by the student.
+ *    - Skip rows with class `emptyrow` or `empty row` to avoid malformed entries.
+ *
+ * Each quiz object returned includes both metadata and an array of `QuizStudentData`.
+ * If an error occurs at any point, it is logged and the function returns an empty array.
+ *
+ * @param activityReportUrl - Full URL to the Moodle course activity report page.
+ * @param totalParticipants - Number of participants used to bypass pagination in the subscrape.
+ * @returns A Promise resolving to an array of `Quiz` objects including student results.
+ */
+export async function scrapeQuizzes(activityReportUrl: string, totalParticipants: number): Promise<Quiz[]> {
+    try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
 
@@ -404,9 +539,9 @@ export async function scrapeQuizzes(activityReportUrl: string, totalStudents: nu
             const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
 
 
-            // Subscrapping to get quiz results
+            // Subscraping to get quiz results
 
-            const url = getScrapeUrlQuiz(id, totalStudents);
+            const url = getScrapeUrlQuiz(id, totalParticipants);
 
             const response2 = await fetch(url.quizResults);
             const html2 = await response2.text();
@@ -471,8 +606,35 @@ export async function scrapeQuizzes(activityReportUrl: string, totalStudents: nu
     }
 }
 
+/**
+ * (⚠️TO DO SUBSCRIPTIONS AND REPORTS SUBSCRAPING) Scrapes all `Forum` activities from the Moodle activity report page.
+ *
+ * This function is responsible for retrieving basic metadata of forum activities
+ * listed in the outline report and preparing the structure for a future subscraping step.
+ *
+ * Current behavior:
+ * 1. **Main Activity Report Scrape**:
+ *    - Fetches and parses the `#outlinereport` table from the provided course report URL.
+ *    - Filters rows containing a link to `/mod/forum/` activities.
+ *    - Extracts:
+ *      - `activityName`: Forum name.
+ *      - `numViews`: Number of times the forum was viewed.
+ *      - `lastAccess`: Last time the forum was accessed.
+ *      - `id`: Extracted from the forum URL (used to build further scraping URLs).
+ *
+ * 2. **TO DO – Subscraping Phase (Pending Implementation)**:
+ *    - Extract the real `forumId` by visiting the forum's main page.
+ *    - Scrape participation statistics from `/mod/forum/report/summary/index.php`.
+ *    - Scrape the number of subscribed users from `/mod/forum/subscribers.php`.
+ *    - Populate `forumId`, `subscriptions`, and `studentsStats` fields accordingly.
+ *
+ * If any parsing or network error occurs, the function logs the error and returns an empty list.
+ *
+ * @param activityReportUrl - Full URL of the Moodle course activity report page.
+ * @returns A Promise resolving to an array of `Forum` objects (partially filled).
+ */
 export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> {
-    try{
+    try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
 
@@ -500,6 +662,10 @@ export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> 
 
             const idMatch = href.match(/id=(\d+)/);
             const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
+
+
+            // TO DO: Subscraping to get a forum report
+
 
             const forum: Forum = {
                 activityName,

@@ -1,26 +1,31 @@
 /**
- * popup.ts
+ * @file popup.ts
+ * @description Script executed when the browser extension popup is opened.
+ * Handles the UI logic for the popup window, including
+ * - Verifying if the active tab is a Moodle course page.
+ * - Extracting the course ID from the URL.
+ * - Triggering the corresponding scraping routines.
  *
- * This script is executed when the browser extension popup is opened.
- * It is responsible for handling the main UI logic of the popup window,
- * including checking whether the active tab corresponds to a Moodle course page,
- * extracting the course ID from the URL, and initiating data scraping tasks.
- *
- * Author: Raúl García Balongo
- * Date: 2025
+ * @author Raúl García Balongo
+ * @date 2025
  */
 
 // Utility functions and constants
-import { COURSE_PAGE_REGEX } from "./utils/urlBuilder";
-import { getScrapeUrls } from "./utils/urlBuilder";
+import {
+    COURSE_PAGE_REGEX,
+    getScrapeUrls
+} from "./utils/urlBuilder";
 
 // Scraping services
 import {
-    scrapeTotalStudents,
+    scrapeNumParticipants,
     scrapeParticipants,
     scrapeURLResources,
     scrapeChoices,
-    scrapeWorkshops, scrapeResources, scrapeForums, scrapeQuizzes
+    scrapeWorkshops,
+    scrapeResources,
+    scrapeForums,
+    scrapeQuizzes
 } from "./services/scraper";
 
 /**
@@ -63,7 +68,7 @@ function extractCourseId(url: string): string | null {
  * This script handles the main logic of the browser extension's popup interface.
  * It checks if the current tab is a Moodle course page, extracts the course ID,
  * and enables a button that triggers the scraping of course-related data such as
- * the total number of students and participant details.
+ * the total number of participants and participant details.
  */
 document.addEventListener('DOMContentLoaded', () => {
     // Get a reference to the analysis button
@@ -107,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Show confirmation message and display the analyze button
+        // Show a confirmation message and display the analysis button
         output.textContent = `Course detected (ID: ${courseId}). Click the button to analyze.`;
         analyzeButton.classList.remove('hidden');
 
@@ -120,62 +125,66 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 spinner.classList.add('hidden');
 
-                // First, determine the real number of students to avoid pagination
+                // First, determine the real number of participants to avoid pagination
                 const preliminaryUrl = getScrapeUrls(courseId).participants;
 
-                scrapeTotalStudents(preliminaryUrl).then(totalStudents => {
-                    if (totalStudents !== null) {
-                        console.log("Total students detected:", totalStudents);
+                scrapeNumParticipants(preliminaryUrl).then(totalParticipants => {
+                    if (totalParticipants !== null) {
+                        console.log("Total participants detected:", totalParticipants);
 
-                        // Generate URLs using exact student count
-                        const urls = getScrapeUrls(courseId, totalStudents);
+                        // Generate URLs using exact participant count
+                        const urls = getScrapeUrls(courseId, totalParticipants);
 
                         output.textContent = `CONSULTA LOS LOGS`;
 
-                        // Scrape participants
+                        // Scrape the list of enrolled participants
                         scrapeParticipants(urls.participants).then(participants => {
                             console.log("Participants list:", participants);
                             console.log("Total participants scraped:", participants.length);
                         });
 
-                        // Scrape URL resources (instead of participants)
+                        // Scrape URL-based resources (e.g., external links)
                         scrapeURLResources(urls.activityReport).then(urlResources => {
                             console.log("URL Resources list:", urlResources);
                             console.log("Total URL resources scraped:", urlResources.length);
                         });
 
+                        // Scrape Choice-type activities
                         scrapeChoices(urls.activityReport).then(choices => {
                             console.log("Choices list:", choices);
                             console.log("Total choices scraped:", choices.length);
                         });
 
+                        // Scrape Workshop-type activities
                         scrapeWorkshops(urls.activityReport).then(workshops => {
                             console.log("Workshops list:", workshops);
                             console.log("Total workshops scraped:", workshops.length);
                         });
 
+                        // Scrape Resource-type activities (files, pages, etc.)
                         scrapeResources(urls.activityReport).then(resources => {
                             console.log("Resources list:", resources);
                             console.log("Total resources scraped:", resources.length);
                         });
 
-                        scrapeQuizzes(urls.activityReport, totalStudents).then(quizzes => {
+                        // Scrape Quiz-type activities, including per-student results
+                        scrapeQuizzes(urls.activityReport, totalParticipants).then(quizzes => {
                             console.log("Quizzes list:", quizzes);
                             console.log("Total quizzes scraped:", quizzes.length);
                         });
 
+                        // Scrape Forum-type activities (structure only; posts may require subscraping)
                         scrapeForums(urls.activityReport).then(forums => {
                             console.log("Forums list:", forums);
                             console.log("Total forums scraped:", forums.length);
                         });
 
                     } else {
+                        // If the total participant count could not be determined, show warning
                         console.warn("Unable to extract total student count.");
                     }
                 });
-            }, 1000); // Simulate a delay of 1 seconds
-
+            }, 1000); // Simulate a delay of 1 second
         });
     });
-
 });

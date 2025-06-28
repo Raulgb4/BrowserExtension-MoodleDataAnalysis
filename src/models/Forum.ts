@@ -1,8 +1,20 @@
-import { ActivityBase } from "./ActivityBase";
-
 /**
- * Represents participation statistics for a single student in a forum activity.
+ * @file Forum.ts
+ * @description Contains interfaces for representing forum-related data within a Moodle course.
+ *
+ * This module defines the `Forum` interface, which extends common activity fields and includes
+ * forum-specific metrics such as forum ID, number of subscriptions, and detailed student participation stats.
+ * It also defines `ForumStudentData`, used to capture individual student contributions.
+ *
+ * These structures are used during the scraping process to model forum engagement data for further analysis
+ * and visualization by the extension.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
  */
+
+import {ActivityBase} from "./ActivityBase";
+
 export interface ForumStudentData {
     /**
      * Full name of the student.
@@ -48,10 +60,13 @@ export interface ForumStudentData {
  */
 export interface Forum extends ActivityBase {
 
+    /**
+     * Identifier of the forum activity in Moodle (forum main page).
+     */
     id: number;
 
     /**
-     * Internal identifier of the forum activity in Moodle.
+     * Internal identifier of the forum activity in Moodle (Subscriptions and Reports pages).
      */
     forumId: number;
 
