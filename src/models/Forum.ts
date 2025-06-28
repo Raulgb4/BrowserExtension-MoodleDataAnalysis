@@ -47,6 +47,9 @@ export interface ForumStudentData {
  * Inherits basic activity properties and includes forum-specific participation data.
  */
 export interface Forum extends ActivityBase {
+
+    id: number;
+
     /**
      * Internal identifier of the forum activity in Moodle.
      */

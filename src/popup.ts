@@ -130,12 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Generate URLs using exact student count
                         const urls = getScrapeUrls(courseId, totalStudents);
 
-                        // Format and display the final scraping targets
-                        const formatted = Object.entries(urls)
-                            .map(([key, value]) => `✔ ${key}: ${value}`)
-                            .join('\n');
-
-                        output.textContent = `Scraping targets for course ID ${courseId}:\n\n${formatted}`;
+                        output.textContent = `CONSULTA LOS LOGS`;
 
                         // Scrape participants
                         scrapeParticipants(urls.participants).then(participants => {
@@ -164,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             console.log("Total resources scraped:", resources.length);
                         });
 
-                        scrapeQuizzes(urls.activityReport).then(quizzes => {
+                        scrapeQuizzes(urls.activityReport, totalStudents).then(quizzes => {
                             console.log("Quizzes list:", quizzes);
                             console.log("Total quizzes scraped:", quizzes.length);
                         });
@@ -178,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.warn("Unable to extract total student count.");
                     }
                 });
-            }, 3000); // Simulate a delay of 3 seconds
+            }, 1000); // Simulate a delay of 1 seconds
 
         });
     });

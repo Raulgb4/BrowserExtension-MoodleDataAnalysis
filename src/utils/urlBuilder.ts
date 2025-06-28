@@ -104,6 +104,11 @@ export function getScrapeUrls(courseId: string | number, totalStudents?: number)
         course: `${BASE}${URLS.COURSE(courseId)}`,
         participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalStudents)}`,
         activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`
-        // More routes (e.g., quizResults, forumReport) can be added as needed
+    };
+}
+
+export function getScrapeUrlQuiz(quizId: string |number, totalStudents?: number): Record<string, string> {
+    return {
+        quizResults: `${BASE}${URLS.QUIZ_RESULTS(quizId, totalStudents)}`,
     };
 }

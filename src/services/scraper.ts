@@ -1,7 +1,8 @@
 import {Participant} from '../models/Participant';
 import {Choice, URLResource, Workshop, Resource} from "../models/ActivityBase";
-import {Quiz} from "../models/Quiz";
+import {Quiz, QuizStudentData} from "../models/Quiz";
 import {Forum} from "../models/Forum";
+import {getScrapeUrlQuiz} from "../utils/urlBuilder";
 
 /**
  * Normalizes a duration string like "5 days 13 hours" or "46 mins 32 secs"
@@ -88,6 +89,7 @@ export async function scrapeTotalStudents(participantsUrl: string): Promise<numb
         return null;
     }
 }
+
 /**
  * Scrapes the participants table from a given Moodle participants page URL,
  * extracting relevant information for each user enrolled in the course.
@@ -131,7 +133,6 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
             let participantName = '';
             const anchor = nameCell?.querySelector('a');
             if (anchor) {
-                // Iteramos sobre los nodos hijos del <a> y cogemos el primer nodo de texto (el nombre real)
                 for (const node of anchor.childNodes) {
                     if (node.nodeType === Node.TEXT_NODE) {
                         participantName = node.textContent?.trim() ?? '';
@@ -208,40 +209,20 @@ export async function scrapeURLResources(activityReportUrl: string): Promise<URL
         const urlResources: URLResource[] = [];
 
         for (const row of rows) {
-            // TO DO
-        }
-        /*
-        for (const row of rows) {
-            // ✅ Usamos selectores más robustos incluyendo la clase 'cell'
+
             const activityCell = row.querySelector('td.activityname');
             const viewsCell = row.querySelector('td.numviews');
             const lastAccessCell = row.querySelector('td.lastaccess');
 
-            // ❗️Si alguna celda clave no se encuentra, saltamos la fila
-            if (!activityCell || !viewsCell || !lastAccessCell) {
-                console.warn("Skipping row due to missing cells.");
-                continue;
-            }
-
-            // 🧪 Mostramos HTML de la fila para debug si hace falta
-            // console.log("Row HTML:", row.innerHTML);
-
-            // ✅ Extraemos el <a> dentro de la celda de actividad
-            const anchor = activityCell.querySelector('a');
+            const anchor = activityCell?.querySelector('a');
             const href = anchor?.getAttribute('href') ?? '';
 
-            // 🧪 Mostrar el href para debug
-            // console.log("Detected href:", href);
-
-            // ✅ Filtramos solo actividades de tipo URL
             if (!href.includes('/mod/url/')) continue;
 
-            // ✅ Extraemos datos limpios
             const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell.textContent?.trim() || 'Never';
+            const numViews = viewsCell?.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
 
-            // ✅ Construimos el objeto URLResource
             const urlResource: URLResource = {
                 activityName,
                 numViews,
@@ -250,7 +231,6 @@ export async function scrapeURLResources(activityReportUrl: string): Promise<URL
 
             urlResources.push(urlResource);
         }
-        */
 
         return urlResources;
 
@@ -273,7 +253,27 @@ export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]
         const choices: Choice[] = [];
 
         for (const row of rows) {
-            // TO DO
+
+            const activityCell = row.querySelector('td.activityname');
+            const viewsCell = row.querySelector('td.numviews');
+            const lastAccessCell = row.querySelector('td.lastaccess');
+
+            const anchor = activityCell?.querySelector('a');
+            const href = anchor?.getAttribute('href') ?? '';
+
+            if (!href.includes('/mod/choice/')) continue;
+
+            const activityName = anchor?.textContent?.trim() ?? '';
+            const numViews = viewsCell?.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+
+            const choice: Choice = {
+                activityName,
+                numViews,
+                lastAccess
+            };
+
+            choices.push(choice);
         }
 
         return choices;
@@ -283,7 +283,6 @@ export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]
         return [];
     }
 }
-
 
 export async function scrapeWorkshops(activityReportUrl: string): Promise<Workshop[]> {
     try{
@@ -298,7 +297,27 @@ export async function scrapeWorkshops(activityReportUrl: string): Promise<Worksh
         const workshops: Workshop[] = [];
 
         for (const row of rows) {
-            // TO DO
+
+            const activityCell = row.querySelector('td.activityname');
+            const viewsCell = row.querySelector('td.numviews');
+            const lastAccessCell = row.querySelector('td.lastaccess');
+
+            const anchor = activityCell?.querySelector('a');
+            const href = anchor?.getAttribute('href') ?? '';
+
+            if (!href.includes('/mod/workshop/')) continue;
+
+            const activityName = anchor?.textContent?.trim() ?? '';
+            const numViews = viewsCell?.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+
+            const workshop: Workshop = {
+                activityName,
+                numViews,
+                lastAccess
+            };
+
+            workshops.push(workshop);
         }
 
         return workshops;
@@ -322,7 +341,27 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
         const resources: Resource[] = [];
 
         for (const row of rows) {
-            // TO DO
+
+            const activityCell = row.querySelector('td.activityname');
+            const viewsCell = row.querySelector('td.numviews');
+            const lastAccessCell = row.querySelector('td.lastaccess');
+
+            const anchor = activityCell?.querySelector('a');
+            const href = anchor?.getAttribute('href') ?? '';
+
+            if (!href.includes('/mod/resource/')) continue;
+
+            const activityName = anchor?.textContent?.trim() ?? '';
+            const numViews = viewsCell?.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+
+            const resource: Resource = {
+                activityName,
+                numViews,
+                lastAccess
+            };
+
+            resources.push(resource);
         }
 
         return resources;
@@ -333,8 +372,7 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
     }
 }
 
-
-export async function scrapeQuizzes(activityReportUrl: string): Promise<Quiz[]> {
+export async function scrapeQuizzes(activityReportUrl: string, totalStudents: number): Promise<Quiz[]> {
     try{
         const response = await fetch(activityReportUrl);
         const html = await response.text();
@@ -347,7 +385,82 @@ export async function scrapeQuizzes(activityReportUrl: string): Promise<Quiz[]> 
         const quizzes: Quiz[] = [];
 
         for (const row of rows) {
-            // TO DO
+
+            const activityCell = row.querySelector('td.activityname');
+            const viewsCell = row.querySelector('td.numviews');
+            const lastAccessCell = row.querySelector('td.lastaccess');
+
+
+            const anchor = activityCell?.querySelector('a');
+            const href = anchor?.getAttribute('href') ?? '';
+
+            if (!href.includes('/mod/quiz/')) continue;
+
+            const activityName = anchor?.textContent?.trim() ?? '';
+            const numViews = viewsCell?.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+
+            const idMatch = href.match(/id=(\d+)/);
+            const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
+
+
+            // Subscrapping to get quiz results
+
+            const url = getScrapeUrlQuiz(id, totalStudents);
+
+            const response2 = await fetch(url.quizResults);
+            const html2 = await response2.text();
+
+            const parser2 = new DOMParser();
+            const doc2 = parser2.parseFromString(html2, 'text/html');
+
+            const tableResultsQuiz = doc2.querySelector('table#attempts');
+            const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
+            const studentStats: QuizStudentData[] = [];
+
+            for (const rowQuiz of rowsResultsQuiz) {
+
+                // Saltar si la fila tiene clase "emptyrow" o "empty row"
+                const rowClass = rowQuiz.className.trim().toLowerCase();
+                if (rowClass.includes('emptyrow') || rowClass.includes('empty row')) {
+                    continue;
+                }
+
+                // Nombre del estudiante (columna c2)
+                const nameCell = rowQuiz.querySelector('td.cell.c2');
+                const nameAnchor = nameCell?.querySelector('a');
+                const studentName = nameAnchor?.textContent?.trim() ?? '';
+
+                // Duración del intento (columna c7)
+                const durationCell = rowQuiz.querySelector('td.cell.c7');
+                const rawDuration = durationCell?.textContent?.trim() ?? '';
+                const duration = normalizeDuration(rawDuration);
+
+                // Nota obtenida (columna c8)
+                const gradeCell = rowQuiz.querySelector('td.cell.c8');
+                const gradeAnchor = gradeCell?.querySelector('a');
+                const gradeText = gradeAnchor?.textContent?.trim() ?? '';
+                const grade = parseFloat(gradeText);  // Convertimos a número
+
+                // Creamos el objeto con los datos
+                const studentData: QuizStudentData = {
+                    studentName,
+                    duration,
+                    grade
+                };
+
+                studentStats.push(studentData);
+            }
+
+            const quiz: Quiz = {
+                activityName,
+                numViews,
+                lastAccess,
+                id,
+                studentStats
+            };
+
+            quizzes.push(quiz);
         }
 
         return quizzes;
@@ -357,7 +470,6 @@ export async function scrapeQuizzes(activityReportUrl: string): Promise<Quiz[]> 
         return [];
     }
 }
-
 
 export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> {
     try{
@@ -372,7 +484,34 @@ export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> 
         const forums: Forum[] = [];
 
         for (const row of rows) {
-            // TO DO
+
+            const activityCell = row.querySelector('td.activityname');
+            const viewsCell = row.querySelector('td.numviews');
+            const lastAccessCell = row.querySelector('td.lastaccess');
+
+            const anchor = activityCell?.querySelector('a');
+            const href = anchor?.getAttribute('href') ?? '';
+
+            if (!href.includes('/mod/forum/')) continue;
+
+            const activityName = anchor?.textContent?.trim() ?? '';
+            const numViews = viewsCell?.textContent?.trim() ?? '';
+            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+
+            const idMatch = href.match(/id=(\d+)/);
+            const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
+
+            const forum: Forum = {
+                activityName,
+                numViews,
+                lastAccess,
+                id,
+                forumId: 0, // TO DO: Extract from the forum report (SUBSCRAPING NECESSARY)
+                subscriptions: 0, // TO DO: Extract from the forum report (SUBSCRAPING NECESSARY)
+                studentsStats: [] // TO DO: Extract from the forum report (SUBSCRAPING NECESSARY)
+            };
+
+            forums.push(forum);
         }
 
         return forums;
