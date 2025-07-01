@@ -660,7 +660,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
 }
 
 /**
- * (⚠️TO DO SUBSCRIPTIONS AND REPORTS SUBSCRAPING) Scrapes all `Forum` activities from the Moodle activity report page.
+ * Scrapes all `Forum` activities from the Moodle activity report page.
  *
  * This function is responsible for retrieving basic metadata of forum activities
  * listed in the outline report and preparing the structure for a future subscraping step.
