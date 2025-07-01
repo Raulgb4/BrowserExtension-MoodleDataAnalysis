@@ -63,7 +63,7 @@ export function normalizeGradeTo10(grade: number, maxGrade: number): number {
 }
 
 /**
- * (⚠️TO DO IMPLEMENTATION FOR EACH SCRAPING) Fetches the content of a given URL and parses it into a DOM Document.
+ * Fetches the content of a given URL and parses it into a DOM Document.
  *
  * This utility function simplifies HTML scraping by combining the fetch and
  * DOM parsing steps. It is useful for consistently retrieving and parsing
@@ -113,11 +113,7 @@ async function fetchAndParse(url: string): Promise<Document> {
  */
 export async function scrapeNumParticipants(participantsUrl: string): Promise<number | null> {
     try {
-        const response = await fetch(participantsUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(participantsUrl);
 
         const dynamicTable = doc.querySelector('[data-region="core_table/dynamic"]');
         const totalRows = dynamicTable?.getAttribute("data-table-total-rows");
@@ -161,11 +157,7 @@ export async function scrapeNumParticipants(participantsUrl: string): Promise<nu
  */
 export async function scrapeParticipants(participantsUrl: string): Promise<Participant[]> {
     try {
-        const response = await fetch(participantsUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(participantsUrl);
 
         const participantsTable = doc.querySelector('[data-region="core_table/dynamic"]');
         const rows = Array.from(participantsTable?.querySelectorAll('tbody tr') ?? []);
@@ -251,11 +243,7 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
  */
 export async function scrapeURLResources(activityReportUrl: string): Promise<URLResource[]> {
     try {
-        const response = await fetch(activityReportUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(activityReportUrl);
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -328,11 +316,7 @@ export async function scrapeURLResources(activityReportUrl: string): Promise<URL
  */
 export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]> {
     try {
-        const response = await fetch(activityReportUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(activityReportUrl);
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -404,11 +388,7 @@ export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]
  */
 export async function scrapeWorkshops(activityReportUrl: string): Promise<Workshop[]> {
     try {
-        const response = await fetch(activityReportUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(activityReportUrl);
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -469,11 +449,7 @@ export async function scrapeWorkshops(activityReportUrl: string): Promise<Worksh
  */
 export async function scrapeResources(activityReportUrl: string): Promise<Resource[]> {
     try {
-        const response = await fetch(activityReportUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(activityReportUrl);
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -545,10 +521,7 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
  */
 export async function scrapeQuizzes(activityReportUrl: string, totalParticipants: number): Promise<Quiz[]> {
     try {
-        let response = await fetch(activityReportUrl);
-        let html = await response.text();
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(html, 'text/html');
+        const doc = await fetchAndParse(activityReportUrl);
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -573,15 +546,10 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
             const idMatch = href.match(/id=(\d+)/);
             const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
 
-
             // Subscraping to get quiz results
 
             const url = getScrapeUrlQuiz(id, totalParticipants);
-
-            response = await fetch(url.quizResults);
-            html = await response.text();
-            parser = new DOMParser(); // O simplemente reutilizar el anterior
-            doc = parser.parseFromString(html, 'text/html');
+            const doc = await fetchAndParse(url.quizResults);
 
             // Extraer la nota máxima del quiz (por ejemplo, 1.00, 5.00, 10.00)
             const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
@@ -690,11 +658,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
  */
 export async function scrapeForums(activityReportUrl: string, totalParticipants: number, courseId: string): Promise<Forum[]> {
     try {
-        const response = await fetch(activityReportUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        let doc = await fetchAndParse(activityReportUrl);
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -719,40 +683,27 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
             const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
 
             const urlForumMain = getScrapeUrlForumMain(id);
-
-            const response2 = await fetch(urlForumMain.forumMain);
-            const html2 = await response2.text();
-
-            const parser2 = new DOMParser();
-            const doc2 = parser2.parseFromString(html2, 'text/html');
-
-            // Scrapeo el parámetro forumId
+            doc = await fetchAndParse(urlForumMain.forumMain);
 
             // Buscar el enlace de report que contenga forumid
-            const reportLink = doc2.querySelector('a[href*="forumid="]');
+            const reportLink = doc.querySelector('a[href*="forumid="]');
             const reportHref = reportLink?.getAttribute('href') ?? '';
             const forumIdMatch = reportHref.match(/forumid=(\d+)/);
             const forumId = parseInt(forumIdMatch?.[1] ?? '0');
 
             const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
-            const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
 
-            const response4 = await fetch(urlForumSubscriptions.forumSubscriptions);
-            const html4 = await response4.text();
-            const parser4 = new DOMParser();
-            const doc4 = parser4.parseFromString(html4, 'text/html');
+            doc = await fetchAndParse(urlForumSubscriptions.forumSubscriptions);
 
-            const h2 = doc4.querySelector('h2');
+            const h2 = doc.querySelector('h2');
             const h2Text = h2?.textContent?.trim() ?? '';
             const subsMatch = h2Text.match(/\((\d+)\)/);
             const subscriptions = parseInt(subsMatch?.[1] ?? '0');
 
-            const response3 = await fetch(urlForumReports.forumReports);
-            const html3 = await response3.text();
-            const parser3 = new DOMParser();
-            const doc3 = parser3.parseFromString(html3, 'text/html');
+            const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
+            doc = await fetchAndParse(urlForumReports.forumReports);
 
-            const tableReportForum = doc3.querySelector('table#forumreport_summary_table');
+            const tableReportForum = doc.querySelector('table#forumreport_summary_table');
             const rowsReportForum = Array.from(tableReportForum?.querySelectorAll('tbody tr') ?? []);
             const participantsStats: ForumParticipantData[] = [];
 
