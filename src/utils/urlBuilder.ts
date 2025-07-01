@@ -154,8 +154,20 @@ export function getScrapeUrlQuiz(id: string | number, totalParticipants?: number
  * @param id - The ID of the forum activity.
  * @returns An object with a `forumMain` key mapping to the full forum main page URL.
  */
-export function getScrapeUrlForum(id: string | number): Record<string, string> {
+export function getScrapeUrlForumMain(id: string | number): Record<string, string> {
     return {
         forumMain: `${BASE}${URLS.FORUM_MAIN(id)}`,
+    };
+}
+
+export function getScrapeUrlForumReports(courseId: string | number, forumId: string | number, totalParticipants?: number): Record<string, string> {
+    return {
+        forumReports: `${BASE}${URLS.FORUM_REPORTS(courseId, forumId, totalParticipants)}`,
+    };
+}
+
+export function getScrapeUrlForumSubscriptions(forumId: string | number): Record<string, string> {
+    return {
+        forumSubscriptions: `${BASE}${URLS.FORUM_SUBSCRIPTIONS(forumId)}`,
     };
 }

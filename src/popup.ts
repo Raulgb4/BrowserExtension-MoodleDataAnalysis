@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
 
                         // Scrape Forum-type activities (structure only; posts may require subscraping)
-                        scrapeForums(urls.activityReport).then(forums => {
+                        scrapeForums(urls.activityReport, totalParticipants, courseId).then(forums => {
                             console.log("Forums list:", forums);
                             console.log("Total forums scraped:", forums.length);
                         });

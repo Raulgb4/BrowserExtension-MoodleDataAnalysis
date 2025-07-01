@@ -9,8 +9,13 @@
 import {Participant} from '../models/Participant';
 import {Choice, URLResource, Workshop, Resource} from "../models/ActivityBase";
 import {Quiz, QuizStudentData} from "../models/Quiz";
-import {Forum} from "../models/Forum";
-import {getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {Forum, ForumStudentData} from "../models/Forum";
+import {
+    getScrapeUrlQuiz,
+    getScrapeUrlForumMain,
+    getScrapeUrlForumReports,
+    getScrapeUrlForumSubscriptions
+} from "../utils/urlBuilder";
 
 /**
  * Normalizes a duration string like "5 days 13 hours" or "46 mins 32 secs"
@@ -55,6 +60,24 @@ export function normalizeDuration(input: string): string {
 export function normalizeGradeTo10(grade: number, maxGrade: number): number {
     if (maxGrade === 0) return 0;
     return parseFloat(((grade / maxGrade) * 10).toFixed(2));
+}
+
+/**
+ * (⚠️TO DO IMPLEMENTATION FOR EACH SCRAPING) Fetches the content of a given URL and parses it into a DOM Document.
+ *
+ * This utility function simplifies HTML scraping by combining the fetch and
+ * DOM parsing steps. It is useful for consistently retrieving and parsing
+ * HTML content across multiple scraping operations.
+ *
+ * @param url - The URL to fetch the HTML content from.
+ * @returns A Promise that resolves to a parsed HTML Document.
+ *
+ * @throws Will propagate any network or parsing errors encountered during the fetch.
+ */
+async function fetchAndParse(url: string): Promise<Document> {
+    const response = await fetch(url);
+    const html = await response.text();
+    return new DOMParser().parseFromString(html, 'text/html');
 }
 
 /**
@@ -271,7 +294,7 @@ export async function scrapeURLResources(activityReportUrl: string): Promise<URL
 }
 
 /**
- * (⚠️TO DO: RESPONSES SECTION SUBSCRAPING) Scrapes all `Choice` activities from the Moodle activity report page.
+ * Scrapes all `Choice` activities from the Moodle activity report page.
  *
  * This function is responsible for extracting data about activities of type `choice`,
  * which represent multiple-choice polls where students can select one or more options.
@@ -522,11 +545,10 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
  */
 export async function scrapeQuizzes(activityReportUrl: string, totalParticipants: number): Promise<Quiz[]> {
     try {
-        const response = await fetch(activityReportUrl);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        let response = await fetch(activityReportUrl);
+        let html = await response.text();
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(html, 'text/html');
 
         const table = doc.querySelector('table#outlinereport');
         const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
@@ -556,19 +578,18 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
 
             const url = getScrapeUrlQuiz(id, totalParticipants);
 
-            const response2 = await fetch(url.quizResults);
-            const html2 = await response2.text();
-
-            const parser2 = new DOMParser();
-            const doc2 = parser2.parseFromString(html2, 'text/html');
+            response = await fetch(url.quizResults);
+            html = await response.text();
+            parser = new DOMParser(); // O simplemente reutilizar el anterior
+            doc = parser.parseFromString(html, 'text/html');
 
             // Extraer la nota máxima del quiz (por ejemplo, 1.00, 5.00, 10.00)
-            const gradeHeaderAnchor = doc2.querySelector('a[aria-label^="Sort by Grade/"]');
+            const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
             const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
             const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
             const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1'); // Fallback a 1 si no se encuentra
 
-            const tableResultsQuiz = doc2.querySelector('table#attempts');
+            const tableResultsQuiz = doc.querySelector('table#attempts');
             const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
             const studentStats: QuizStudentData[] = [];
 
@@ -663,9 +684,11 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
  * If any parsing or network error occurs, the function logs the error and returns an empty list.
  *
  * @param activityReportUrl - Full URL of the Moodle course activity report page.
+ * @param totalParticipants
+ * @param courseId
  * @returns A Promise resolving to an array of `Forum` objects (partially filled).
  */
-export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> {
+export async function scrapeForums(activityReportUrl: string, totalParticipants: number, courseId: string): Promise<Forum[]> {
     try {
         const response = await fetch(activityReportUrl);
         const html = await response.text();
@@ -695,18 +718,93 @@ export async function scrapeForums(activityReportUrl: string): Promise<Forum[]> 
             const idMatch = href.match(/id=(\d+)/);
             const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
 
+            const urlForumMain = getScrapeUrlForumMain(id);
 
-            // TO DO: Subscraping to get a forum report
+            const response2 = await fetch(urlForumMain.forumMain);
+            const html2 = await response2.text();
 
+            const parser2 = new DOMParser();
+            const doc2 = parser2.parseFromString(html2, 'text/html');
+
+            // Scrapeo el parámetro forumId
+
+            // Buscar el enlace de report que contenga forumid
+            const reportLink = doc2.querySelector('a[href*="forumid="]');
+            const reportHref = reportLink?.getAttribute('href') ?? '';
+            const forumIdMatch = reportHref.match(/forumid=(\d+)/);
+            const forumId = parseInt(forumIdMatch?.[1] ?? '0');
+
+            const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
+            const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
+
+            const response4 = await fetch(urlForumSubscriptions.forumSubscriptions);
+            const html4 = await response4.text();
+            const parser4 = new DOMParser();
+            const doc4 = parser4.parseFromString(html4, 'text/html');
+
+            const h2 = doc4.querySelector('h2');
+            const h2Text = h2?.textContent?.trim() ?? '';
+            const subsMatch = h2Text.match(/\((\d+)\)/);
+            const subscriptions = parseInt(subsMatch?.[1] ?? '0');
+
+            const response3 = await fetch(urlForumReports.forumReports);
+            const html3 = await response3.text();
+            const parser3 = new DOMParser();
+            const doc3 = parser3.parseFromString(html3, 'text/html');
+
+            const tableReportForum = doc3.querySelector('table#forumreport_summary_table');
+            const rowsReportForum = Array.from(tableReportForum?.querySelectorAll('tbody tr') ?? []);
+            const studentsStats: ForumStudentData[] = [];
+
+            for (const rowForum of rowsReportForum) {
+
+                const nameCell = rowForum.querySelector('td.cell.c1');
+
+                let studentName = '';
+                const anchor = nameCell?.querySelector('a');
+                if (anchor) {
+                    for (const node of anchor.childNodes) {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            studentName = node.textContent?.trim() ?? '';
+                            break;
+                        }
+                    }
+                }
+
+                const discussionsPosted = parseInt(rowForum.querySelector('td.cell.c2')?.textContent?.trim() ?? '0');
+                const repliesPosted = parseInt(rowForum.querySelector('td.cell.c3')?.textContent?.trim() ?? '0');
+                const views = parseInt(rowForum.querySelector('td.cell.c5')?.textContent?.trim() ?? '0');
+                const wordCount = parseInt(rowForum.querySelector('td.cell.c6')?.textContent?.trim() ?? '0');
+
+                const earliestPost = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
+                const mostRecentPost = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
+
+                // Skip students with no activity
+                if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
+                    continue;
+                }
+
+                const studentData: ForumStudentData = {
+                    studentName,
+                    discussionsPosted,
+                    repliesPosted,
+                    views,
+                    wordCount,
+                    earliestPost,
+                    mostRecentPost
+                };
+
+                studentsStats.push(studentData);
+            }
 
             const forum: Forum = {
                 activityName,
                 numViews,
                 lastAccess,
                 id,
-                forumId: 0, // TO DO: Extract from the forum report (SUBSCRAPING NECESSARY)
-                subscriptions: 0, // TO DO: Extract from the forum report (SUBSCRAPING NECESSARY)
-                studentsStats: [] // TO DO: Extract from the forum report (SUBSCRAPING NECESSARY)
+                forumId,
+                subscriptions,
+                studentsStats
             };
 
             forums.push(forum);
