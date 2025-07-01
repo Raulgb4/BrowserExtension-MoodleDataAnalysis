@@ -45,6 +45,19 @@ export function normalizeDuration(input: string): string {
 }
 
 /**
+ * Converts a grade to a normalized value over 10.
+ * If maxGrade is 0, returns 0 to avoid division by zero.
+ *
+ * @param grade The original grade obtained by the student.
+ * @param maxGrade The maximum possible grade for the quiz.
+ * @returns The grade normalized to a scale of 0 to 10.
+ */
+export function normalizeGradeTo10(grade: number, maxGrade: number): number {
+    if (maxGrade === 0) return 0;
+    return parseFloat(((grade / maxGrade) * 10).toFixed(2));
+}
+
+/**
  * Scrapes the total number of participants enrolled in a Moodle course from the participant page.
  *
  * This asynchronous function performs an HTTP `fetch` request to the provided `participantsUrl`,
@@ -476,7 +489,7 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
 }
 
 /**
- * (⚠️TO DO: CHECK THE RESULT DATA, DELETE NULL ENTRIES) Scrapes all `Quiz` activities from the Moodle activity report page,
+ * Scrapes all `Quiz` activities from the Moodle activity report page,
  * and performs a secondary scrape to extract per-student quiz results.
  *
  * This function performs a two-level scraping process:
@@ -549,6 +562,12 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
             const parser2 = new DOMParser();
             const doc2 = parser2.parseFromString(html2, 'text/html');
 
+            // Extraer la nota máxima del quiz (por ejemplo, 1.00, 5.00, 10.00)
+            const gradeHeaderAnchor = doc2.querySelector('a[aria-label^="Sort by Grade/"]');
+            const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
+            const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
+            const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1'); // Fallback a 1 si no se encuentra
+
             const tableResultsQuiz = doc2.querySelector('table#attempts');
             const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
             const studentStats: QuizStudentData[] = [];
@@ -585,11 +604,15 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
                 const gradeText = gradeAnchor?.textContent?.trim() ?? '';
                 const grade = parseFloat(gradeText);  // Convertimos a número
 
+                // Normalizar la nota a una escala de 0 a 10
+                const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
+
                 // Creamos el objeto con los datos
                 const studentData: QuizStudentData = {
                     studentName,
                     duration,
-                    grade
+                    grade,
+                    normalizedGrade
                 };
 
                 studentStats.push(studentData);
@@ -600,6 +623,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
                 numViews,
                 lastAccess,
                 id,
+                maxGrade,
                 studentStats
             };
 

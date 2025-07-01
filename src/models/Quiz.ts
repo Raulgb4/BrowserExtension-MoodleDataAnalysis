@@ -25,9 +25,14 @@ export interface QuizStudentData {
     duration: string;
 
     /**
-     * Grade obtained by the student, on a scale defined by the quiz (usually out of 1.00).
+     * Grade obtained by the student, on a scale defined by the quiz.
      */
     grade: number;
+
+    /**
+     * Normalized grade obtained by the student (out of 10).
+     */
+    normalizedGrade: number;
 }
 
 /**
@@ -39,6 +44,11 @@ export interface Quiz extends ActivityBase {
      * Internal Moodle identifier for the quiz.
      */
     id: number;
+
+    /**
+     * Maximum grade defined for this quiz (e.g. 1, 5, 10).
+     */
+    maxGrade: number;
 
     /**
      * List of students who attempted the quiz, along with their stats.
