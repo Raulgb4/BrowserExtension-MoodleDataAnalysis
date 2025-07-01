@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.10",
+    "npm": "^11.4.2",
     "postcss-import": "^16.1.1"
   }
 }

@@ -563,8 +563,16 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
 
                 // Nombre del estudiante (columna c2)
                 const nameCell = rowQuiz.querySelector('td.cell.c2');
+                const nameText = nameCell?.textContent?.trim() ?? '';
+
+                // Excluir filas sin nombre de estudiante o que contienen "Overall average"
+                if (!nameText || nameText.toLowerCase().includes('overall average')) {
+                    continue;
+                }
+
                 const nameAnchor = nameCell?.querySelector('a');
                 const studentName = nameAnchor?.textContent?.trim() ?? '';
+
 
                 // Duración del intento (columna c7)
                 const durationCell = rowQuiz.querySelector('td.cell.c7');
