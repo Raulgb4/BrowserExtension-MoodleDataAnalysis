@@ -8,8 +8,8 @@
  */
 import {Participant} from '../models/Participant';
 import {Choice, URLResource, Workshop, Resource} from "../models/ActivityBase";
-import {Quiz, QuizStudentData} from "../models/Quiz";
-import {Forum, ForumStudentData} from "../models/Forum";
+import {Quiz, QuizParticipantData} from "../models/Quiz";
+import {Forum, ForumParticipantData} from "../models/Forum";
 import {
     getScrapeUrlQuiz,
     getScrapeUrlForumMain,
@@ -53,7 +53,7 @@ export function normalizeDuration(input: string): string {
  * Converts a grade to a normalized value over 10.
  * If maxGrade is 0, returns 0 to avoid division by zero.
  *
- * @param grade The original grade obtained by the student.
+ * @param grade The original grade obtained by the participant.
  * @param maxGrade The maximum possible grade for the quiz.
  * @returns The grade normalized to a scale of 0 to 10.
  */
@@ -108,7 +108,7 @@ async function fetchAndParse(url: string): Promise<Document> {
  * if (total !== null) {
  *   console.log("Total participants:", total);
  * } else {
- *   console.warn("Unable to extract student count.");
+ *   console.warn("Unable to extract participant count.");
  * }
  */
 export async function scrapeNumParticipants(participantsUrl: string): Promise<number | null> {
@@ -297,7 +297,7 @@ export async function scrapeURLResources(activityReportUrl: string): Promise<URL
  * Scrapes all `Choice` activities from the Moodle activity report page.
  *
  * This function is responsible for extracting data about activities of type `choice`,
- * which represent multiple-choice polls where students can select one or more options.
+ * which represent multiple-choice polls where participants can select one or more options.
  * These activities are listed along with other activity types in the same HTML table
  * on the course's outline report page (`report/outline/index.php`).
  *
@@ -513,7 +513,7 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
 
 /**
  * Scrapes all `Quiz` activities from the Moodle activity report page,
- * and performs a secondary scrape to extract per-student quiz results.
+ * and performs a secondary scrape to extract per-participant quiz results.
  *
  * This function performs a two-level scraping process:
  *
@@ -531,17 +531,17 @@ export async function scrapeResources(activityReportUrl: string): Promise<Resour
  *    - Builds a URL using `getScrapeUrlQuiz()` to access detailed quiz results.
  *    - Fetches the quiz attempts table (`#attempts`).
  *    - Iterates through each row and extracts:
- *      - `studentName`: Name of the student.
+ *      - `participantName`: Name of the participant.
  *      - `duration`: Duration of the quiz attempt (normalized).
- *      - `grade`: Grade obtained by the student.
+ *      - `grade`: Grade obtained by the participant.
  *    - Skip rows with class `emptyrow` or `empty row` to avoid malformed entries.
  *
- * Each quiz object returned includes both metadata and an array of `QuizStudentData`.
+ * Each quiz object returned includes both metadata and an array of `QuizParticipantData`.
  * If an error occurs at any point, it is logged and the function returns an empty array.
  *
  * @param activityReportUrl - Full URL to the Moodle course activity report page.
  * @param totalParticipants - Number of participants used to bypass pagination in the subscrape.
- * @returns A Promise resolving to an array of `Quiz` objects including student results.
+ * @returns A Promise resolving to an array of `Quiz` objects including participant results.
  */
 export async function scrapeQuizzes(activityReportUrl: string, totalParticipants: number): Promise<Quiz[]> {
     try {
@@ -591,7 +591,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
 
             const tableResultsQuiz = doc.querySelector('table#attempts');
             const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
-            const studentStats: QuizStudentData[] = [];
+            const participantStats: QuizParticipantData[] = [];
 
             for (const rowQuiz of rowsResultsQuiz) {
 
@@ -611,7 +611,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
                 }
 
                 const nameAnchor = nameCell?.querySelector('a');
-                const studentName = nameAnchor?.textContent?.trim() ?? '';
+                const participantName = nameAnchor?.textContent?.trim() ?? '';
 
 
                 // Duración del intento (columna c7)
@@ -629,14 +629,14 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
                 const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
 
                 // Creamos el objeto con los datos
-                const studentData: QuizStudentData = {
-                    studentName,
+                const participantData: QuizParticipantData = {
+                    participantName,
                     duration,
                     grade,
                     normalizedGrade
                 };
 
-                studentStats.push(studentData);
+                participantStats.push(participantData);
             }
 
             const quiz: Quiz = {
@@ -645,7 +645,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
                 lastAccess,
                 id,
                 maxGrade,
-                studentStats
+                participantStats
             };
 
             quizzes.push(quiz);
@@ -679,7 +679,7 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
  *    - Extract the real `forumId` by visiting the forum's main page.
  *    - Scrape participation statistics from `/mod/forum/report/summary/index.php`.
  *    - Scrape the number of subscribed users from `/mod/forum/subscribers.php`.
- *    - Populate `forumId`, `subscriptions`, and `studentsStats` fields accordingly.
+ *    - Populate `forumId`, `subscriptions`, and `participantStats` fields accordingly.
  *
  * If any parsing or network error occurs, the function logs the error and returns an empty list.
  *
@@ -754,18 +754,18 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
 
             const tableReportForum = doc3.querySelector('table#forumreport_summary_table');
             const rowsReportForum = Array.from(tableReportForum?.querySelectorAll('tbody tr') ?? []);
-            const studentsStats: ForumStudentData[] = [];
+            const participantsStats: ForumParticipantData[] = [];
 
             for (const rowForum of rowsReportForum) {
 
                 const nameCell = rowForum.querySelector('td.cell.c1');
 
-                let studentName = '';
+                let participantName = '';
                 const anchor = nameCell?.querySelector('a');
                 if (anchor) {
                     for (const node of anchor.childNodes) {
                         if (node.nodeType === Node.TEXT_NODE) {
-                            studentName = node.textContent?.trim() ?? '';
+                            participantName = node.textContent?.trim() ?? '';
                             break;
                         }
                     }
@@ -779,13 +779,13 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
                 const earliestPost = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
                 const mostRecentPost = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
 
-                // Skip students with no activity
+                // Skip participants with no activity
                 if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
                     continue;
                 }
 
-                const studentData: ForumStudentData = {
-                    studentName,
+                const participantData: ForumParticipantData = {
+                    participantName,
                     discussionsPosted,
                     repliesPosted,
                     views,
@@ -794,7 +794,7 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
                     mostRecentPost
                 };
 
-                studentsStats.push(studentData);
+                participantsStats.push(participantData);
             }
 
             const forum: Forum = {
@@ -804,7 +804,7 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
                 id,
                 forumId,
                 subscriptions,
-                studentsStats
+                participantsStats
             };
 
             forums.push(forum);

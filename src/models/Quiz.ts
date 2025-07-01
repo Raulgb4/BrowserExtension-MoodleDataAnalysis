@@ -6,18 +6,18 @@
  * the duration of their quiz attempt (normalized), and the grade they achieved.
  * It is populated through subscraping the quiz results page of a given Moodle course.
  *
- * @interface QuizStudentData
+ * @interface QuizParticipantData
  * @author Raúl García Balongo
  * @date 2025
  */
 
 import {ActivityBase} from "./ActivityBase";
 
-export interface QuizStudentData {
+export interface QuizParticipantData {
     /**
      * Full name of the student.
      */
-    studentName: string;
+    participantName: string;
 
     /**
      * Duration of the quiz attempt, as extracted from Moodle (e.g., "15 mins 32 secs").
@@ -53,5 +53,5 @@ export interface Quiz extends ActivityBase {
     /**
      * List of students who attempted the quiz, along with their stats.
      */
-    studentStats: QuizStudentData[];
+    participantStats: QuizParticipantData[];
 }

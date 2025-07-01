@@ -15,11 +15,11 @@
 
 import {ActivityBase} from "./ActivityBase";
 
-export interface ForumStudentData {
+export interface ForumParticipantData {
     /**
      * Full name of the student.
      */
-    studentName: string;
+    participantName: string;
 
     /**
      * Number of discussion threads started by the student.
@@ -78,5 +78,5 @@ export interface Forum extends ActivityBase {
     /**
      * List of student participation statistics in the forum.
      */
-    studentsStats: ForumStudentData[];
+    participantsStats: ForumParticipantData[];
 }
