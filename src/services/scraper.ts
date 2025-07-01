@@ -17,6 +17,87 @@ import {
     getScrapeUrlForumSubscriptions
 } from "../utils/urlBuilder";
 
+
+/**
+ * ⚠️ TO DO: Optimize ActivityReport scraping by merging all activity-type functions into a single unified pass
+ *
+ * 🔍 CONTEXT:
+ * Currently, the following scraping functions independently parse the full Activity Report page:
+ *
+ *   - scrapeURLResources(activityReportUrl: string)
+ *   - scrapeChoices(activityReportUrl: string)
+ *   - scrapeWorkshops(activityReportUrl: string)
+ *   - scrapeResources(activityReportUrl: string)
+ *   - scrapeQuizzes(activityReportUrl: string, totalParticipants: number)
+ *   - scrapeForums(activityReportUrl: string, totalParticipants: number, courseId: string)
+ *
+ * Each of these functions performs a full fetch + parse + loop over the same DOM table from the page at `activityReportUrl`.
+ * This means we are redundantly iterating over the same table up to 6 times, which is extremely inefficient.
+ *
+ * 🧠 OBJECTIVE:
+ * Refactor this logic into a **single consolidated scraping function** that:
+ *
+ *  - Performs one single fetch and DOM parsing of the Activity Report page.
+ *  - Iterates over the table rows **only once**.
+ *  - Dynamically detects the type of activity for each row (`forum`, `quiz`, `workshop`, etc.).
+ *  - Routes the scraping logic to the appropriate handler (e.g., via a `switch-case` or `if-else` structure).
+ *  - Performs any necessary subscraping inline as needed.
+ *  - Returns an aggregated structure that contains all activity data, grouped by type.
+ *
+ * 🎯 GOAL: Maintain exactly the same final functionality/output we have now,
+ * but drastically reduce unnecessary parsing and iteration overhead.
+ *
+ * 🛠️ RECOMMENDED PLAN:
+ * 1. Create a new unified function, e.g., `scrapeAllActivities(activityReportUrl: string, totalParticipants: number, courseId: string)`.
+ *
+ * 2. Inside it:
+ *    - Fetch and parse the Activity Report page once using `fetchAndParse`.
+ *    - Extract the table and iterate through each `<tr>` just once.
+ *
+ * 3. For each row:
+ *    - Extract the activity `href` and determine its type (e.g., based on `/mod/quiz/`, `/mod/forum/`, etc.).
+ *    - Use a `switch` or `if` chain to call the appropriate scraping handler for that activity type.
+ *
+ * 4. Accumulate the results in categorized arrays:
+ *    - `const quizzes: Quiz[] = []`
+ *    - `const forums: Forum[] = []`
+ *    - `const urlResources: URLResource[] = []`
+ *    - ...
+ *
+ * 5. Return all of them as a grouped object:
+ *    ```ts
+ *    return {
+ *      quizzes,
+ *      forums,
+ *      urlResources,
+ *      workshops,
+ *      choices,
+ *      resources
+ *    };
+ *    ```
+ *
+ * 🧠 TIPS & GUIDANCE:
+ * - Use helper functions for each type's scraping logic to keep the unified loop readable.
+ *   For example, `await scrapeForumFromRow(row, totalParticipants, courseId)`
+ *
+ * - Make use of early `continue` statements in the loop to skip irrelevant rows cleanly.
+ *
+ * - Reuse the logic you already have inside the current six scraping functions to avoid rewriting.
+ *   You can migrate the body of those functions into internal handlers inside the switch.
+ *
+ * - Maintain a clear separation between "data collected from the ActivityReport row" and "data collected via subscraping".
+ *
+ * - Preserve naming and types (`Forum`, `Quiz`, etc.) to avoid breaking interfaces.
+ *
+ * - Consider logging (or counting) how many of each activity type were processed for debugging.
+ *
+ * - Once this is implemented and tested, deprecate the original `scrapeX()` functions to prevent accidental duplication.
+ *
+ * 🧪 Optional:
+ * - If needed, implement a feature flag or fallback mechanism to temporarily keep the old functions active during transition/testing.
+ */
+
+
 /**
  * Normalizes a duration string like "5 days 13 hours" or "46 mins 32 secs"
  * into a standard format: "dd hh:mm:ss".
