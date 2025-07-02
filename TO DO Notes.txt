@@ -1,0 +1,26 @@
+Posibles mejoras para la fase de extracción de datos implementada:
+------------------------------------------------------------------
+
+1. Normalización de todas las fechas a un formato estándar (ISO 8601).
+
+"earliestPost": "14 March 2023, 10:52 AM" -> "earliestPost": "2023-03-14T10:52:00"
+
+* Aplicar esta normalización a todos los campos tipo fecha: earliestPost, mostRecentPost, lastAccess, etc.
+
+2. El campo numViews debería ser un número en lugar de una cadena.
+
+* ¿Hacer un ratio de visitas a partir de vistas y usuarios?
+
+"numViews": "180 views by 86 users" -> "numViews": 180
+
+3. Nuevo campo en el modelo de datos "activityType" para clasificar la actividad.
+
+"activityType": "forum" | "quiz" | "url" | ...
+
+4. Consistencia en tipos de datos
+
+Revisar todos los campos numéricos (grade, normalizedGrade, duration, subscriptions, etc.) para que no sean strings.
+
+5. Mejora en campos booleanos u opcionales
+
+Si un valor no aplica o está ausente (ej. lastAccess = Never), considerar usar null en vez de una string.
