@@ -112,35 +112,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add a click handler to trigger scraping when the button is pressed
         analyzeButton.addEventListener('click', () => {
-            analyzeButton.classList.add('hidden');
-            spinner.classList.remove('hidden');
+            analyzeButton.classList.add('hidden'); // Hide the button during processing
+            spinner.classList.remove('hidden');    // Show the loading spinner
 
-            // Simulate delay (can be replaced with loading indicators or real work)
-            setTimeout(() => {
-                spinner.classList.add('hidden');
+            const preliminaryUrl = getScrapeUrls(courseId).participants;
 
-                // First, determine the real number of participants to avoid pagination
-                const preliminaryUrl = getScrapeUrls(courseId).participants;
+            // First, get the total number of participants
+            scrapeNumParticipants(preliminaryUrl).then(totalParticipants => {
+                if (totalParticipants !== null) {
+                    console.log("Total participants detected:", totalParticipants);
 
-                scrapeNumParticipants(preliminaryUrl).then(totalParticipants => {
-                    if (totalParticipants !== null) {
-                        console.log("Total participants detected:", totalParticipants);
+                    const urls = getScrapeUrls(courseId, totalParticipants);
 
-                        // Generate URLs using exact participant count
-                        const urls = getScrapeUrls(courseId, totalParticipants);
+                    // Scrape the full course data using all the correct URLs
+                    scrapeCourse(courseId, urls.activityReport, urls.participants, totalParticipants).then(course => {
+                        console.log("Course data:", course);
 
-                        output.textContent = `CONSULTA LOS LOGS`;
+                        output.textContent = 'Analysis complete. Check the logs for detailed data.';
+                        spinner.classList.add('hidden'); // Hide the spinner after scraping is done
+                    });
 
-                        scrapeCourse(courseId, urls.activityReport, urls.participants, totalParticipants).then(course => {
-                            console.log("Course data:", course);
-                        });
-
-                    } else {
-                        // If the total participant count could not be determined, show warning
-                        console.warn("Unable to extract total student count.");
-                    }
-                });
-            }, 1000); // Simulate a delay of 1 second
+                } else {
+                    console.warn("Unable to extract total student count.");
+                    output.textContent = 'Failed to determine participant count.';
+                    spinner.classList.add('hidden'); // Also hide spinner if scraping fails
+                }
+            });
         });
     });
 });

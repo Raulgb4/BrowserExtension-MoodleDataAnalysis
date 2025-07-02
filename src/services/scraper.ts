@@ -20,86 +20,6 @@ import {Course} from "../models/Course";
 
 
 /**
- * ⚠️ TO DO: Optimize ActivityReport scraping by merging all activity-type functions into a single unified pass
- *
- * 🔍 CONTEXT:
- * Currently, the following scraping functions independently parse the full Activity Report page:
- *
- *   - scrapeURLResources(activityReportUrl: string)
- *   - scrapeChoices(activityReportUrl: string)
- *   - scrapeWorkshops(activityReportUrl: string)
- *   - scrapeResources(activityReportUrl: string)
- *   - scrapeQuizzes(activityReportUrl: string, totalParticipants: number)
- *   - scrapeForums(activityReportUrl: string, totalParticipants: number, courseId: string)
- *
- * Each of these functions performs a full fetch + parse + loop over the same DOM table from the page at `activityReportUrl`.
- * This means we are redundantly iterating over the same table up to 6 times, which is extremely inefficient.
- *
- * 🧠 OBJECTIVE:
- * Refactor this logic into a **single consolidated scraping function** that:
- *
- *  - Performs one single fetch and DOM parsing of the Activity Report page.
- *  - Iterates over the table rows **only once**.
- *  - Dynamically detects the type of activity for each row (`forum`, `quiz`, `workshop`, etc.).
- *  - Routes the scraping logic to the appropriate handler (e.g., via a `switch-case` or `if-else` structure).
- *  - Performs any necessary subscraping inline as needed.
- *  - Returns an aggregated structure that contains all activity data, grouped by type.
- *
- * 🎯 GOAL: Maintain exactly the same final functionality/output we have now,
- * but drastically reduce unnecessary parsing and iteration overhead.
- *
- * 🛠️ RECOMMENDED PLAN:
- * 1. Create a new unified function, e.g., `scrapeAllActivities(activityReportUrl: string, totalParticipants: number, courseId: string)`.
- *
- * 2. Inside it:
- *    - Fetch and parse the Activity Report page once using `fetchAndParse`.
- *    - Extract the table and iterate through each `<tr>` just once.
- *
- * 3. For each row:
- *    - Extract the activity `href` and determine its type (e.g., based on `/mod/quiz/`, `/mod/forum/`, etc.).
- *    - Use a `switch` or `if` chain to call the appropriate scraping handler for that activity type.
- *
- * 4. Accumulate the results in categorized arrays:
- *    - `const quizzes: Quiz[] = []`
- *    - `const forums: Forum[] = []`
- *    - `const urlResources: URLResource[] = []`
- *    - ...
- *
- * 5. Return all of them as a grouped object:
- *    ```ts
- *    return {
- *      quizzes,
- *      forums,
- *      urlResources,
- *      workshops,
- *      choices,
- *      resources
- *    };
- *    ```
- *
- * 🧠 TIPS & GUIDANCE:
- * - Use helper functions for each type's scraping logic to keep the unified loop readable.
- *   For example, `await scrapeForumFromRow(row, totalParticipants, courseId)`
- *
- * - Make use of early `continue` statements in the loop to skip irrelevant rows cleanly.
- *
- * - Reuse the logic you already have inside the current six scraping functions to avoid rewriting.
- *   You can migrate the body of those functions into internal handlers inside the switch.
- *
- * - Maintain a clear separation between "data collected from the ActivityReport row" and "data collected via subscraping".
- *
- * - Preserve naming and types (`Forum`, `Quiz`, etc.) to avoid breaking interfaces.
- *
- * - Consider logging (or counting) how many of each activity type were processed for debugging.
- *
- * - Once this is implemented and tested, deprecate the original `scrapeX()` functions to prevent accidental duplication.
- *
- * 🧪 Optional:
- * - If needed, implement a feature flag or fallback mechanism to temporarily keep the old functions active during transition/testing.
- */
-
-
-/**
  * Normalizes a duration string like "5 days 13 hours" or "46 mins 32 secs"
  * into a standard format: "dd hh:mm:ss".
  *
@@ -293,413 +213,109 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
 }
 
 /**
- * Scrapes all external URL-based resources from the Moodle activity report page.
+ * Scrapes detailed performance data for a single Moodle quiz activity.
  *
- * This function is designed to extract information about activities of type `url`
- * (external links added to the course), which are listed in a single unified table
- * on the activity outline report page (`report/outline/index.php`).
+ * This asynchronous function performs a sub-scraping operation to extract individual participant
+ * statistics for a specific quiz identified by its internal Moodle `id`. It is intended to be used
+ * as part of a broader scraping process, where activity metadata (e.g., name, views, last access)
+ * is already available from a higher-level table such as the course activity report.
  *
- * The scraping process performs the following steps:
- * 1. Send an HTTP request to the activity report page (`activityReportUrl`).
- * 2. Parses the received HTML into a DOM structure using the DOMParser API.
- * 3. Locate the main activity table with the ID `outlinereport`.
- * 4. Iterates over each row in the table to identify rows containing a `url` activity:
- *    - These are detected by checking that the activity link's href contains `/mod/url/`.
- * 5. For each matching row, it extracts:
- *    - The activity name (as displayed in the first column),
- *    - The number of views (from the second column),
- *    - The last access date/time (from the third column).
- * 6. Creates a `URLResource` object for each matched activity and adds it to a list.
+ * The function accesses the Moodle quiz results page, parses the table of quiz attempts,
+ * and extracts detailed information for each participant, including duration, raw grade,
+ * and a normalized grade on a 0-10 scale.
  *
- * If an error occurs at any stage (e.g., network issue, parsing error), the function logs
- * the error to the console and returns an empty array to avoid crashing the application.
+ * In addition, the function attempts to determine the maximum possible grade for the quiz,
+ * which is used for the normalization process.
  *
- * @param activityReportUrl - The full URL of the Moodle activity report page for a course.
- * @returns A Promise resolving to an array of `URLResource` objects.
- *          Each object contains `activityName`, `numViews`, and `lastAccess`.
+ * Only meaningful participant rows are parsed. Rows without a valid name or marked as summary rows
+ * (e.g., "Overall average") are excluded. Empty rows are also skipped.
  *
- * @example
- * const url = "http://localhost:8080/report/outline/index.php?id=2";
- * const resources = await scrapeURLResources(url);
- * console.log(resources);
- */
-export async function scrapeURLResources(activityReportUrl: string): Promise<URLResource[]> {
-    try {
-        const doc = await fetchAndParse(activityReportUrl);
-
-        const table = doc.querySelector('table#outlinereport');
-        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
-        const urlResources: URLResource[] = [];
-
-        for (const row of rows) {
-
-            const activityCell = row.querySelector('td.activityname');
-            const viewsCell = row.querySelector('td.numviews');
-            const lastAccessCell = row.querySelector('td.lastaccess');
-
-            const anchor = activityCell?.querySelector('a');
-            const href = anchor?.getAttribute('href') ?? '';
-
-            if (!href.includes('/mod/url/')) continue;
-
-            const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell?.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
-
-            const urlResource: URLResource = {
-                activityName,
-                numViews,
-                lastAccess
-            };
-
-            urlResources.push(urlResource);
-        }
-
-        return urlResources;
-
-    } catch (error) {
-        console.error("Error scraping URLResources:", error);
-        return [];
-    }
-}
-
-/**
- * Scrapes all `Choice` activities from the Moodle activity report page.
+ * This function is designed to return a single quiz object wrapped in an array for compatibility
+ * with the general `scrapeCourse` integration, which expects an array of quizzes.
  *
- * This function is responsible for extracting data about activities of type `choice`,
- * which represent multiple-choice polls where participants can select one or more options.
- * These activities are listed along with other activity types in the same HTML table
- * on the course's outline report page (`report/outline/index.php`).
+ * @param id - The unique identifier of the quiz activity (from the URL: `id=XYZ`).
+ * @param activityName - The name/title of the quiz activity as shown in Moodle.
+ * @param numViews - Number of times the quiz has been viewed.
+ * @param lastAccess - The last access timestamp of the quiz activity, or `'Never'`.
+ * @param totalParticipants - The total number of participants in the course, used for pagination or URL generation.
  *
- * The scraping process follows these steps:
- * 1. Send an HTTP request to the given `activityReportUrl`.
- * 2. Parses the retrieved HTML using the DOMParser API to construct a DOM tree.
- * 3. Locate the activity table with the ID `outlinereport`.
- * 4. Iterates over all `<tr>` rows inside the table body (`<tbody>`).
- * 5. Filters rows to include only those where the activity link's `href`
- *    contains the substring `/mod/choice/`, indicating a `choice` activity.
- * 6. For each matching row, extract the following data:
- *    - `activityName`: The title of the poll (from the activity link text),
- *    - `numViews`: Number of times the activity has been accessed,
- *    - `lastAccess`: Timestamp or label indicating the user's last access (e.g., "Never").
- * 7. Each set of extracted data is stored in a `Choice` object, which is added to the result list.
- *
- * If any error occurs during the process (network failure, parsing issues, etc.),
- * it is logged to the console, and the function returns an empty array to ensure the extension remains stable.
- *
- * @param activityReportUrl - The full URL of the Moodle activity report page for a course.
- * @returns A Promise resolving to an array of `Choice` objects.
- *          Each object contains `activityName`, `numViews`, and `lastAccess`.
+ * @returns A `Promise` that resolves to an array containing one `Quiz` object with full details,
+ *          or an empty array in case of an error.
  *
  * @example
- * const url = "http://localhost:8080/report/outline/index.php?id=2";
- * const choices = await scrapeChoices(url);
- * console.log(choices);
+ * const results = await scrapeQuizzes(42, 'Final Exam', '120', '25 June 2025', 175);
+ * console.log(results[0].participantStats.length); // → Number of participant rows scraped
  */
-export async function scrapeChoices(activityReportUrl: string): Promise<Choice[]> {
+export async function scrapeQuizzes(
+    id: number,
+    activityName: string,
+    numViews: string,
+    lastAccess: string,
+    totalParticipants: number
+): Promise<Quiz[]> {
     try {
-        const doc = await fetchAndParse(activityReportUrl);
-
-        const table = doc.querySelector('table#outlinereport');
-        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
-        const choices: Choice[] = [];
-
-        for (const row of rows) {
-
-            const activityCell = row.querySelector('td.activityname');
-            const viewsCell = row.querySelector('td.numviews');
-            const lastAccessCell = row.querySelector('td.lastaccess');
-
-            const anchor = activityCell?.querySelector('a');
-            const href = anchor?.getAttribute('href') ?? '';
-
-            if (!href.includes('/mod/choice/')) continue;
-
-            const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell?.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
-
-            const choice: Choice = {
-                activityName,
-                numViews,
-                lastAccess
-            };
-
-            choices.push(choice);
-        }
-
-        return choices;
-
-    } catch (error) {
-        console.error("Error scraping Choices:", error);
-        return [];
-    }
-}
-
-/**
- * Scrapes all `Workshop` activities from the Moodle activity report page.
- *
- * This function is designed to extract metadata about peer-assessment activities
- * (of type `workshop`) from the course’s outline report page (`report/outline/index.php`).
- * These activities appear in the same table as other activity types and must be filtered
- * based on their unique URL pattern.
- *
- * The scraping process includes the following steps:
- * 1. Send an HTTP GET request to the provided `activityReportUrl`.
- * 2. Parses the returned HTML document using `DOMParser` to access DOM elements.
- * 3. Locates the `<table>` with ID `outlinereport`, which lists course activities.
- * 4. Iterates over all `<tr>` elements in the table body.
- * 5. Filters rows to include only those that contain `/mod/workshop/` in the `<a href>` URL.
- * 6. For each matching workshop activity, extracts:
- *    - `activityName`: The name of the workshop activity,
- *    - `numViews`: How many times the activity has been accessed,
- *    - `lastAccess`: The last time the user accessed the activity (or "Never" if empty).
- * 7. Each set of extracted values is stored in a `Workshop` object and appended to the result list.
- *
- * If any network error or parsing issue occurs, the error is logged to the console,
- * and the function returns an empty array to prevent the extension from breaking.
- *
- * @param activityReportUrl - The full URL of the Moodle activity report page.
- * @returns A Promise resolving to an array of `Workshop` objects,
- *          each containing `activityName`, `numViews`, and `lastAccess`.
- *
- * @example
- * const url = "http://localhost:8080/report/outline/index.php?id=2";
- * const workshops = await scrapeWorkshops(url);
- * console.log(workshops);
- */
-export async function scrapeWorkshops(activityReportUrl: string): Promise<Workshop[]> {
-    try {
-        const doc = await fetchAndParse(activityReportUrl);
-
-        const table = doc.querySelector('table#outlinereport');
-        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
-        const workshops: Workshop[] = [];
-
-        for (const row of rows) {
-
-            const activityCell = row.querySelector('td.activityname');
-            const viewsCell = row.querySelector('td.numviews');
-            const lastAccessCell = row.querySelector('td.lastaccess');
-
-            const anchor = activityCell?.querySelector('a');
-            const href = anchor?.getAttribute('href') ?? '';
-
-            if (!href.includes('/mod/workshop/')) continue;
-
-            const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell?.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
-
-            const workshop: Workshop = {
-                activityName,
-                numViews,
-                lastAccess
-            };
-
-            workshops.push(workshop);
-        }
-
-        return workshops;
-
-    } catch (error) {
-        console.error("Error scraping Workshops:", error);
-        return [];
-    }
-}
-
-/**
- * Scrapes all `Resource` activities from the Moodle activity report page.
- *
- * This function extracts metadata about static course resources (e.g., files, PDFs, documents)
- * by parsing the outline report and filtering rows that represent `/mod/resource/` entries.
- *
- * The process includes:
- * 1. Fetching the HTML content from the activity report URL.
- * 2. Locating the table with ID `outlinereport`.
- * 3. Iterating over each row in the table to identify resources.
- * 4. For each resource row, extracting:
- *    - `activityName`: Title of the resource,
- *    - `numViews`: Number of times it was accessed,
- *    - `lastAccess`: Last time the resource was accessed (or `"Never"`).
- *
- * The result is a structured array of `Resource` objects.
- * If an error occurs during the process, it is logged and an empty array is returned.
- *
- * @param activityReportUrl - Full URL to the Moodle course's activity report.
- * @returns A Promise resolving to a list of `Resource` objects.
- */
-export async function scrapeResources(activityReportUrl: string): Promise<Resource[]> {
-    try {
-        const doc = await fetchAndParse(activityReportUrl);
-
-        const table = doc.querySelector('table#outlinereport');
-        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
-        const resources: Resource[] = [];
-
-        for (const row of rows) {
-
-            const activityCell = row.querySelector('td.activityname');
-            const viewsCell = row.querySelector('td.numviews');
-            const lastAccessCell = row.querySelector('td.lastaccess');
-
-            const anchor = activityCell?.querySelector('a');
-            const href = anchor?.getAttribute('href') ?? '';
-
-            if (!href.includes('/mod/resource/')) continue;
-
-            const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell?.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
-
-            const resource: Resource = {
-                activityName,
-                numViews,
-                lastAccess
-            };
-
-            resources.push(resource);
-        }
-
-        return resources;
-
-    } catch (error) {
-        console.error("Error scraping Resources:", error);
-        return [];
-    }
-}
-
-/**
- * Scrapes all `Quiz` activities from the Moodle activity report page,
- * and performs a secondary scrape to extract per-participant quiz results.
- *
- * This function performs a two-level scraping process:
- *
- * 1. **Main Activity Report Scrape**:
- *    - Fetches the activity report page.
- *    - Parses the `#outlinereport` table.
- *    - Filters rows whose links match the `/mod/quiz/` path.
- *    - Extracts basic metadata:
- *      - `activityName`: Name of the quiz activity.
- *      - `numViews`: Number of views.
- *      - `lastAccess`: Last access date/time.
- *      - `id`: Quiz identifier extracted from the URL.
- *
- * 2. **Subscraping for Quiz Results**:
- *    - Builds a URL using `getScrapeUrlQuiz()` to access detailed quiz results.
- *    - Fetches the quiz attempts table (`#attempts`).
- *    - Iterates through each row and extracts:
- *      - `participantName`: Name of the participant.
- *      - `duration`: Duration of the quiz attempt (normalized).
- *      - `grade`: Grade obtained by the participant.
- *    - Skip rows with class `emptyrow` or `empty row` to avoid malformed entries.
- *
- * Each quiz object returned includes both metadata and an array of `QuizParticipantData`.
- * If an error occurs at any point, it is logged and the function returns an empty array.
- *
- * @param activityReportUrl - Full URL to the Moodle course activity report page.
- * @param totalParticipants - Number of participants used to bypass pagination in the subscrape.
- * @returns A Promise resolving to an array of `Quiz` objects including participant results.
- */
-export async function scrapeQuizzes(activityReportUrl: string, totalParticipants: number): Promise<Quiz[]> {
-    try {
-        const doc = await fetchAndParse(activityReportUrl);
-
-        const table = doc.querySelector('table#outlinereport');
-        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
         const quizzes: Quiz[] = [];
 
-        for (const row of rows) {
+        const url = getScrapeUrlQuiz(id, totalParticipants);
+        const doc = await fetchAndParse(url.quizResults);
 
-            const activityCell = row.querySelector('td.activityname');
-            const viewsCell = row.querySelector('td.numviews');
-            const lastAccessCell = row.querySelector('td.lastaccess');
+        const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
+        const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
+        const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
+        const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1'); // Fallback a 1 si no se encuentra
 
+        const tableResultsQuiz = doc.querySelector('table#attempts');
+        const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
+        const participantStats: QuizParticipantData[] = [];
 
-            const anchor = activityCell?.querySelector('a');
-            const href = anchor?.getAttribute('href') ?? '';
+        for (const rowQuiz of rowsResultsQuiz) {
 
-            if (!href.includes('/mod/quiz/')) continue;
-
-            const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell?.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
-
-            const idMatch = href.match(/id=(\d+)/);
-            const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
-
-            // Subscraping to get quiz results
-
-            const url = getScrapeUrlQuiz(id, totalParticipants);
-            const doc = await fetchAndParse(url.quizResults);
-
-            // Extraer la nota máxima del quiz (por ejemplo, 1.00, 5.00, 10.00)
-            const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
-            const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
-            const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
-            const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1'); // Fallback a 1 si no se encuentra
-
-            const tableResultsQuiz = doc.querySelector('table#attempts');
-            const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
-            const participantStats: QuizParticipantData[] = [];
-
-            for (const rowQuiz of rowsResultsQuiz) {
-
-                // Saltar si la fila tiene clase "emptyrow" o "empty row"
-                const rowClass = rowQuiz.className.trim().toLowerCase();
-                if (rowClass.includes('emptyrow') || rowClass.includes('empty row')) {
-                    continue;
-                }
-
-                // Nombre del estudiante (columna c2)
-                const nameCell = rowQuiz.querySelector('td.cell.c2');
-                const nameText = nameCell?.textContent?.trim() ?? '';
-
-                // Excluir filas sin nombre de estudiante o que contienen "Overall average"
-                if (!nameText || nameText.toLowerCase().includes('overall average')) {
-                    continue;
-                }
-
-                const nameAnchor = nameCell?.querySelector('a');
-                const participantName = nameAnchor?.textContent?.trim() ?? '';
-
-
-                // Duración del intento (columna c7)
-                const durationCell = rowQuiz.querySelector('td.cell.c7');
-                const rawDuration = durationCell?.textContent?.trim() ?? '';
-                const duration = normalizeDuration(rawDuration);
-
-                // Nota obtenida (columna c8)
-                const gradeCell = rowQuiz.querySelector('td.cell.c8');
-                const gradeAnchor = gradeCell?.querySelector('a');
-                const gradeText = gradeAnchor?.textContent?.trim() ?? '';
-                const grade = parseFloat(gradeText);  // Convertimos a número
-
-                // Normalizar la nota a una escala de 0 a 10
-                const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
-
-                // Creamos el objeto con los datos
-                const participantData: QuizParticipantData = {
-                    participantName,
-                    duration,
-                    grade,
-                    normalizedGrade
-                };
-
-                participantStats.push(participantData);
+            const rowClass = rowQuiz.className.trim().toLowerCase();
+            if (rowClass.includes('emptyrow') || rowClass.includes('empty row')) {
+                continue;
             }
 
-            const quiz: Quiz = {
-                activityName,
-                numViews,
-                lastAccess,
-                id,
-                maxGrade,
-                participantStats
+            const nameCell = rowQuiz.querySelector('td.cell.c2');
+            const nameText = nameCell?.textContent?.trim() ?? '';
+
+            if (!nameText || nameText.toLowerCase().includes('overall average')) {
+                continue;
+            }
+
+            const nameAnchor = nameCell?.querySelector('a');
+            const participantName = nameAnchor?.textContent?.trim() ?? '';
+
+            const durationCell = rowQuiz.querySelector('td.cell.c7');
+            const rawDuration = durationCell?.textContent?.trim() ?? '';
+            const duration = normalizeDuration(rawDuration);
+
+            const gradeCell = rowQuiz.querySelector('td.cell.c8');
+            const gradeAnchor = gradeCell?.querySelector('a');
+            const gradeText = gradeAnchor?.textContent?.trim() ?? '';
+            const grade = parseFloat(gradeText);  // Convertimos a número
+
+            const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
+
+            const participantData: QuizParticipantData = {
+                participantName,
+                duration,
+                grade,
+                normalizedGrade
             };
 
-            quizzes.push(quiz);
+            participantStats.push(participantData);
         }
+
+        const quiz: Quiz = {
+            activityName,
+            numViews,
+            lastAccess,
+            id,
+            maxGrade,
+            participantStats
+        };
+
+        quizzes.push(quiz);
 
         return quizzes;
 
@@ -710,138 +326,123 @@ export async function scrapeQuizzes(activityReportUrl: string, totalParticipants
 }
 
 /**
- * Scrapes all `Forum` activities from the Moodle activity report page.
+ * Scrapes participation data for a single Moodle forum activity, including per-participant statistics.
  *
- * This function is responsible for retrieving basic metadata of forum activities
- * listed in the outline report and preparing the structure for a future subscraping step.
+ * This asynchronous function navigates through multiple pages related to a specific forum in Moodle
+ * to extract detailed metadata, including the number of subscriptions and participant interaction
+ * metrics such as posts, replies, views, and word count.
  *
- * Current behavior:
- * 1. **Main Activity Report Scrape**:
- *    - Fetches and parses the `#outlinereport` table from the provided course report URL.
- *    - Filters rows containing a link to `/mod/forum/` activities.
- *    - Extracts:
- *      - `activityName`: Forum name.
- *      - `numViews`: Number of times the forum was viewed.
- *      - `lastAccess`: Last time the forum was accessed.
- *      - `id`: Extracted from the forum URL (used to build further scraping URLs).
+ * The scraping process includes three main stages:
+ * 1. **Main Forum Page**: Retrieves the forum's `forumId` via a link containing the `forumid` parameter.
+ * 2. **Subscriptions Page**: Extracts the number of user subscriptions from the header text.
+ * 3. **Reports Page**: Gathers a summary of participant activity, including posts and timestamps.
  *
- * 2. **TO DO – Subscraping Phase (Pending Implementation)**:
- *    - Extract the real `forumId` by visiting the forum's main page.
- *    - Scrape participation statistics from `/mod/forum/report/summary/index.php`.
- *    - Scrape the number of subscribed users from `/mod/forum/subscribers.php`.
- *    - Populate `forumId`, `subscriptions`, and `participantStats` fields accordingly.
+ * Only participants with at least one type of activity (posts, replies, views, word count) are included.
+ * Participant names are carefully extracted from `<a>` elements that contain child nodes, avoiding icons or spans.
  *
- * If any parsing or network error occurs, the function logs the error and returns an empty list.
+ * The function returns a single `Forum` object wrapped in an array for consistency with batch processing.
  *
- * @param activityReportUrl - Full URL of the Moodle course activity report page.
- * @param totalParticipants
- * @param courseId
- * @returns A Promise resolving to an array of `Forum` objects (partially filled).
+ * @param id - The unique activity ID of the forum (extracted from `/mod/forum/view.php?id=XYZ`).
+ * @param activityName - The name of the forum activity as displayed in Moodle.
+ * @param numViews - Number of views recorded for the forum activity.
+ * @param lastAccess - Last access time of the activity, or `'Never'` if not accessed.
+ * @param totalParticipants - The total number of course participants (used for report pagination).
+ * @param courseId - The course identifier, used in the construction of forum report URLs.
+ *
+ * @returns A `Promise` that resolves to an array containing one `Forum` object with its statistics,
+ *          or an empty array in case of an error or unexpected page structure.
+ *
+ * @example
+ * const forumStats = await scrapeForums(123, "General Discussion", "88", "June 25", 175, "2");
+ * console.log(forumStats[0].subscriptions); // → Number of subscribed users
  */
-export async function scrapeForums(activityReportUrl: string, totalParticipants: number, courseId: string): Promise<Forum[]> {
+export async function scrapeForums(
+    id: number,
+    activityName: string,
+    numViews: string,
+    lastAccess: string,
+    totalParticipants: number,
+    courseId: string
+): Promise<Forum[]> {
     try {
-        let doc = await fetchAndParse(activityReportUrl);
-
-        const table = doc.querySelector('table#outlinereport');
-        const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
         const forums: Forum[] = [];
 
-        for (const row of rows) {
+        const urlForumMain = getScrapeUrlForumMain(id);
+        let doc = await fetchAndParse(urlForumMain.forumMain);
 
-            const activityCell = row.querySelector('td.activityname');
-            const viewsCell = row.querySelector('td.numviews');
-            const lastAccessCell = row.querySelector('td.lastaccess');
+        const reportLink = doc.querySelector('a[href*="forumid="]');
+        const reportHref = reportLink?.getAttribute('href') ?? '';
+        const forumIdMatch = reportHref.match(/forumid=(\d+)/);
+        const forumId = parseInt(forumIdMatch?.[1] ?? '0');
 
-            const anchor = activityCell?.querySelector('a');
-            const href = anchor?.getAttribute('href') ?? '';
+        const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
 
-            if (!href.includes('/mod/forum/')) continue;
+        doc = await fetchAndParse(urlForumSubscriptions.forumSubscriptions);
 
-            const activityName = anchor?.textContent?.trim() ?? '';
-            const numViews = viewsCell?.textContent?.trim() ?? '';
-            const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+        const h2 = doc.querySelector('h2');
+        const h2Text = h2?.textContent?.trim() ?? '';
+        const subsMatch = h2Text.match(/\((\d+)\)/);
+        const subscriptions = parseInt(subsMatch?.[1] ?? '0');
 
-            const idMatch = href.match(/id=(\d+)/);
-            const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
+        const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
+        doc = await fetchAndParse(urlForumReports.forumReports);
 
-            const urlForumMain = getScrapeUrlForumMain(id);
-            doc = await fetchAndParse(urlForumMain.forumMain);
+        const tableReportForum = doc.querySelector('table#forumreport_summary_table');
+        const rowsReportForum = Array.from(tableReportForum?.querySelectorAll('tbody tr') ?? []);
+        const participantsStats: ForumParticipantData[] = [];
 
-            // Buscar el enlace de report que contenga forumid
-            const reportLink = doc.querySelector('a[href*="forumid="]');
-            const reportHref = reportLink?.getAttribute('href') ?? '';
-            const forumIdMatch = reportHref.match(/forumid=(\d+)/);
-            const forumId = parseInt(forumIdMatch?.[1] ?? '0');
+        for (const rowForum of rowsReportForum) {
 
-            const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
+            const nameCell = rowForum.querySelector('td.cell.c1');
 
-            doc = await fetchAndParse(urlForumSubscriptions.forumSubscriptions);
-
-            const h2 = doc.querySelector('h2');
-            const h2Text = h2?.textContent?.trim() ?? '';
-            const subsMatch = h2Text.match(/\((\d+)\)/);
-            const subscriptions = parseInt(subsMatch?.[1] ?? '0');
-
-            const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
-            doc = await fetchAndParse(urlForumReports.forumReports);
-
-            const tableReportForum = doc.querySelector('table#forumreport_summary_table');
-            const rowsReportForum = Array.from(tableReportForum?.querySelectorAll('tbody tr') ?? []);
-            const participantsStats: ForumParticipantData[] = [];
-
-            for (const rowForum of rowsReportForum) {
-
-                const nameCell = rowForum.querySelector('td.cell.c1');
-
-                let participantName = '';
-                const anchor = nameCell?.querySelector('a');
-                if (anchor) {
-                    for (const node of anchor.childNodes) {
-                        if (node.nodeType === Node.TEXT_NODE) {
-                            participantName = node.textContent?.trim() ?? '';
-                            break;
-                        }
+            let participantName = '';
+            const anchor = nameCell?.querySelector('a');
+            if (anchor) {
+                for (const node of anchor.childNodes) {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        participantName = node.textContent?.trim() ?? '';
+                        break;
                     }
                 }
-
-                const discussionsPosted = parseInt(rowForum.querySelector('td.cell.c2')?.textContent?.trim() ?? '0');
-                const repliesPosted = parseInt(rowForum.querySelector('td.cell.c3')?.textContent?.trim() ?? '0');
-                const views = parseInt(rowForum.querySelector('td.cell.c5')?.textContent?.trim() ?? '0');
-                const wordCount = parseInt(rowForum.querySelector('td.cell.c6')?.textContent?.trim() ?? '0');
-
-                const earliestPost = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
-                const mostRecentPost = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
-
-                // Skip participants with no activity
-                if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
-                    continue;
-                }
-
-                const participantData: ForumParticipantData = {
-                    participantName,
-                    discussionsPosted,
-                    repliesPosted,
-                    views,
-                    wordCount,
-                    earliestPost,
-                    mostRecentPost
-                };
-
-                participantsStats.push(participantData);
             }
 
-            const forum: Forum = {
-                activityName,
-                numViews,
-                lastAccess,
-                id,
-                forumId,
-                subscriptions,
-                participantsStats
+            const discussionsPosted = parseInt(rowForum.querySelector('td.cell.c2')?.textContent?.trim() ?? '0');
+            const repliesPosted = parseInt(rowForum.querySelector('td.cell.c3')?.textContent?.trim() ?? '0');
+            const views = parseInt(rowForum.querySelector('td.cell.c5')?.textContent?.trim() ?? '0');
+            const wordCount = parseInt(rowForum.querySelector('td.cell.c6')?.textContent?.trim() ?? '0');
+
+            const earliestPost = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
+            const mostRecentPost = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
+
+            if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
+                continue;
+            }
+
+            const participantData: ForumParticipantData = {
+                participantName,
+                discussionsPosted,
+                repliesPosted,
+                views,
+                wordCount,
+                earliestPost,
+                mostRecentPost
             };
 
-            forums.push(forum);
+            participantsStats.push(participantData);
         }
+
+        const forum: Forum = {
+            activityName,
+            numViews,
+            lastAccess,
+            id,
+            forumId,
+            subscriptions,
+            participantsStats
+        };
+
+        forums.push(forum);
+
 
         return forums;
 
@@ -853,16 +454,37 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
 
 
 /**
- * Scrapes all relevant data for a single Moodle course, including participants and all activity types.
- * This function orchestrates the execution of all individual scraping functions and aggregates
- * their outputs into a single Course object.
+ * Scrapes all relevant data from a Moodle course by aggregating information from
+ * multiple sources, including the activity report and the participants list.
  *
- * @param courseId - The internal Moodle ID of the course.
- * @param activityReportUrl - The URL of the activity report page for the course.
- * @param participantsUrl - The URL of the participants listing page.
- * @param totalParticipants - Precomputed number of total participants (used for pagination in some scrapers).
+ * This function coordinates the scraping of all course components such as:
+ * - Participants and access statistics.
+ * - Activity metadata (views, access, and names).
+ * - Detailed data for quizzes and forums via nested subscraping.
  *
- * @returns A Promise that resolves to a fully populated Course object.
+ * It performs a **single pass** over the activity report table and dispatches
+ * activity-specific scraping logic based on the type of each row (`mod/url/`, `mod/quiz/`, etc.).
+ * Quizzes and forums are processed through dedicated helper functions (`scrapeQuizzes`, `scrapeForums`)
+ * that retrieve additional per-participant metrics.
+ *
+ * ### Example Flow:
+ * 1. **Participants Page**: Collects participant metadata and last access.
+ * 2. **Activity Report Page**: Extracts activity type and basic stats for each row.
+ * 3. **Quiz/Forum Detail Pages**: If applicable, gathers deep interaction metrics.
+ *
+ * @param courseId - Unique identifier of the course (as appears in Moodle URLs).
+ * @param activityReportUrl - URL of the course’s activity report page.
+ * @param participantsUrl - URL of the course’s participants page.
+ * @param totalParticipants - Total number of participants enrolled in the course, used for pagination.
+ *
+ * @returns A `Promise` that resolves to a fully populated `Course` object containing:
+ * - Lists of activities grouped by type (resources, quizzes, forums, etc.).
+ * - Aggregated participant information.
+ * - Total and active participant counts.
+ *
+ * @example
+ * const courseData = await scrapeCourse("3", "http://localhost:8080/report/outline/index.php?id=3", "http://localhost:8080/user/index.php?id=3", 175);
+ * console.log(courseData.quizzes.length); // → Number of quizzes in the course
  */
 export async function scrapeCourse(
     courseId: string,
@@ -872,30 +494,62 @@ export async function scrapeCourse(
 ): Promise<Course> {
 
     const participants = await scrapeParticipants(participantsUrl);
-
-    const urlResources = await scrapeURLResources(activityReportUrl);
-    const choices = await scrapeChoices(activityReportUrl);
-    const workshops = await scrapeWorkshops(activityReportUrl);
-    const resources = await scrapeResources(activityReportUrl);
-    const quizzes = await scrapeQuizzes(activityReportUrl, totalParticipants);
-    const forums = await scrapeForums(activityReportUrl, totalParticipants, courseId);
-
     const numParticipantsTotal = participants.length;
     const numParticipantsActive = participants.filter(p => p.lastAccessToCourse !== 'Never').length;
 
+    const doc = await fetchAndParse(activityReportUrl);
+    const table = doc.querySelector('table#outlinereport');
+    const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+
+    const urlResources: URLResource[] = [];
+    const choices: Choice[] = [];
+    const workshops: Workshop[] = [];
+    const resources: Resource[] = [];
+    let quizzes: Quiz[] = [];
+    let forums: Forum[] = [];
+
+    for (const row of rows) {
+
+        const activityCell = row.querySelector('td.activityname');
+        const viewsCell = row.querySelector('td.numviews');
+        const lastAccessCell = row.querySelector('td.lastaccess');
+        const anchor = activityCell?.querySelector('a');
+        const href = anchor?.getAttribute('href') ?? '';
+
+        const activityName = anchor?.textContent?.trim() ?? '';
+        const numViews = viewsCell?.textContent?.trim() ?? '';
+        const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+
+        const idMatch = href.match(/id=(\d+)/);
+        const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
+
+        if (href.includes('/mod/url/')) {
+            urlResources.push({activityName, numViews, lastAccess});
+        } else if (href.includes('/mod/choice/')) {
+            choices.push({activityName, numViews, lastAccess});
+        } else if (href.includes('/mod/workshop/')) {
+            workshops.push({activityName, numViews, lastAccess});
+        } else if (href.includes('/mod/resource/')) {
+            resources.push({activityName, numViews, lastAccess});
+        } else if (href.includes('/mod/quiz/')) {
+            const quizResults = await scrapeQuizzes(id, activityName, numViews, lastAccess, totalParticipants);
+            quizzes.push(...quizResults);
+        } else if (href.includes('/mod/forum/')) {
+            const forumResults = await scrapeForums(id, activityName, numViews, lastAccess, totalParticipants, courseId);
+            forums.push(...forumResults);
+        }
+    }
     // Step 4: Build and return the Course object
-    const course: Course = {
+    return {
         id: parseInt(courseId),
+        numParticipantsTotal,
+        numParticipantsActive,
+        participants,
         urlResources,
         resources,
         choices,
         workshops,
         quizzes,
-        forums,
-        participants,
-        numParticipantsTotal,
-        numParticipantsActive
+        forums
     };
-
-    return course;
 }
