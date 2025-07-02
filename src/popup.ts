@@ -107,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Show a confirmation message and display the analysis button
-        output.textContent = `Course detected (ID: ${courseId}). Click the button to analyze.`;
         analyzeButton.classList.remove('hidden');
 
         // Add a click handler to trigger scraping when the button is pressed
@@ -120,14 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // First, get the total number of participants
             scrapeNumParticipants(preliminaryUrl).then(totalParticipants => {
                 if (totalParticipants !== null) {
-                    console.log("Total participants detected:", totalParticipants);
-
                     const urls = getScrapeUrls(courseId, totalParticipants);
 
                     // Scrape the full course data using all the correct URLs
                     scrapeCourse(courseId, urls.activityReport, urls.participants, totalParticipants).then(course => {
                         console.log("Course data:", course);
-
                         output.textContent = 'Analysis complete. Check the logs for detailed data.';
                         spinner.classList.add('hidden'); // Hide the spinner after scraping is done
                     });
