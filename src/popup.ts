@@ -19,13 +19,7 @@ import {
 // Scraping services
 import {
     scrapeNumParticipants,
-    scrapeParticipants,
-    scrapeURLResources,
-    scrapeChoices,
-    scrapeWorkshops,
-    scrapeResources,
-    scrapeForums,
-    scrapeQuizzes
+    scrapeCourse
 } from "./services/scraper";
 
 /**
@@ -137,46 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         output.textContent = `CONSULTA LOS LOGS`;
 
-                        // Scrape the list of enrolled participants
-                        scrapeParticipants(urls.participants).then(participants => {
-                            console.log("Participants list:", participants);
-                            console.log("Total participants scraped:", participants.length);
-                        });
-
-                        // Scrape URL-based resources (e.g., external links)
-                        scrapeURLResources(urls.activityReport).then(urlResources => {
-                            console.log("URL Resources list:", urlResources);
-                            console.log("Total URL resources scraped:", urlResources.length);
-                        });
-
-                        // Scrape Choice-type activities
-                        scrapeChoices(urls.activityReport).then(choices => {
-                            console.log("Choices list:", choices);
-                            console.log("Total choices scraped:", choices.length);
-                        });
-
-                        // Scrape Workshop-type activities
-                        scrapeWorkshops(urls.activityReport).then(workshops => {
-                            console.log("Workshops list:", workshops);
-                            console.log("Total workshops scraped:", workshops.length);
-                        });
-
-                        // Scrape Resource-type activities (files, pages, etc.)
-                        scrapeResources(urls.activityReport).then(resources => {
-                            console.log("Resources list:", resources);
-                            console.log("Total resources scraped:", resources.length);
-                        });
-
-                        // Scrape Quiz-type activities, including per-student results
-                        scrapeQuizzes(urls.activityReport, totalParticipants).then(quizzes => {
-                            console.log("Quizzes list:", quizzes);
-                            console.log("Total quizzes scraped:", quizzes.length);
-                        });
-
-                        // Scrape Forum-type activities (structure only; posts may require subscraping)
-                        scrapeForums(urls.activityReport, totalParticipants, courseId).then(forums => {
-                            console.log("Forums list:", forums);
-                            console.log("Total forums scraped:", forums.length);
+                        scrapeCourse(courseId, urls.activityReport, urls.participants, totalParticipants).then(course => {
+                            console.log("Course data:", course);
                         });
 
                     } else {

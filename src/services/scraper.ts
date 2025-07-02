@@ -16,6 +16,7 @@ import {
     getScrapeUrlForumReports,
     getScrapeUrlForumSubscriptions
 } from "../utils/urlBuilder";
+import {Course} from "../models/Course";
 
 
 /**
@@ -851,5 +852,50 @@ export async function scrapeForums(activityReportUrl: string, totalParticipants:
 }
 
 
+/**
+ * Scrapes all relevant data for a single Moodle course, including participants and all activity types.
+ * This function orchestrates the execution of all individual scraping functions and aggregates
+ * their outputs into a single Course object.
+ *
+ * @param courseId - The internal Moodle ID of the course.
+ * @param activityReportUrl - The URL of the activity report page for the course.
+ * @param participantsUrl - The URL of the participants listing page.
+ * @param totalParticipants - Precomputed number of total participants (used for pagination in some scrapers).
+ *
+ * @returns A Promise that resolves to a fully populated Course object.
+ */
+export async function scrapeCourse(
+    courseId: string,
+    activityReportUrl: string,
+    participantsUrl: string,
+    totalParticipants: number
+): Promise<Course> {
 
+    const participants = await scrapeParticipants(participantsUrl);
 
+    const urlResources = await scrapeURLResources(activityReportUrl);
+    const choices = await scrapeChoices(activityReportUrl);
+    const workshops = await scrapeWorkshops(activityReportUrl);
+    const resources = await scrapeResources(activityReportUrl);
+    const quizzes = await scrapeQuizzes(activityReportUrl, totalParticipants);
+    const forums = await scrapeForums(activityReportUrl, totalParticipants, courseId);
+
+    const numParticipantsTotal = participants.length;
+    const numParticipantsActive = participants.filter(p => p.lastAccessToCourse !== 'Never').length;
+
+    // Step 4: Build and return the Course object
+    const course: Course = {
+        id: parseInt(courseId),
+        urlResources,
+        resources,
+        choices,
+        workshops,
+        quizzes,
+        forums,
+        participants,
+        numParticipantsTotal,
+        numParticipantsActive
+    };
+
+    return course;
+}
