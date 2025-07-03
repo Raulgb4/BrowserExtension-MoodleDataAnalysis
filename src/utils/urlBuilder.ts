@@ -39,6 +39,36 @@ const BASE = MOODLE_BASE_URL_LOCAL;
  */
 export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
 
+
+/**
+ * Dynamically determines the base URL for Moodle depending on the current tab.
+ *
+ * This is useful to automatically switch between local and production environments
+ * without manual changes in the code.
+ *
+ * @param fullUrl - The full URL of the current Moodle page.
+ * @returns The base URL including protocol and hostname, without trailing slash.
+ */
+export function getBaseUrl(fullUrl: string): string {
+    try {
+        const url = new URL(fullUrl);
+
+        switch (url.hostname) {
+            case "localhost":
+                return "http://localhost:8080";
+            case "informatica.cv.uma.es":
+                return "https://informatica.cv.uma.es";
+            default:
+                console.warn(`Unrecognized Moodle host: ${url.hostname}`);
+                return `${url.protocol}//${url.host}`; // fallback
+        }
+    } catch (e) {
+        console.error("Invalid URL passed to getBaseUrl():", fullUrl);
+        return ""; // or throw error
+    }
+}
+
+
 /**
  * Parameterized route templates for constructing Moodle URLs dynamically.
  * These are relative paths that need to be prefixed with the BASE URL.
@@ -68,6 +98,13 @@ export const URLS = {
         `/report/outline/index.php?id=${id}`,
 
     /**
+     * Returns the path to the choice results overview page.
+     * @param id Choice ID
+     */
+    CHOICE_RESULTS: (id: string | number) =>
+        `/mod/choice/report.php?id=${id}`,
+
+    /**
      * Returns the path to the quiz results overview page.
      * @param id Quiz ID
      * @param pageSize Number of attempts per page (default: 1000)
@@ -82,10 +119,6 @@ export const URLS = {
     FORUM_MAIN: (id: string | number) =>
         `/mod/forum/view.php?id=${id}`,
 
-    // ⚠️ DANGEROUS ZONE ⚠️
-    // The two functions below will eventually be moved into `scraper.ts`
-    // to support nested scraping logic (subscraping). This comment indicates
-    // a planned refactoring to remove them from this URL definitions module.
 
     /**
      * Returns the path to a forum participation summary report.
@@ -126,6 +159,18 @@ export function getScrapeUrls(courseId: string | number, totalParticipants?: num
         course: `${BASE}${URLS.COURSE(courseId)}`,
         participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`,
         activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`
+    };
+}
+
+/**
+ * Generates the URL used to access the choice results page for a specific choice activity.
+ *
+ * @param id - The ID of the choice activity.
+ * @returns An object with a `choiceResults` key mapping to the full quiz results URL.
+ */
+export function getScrapeUrlChoice(id: string | number): Record<string, string> {
+    return {
+        choiceResults: `${BASE}${URLS.CHOICE_RESULTS(id)}`,
     };
 }
 

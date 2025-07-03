@@ -14,6 +14,17 @@
 import {ActivityBase} from "./ActivityBase";
 
 export interface QuizParticipantData {
+
+    /**
+     * Unique identifier for the participant.
+     */
+    participantId: number;
+
+    /**
+     * Email address of the participant.
+     */
+    email: string;
+
     /**
      * Full name of the student.
      */
@@ -22,7 +33,7 @@ export interface QuizParticipantData {
     /**
      * Duration of the quiz attempt, as extracted from Moodle (e.g., "15 mins 32 secs").
      */
-    duration: string;
+    duration?: number;
 
     /**
      * Grade obtained by the student, on a scale defined by the quiz.

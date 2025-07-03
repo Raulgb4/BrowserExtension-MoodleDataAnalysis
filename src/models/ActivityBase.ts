@@ -16,17 +16,22 @@ export interface ActivityBase {
     activityName: string;
 
     /**
-     * The number of times the activity has been viewed by a number of users.
-     * Note: This is stored as a string because Moodle often displays
-     * values like "5007 views by 171 users".
+     * Total number of views for this activity.
+     * Example: "180 views by 86 users" → 180
      */
-    numViews: string;
+    numViews: number;
+
+    /**
+     * Number of unique users who viewed this activity.
+     * Example: "180 views by 86 users" → 86
+     */
+    numUsers: number;
 
     /**
      * The last time the activity was accessed by any student.
-     * Also, a string to match the Moodle format (e.g., "Monday, 23 June 2025, 4:17 PM (28 mins 26 secs)").
+     * Also, a string to match the Moodle format (e.g., "Monday, 23 June 2025, 4:17 PM (28 mins 26 secs)" -> (28 mins 26 secs) -> ms).
      */
-    lastAccess: string;
+    lastAccess?: number;
 }
 
 /**
@@ -34,12 +39,6 @@ export interface ActivityBase {
  * These are typically external links provided by the teacher.
  */
 export type URLResource = ActivityBase;
-
-/**
- * Represents a Choice activity (modtype_choice) in Moodle,
- * where students select among predefined options.
- */
-export type Choice = ActivityBase;
 
 /**
  * Represents a Workshop activity (modtype_workshop),

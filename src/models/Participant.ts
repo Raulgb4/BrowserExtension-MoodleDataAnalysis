@@ -12,28 +12,39 @@
  */
 
 export interface Participant {
+
+    /**
+     * Unique identifier for the participant.
+     */
+    id: number;
+
+    /**
+     * Email address of the participant.
+     */
+    email: string;
+
     /**
      * Full name of the participant.
      */
-    participantName: string;
+    participantName?: string;
 
     /**
-     * Role assigned in the course (e.g., "Student", "Teacher").
+     * List of roles assigned in the course (e.g., ["Student", "Teacher"]).
      */
-    role: string;
+    roles?: string[];
 
     /**
-     * Group to which the participant belongs, if applicable (e.g., "GR 2 (COM A/INF D/SOF D), Gr. Computadores (Grupo A)").
+     * List of groups the participant belongs to (e.g., ["GR 1 (INF A)", "Gr. Informática (Grupo A)"]).
      */
-    group: string;
+    groups?: string[];
 
     /**
-     * Last access timestamp to the course (as a string in Moodle format, e.g., "Never" or "1 day 20 hours").
+     * Last access duration in ms.
      */
-    lastAccessToCourse: string;
+    lastAccessToCourse?: number;
 
     /**
      * Status of the participant (e.g., "Active", "Not current").
      */
-    status: string;
+    status?: string;
 }

@@ -1,8 +1,9 @@
 TODO LIST
 ---------
 
-FECHAS Y DURACIONES
+FECHAS Y DURACIONES (LISTO)
 -------------------
+
 1. Normalizar fechas a ISO 8601
    Convertir "14 March 2023, 10:52 AM" a "2023-03-14T10:52:00" en campos como:
    - earliestPost, mostRecentPost, lastAccess, etc.
@@ -10,54 +11,65 @@ FECHAS Y DURACIONES
 2. lastAccessToCourse como duración (HH:mm:ss)
    Formato como "00:10:32" a partir de milisegundos (→ https://currentmillis.com/)
 
+   Duraciones a milisegundos
+
+   participants -> lastAccessToCourse (LISTO)
+   ActivityBase -> lastAccess (LISTO)
+   quiz         -> duration por alumno (LISTO)
+
+   quiz y forum -> lastAccess (PROBLEMA: NO COINCIDE LOS MS CON LA TABLA DEL MOODLE MUY RARO -> LISTO)
+
+   Fechas a ISO 8601 (LISTO)
+
+   forum -> earliestPost y mostRecentPost (LISTO)
+
+
+
 MODIFICACIONES DE ESTRUCTURAS DE DATOS
 --------------------------------------
-3. Separar numViews en numViews y numUsers
+3. Separar numViews en numViews y numUsers (LISTO)
    Ejemplo:
    "180 views by 86 users" → "numViews": 180, "numUsers": 86
 
-4. Añadir campo activityType a cada actividad
+4. Añadir campo activityType a cada actividad (DESCARTADO PORQUE NO TRABAJAMOS CON UN ARRAY CON DATOS GENÉRICOS,
+ESTÁ ESTRUCTURADO)
+
    Ej: "activityType": "forum" | "quiz" | "url" | ..."
 
-5. Revisión de tipos de datos numéricos
+5. Revisión de tipos de datos numéricos (LISTO SIN MODIFICACIONES)
    Asegurar que campos como grade, normalizedGrade, duration, subscriptions sean number
 
-6. Campos vacíos/ausentes como undefined
+6. Campos vacíos/ausentes como undefined (LISTO)
    En vez de strings como "Never", "-", "No roles", etc., usar undefined
 
-7. Separar roles y grupos como arrays
+7. Separar roles y grupos como arrays (LISTO)
    En lugar de string con comas ("Teacher, Manager"), usar:
    "roles": ["Teacher", "Manager"]
 
-8. Añadir identificadores únicos a participants
+8. Añadir identificadores únicos a participants (LISTO)
    Agregar campos id y email en todas las entidades que los referencien (quizzes, forums, etc.)
 
 NUEVOS SCRAPEOS
 ---------------
-9. Subscraping de respuestas en choices
+9. Subscraping de respuestas en choices (LISTO)
    Para poder exportar o visualizar resultados de votaciones
 
-10. Calcular duración de los workshops
-    Restar fechas de apertura y cierre si están disponibles
-
-CONTROL DE CONTEXTO EN EXTENSIÓN
---------------------------------
-11. Mejorar detección de página Moodle
-    Reemplazar expresión regular simple por un análisis más robusto del DOM o rutas
 
 REFACTORING
 -----------
-12. Eliminar constantes fijas de URL base
+10. Eliminar constantes fijas de URL base
     Hacer que se detecten dinámicamente (por ejemplo, desde el propio entorno del navegador)
+    Mejorar detección de página Moodle
+    Reemplazar expresión regular simple por un análisis más robusto del DOM o rutas
 
-13. Modularizar popup.ts
+11. Modularizar popup.ts
     Extraer runAnalysis() a otro archivo y reorganizar responsabilidades para mejorar legibilidad y testabilidad
     👉 https://refactoring.guru/es/refactoring
 
-14. Mover las funciones de procesamiento y limpieza de datos de scraper.ts a otro archivo
+12. Mover las funciones de procesamiento y limpieza de datos de scraper.ts a otro archivo (OBJETIVO DEL ANTEPROYECTO: MÓDULO EXTRACCIÓN, MÓDULO PROCESAMIENTO...)
 
 FRONTEND (BAJA PRIORIDAD)
 -------------------------
-15. Reemplazar DOM manual con mini framework React-like
+13. Reemplazar DOM manual con mini framework React-like
     Usar algo como ReactDOM para evitar classList.remove, hidden, etc.
     👉 https://www.reactjs.wiki/que-es-react-dom

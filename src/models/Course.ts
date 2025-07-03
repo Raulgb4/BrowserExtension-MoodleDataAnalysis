@@ -11,9 +11,10 @@
  * @date 2025
  */
 
-import {URLResource, Choice, Workshop, Resource} from './ActivityBase';
+import {URLResource, Workshop, Resource} from './ActivityBase';
 import {Quiz} from './Quiz';
 import {Forum} from './Forum';
+import {Choice} from './Choice';
 import {Participant} from './Participant';
 
 export interface Course {

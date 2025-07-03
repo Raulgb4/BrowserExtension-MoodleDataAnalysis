@@ -7,27 +7,29 @@
  * @date 2025
  */
 import {Participant} from '../models/Participant';
-import {Choice, URLResource, Workshop, Resource} from "../models/ActivityBase";
+import {Resource, URLResource, Workshop} from "../models/ActivityBase";
 import {Quiz, QuizParticipantData} from "../models/Quiz";
 import {Forum, ForumParticipantData} from "../models/Forum";
+import {Choice} from "../models/Choice";
 import {
-    getScrapeUrlQuiz,
+    getScrapeUrlChoice,
     getScrapeUrlForumMain,
     getScrapeUrlForumReports,
-    getScrapeUrlForumSubscriptions
+    getScrapeUrlForumSubscriptions,
+    getScrapeUrlQuiz
 } from "../utils/urlBuilder";
 import {Course} from "../models/Course";
 
 
 /**
- * Normalizes a duration string like "5 days 13 hours" or "46 mins 32 secs"
- * into a standard format: "dd hh:mm:ss".
+ * Converts a Moodle duration string like "5 days 13 hours" or "46 mins 32 secs"
+ * into the total number of milliseconds.
  *
- * @param input - The raw duration string from Moodle
- * @returns A normalized duration string or empty string if input is "Never"
+ * @param input - The raw duration string from Moodle (e.g., "1 day 2 hours 3 mins 4 secs")
+ * @returns The total duration in milliseconds, or null if the input is "Never"
  */
-export function normalizeDuration(input: string): string {
-    if (input.trim().toLowerCase() === 'never') return '';
+export function normalizeDurationToMillis(input: string): number | undefined {
+    if (input.trim().toLowerCase() === 'never') return undefined;
 
     const daysMatch = input.match(/(\d+)\s*days?/);
     const hoursMatch = input.match(/(\d+)\s*hours?/);
@@ -37,18 +39,46 @@ export function normalizeDuration(input: string): string {
     const oneHourMatch = input.match(/1\s*hour/);
     const oneMinMatch = input.match(/1\s*min/);
     const oneSecMatch = input.match(/1\s*sec/);
+    const yearsMatch = input.match(/(\d+)\s*years?/);
+    const oneYearMatch = input.match(/1\s*year/);
 
     const days = daysMatch ? parseInt(daysMatch[1]) : (oneDayMatch ? 1 : 0);
     const hours = hoursMatch ? parseInt(hoursMatch[1]) : (oneHourMatch ? 1 : 0);
     const mins = minsMatch ? parseInt(minsMatch[1]) : (oneMinMatch ? 1 : 0);
     const secs = secsMatch ? parseInt(secsMatch[1]) : (oneSecMatch ? 1 : 0);
+    const years = yearsMatch ? parseInt(yearsMatch[1]) : (oneYearMatch ? 1 : 0);
 
-    const dd = String(days).padStart(2, '0');
-    const hh = String(hours).padStart(2, '0');
-    const mm = String(mins).padStart(2, '0');
-    const ss = String(secs).padStart(2, '0');
+    return years * 365 * 24 * 60 * 60 * 1000 +
+        days * 24 * 60 * 60 * 1000 +
+        hours * 60 * 60 * 1000 +
+        mins * 60 * 1000 +
+        secs * 1000;
+}
 
-    return `${dd} ${hh}:${mm}:${ss}`;
+/**
+ * Converts a Moodle date string like "Tuesday, 18 October 2022, 6:49 PM"
+ * into an ISO 8601 format string (e.g., "2022-10-18T18:49:00").
+ *
+ * @param input - The raw Moodle date string
+ * @returns The date in ISO 8601 format, or undefined if input is invalid or empty
+ */
+export function normalizeDateToISO(input: string): string | undefined {
+    if (!input || input.trim() === '-' || input.trim().toLowerCase() === 'never') {
+        return undefined;
+    }
+
+    const parts = input.split(',').slice(1).join(',').trim(); // remove weekday
+    const date = new Date(parts);
+
+    if (isNaN(date.getTime())) {
+        console.warn('Invalid date string:', input);
+        return undefined;
+    }
+
+    // Convert to "yyyy-MM-ddTHH:mm:ss" in local time
+    const pad = (n: number) => n.toString().padStart(2, '0');
+
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 }
 
 /**
@@ -168,35 +198,67 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
         for (const row of rows) {
             const nameCell = row.querySelector('th.cell.c1');
 
-            let participantName = '';
+            let participantName: string | undefined = undefined;
+            let id: number | null = null;
+
             const anchor = nameCell?.querySelector('a');
             if (anchor) {
+                // Obtener nombre
                 for (const node of anchor.childNodes) {
                     if (node.nodeType === Node.TEXT_NODE) {
-                        participantName = node.textContent?.trim() ?? '';
+                        const text = node.textContent?.trim();
+                        if (text && text !== '-') {
+                            participantName = text;
+                        }
                         break;
                     }
                 }
+
+                // Obtener ID desde href
+                const href = anchor.getAttribute('href') ?? '';
+                const idMatch = href.match(/id=(\d+)/);
+                if (idMatch) {
+                    id = parseInt(idMatch[1]);
+                }
+            }
+
+            // Si no hay ID, saltar fila
+            if (id === null) {
+                console.warn("User ID not found for participant:", participantName);
+                continue;
             }
 
             const cells = row.querySelectorAll('td');
 
             if (cells.length >= 6) {
-                const role = cells[2]?.innerText.trim() ?? '';
 
-                const group = cells[3]?.innerText.trim() ?? '';
+                const email = cells[1]?.textContent?.trim() ?? '';
 
-                const rawLastAccess = cells[4]?.innerText.trim() ?? '';
-                const lastAccessToCourse = rawLastAccess === 'Never' ? 'Never' : normalizeDuration(rawLastAccess);
+                const rawRole = cells[2]?.innerText.trim();
+                const roles = (!rawRole || rawRole === '-' || rawRole.toLowerCase() === 'no roles')
+                    ? undefined
+                    : rawRole.split(',').map(r => r.trim());
 
-                const rawStatus = cells[5]?.innerText.trim() ?? '';
-                const cleanedStatus = rawStatus.replace(/\s+/g, ' ').trim();
-                const status = cleanedStatus.split(' ').pop() || '';
+                const rawGroup = cells[3]?.innerText.trim();
+                const groups = (!rawGroup || rawGroup === '-' || rawGroup.toLowerCase() === 'no groups')
+                    ? undefined
+                    : rawGroup.split(',').map(g => g.trim());
+
+                const rawLastAccess = cells[4]?.innerText.trim();
+                const lastAccessToCourse = (rawLastAccess &&
+                    rawLastAccess.toLowerCase() !== 'never') ? normalizeDurationToMillis(rawLastAccess) : undefined;
+
+                const rawStatus = cells[5]?.innerText.trim();
+                const cleanedStatus = rawStatus?.replace(/\s+/g, ' ').trim() ?? '';
+                const status = (cleanedStatus && cleanedStatus !== '-') ?
+                    cleanedStatus.split(' ').pop() : undefined;
 
                 const participant: Participant = {
+                    id,
+                    email,
                     participantName,
-                    role,
-                    group,
+                    roles,
+                    groups,
                     lastAccessToCourse,
                     status
                 };
@@ -211,6 +273,64 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
         return [];
     }
 }
+
+
+export async function scrapeChoices(
+    id: number,
+    activityName: string,
+    numViews: number,
+    numUsers: number,
+    lastAccess: number | undefined,
+): Promise<Choice[]> {
+    try {
+        const choices: Choice[] = [];
+
+        const url = getScrapeUrlChoice(id);
+        const doc = await fetchAndParse(url.choiceResults);
+
+        const responseCounts: Record<string, number> = {};
+
+        // Get all column headers (options)
+        const headerCells = doc.querySelectorAll('table.results.names thead tr th');
+        const labelCells: string[] = [];
+        headerCells.forEach((th, index) => {
+            if (index === 0) return; // Skip the first column ("Choice options")
+            const optionLabel = th.querySelector('div.text-center')?.childNodes[0]?.textContent?.trim();
+            if (optionLabel) labelCells.push(optionLabel);
+        });
+
+        // Get response numbers
+        const responseRow = doc.querySelector('table.results.names tbody tr');
+        const responseCells = responseRow?.querySelectorAll('td');
+
+        if (responseCells) {
+            responseCells.forEach((cell, i) => {
+                const label = labelCells[i];
+                const value = parseInt(cell.textContent?.trim() ?? '0');
+                if (label) {
+                    responseCounts[label] = isNaN(value) ? 0 : value;
+                }
+            });
+        }
+
+        const choice: Choice = {
+            id,
+            activityName,
+            numViews,
+            numUsers,
+            lastAccess,
+            responseCounts
+        };
+
+        choices.push(choice);
+        return choices;
+
+    } catch (error) {
+        console.error("Error scraping Choices:", error);
+        return [];
+    }
+}
+
 
 /**
  * Scrapes detailed performance data for a single Moodle quiz activity.
@@ -236,6 +356,7 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
  * @param id - The unique identifier of the quiz activity (from the URL: `id=XYZ`).
  * @param activityName - The name/title of the quiz activity as shown in Moodle.
  * @param numViews - Number of times the quiz has been viewed.
+ * @param numUsers
  * @param lastAccess - The last access timestamp of the quiz activity, or `'Never'`.
  * @param totalParticipants - The total number of participants in the course, used for pagination or URL generation.
  *
@@ -249,8 +370,9 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
 export async function scrapeQuizzes(
     id: number,
     activityName: string,
-    numViews: string,
-    lastAccess: string,
+    numViews: number,
+    numUsers: number,
+    lastAccess: number | undefined,
     totalParticipants: number
 ): Promise<Quiz[]> {
     try {
@@ -285,9 +407,25 @@ export async function scrapeQuizzes(
             const nameAnchor = nameCell?.querySelector('a');
             const participantName = nameAnchor?.textContent?.trim() ?? '';
 
+            let participantId: number | null = null;
+            const href = nameAnchor?.getAttribute('href');
+            const idMatch = href?.match(/id=(\d+)/);
+            if (idMatch) {
+                participantId = parseInt(idMatch[1]);
+            }
+
+            // Si no hay ID, saltar fila
+            if (participantId === null) {
+                console.warn("User ID not found for participant:", participantName);
+                continue;
+            }
+
+            const emailCell = rowQuiz.querySelector('td.cell.c3');
+            const email = emailCell?.textContent?.trim() ?? '';
+
             const durationCell = rowQuiz.querySelector('td.cell.c7');
             const rawDuration = durationCell?.textContent?.trim() ?? '';
-            const duration = normalizeDuration(rawDuration);
+            const duration = normalizeDurationToMillis(rawDuration);
 
             const gradeCell = rowQuiz.querySelector('td.cell.c8');
             const gradeAnchor = gradeCell?.querySelector('a');
@@ -297,6 +435,8 @@ export async function scrapeQuizzes(
             const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
 
             const participantData: QuizParticipantData = {
+                participantId,
+                email,
                 participantName,
                 duration,
                 grade,
@@ -309,6 +449,7 @@ export async function scrapeQuizzes(
         const quiz: Quiz = {
             activityName,
             numViews,
+            numUsers,
             lastAccess,
             id,
             maxGrade,
@@ -345,6 +486,7 @@ export async function scrapeQuizzes(
  * @param id - The unique activity ID of the forum (extracted from `/mod/forum/view.php?id=XYZ`).
  * @param activityName - The name of the forum activity as displayed in Moodle.
  * @param numViews - Number of views recorded for the forum activity.
+ * @param numUsers
  * @param lastAccess - Last access time of the activity, or `'Never'` if not accessed.
  * @param totalParticipants - The total number of course participants (used for report pagination).
  * @param courseId - The course identifier, used in the construction of forum report URLs.
@@ -359,8 +501,9 @@ export async function scrapeQuizzes(
 export async function scrapeForums(
     id: number,
     activityName: string,
-    numViews: string,
-    lastAccess: string,
+    numViews: number,
+    numUsers: number,
+    lastAccess: number | undefined,
     totalParticipants: number,
     courseId: string
 ): Promise<Forum[]> {
@@ -406,19 +549,36 @@ export async function scrapeForums(
                 }
             }
 
+            let participantId: number | null = null;
+            const href = anchor?.getAttribute('href');
+            const idMatch = href?.match(/id=(\d+)/);
+            if (idMatch) {
+                participantId = parseInt(idMatch[1]);
+            }
+
+            // Si no hay ID, saltar fila
+            if (participantId === null) {
+                console.warn("User ID not found for participant:", participantName);
+                continue;
+            }
+
             const discussionsPosted = parseInt(rowForum.querySelector('td.cell.c2')?.textContent?.trim() ?? '0');
             const repliesPosted = parseInt(rowForum.querySelector('td.cell.c3')?.textContent?.trim() ?? '0');
             const views = parseInt(rowForum.querySelector('td.cell.c5')?.textContent?.trim() ?? '0');
             const wordCount = parseInt(rowForum.querySelector('td.cell.c6')?.textContent?.trim() ?? '0');
 
-            const earliestPost = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
-            const mostRecentPost = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
+            const earliestRaw = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
+            const mostRecentRaw = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
+
+            const earliestPost = normalizeDateToISO(earliestRaw);
+            const mostRecentPost = normalizeDateToISO(mostRecentRaw);
 
             if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
                 continue;
             }
 
             const participantData: ForumParticipantData = {
+                participantId,
                 participantName,
                 discussionsPosted,
                 repliesPosted,
@@ -434,6 +594,7 @@ export async function scrapeForums(
         const forum: Forum = {
             activityName,
             numViews,
+            numUsers,
             lastAccess,
             id,
             forumId,
@@ -495,7 +656,7 @@ export async function scrapeCourse(
 
     const participants = await scrapeParticipants(participantsUrl);
     const numParticipantsTotal = participants.length;
-    const numParticipantsActive = participants.filter(p => p.lastAccessToCourse !== 'Never').length;
+    const numParticipantsActive = participants.filter(p => p.lastAccessToCourse !== undefined).length;
 
     const doc = await fetchAndParse(activityReportUrl);
     const table = doc.querySelector('table#outlinereport');
@@ -517,25 +678,44 @@ export async function scrapeCourse(
         const href = anchor?.getAttribute('href') ?? '';
 
         const activityName = anchor?.textContent?.trim() ?? '';
-        const numViews = viewsCell?.textContent?.trim() ?? '';
-        const lastAccess = lastAccessCell?.textContent?.trim() || 'Never';
+        const rawViews = viewsCell?.textContent?.trim() ?? '';
+
+        // Extract views and users from a string like "180 views by 86 users"
+        const viewsMatch = rawViews.match(/(\d+)\s+views?\s+by\s+(\d+)\s+users?/);
+        const numViews = viewsMatch ? parseInt(viewsMatch[1]) : 0;
+        const numUsers = viewsMatch ? parseInt(viewsMatch[2]) : 0;
+
+        //console.log(`[ACTIVITY NAME]:`, activityName);
+
+        const rawLastAccess = lastAccessCell?.textContent?.trim() ?? '';
+        //console.log(`[RAW LAST ACCESS]:`, rawLastAccess);
+        const durationMatch = rawLastAccess.match(/\(([^)]+)\)/);
+        //console.log(`[DURATION MATCH]:`, durationMatch?.[1]);
+
+        const relativeDuration = durationMatch?.[1].trim(); // Ej: "4 mins 46 secs"
+        //console.log(`[RELATIVE DURATION]:`, relativeDuration);
+        const lastAccess = relativeDuration ? normalizeDurationToMillis(relativeDuration) : undefined;
+        //console.log(`[NORMALIZED LAST ACCESS (ms)]:`, lastAccess);
+
 
         const idMatch = href.match(/id=(\d+)/);
         const id = parseInt(idMatch?.[1] ?? '0'); // Fallback a 0 si no hay match
 
         if (href.includes('/mod/url/')) {
-            urlResources.push({activityName, numViews, lastAccess});
-        } else if (href.includes('/mod/choice/')) {
-            choices.push({activityName, numViews, lastAccess});
+            urlResources.push({activityName, numViews, numUsers, lastAccess});
         } else if (href.includes('/mod/workshop/')) {
-            workshops.push({activityName, numViews, lastAccess});
+            workshops.push({activityName, numViews, numUsers, lastAccess});
         } else if (href.includes('/mod/resource/')) {
-            resources.push({activityName, numViews, lastAccess});
+            resources.push({activityName, numViews, numUsers, lastAccess});
+        } else if (href.includes('/mod/choice/')) {
+            const choiceResults = await scrapeChoices(id, activityName, numViews, numUsers, lastAccess);
+            choices.push(...choiceResults);
         } else if (href.includes('/mod/quiz/')) {
-            const quizResults = await scrapeQuizzes(id, activityName, numViews, lastAccess, totalParticipants);
+            //console.log(`[QUIZ] Before scrapeQuizzes | lastAccess:`, lastAccess);
+            const quizResults = await scrapeQuizzes(id, activityName, numViews, numUsers, lastAccess, totalParticipants);
             quizzes.push(...quizResults);
         } else if (href.includes('/mod/forum/')) {
-            const forumResults = await scrapeForums(id, activityName, numViews, lastAccess, totalParticipants, courseId);
+            const forumResults = await scrapeForums(id, activityName, numViews, numUsers, lastAccess, totalParticipants, courseId);
             forums.push(...forumResults);
         }
     }

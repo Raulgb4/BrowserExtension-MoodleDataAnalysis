@@ -35,6 +35,7 @@ function isCoursePage(url: string): boolean {
     return COURSE_PAGE_REGEX.test(url);
 }
 
+
 /**
  * Extracts the course ID from a Moodle course page URL.
  *

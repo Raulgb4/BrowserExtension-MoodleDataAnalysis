@@ -16,6 +16,12 @@
 import {ActivityBase} from "./ActivityBase";
 
 export interface ForumParticipantData {
+
+    /**
+     * Unique identifier for the participant.
+     */
+    participantId: number;
+
     /**
      * Full name of the student.
      */
@@ -42,16 +48,16 @@ export interface ForumParticipantData {
     wordCount: number;
 
     /**
-     * Timestamp of the earliest post made by the student (as a string in Moodle
-     * format, e.g. "Tuesday, 18 October 2022, 6:49 PM").
+     * Timestamp of the earliest post made by the student (in ISO 8601 format).
+     * Example: "2022-10-18T18:49:00"
      */
-    earliestPost: string;
+    earliestPost: string | undefined;
 
     /**
-     * Timestamp of the most recent post made by the student (as a string in Moodle
-     * format, e.g. "Saturday, 14 January 2023, 1:09 AM").
+     * Timestamp of the most recent post made by the student (in ISO 8601 format).
+     * Example: "2023-01-14T01:09:00"
      */
-    mostRecentPost: string;
+    mostRecentPost: string | undefined;
 }
 
 /**
