@@ -5,7 +5,7 @@
     "participants": [
         {
             "participantName": "anonfirstname1 anonlastname1",
-            "role": "Student",
+            "role": "Teacher, Student",
             "group": "No groups",
             "lastAccessToCourse": "Never",
             "status": "Active"
@@ -1505,7 +1505,7 @@
             "participantName": "UsuarioPrueba UsuarioPrueba",
             "role": "Student",
             "group": "No groups",
-            "lastAccessToCourse": "10 17:00:00",
+            "lastAccessToCourse": "10 20:00:00",
             "status": "Active"
         }
     ],
@@ -1513,17 +1513,17 @@
         {
             "activityName": "Presentación de TALF",
             "numViews": "628 views by 171 users",
-            "lastAccess": "Saturday, 28 June 2025, 12:53 PM (4 days)"
+            "lastAccess": "Saturday, 28 June 2025, 12:53 PM (4 days 3 hours)"
         },
         {
             "activityName": "Apuntes y scripts (repo en bitbucket)",
             "numViews": "760 views by 157 users",
-            "lastAccess": "Friday, 20 June 2025, 3:27 PM (11 days 22 hours)"
+            "lastAccess": "Friday, 20 June 2025, 3:27 PM (12 days 1 hour)"
         },
         {
             "activityName": "Apuntes de TALF (enlace externo a última versión)",
             "numViews": "827 views by 175 users",
-            "lastAccess": "Tuesday, 17 June 2025, 11:39 AM (15 days 2 hours)"
+            "lastAccess": "Tuesday, 17 June 2025, 11:39 AM (15 days 5 hours)"
         },
         {
             "activityName": "Grabación tutoría virtual",
@@ -1533,7 +1533,7 @@
         {
             "activityName": "reparto TALF",
             "numViews": "5 views by 3 users",
-            "lastAccess": "Friday, 20 June 2025, 3:14 PM (11 days 22 hours)"
+            "lastAccess": "Friday, 20 June 2025, 3:14 PM (12 days 1 hour)"
         },
         {
             "activityName": "Sesión Presentación + T1 URL",
@@ -1543,7 +1543,7 @@
         {
             "activityName": "Vídeo del capítulo 1",
             "numViews": "236 views by 113 users",
-            "lastAccess": "Friday, 20 June 2025, 3:28 PM (11 days 22 hours)"
+            "lastAccess": "Friday, 20 June 2025, 3:28 PM (12 days 1 hour)"
         },
         {
             "activityName": "La biblioteca de Babel",
@@ -1568,7 +1568,7 @@
         {
             "activityName": "Noam Chomsky",
             "numViews": "40 views by 30 users",
-            "lastAccess": "Tuesday, 22 August 2023, 4:08 PM (1 year 314 days)"
+            "lastAccess": "Tuesday, 22 August 2023, 4:08 PM (1 year 315 days)"
         },
         {
             "activityName": "Anochecer",
@@ -1583,7 +1583,7 @@
         {
             "activityName": "Sesión del Tema 3",
             "numViews": "287 views by 105 users",
-            "lastAccess": "Thursday, 19 June 2025, 5:38 PM (12 days 20 hours)"
+            "lastAccess": "Thursday, 19 June 2025, 5:38 PM (12 days 23 hours)"
         },
         {
             "activityName": "IEEE Std 1003.1-2008",
@@ -1608,7 +1608,7 @@
         {
             "activityName": "Práctica 1",
             "numViews": "203 views by 106 users",
-            "lastAccess": "Monday, 4 March 2024, 1:48 PM (1 year 119 days)"
+            "lastAccess": "Monday, 4 March 2024, 1:48 PM (1 year 120 days)"
         },
         {
             "activityName": "Práctica 1 bis",
@@ -1643,7 +1643,7 @@
         {
             "activityName": "Bash Linux Tutorial",
             "numViews": "58 views by 40 users",
-            "lastAccess": "Monday, 4 September 2023, 3:15 PM (1 year 301 days)"
+            "lastAccess": "Monday, 4 September 2023, 3:15 PM (1 year 302 days)"
         },
         {
             "activityName": "Sesión Tema 4 - ING INF",
@@ -1658,7 +1658,7 @@
         {
             "activityName": "JFLAP",
             "numViews": "69 views by 46 users",
-            "lastAccess": "Monday, 4 March 2024, 2:01 PM (1 year 119 days)"
+            "lastAccess": "Monday, 4 March 2024, 2:01 PM (1 year 120 days)"
         },
         {
             "activityName": "Sesión del Tema 5",
@@ -1778,7 +1778,7 @@
         {
             "activityName": "Compilador WHILE",
             "numViews": "359 views by 122 users",
-            "lastAccess": "Friday, 8 September 2023, 2:54 PM (1 year 297 days)"
+            "lastAccess": "Friday, 8 September 2023, 2:54 PM (1 year 298 days)"
         },
         {
             "activityName": "Sesión Tema 10",
@@ -1863,7 +1863,7 @@
         {
             "activityName": "Karl Thurnhofer",
             "numViews": "3 views by 2 users",
-            "lastAccess": "Tuesday, 17 June 2025, 11:24 AM (15 days 2 hours)"
+            "lastAccess": "Tuesday, 17 June 2025, 11:24 AM (15 days 5 hours)"
         },
         {
             "activityName": "Francisco Vico",
@@ -1905,12 +1905,12 @@
         {
             "activityName": "Copia local del repo talfuma",
             "numViews": "180 views by 86 users",
-            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days)"
+            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days 3 hours)"
         },
         {
             "activityName": "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
             "numViews": "4806 views by 203 users",
-            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days)"
+            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days 3 hours)"
         },
         {
             "activityName": "Jerarquía de Chomsky y el lenguaje natural",
@@ -1920,7 +1920,7 @@
         {
             "activityName": "Ejercicios 1",
             "numViews": "833 views by 180 users",
-            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days)"
+            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days 3 hours)"
         },
         {
             "activityName": "Posibles soluciones a los ejercicios 1",
@@ -1935,7 +1935,7 @@
         {
             "activityName": "Posibles soluciones Práctica 1",
             "numViews": "349 views by 146 users",
-            "lastAccess": "Monday, 4 March 2024, 1:49 PM (1 year 119 days)"
+            "lastAccess": "Monday, 4 March 2024, 1:49 PM (1 year 120 days)"
         },
         {
             "activityName": "Ejemplo de documento LaTex",
@@ -1950,7 +1950,7 @@
         {
             "activityName": "Ejercicios 2",
             "numViews": "576 views by 150 users",
-            "lastAccess": "Monday, 4 March 2024, 1:51 PM (1 year 119 days)"
+            "lastAccess": "Monday, 4 March 2024, 1:51 PM (1 year 120 days)"
         },
         {
             "activityName": "Posibles soluciones a los ejercicios 2",
@@ -1965,7 +1965,7 @@
         {
             "activityName": "Posibles soluciones Práctica 2",
             "numViews": "161 views by 105 users",
-            "lastAccess": "Wednesday, 6 September 2023, 4:23 PM (1 year 299 days)"
+            "lastAccess": "Wednesday, 6 September 2023, 4:23 PM (1 year 300 days)"
         },
         {
             "activityName": "Ficheros Práctica 2",
@@ -2047,24 +2047,24 @@
         {
             "activityName": "Día para E1_1+",
             "numViews": "765 views by 127 users",
-            "lastAccess": "Tuesday, 1 July 2025, 11:52 AM (1 day 1 hour)"
+            "lastAccess": "Tuesday, 1 July 2025, 11:52 AM (1 day 4 hours)"
         },
         {
             "activityName": "¿Cómo explicarías a un niño qué es la matemática discreta?",
             "numViews": "187 views by 82 users",
-            "lastAccess": "Saturday, 28 June 2025, 1:07 PM (4 days)"
+            "lastAccess": "Saturday, 28 June 2025, 1:07 PM (4 days 3 hours)"
         }
     ],
     "workshops": [
         {
             "activityName": "Taller Bloque 1",
             "numViews": "1003 views by 39 users",
-            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days)"
+            "lastAccess": "Saturday, 28 June 2025, 12:55 PM (4 days 3 hours)"
         },
         {
             "activityName": "Taller Bloque 2",
             "numViews": "699 views by 37 users",
-            "lastAccess": "Friday, 20 June 2025, 3:33 PM (11 days 22 hours)"
+            "lastAccess": "Friday, 20 June 2025, 3:33 PM (12 days 1 hour)"
         },
         {
             "activityName": "Taller Bloque 3",
@@ -2074,14 +2074,14 @@
         {
             "activityName": "Taller Bloque 4",
             "numViews": "441 views by 32 users",
-            "lastAccess": "Thursday, 19 June 2025, 4:19 PM (12 days 21 hours)"
+            "lastAccess": "Thursday, 19 June 2025, 4:19 PM (13 days)"
         }
     ],
     "quizzes": [
         {
             "activityName": "E1_1+",
-            "numViews": "2834 views by 147 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 7 secs)",
+            "numViews": "2854 views by 147 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 46 secs)",
             "id": 14,
             "maxGrade": 1,
             "participantStats": [
@@ -2509,8 +2509,8 @@
         },
         {
             "activityName": "E2_1",
-            "numViews": "15638 views by 156 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 6 secs)",
+            "numViews": "15658 views by 156 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 45 secs)",
             "id": 15,
             "maxGrade": 5,
             "participantStats": [
@@ -3370,8 +3370,8 @@
         },
         {
             "activityName": "E1_2",
-            "numViews": "6540 views by 93 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 6 secs)",
+            "numViews": "6560 views by 93 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 45 secs)",
             "id": 17,
             "maxGrade": 5,
             "participantStats": [
@@ -3793,8 +3793,8 @@
         },
         {
             "activityName": "E2_2",
-            "numViews": "8266 views by 103 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 6 secs)",
+            "numViews": "8286 views by 103 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 45 secs)",
             "id": 18,
             "maxGrade": 4.67,
             "participantStats": [
@@ -4312,8 +4312,8 @@
         },
         {
             "activityName": "E1_3",
-            "numViews": "2828 views by 43 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 5 secs)",
+            "numViews": "2848 views by 43 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 45 secs)",
             "id": 20,
             "maxGrade": 5,
             "participantStats": [
@@ -4477,8 +4477,8 @@
         },
         {
             "activityName": "E2_3",
-            "numViews": "2955 views by 41 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 5 secs)",
+            "numViews": "2975 views by 41 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 44 secs)",
             "id": 21,
             "maxGrade": 5,
             "participantStats": [
@@ -4690,8 +4690,8 @@
         },
         {
             "activityName": "Cuestionario CHAEA",
-            "numViews": "822 views by 133 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 5 secs)",
+            "numViews": "842 views by 133 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 44 secs)",
             "id": 25,
             "maxGrade": 10,
             "participantStats": [
@@ -5035,8 +5035,8 @@
         },
         {
             "activityName": "prueba",
-            "numViews": "88 views by 2 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 5 secs)",
+            "numViews": "108 views by 2 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 44 secs)",
             "id": 26,
             "maxGrade": 1,
             "participantStats": []
@@ -5045,8 +5045,8 @@
     "forums": [
         {
             "activityName": "Foro de dudas",
-            "numViews": "5135 views by 171 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 8 secs)",
+            "numViews": "5195 views by 171 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 47 secs)",
             "id": 3,
             "forumId": 1,
             "subscriptions": 206,
@@ -6900,8 +6900,8 @@
         },
         {
             "activityName": "Novedades y anuncios",
-            "numViews": "2582 views by 180 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 7 secs)",
+            "numViews": "2642 views by 180 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 47 secs)",
             "id": 4,
             "forumId": 2,
             "subscriptions": 215,
@@ -8521,11 +8521,11 @@
         },
         {
             "activityName": "Trabajos TALF 2022-23",
-            "numViews": "1707 views by 19 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 7 secs)",
+            "numViews": "1767 views by 19 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 46 secs)",
             "id": 5,
             "forumId": 3,
-            "subscriptions": 13,
+            "subscriptions": 14,
             "participantsStats": [
                 {
                     "participantName": "anonfirstname101 anonlastname101",
@@ -8693,11 +8693,11 @@
         },
         {
             "activityName": "Trabajos TALF",
-            "numViews": "63 views by 1 users",
-            "lastAccess": "Wednesday, 2 July 2025, 1:40 PM (4 mins 7 secs)",
+            "numViews": "123 views by 1 users",
+            "lastAccess": "Wednesday, 2 July 2025, 4:44 PM (4 mins 46 secs)",
             "id": 11,
             "forumId": 4,
-            "subscriptions": 4,
+            "subscriptions": 5,
             "participantsStats": []
         }
     ]

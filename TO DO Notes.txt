@@ -1,26 +1,63 @@
-Posibles mejoras para la fase de extracción de datos implementada:
-------------------------------------------------------------------
+TODO LIST
+---------
 
-1. Normalización de todas las fechas a un formato estándar (ISO 8601).
+FECHAS Y DURACIONES
+-------------------
+1. Normalizar fechas a ISO 8601
+   Convertir "14 March 2023, 10:52 AM" a "2023-03-14T10:52:00" en campos como:
+   - earliestPost, mostRecentPost, lastAccess, etc.
 
-"earliestPost": "14 March 2023, 10:52 AM" -> "earliestPost": "2023-03-14T10:52:00"
+2. lastAccessToCourse como duración (HH:mm:ss)
+   Formato como "00:10:32" a partir de milisegundos (→ https://currentmillis.com/)
 
-* Aplicar esta normalización a todos los campos tipo fecha: earliestPost, mostRecentPost, lastAccess, etc.
+MODIFICACIONES DE ESTRUCTURAS DE DATOS
+--------------------------------------
+3. Separar numViews en numViews y numUsers
+   Ejemplo:
+   "180 views by 86 users" → "numViews": 180, "numUsers": 86
 
-2. El campo numViews debería ser un número en lugar de una cadena.
+4. Añadir campo activityType a cada actividad
+   Ej: "activityType": "forum" | "quiz" | "url" | ..."
 
-* ¿Hacer un ratio de visitas a partir de vistas y usuarios?
+5. Revisión de tipos de datos numéricos
+   Asegurar que campos como grade, normalizedGrade, duration, subscriptions sean number
 
-"numViews": "180 views by 86 users" -> "numViews": 180
+6. Campos vacíos/ausentes como undefined
+   En vez de strings como "Never", "-", "No roles", etc., usar undefined
 
-3. Nuevo campo en el modelo de datos "activityType" para clasificar la actividad.
+7. Separar roles y grupos como arrays
+   En lugar de string con comas ("Teacher, Manager"), usar:
+   "roles": ["Teacher", "Manager"]
 
-"activityType": "forum" | "quiz" | "url" | ...
+8. Añadir identificadores únicos a participants
+   Agregar campos id y email en todas las entidades que los referencien (quizzes, forums, etc.)
 
-4. Consistencia en tipos de datos
+NUEVOS SCRAPEOS
+---------------
+9. Subscraping de respuestas en choices
+   Para poder exportar o visualizar resultados de votaciones
 
-Revisar todos los campos numéricos (grade, normalizedGrade, duration, subscriptions, etc.) para que no sean strings.
+10. Calcular duración de los workshops
+    Restar fechas de apertura y cierre si están disponibles
 
-5. Mejora en campos booleanos u opcionales
+CONTROL DE CONTEXTO EN EXTENSIÓN
+--------------------------------
+11. Mejorar detección de página Moodle
+    Reemplazar expresión regular simple por un análisis más robusto del DOM o rutas
 
-Si un valor no aplica o está ausente (ej. lastAccess = Never), considerar usar null en vez de una string.
+REFACTORING
+-----------
+12. Eliminar constantes fijas de URL base
+    Hacer que se detecten dinámicamente (por ejemplo, desde el propio entorno del navegador)
+
+13. Modularizar popup.ts
+    Extraer runAnalysis() a otro archivo y reorganizar responsabilidades para mejorar legibilidad y testabilidad
+    👉 https://refactoring.guru/es/refactoring
+
+14. Mover las funciones de procesamiento y limpieza de datos de scraper.ts a otro archivo
+
+FRONTEND (BAJA PRIORIDAD)
+-------------------------
+15. Reemplazar DOM manual con mini framework React-like
+    Usar algo como ReactDOM para evitar classList.remove, hidden, etc.
+    👉 https://www.reactjs.wiki/que-es-react-dom
