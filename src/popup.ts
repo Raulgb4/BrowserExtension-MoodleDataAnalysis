@@ -20,7 +20,7 @@ import {
 import {
     scrapeNumParticipants,
     scrapeCourse
-} from "./services/scraper";
+} from "./services/dataExtractor";
 
 /**
  * Determines if the given URL corresponds to a Moodle course main page.

@@ -21,11 +21,6 @@ export interface QuizParticipantData {
     participantId: number;
 
     /**
-     * Email address of the participant.
-     */
-    email: string;
-
-    /**
      * Full name of the student.
      */
     participantName: string;

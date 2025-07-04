@@ -51,13 +51,13 @@ export interface ForumParticipantData {
      * Timestamp of the earliest post made by the student (in ISO 8601 format).
      * Example: "2022-10-18T18:49:00"
      */
-    earliestPost: string | undefined;
+    earliestPost: number | undefined;
 
     /**
      * Timestamp of the most recent post made by the student (in ISO 8601 format).
      * Example: "2023-01-14T01:09:00"
      */
-    mostRecentPost: string | undefined;
+    mostRecentPost: number | undefined;
 }
 
 /**

@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js && tailwindcss -i ./src/styles/tailwind.css -o ./dist/style.css",
     "watch": "webpack --watch --config webpack.config.js",
     "tailwind": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/style.css --watch"
   },
