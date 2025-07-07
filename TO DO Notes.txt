@@ -1,37 +1,27 @@
-TODO LIST
-=========
+=============================
+  TODO - Moodle Extension
+=============================
 
-1. FECHAS Y DURACIONES (🕒 PENDIENTE DE REVISAR)
-------------------------------------------------
-- Las horas bailan un poco, no entiendo muy bien por qué.
-- Revisar el sistema EPOCH y la conversión a milisegundos.
+🔧 Nueva funcionalidad
+------------------------
+1. [Alta] Implementar la persistencia de datos usando `chrome.storage.local`.
+   - Los datos mostrados en la extensión deben persistir incluso al cerrarse o minimizarse.
 
-  [ ] forum → earliestPost y mostRecentPost (pasar a ms, investigar EPOCH)
+2. [Baja] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
 
+3. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de CV UMA y entorno local.
 
-2. REFACTORING Y FRONTEND
+🛠️ Solución de problemas
 --------------------------
+1. Revisar discrepancias en los datos de fechas: algunas no coinciden con los valores mostrados en Moodle.
 
-⚙️ Refactor de lógica y estructura:
+2. En páginas distintas al "course", siempre aparece el mensaje "This is not a Moodle course page",
+   pero nunca se muestran errores como:
+   - "No active tab found or it has no URL."
+   - "No course found or it has no course ID."
 
-  [ ] Eliminar constantes fijas de URL base
-      → Detectar dinámicamente (por ejemplo, desde el entorno del navegador)
-
-  [ ] Mejorar detección de página Moodle
-      → Reemplazar expresión regular simple por análisis del DOM o rutas
-
-  [ ] Modularizar popup.ts
-      → Extraer runAnalysis() a otro archivo
-      → Reorganizar responsabilidades para mejorar legibilidad y testabilidad
-      → Ver: https://refactoring.guru/es/refactoring
-
-💻 Mejora de frontend:
-
-  [ ] Reemplazar DOM manual por mini framework React-like
-      → Usar ReactDOM para evitar classList.remove, hidden, etc.
-      → Ver: https://www.reactjs.wiki/que-es-react-dom
-      → Curso recomendado: https://www.youtube.com/watch?v=7iobxzd_2wY
-
-📝 REVISAR LA DOCUMENTACIÓN DEL CÓDIGO
---------------------------------------
-- Repasar que todas las funciones
+🎨 Visualización (Frontend)
+----------------------------
+1. Diseñar bocetos (mockups) a papel de la interfaz deseada.
+   - Definir qué gráficos se van a mostrar.
+   - Determinar qué datos se visualizarán y cómo representarlos gráficamente.
