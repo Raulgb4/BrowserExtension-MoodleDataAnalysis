@@ -2626,7 +2626,7 @@
       "id": 217,
       "email": "UsuarioPrueba@UsuarioPrueba.com",
       "participantName": "UsuarioPrueba UsuarioPrueba",
-      "lastAccessToCourse": 1350000000,
+      "lastAccessToCourse": 1353600000,
       "status": "current"
     }
   ],
@@ -2635,19 +2635,19 @@
       "activityName": "Presentación de TALF",
       "numViews": 631,
       "numUsers": 171,
-      "lastAccess": 345600000
+      "lastAccess": 349200000
     },
     {
       "activityName": "Apuntes y scripts (repo en bitbucket)",
       "numViews": 760,
       "numUsers": 157,
-      "lastAccess": 1454400000
+      "lastAccess": 1458000000
     },
     {
       "activityName": "Apuntes de TALF (enlace externo a última versión)",
       "numViews": 827,
       "numUsers": 175,
-      "lastAccess": 1724400000
+      "lastAccess": 1731600000
     },
     {
       "activityName": "Grabación tutoría virtual",
@@ -2659,7 +2659,7 @@
       "activityName": "reparto TALF",
       "numViews": 5,
       "numUsers": 3,
-      "lastAccess": 1454400000
+      "lastAccess": 1458000000
     },
     {
       "activityName": "Sesión Presentación + T1 URL",
@@ -2671,7 +2671,7 @@
       "activityName": "Vídeo del capítulo 1",
       "numViews": 236,
       "numUsers": 113,
-      "lastAccess": 1454400000
+      "lastAccess": 1458000000
     },
     {
       "activityName": "La biblioteca de Babel",
@@ -2683,7 +2683,7 @@
       "activityName": "El hotel infinito de Hilbert",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 58060800000
+      "lastAccess": 58147200000
     },
     {
       "activityName": "Sesión del tema 2",
@@ -2719,7 +2719,7 @@
       "activityName": "Sesión del Tema 3",
       "numViews": 287,
       "numUsers": 105,
-      "lastAccess": 1530000000
+      "lastAccess": 1537200000
     },
     {
       "activityName": "IEEE Std 1003.1-2008",
@@ -2737,7 +2737,7 @@
       "activityName": "Sesión de problemas",
       "numViews": 211,
       "numUsers": 90,
-      "lastAccess": 42076800000
+      "lastAccess": 42163200000
     },
     {
       "activityName": "Resumen Presentación prácticas",
@@ -2797,7 +2797,7 @@
       "activityName": "Sesión Tema 4 - ING INF",
       "numViews": 222,
       "numUsers": 86,
-      "lastAccess": 42076800000
+      "lastAccess": 42163200000
     },
     {
       "activityName": "Sesión del Tema 4 - ING COM",
@@ -2873,13 +2873,13 @@
       "activityName": "Tema 7 - sesión ING INF",
       "numViews": 405,
       "numUsers": 105,
-      "lastAccess": 43027200000
+      "lastAccess": 43113600000
     },
     {
       "activityName": "MT simulada",
       "numViews": 73,
       "numUsers": 55,
-      "lastAccess": 57542400000
+      "lastAccess": 57628800000
     },
     {
       "activityName": "La guerra de Turing",
@@ -2891,7 +2891,7 @@
       "activityName": "Vídeo sobre incompletitud",
       "numViews": 45,
       "numUsers": 38,
-      "lastAccess": 43027200000
+      "lastAccess": 43113600000
     },
     {
       "activityName": "Tema 8 - sesión ING INF",
@@ -2978,7 +2978,7 @@
       "activityName": "Scripts en Octave para codificación de programas While",
       "numViews": 22,
       "numUsers": 17,
-      "lastAccess": 57715200000
+      "lastAccess": 57801600000
     },
     {
       "activityName": "Octave Online",
@@ -3042,13 +3042,13 @@
       "activityName": "Francisco Vico",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 64281600000
+      "lastAccess": 64368000000
     },
     {
       "activityName": "Karl Thurnhofer",
       "numViews": 3,
       "numUsers": 2,
-      "lastAccess": 1728000000
+      "lastAccess": 1731600000
     },
     {
       "activityName": "Francisco Vico",
@@ -3091,13 +3091,13 @@
       "activityName": "Copia local del repo talfuma",
       "numViews": 181,
       "numUsers": 86,
-      "lastAccess": 410400000
+      "lastAccess": 414000000
     },
     {
       "activityName": "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
       "numViews": 4806,
       "numUsers": 203,
-      "lastAccess": 770400000
+      "lastAccess": 774000000
     },
     {
       "activityName": "Jerarquía de Chomsky y el lenguaje natural",
@@ -3109,7 +3109,7 @@
       "activityName": "Ejercicios 1",
       "numViews": 833,
       "numUsers": 180,
-      "lastAccess": 770400000
+      "lastAccess": 774000000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 1",
@@ -3260,9 +3260,9 @@
     {
       "id": 23,
       "activityName": "Día para E1_1+",
-      "numViews": 798,
+      "numViews": 801,
       "numUsers": 127,
-      "lastAccess": 560000,
+      "lastAccess": 2863000,
       "responseCounts": {
         "07/11 - lunes": 44,
         "08/11 - martes": 7,
@@ -3274,9 +3274,9 @@
     {
       "id": 29,
       "activityName": "¿Cómo explicarías a un niño qué es la matemática discreta?",
-      "numViews": 209,
+      "numViews": 212,
       "numUsers": 82,
-      "lastAccess": 560000,
+      "lastAccess": 2863000,
       "responseCounts": {
         "Estudia lo que se puede contar.": 21,
         "Son los números naturales.": 0,
@@ -3291,13 +3291,13 @@
       "activityName": "Taller Bloque 1",
       "numViews": 1005,
       "numUsers": 39,
-      "lastAccess": 410400000
+      "lastAccess": 414000000
     },
     {
       "activityName": "Taller Bloque 2",
       "numViews": 699,
       "numUsers": 37,
-      "lastAccess": 1454400000
+      "lastAccess": 1458000000
     },
     {
       "activityName": "Taller Bloque 3",
@@ -3309,15 +3309,15 @@
       "activityName": "Taller Bloque 4",
       "numViews": 441,
       "numUsers": 32,
-      "lastAccess": 1537200000
+      "lastAccess": 1540800000
     }
   ],
   "quizzes": [
     {
       "activityName": "E1_1+",
-      "numViews": 2904,
+      "numViews": 2907,
       "numUsers": 147,
-      "lastAccess": 562000,
+      "lastAccess": 2865000,
       "id": 14,
       "maxGrade": 1,
       "participantStats": [
@@ -3815,9 +3815,9 @@
     },
     {
       "activityName": "E2_1",
-      "numViews": 15700,
+      "numViews": 15703,
       "numUsers": 156,
-      "lastAccess": 561000,
+      "lastAccess": 2864000,
       "id": 15,
       "maxGrade": 5,
       "participantStats": [
@@ -4819,9 +4819,9 @@
     },
     {
       "activityName": "E1_2",
-      "numViews": 6594,
+      "numViews": 6597,
       "numUsers": 93,
-      "lastAccess": 561000,
+      "lastAccess": 2864000,
       "id": 17,
       "maxGrade": 5,
       "participantStats": [
@@ -5312,9 +5312,9 @@
     },
     {
       "activityName": "E2_2",
-      "numViews": 8319,
+      "numViews": 8322,
       "numUsers": 103,
-      "lastAccess": 561000,
+      "lastAccess": 2864000,
       "id": 18,
       "maxGrade": 4.67,
       "participantStats": [
@@ -5917,9 +5917,9 @@
     },
     {
       "activityName": "E1_3",
-      "numViews": 2885,
+      "numViews": 2888,
       "numUsers": 43,
-      "lastAccess": 561000,
+      "lastAccess": 2863000,
       "id": 20,
       "maxGrade": 5,
       "participantStats": [
@@ -6109,9 +6109,9 @@
     },
     {
       "activityName": "E2_3",
-      "numViews": 3012,
+      "numViews": 3015,
       "numUsers": 41,
-      "lastAccess": 560000,
+      "lastAccess": 2863000,
       "id": 21,
       "maxGrade": 5,
       "participantStats": [
@@ -6357,9 +6357,9 @@
     },
     {
       "activityName": "Cuestionario CHAEA",
-      "numViews": 875,
+      "numViews": 878,
       "numUsers": 133,
-      "lastAccess": 560000,
+      "lastAccess": 2863000,
       "id": 25,
       "maxGrade": 10,
       "participantStats": [
@@ -6759,9 +6759,9 @@
     },
     {
       "activityName": "prueba",
-      "numViews": 141,
+      "numViews": 144,
       "numUsers": 2,
-      "lastAccess": 560000,
+      "lastAccess": 2863000,
       "id": 26,
       "maxGrade": 1,
       "participantStats": []
@@ -6770,9 +6770,9 @@
   "forums": [
     {
       "activityName": "Foro de dudas",
-      "numViews": 5333,
+      "numViews": 5353,
       "numUsers": 171,
-      "lastAccess": 563000,
+      "lastAccess": 2866000,
       "id": 3,
       "forumId": 1,
       "subscriptions": 205,
@@ -8505,9 +8505,9 @@
     },
     {
       "activityName": "Novedades y anuncios",
-      "numViews": 2744,
+      "numViews": 2754,
       "numUsers": 180,
-      "lastAccess": 563000,
+      "lastAccess": 2865000,
       "id": 4,
       "forumId": 2,
       "subscriptions": 214,
@@ -9952,9 +9952,9 @@
     },
     {
       "activityName": "Trabajos TALF 2022-23",
-      "numViews": 1875,
+      "numViews": 1884,
       "numUsers": 19,
-      "lastAccess": 562000,
+      "lastAccess": 2865000,
       "id": 5,
       "forumId": 3,
       "subscriptions": 14,
@@ -10135,9 +10135,9 @@
     },
     {
       "activityName": "Trabajos TALF",
-      "numViews": 227,
+      "numViews": 236,
       "numUsers": 1,
-      "lastAccess": 562000,
+      "lastAccess": 2865000,
       "id": 11,
       "forumId": 4,
       "subscriptions": 5,

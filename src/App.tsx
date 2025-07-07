@@ -75,58 +75,41 @@ export function App() {
         }
     }
 
-    /**
-     * Displays an error message and sets the error flag.
-     * @param msg The message to show in the UI.
-     */
-    function showError(msg: string) {
+    const showError = (msg: string) => {
+        console.warn(msg);
         setOutputMessage(msg);
         setIsError(true);
-    }
+    };
+
+    const setupStartButton = (courseId: string) => {
+        console.info(`[Popup] Course ID detected: ${courseId}`);
+        setButton(
+            <Button
+                id="startButton"
+                text="Start"
+                onClick={() => analyzeCourseData(courseId)}
+            />
+        );
+    };
 
     useEffect(() => {
-
         console.info("[Popup] Initializing analysis extension...");
 
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const tab = tabs[0];
+            const url = tab?.url;
 
-            const currentTab = tabs[0];
-            const currentUrl = currentTab?.url;
-            const isValidTab = !!currentTab && !!currentUrl;
+            if (!url) return showError("No active tab found or it has no URL.");
+            console.info(`[Popup] Active tab URL: ${url}`);
 
-            if(!isValidTab){
-                showError("No active tab found or it has no URL");
-                return;
-            }
+            if (!isCoursePage(url)) return showError("This is not a Moodle course page.");
 
-            console.info(`[Popup] Active tab URL: ${currentUrl}`);
+            const courseId = extractCourseId(url);
+            if (!courseId) return showError("No course found or it has no course ID.");
 
-            const courseUrl = currentUrl;
-            const validCoursePage = isCoursePage(courseUrl);
-
-            if (!validCoursePage) {
-                showError("This is not a Moodle course page.");
-                return;
-            }
-
-            const courseId = extractCourseId(courseUrl);
-
-            if (!courseId) {
-                showError("No course found or it has no course id.");
-                return;
-            }
-
-            console.info(`[Popup] Course ID detected: ${courseId}`);
-
-            setButton(
-                <Button
-                    id="startButton"
-                    text="Start"
-                    onClick={() => analyzeCourseData(courseId)}
-                ></Button>
-            );
+            setupStartButton(courseId);
         });
-    }, [] );
+    }, []);
 
     return (
         <div className="bg-white rounded-xl shadow-xl p-4 text-center overflow-auto h-full">
