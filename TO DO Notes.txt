@@ -13,7 +13,8 @@
 
 🛠️ Solución de problemas
 --------------------------
-1. Revisar discrepancias en los datos de fechas: algunas no coinciden con los valores mostrados en Moodle.
+1. Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con los valores mostrados en Moodle.
+    Revisar earliest y most recent post de los foros -> Problema de la Zona Horaria
 
 2. En páginas distintas al "course", siempre aparece el mensaje "This is not a Moodle course page",
    pero nunca se muestran errores como:

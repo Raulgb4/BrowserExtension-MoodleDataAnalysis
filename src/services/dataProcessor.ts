@@ -116,9 +116,16 @@ export function parseLastAccess(raw: string | undefined): number | undefined {
  */
 export function parseStatus(raw: string | undefined): string | undefined {
     if (!raw || raw.trim() === '-') return undefined;
+
     const cleaned = raw.replace(/\s+/g, ' ').trim();
-    return cleaned.split(' ').pop();
+    const parts = cleaned.split(' ').filter(Boolean);
+
+    if (parts.length === 1) return parts[0];
+
+    const filtered = parts.filter(part => part !== "Not" && part !== "current");
+    return filtered.join(' ') || "Not current";
 }
+
 
 /**
  * Safely parses the numeric value of a table cell's text content.
