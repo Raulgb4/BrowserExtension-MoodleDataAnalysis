@@ -13,16 +13,13 @@
 
 🛠️ Solución de problemas
 --------------------------
-1. Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con los valores mostrados en Moodle.
-    Revisar earliest y most recent post de los foros -> Problema de la Zona Horaria
-
-2. En páginas distintas al "course", siempre aparece el mensaje "This is not a Moodle course page",
-   pero nunca se muestran errores como:
-   - "No active tab found or it has no URL."
-   - "No course found or it has no course ID."
+1. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con los valores mostrados en Moodle.
+ Revisar earliest y most recent post de los foros -> Problema de la Zona Horaria
 
 🎨 Visualización (Frontend)
 ----------------------------
-1. Diseñar bocetos (mockups) a papel de la interfaz deseada.
+1. [Alta] Diseñar bocetos (mockups) a papel de la interfaz deseada.
    - Definir qué gráficos se van a mostrar.
    - Determinar qué datos se visualizarán y cómo representarlos gráficamente.
+
+2. [Alta] Comenzar a implementar esta parte

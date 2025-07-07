@@ -7,8 +7,7 @@
 
 import React, {ReactElement, useEffect} from "react";
 import {
-    extractCourseId,
-    isCoursePage,
+    parseMoodleCourseUrl,
     getScrapeUrlParticipants,
     getScrapeUrlActivityReport,
 } from "./utils/urlBuilder";
@@ -88,7 +87,6 @@ export function App() {
     };
 
     const setupStartButton = (courseId: string) => {
-        console.info(`[Popup] Course ID detected: ${courseId}`);
         setButton(
             <Button
                 id="startButton"
@@ -99,23 +97,30 @@ export function App() {
     };
 
     useEffect(() => {
-        console.info("[Popup] Initializing analysis extension...");
-
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const tab = tabs[0];
             const url = tab?.url;
 
-            if (!url) return showError("No active tab found or it has no URL.");
-            console.info(`[Popup] Active tab URL: ${url}`);
+            if (!url || !url.startsWith("http")) {
+                showError("No active tab found or it has no valid URL.");
+                return;
+            }
 
-            if (!isCoursePage(url)) return showError("This is not a Moodle course page.");
+            const { isCoursePage, courseId } = parseMoodleCourseUrl(url);
 
-            const courseId = extractCourseId(url);
-            if (!courseId) return showError("No course found or it has no course ID.");
+            if (!isCoursePage) {
+                showError("This is not a Moodle course page.");
+                return;
+            }
 
+            if (!courseId) {
+                showError("No course found or it has no course ID.");
+                return;
+            }
             setupStartButton(courseId);
         });
     }, []);
+
 
     return (
         <div className="bg-white rounded-xl shadow-xl p-4 text-center overflow-auto h-full">

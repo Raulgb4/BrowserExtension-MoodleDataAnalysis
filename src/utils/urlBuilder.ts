@@ -26,41 +26,20 @@ export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 const BASE = MOODLE_BASE_URL_LOCAL;
 
 /**
- * Determines if the given URL corresponds to a Moodle course main page.
+ * Tries to extract a course ID from a Moodle course URL.
  *
  * @param url - The full URL string to check.
- * @returns `true` if the URL matches the expected Moodle course view pattern, `false` otherwise.
- *
- * Example:
- *   isCoursePage("http://localhost:8080/course/view.php?id=2") => true
+ * @returns An object with `isCoursePage` and `courseId` (if valid).
  */
-export function isCoursePage(url: string): boolean {
+export function parseMoodleCourseUrl(url: string): { isCoursePage: boolean; courseId: string | null; } {
     try {
-        const parsedUrl = new URL(url);
-        return parsedUrl.pathname === "/course/view.php" && parsedUrl.searchParams.has("id");
+        const parsed = new URL(url);
+        const isCoursePage = parsed.pathname === "/course/view.php";
+        const courseId = parsed.searchParams.get("id");
+        return {isCoursePage, courseId};
     } catch {
-        return false;
-    }
-}
-
-/**
- * Extracts the course ID from a Moodle course page URL.
- *
- * This function parses the URL and retrieves the value of the `id` parameter.
- *
- * @param url - The full URL string from which to extract the course ID.
- * @returns The course ID as a string if found, otherwise `null`.
- *
- * Example:
- *   extractCourseId("http://localhost:8080/course/view.php?id=42") => "42"
- */
-export function extractCourseId(url: string): string | null {
-    try {
-        const parsedUrl = new URL(url);
-        return parsedUrl.searchParams.get("id");
-    } catch (e) {
-        console.error("Invalid URL:", url);
-        return null;
+        console.warn("Invalid URL:", url);
+        return {isCoursePage: false, courseId: null};
     }
 }
 
