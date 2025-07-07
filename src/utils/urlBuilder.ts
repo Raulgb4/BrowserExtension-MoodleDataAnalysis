@@ -26,19 +26,6 @@ export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 const BASE = MOODLE_BASE_URL_LOCAL;
 
 /**
- * Regular expression to detect whether the current tab is displaying
- * the main page of a Moodle course.
- *
- * This is typically used to trigger the extension logic only when the user
- * is viewing a course overview page.
- *
- * Example matches:
- * - http://localhost:8080/course/view.php?id=2
- * - https://informatica.cv.uma.es/course/view.php?id=4814
- */
-export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
-
-/**
  * Determines if the given URL corresponds to a Moodle course main page.
  *
  * @param url - The full URL string to check.
@@ -48,7 +35,12 @@ export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
  *   isCoursePage("http://localhost:8080/course/view.php?id=2") => true
  */
 export function isCoursePage(url: string): boolean {
-    return COURSE_PAGE_REGEX.test(url);
+    try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.pathname === "/course/view.php" && parsedUrl.searchParams.has("id");
+    } catch {
+        return false;
+    }
 }
 
 /**
@@ -73,46 +65,10 @@ export function extractCourseId(url: string): string | null {
 }
 
 /**
- * Dynamically determines the base URL for Moodle depending on the current tab.
- *
- * This is useful to automatically switch between local and production environments
- * without manual changes in the code.
- *
- * @param fullUrl - The full URL of the current Moodle page.
- * @returns The base URL including protocol and hostname, without a trailing slash.
- */
-export function getBaseUrl(fullUrl: string): string {
-    try {
-        const url = new URL(fullUrl);
-
-        switch (url.hostname) {
-            case "localhost":
-                return "http://localhost:8080";
-            case "informatica.cv.uma.es":
-                return "https://informatica.cv.uma.es";
-            default:
-                console.warn(`Unrecognized Moodle host: ${url.hostname}`);
-                return `${url.protocol}//${url.host}`; // fallback
-        }
-    } catch (e) {
-        console.error("Invalid URL passed to getBaseUrl():", fullUrl);
-        return ""; // or throw error
-    }
-}
-
-
-/**
  * Parameterized route templates for constructing Moodle URLs dynamically.
  * These are relative paths that need to be prefixed with the BASE URL.
  */
 export const URLS = {
-
-    /**
-     * Returns the path to the main course view page.
-     * @param id Course ID
-     */
-    COURSE: (id: string | number) =>
-        `/course/view.php?id=${id}`,
 
     /**
      * Returns the path to the participant list with optional pagination override.
@@ -172,25 +128,27 @@ export const URLS = {
 };
 
 /**
- * Generates the full set of scraping URLs required for a given course.
- * This function returns absolute URLs, combining the base URL and
- * the appropriate route templates from the URLs object.
+ * Generates the URL for the participants list of a course.
  *
- * This is used by the extension to access core Moodle pages like:
- * - Course homepage
- * - Participants list
- * - Activity report
- *
- * @param courseId - The ID of the Moodle course to scrape.
- * @param totalParticipants - Optional participant count used to override pagination.
- *
- * @returns An object mapping logical names (e.g., "course", "participants") to full URLs.
+ * @param courseId - The ID of the Moodle course.
+ * @param totalParticipants - Optional. Number of participants to include per page.
+ * @returns An object with a `participants` key mapping to the full participants list URL.
  */
-export function getScrapeUrls(courseId: string | number, totalParticipants?: number): Record<string, string> {
+export function getScrapeUrlParticipants(courseId: string | number, totalParticipants?: number): Record<string, string> {
     return {
-        course: `${BASE}${URLS.COURSE(courseId)}`,
         participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`,
-        activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`
+    };
+}
+
+/**
+ * Generates the URL for the activity report page of a course.
+ *
+ * @param courseId - The ID of the Moodle course.
+ * @returns An object with an `activityReport` key mapping to the full activity report URL.
+ */
+export function getScrapeUrlActivityReport(courseId: string | number): Record<string, string> {
+    return {
+        activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`,
     };
 }
 

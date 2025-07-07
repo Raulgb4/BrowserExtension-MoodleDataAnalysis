@@ -6,7 +6,12 @@
  */
 
 import React, {ReactElement, useEffect} from "react";
-import {extractCourseId, isCoursePage, getScrapeUrls} from "./utils/urlBuilder";
+import {
+    extractCourseId,
+    isCoursePage,
+    getScrapeUrlParticipants,
+    getScrapeUrlActivityReport,
+} from "./utils/urlBuilder";
 import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
 import Button from "./components/Button";
 import Loader from "./components/Loader";
@@ -45,7 +50,7 @@ export function App() {
         );
 
         try {
-            const preliminaryUrl = getScrapeUrls(courseId).participants;
+            const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
             const totalParticipants = await scrapeNumParticipants(preliminaryUrl);
 
             if (totalParticipants === null) {
@@ -55,11 +60,13 @@ export function App() {
                 return;
             }
 
-            const urls = getScrapeUrls(courseId, totalParticipants);
+            const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
+            const {activityReport} = getScrapeUrlActivityReport(courseId);
+
             const course = await scrapeCourse(
                 courseId,
-                urls.activityReport,
-                urls.participants,
+                activityReport,
+                participants,
                 totalParticipants
             );
 
@@ -76,7 +83,6 @@ export function App() {
     }
 
     const showError = (msg: string) => {
-        console.warn(msg);
         setOutputMessage(msg);
         setIsError(true);
     };
@@ -95,7 +101,7 @@ export function App() {
     useEffect(() => {
         console.info("[Popup] Initializing analysis extension...");
 
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             const tab = tabs[0];
             const url = tab?.url;
 
@@ -116,7 +122,7 @@ export function App() {
             <h1 className="text-[20px] mb-4 text-[#f98012] font-extrabold">Moodle Data Analyzer</h1>
             {isLoading && <Loader/>}
             {!isLoading && button}
-            {outputMessage && <InfoCard message={outputMessage} isError={isError} />}
+            {outputMessage && <InfoCard message={outputMessage} isError={isError}/>}
         </div>
     );
 }
