@@ -11,7 +11,7 @@ module.exports = {
 
     // Define the entry points of the application
     entry: {
-        popup: path.resolve(__dirname, "src/popup.ts") // Will compile to dist/popup.js
+        popup: path.resolve(__dirname, "src/popup.tsx") // Will compile to dist/popup.js
     },
 
     // Specify the output configuration
@@ -23,7 +23,7 @@ module.exports = {
 
     // Resolve file extensions when importing modules
     resolve: {
-        extensions: [".ts", ".js"]
+        extensions: [".ts", ".js", ".tsx", ".jsx"]
     },
 
     // Define how to process different types of modules

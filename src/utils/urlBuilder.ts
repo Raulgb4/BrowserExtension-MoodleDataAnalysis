@@ -25,7 +25,6 @@ export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
  */
 const BASE = MOODLE_BASE_URL_LOCAL;
 
-
 /**
  * Regular expression to detect whether the current tab is displaying
  * the main page of a Moodle course.
@@ -39,6 +38,39 @@ const BASE = MOODLE_BASE_URL_LOCAL;
  */
 export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
 
+/**
+ * Determines if the given URL corresponds to a Moodle course main page.
+ *
+ * @param url - The full URL string to check.
+ * @returns `true` if the URL matches the expected Moodle course view pattern, `false` otherwise.
+ *
+ * Example:
+ *   isCoursePage("http://localhost:8080/course/view.php?id=2") => true
+ */
+export function isCoursePage(url: string): boolean {
+    return COURSE_PAGE_REGEX.test(url);
+}
+
+/**
+ * Extracts the course ID from a Moodle course page URL.
+ *
+ * This function parses the URL and retrieves the value of the `id` parameter.
+ *
+ * @param url - The full URL string from which to extract the course ID.
+ * @returns The course ID as a string if found, otherwise `null`.
+ *
+ * Example:
+ *   extractCourseId("http://localhost:8080/course/view.php?id=42") => "42"
+ */
+export function extractCourseId(url: string): string | null {
+    try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.searchParams.get("id");
+    } catch (e) {
+        console.error("Invalid URL:", url);
+        return null;
+    }
+}
 
 /**
  * Dynamically determines the base URL for Moodle depending on the current tab.
@@ -47,7 +79,7 @@ export const COURSE_PAGE_REGEX = /\/course\/view\.php\?id=\d+$/;
  * without manual changes in the code.
  *
  * @param fullUrl - The full URL of the current Moodle page.
- * @returns The base URL including protocol and hostname, without trailing slash.
+ * @returns The base URL including protocol and hostname, without a trailing slash.
  */
 export function getBaseUrl(fullUrl: string): string {
     try {
@@ -205,12 +237,32 @@ export function getScrapeUrlForumMain(id: string | number): Record<string, strin
     };
 }
 
+/**
+ * Generates the URL used to access the forum reports page for a specific course and forum.
+ *
+ * This URL provides detailed statistical information about forum participation, such as
+ * number of posts, replies, views, and word counts for each user.
+ *
+ * @param courseId - The unique identifier of the course containing the forum.
+ * @param forumId - The unique identifier of the forum activity.
+ * @param totalParticipants - (Optional) Total number of course participants, used to construct the report URL.
+ * @returns An object containing the `forumReports` key with the full URL to the forum report page.
+ */
 export function getScrapeUrlForumReports(courseId: string | number, forumId: string | number, totalParticipants?: number): Record<string, string> {
     return {
         forumReports: `${BASE}${URLS.FORUM_REPORTS(courseId, forumId, totalParticipants)}`,
     };
 }
 
+/**
+ * Generates the URL used to access the subscriptions page of a specific forum.
+ *
+ * This URL is used to determine how many users are subscribed to the forum,
+ * which can be useful for analyzing engagement levels.
+ *
+ * @param forumId - The unique identifier of the forum activity.
+ * @returns An object containing the `forumSubscriptions` key with the full URL to the forum subscriptions page.
+ */
 export function getScrapeUrlForumSubscriptions(forumId: string | number): Record<string, string> {
     return {
         forumSubscriptions: `${BASE}${URLS.FORUM_SUBSCRIPTIONS(forumId)}`,

@@ -1,46 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Moodle Data Analyzer</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="font-sans m-0 p-4 min-w-[300px] max-w-full min-h-[300px] max-h-screen bg-gradient-to-br from-orange-50 to-orange-100 text-neutral-900 text-[15px] leading-relaxed">
-<!-- Contenedor tipo tarjeta -->
-<div class="bg-white rounded-xl shadow-xl p-4 text-center overflow-auto h-full">
-
-    <!-- Título principal -->
-    <h1 class="text-[20px] mb-4 text-[#f98012] font-extrabold">Moodle Data Analyzer</h1>
-
-    <!-- Botón de análisis -->
-    <button
-            id="analyzeButton"
-            type="button"
-            class="w-[120px] h-[120px] text-[16px] bg-[#f98012] text-white rounded-full font-semibold transition-all duration-300 hover:bg-[#e16e00] hover:scale-105 shadow-lg mx-auto"
-    >
-        Start
-    </button>
-
-    <!-- Botón de reinicio (oculto al inicio) -->
-    <button
-            id="restartButton"
-            type="button"
-            class="hidden mt-4 px-6 py-2 bg-[#f98012] text-white rounded-full font-semibold transition-all duration-300 hover:bg-[#e16e00] hover:scale-105 shadow-lg mx-auto"
-    >
-        Restart analysis
-    </button>
-
-    <!-- Spinner (initially hidden) -->
-    <div id="spinner" class="hidden flex flex-col items-center mt-6 space-y-2">
-        <div class="w-12 h-12 border-[5px] border-orange-400 border-t-transparent rounded-full animate-spin"></div>
-        <span class="text-sm text-orange-500 font-medium">Loading analysis...</span>
-    </div>
-
-    <!-- Zona de salida de texto o gráficas -->
-    <div id="output" class="mt-6 text-base whitespace-pre-wrap text-[#333]"></div>
-
-</div>
-
+<div id="root"></div>
 <script src="popup.js"></script>
 </body>
 </html>

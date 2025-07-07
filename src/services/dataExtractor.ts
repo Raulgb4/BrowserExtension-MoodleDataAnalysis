@@ -83,9 +83,9 @@ export async function scrapeNumParticipants(participantsUrl: string): Promise<nu
 }
 
 /**
- * Scrapes the list of participants from a Moodle course's participants page.
+ * Scrapes the list of participants from a Moodle course's participant page.
  *
- * This function parses the participants table, extracting each user's basic information,
+ * This function parses the participant table, extracting each user's basic information,
  * such as name, ID, email, roles, groups, last access time, and status.
  * Rows without valid IDs or names are skipped.
  *
@@ -153,7 +153,7 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
  * Scrapes the response data from a specific Choice activity in Moodle.
  *
  * This function retrieves the options available in the Choice activity and the number
- * of responses submitted for each option, based on the results table in the activity's page.
+ * of responses submitted for each option, based on the result table in the activity's page.
  *
  * @param id - The unique identifier of the Choice activity.
  * @param activityName - The display name of the activity as shown in the course.
@@ -310,7 +310,7 @@ export async function scrapeQuizzes(
 /**
  * Scrapes participation statistics from a Moodle forum activity.
  *
- * This function collects data from multiple forum-related pages including:
+ * This function collects data from multiple forum-related pages including
  * - Main forum page (to extract forum ID)
  * - Subscriptions page (to count subscribed users)
  * - Forum report page (to gather per-participant activity stats)
@@ -433,14 +433,14 @@ export async function scrapeForums(
 /**
  * Scrapes all relevant data from a Moodle course, including participants and activity statistics.
  *
- * This function first gathers participant information from the participants page,
+ * This function first gathers participant information from the participant page,
  * then parses the activity report page to extract and classify each activity
  * (e.g., forums, quizzes, choices, resources) based on its type.
  * For complex activities, additional scraping is performed to gather detailed statistics.
  *
  * @param courseId - The unique identifier of the Moodle course.
  * @param activityReportUrl - The URL of the course's activity report page.
- * @param participantsUrl - The URL of the course's participants page.
+ * @param participantsUrl - The URL of the course's participant page.
  * @param totalParticipants - The total number of participants enrolled in the course (used in report URLs).
  * @returns A promise that resolves to a `Course` object containing metadata, participants,
  *          and detailed activity data extracted from the course.

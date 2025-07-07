@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Moodle Data Analyzer",
   "description": "A Chrome extension for visualizing Moodle course data.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

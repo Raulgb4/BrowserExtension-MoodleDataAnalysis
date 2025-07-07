@@ -111,7 +111,7 @@ export function parseLastAccess(raw: string | undefined): number | undefined {
  * Extracts the user status from a raw string like "Enrolled student" or "Active".
  * Removes extra whitespace and returns the last word in the string.
  *
- * @param raw - The raw status string extracted from the DOM (e.g., "Enrolled  student", "Active").
+ * @param raw - The raw status string extracted from the DOM (e.g., "Enrolled student", "Active").
  * @returns The cleaned status as a single word, or undefined if the input is empty or invalid.
  */
 export function parseStatus(raw: string | undefined): string | undefined {
