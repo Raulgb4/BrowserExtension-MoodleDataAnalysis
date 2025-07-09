@@ -8,10 +8,10 @@
 import React, {useState} from "react";
 import TabContent from "./TabContent";
 
-const tabs = ["Global", "Choices", "Quizzes", "Forums"];
+const tabs = ["Global", "Participants", "Choices", "Quizzes", "Forums", "Other Activities"];
 
 const TabSection: React.FC = () => {
-    const [activeTab, setActiveTab] = useState("Global");
+    const [activeTab, setActiveTab] = useState("Participants");
 
     return (
         <div className="mt-6">
@@ -29,7 +29,7 @@ const TabSection: React.FC = () => {
                                     : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                             }`}
                         >
-                            {tab}
+                            <span className="whitespace-nowrap">{tab}</span>
                         </button>
                     ))}
                 </nav>

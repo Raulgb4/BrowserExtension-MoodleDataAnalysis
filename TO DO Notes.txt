@@ -7,11 +7,14 @@
 
 1. [Alta] Implementar el análisis de los datos.
 
+    - Preparar las gráficas que quieren mostrar. Estudiar qué gráficas pueden mostrar información
+    útil a partir de los datos scrapeados.
+
    - Conseguir que los datos scrapeados se almacenen en una base de datos persistente `chrome.storage.local`.
      Implementar la persistencia de datos. Los datos mostrados en la extensión deben persistir
      incluso al cerrarse o minimizarse la extensión.
-
-   - Modificar los componentes React de las gráficas (carpeta `tabs`) para que alimenten las gráficas con esos datos.
+       - Modificar los componentes React de las gráficas (carpeta `tabs`) para que alimenten las gráficas con esos datos.
+       Ahora mismo, las gráficas están alimentadas con datos de ejemplo (Mock Data).
 
    - Conseguir que las gráficas se puedan exportar a diferentes formatos desarrollando funciones en
      el archivo `exportUtils.ts` creado para esa finalidad:
@@ -19,6 +22,8 @@
      - PDF con tablas y figuras
      - JPEG
      - Otros formatos útiles
+
+   - Conseguir que a las gráficas se les puede aplicar filtros.
 
 2. [Media] Refactoring y JSDoc
 
