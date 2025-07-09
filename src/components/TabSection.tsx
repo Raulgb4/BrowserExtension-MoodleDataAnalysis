@@ -1,4 +1,11 @@
-import React, { useState } from "react";
+/**
+ * @file TabSection.tsx
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+
+import React, {useState} from "react";
 import TabContent from "./TabContent";
 
 const tabs = ["Global", "Choices", "Quizzes", "Forums"];
@@ -30,7 +37,7 @@ const TabSection: React.FC = () => {
 
             {/* Tab content */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab} />
+                <TabContent tab={activeTab}/>
             </div>
         </div>
     );

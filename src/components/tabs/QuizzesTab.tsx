@@ -1,4 +1,12 @@
-import { Bar } from "react-chartjs-2";
+/**
+ * @file QuizzesTab.tsx
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+
+import {Bar} from "react-chartjs-2";
+import React from "react";
 
 const QuizzesTab: React.FC = () => {
     const data = {
@@ -39,7 +47,7 @@ const QuizzesTab: React.FC = () => {
                 Resultados de un cuestionario de ejemplo
             </p>
             <div className="w-[300px] mx-auto">
-                <Bar data={data} options={options} />
+                <Bar data={data} options={options}/>
             </div>
         </div>
     );

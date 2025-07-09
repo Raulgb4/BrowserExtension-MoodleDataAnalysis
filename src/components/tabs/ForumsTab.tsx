@@ -1,4 +1,11 @@
-import { Bar } from "react-chartjs-2";
+/**
+ * @file ForumsTab.tsx
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+import {Bar} from "react-chartjs-2";
+import React from "react";
 
 const ForumsTab: React.FC = () => {
     const data = {
@@ -42,7 +49,7 @@ const ForumsTab: React.FC = () => {
                 Participación de estudiantes en foros (ejemplo)
             </p>
             <div className="w-[300px] mx-auto">
-                <Bar data={data} options={options} />
+                <Bar data={data} options={options}/>
             </div>
         </div>
     );

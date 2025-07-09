@@ -1,4 +1,11 @@
-import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+/**
+ * @file InfoCard.tsx
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+
+import {CheckCircleIcon, ExclamationTriangleIcon} from "@heroicons/react/24/solid";
 import {XMarkIcon} from "@heroicons/react/16/solid";
 import {useState} from "react";
 
@@ -8,7 +15,7 @@ interface InfoCardProps {
 }
 
 
-export default function InfoCard({ message, isError = false }: InfoCardProps) {
+export default function InfoCard({message, isError = false}: InfoCardProps) {
     const [visible, setVisible] = useState(true);
 
     if (!visible) return null;
@@ -28,16 +35,16 @@ export default function InfoCard({ message, isError = false }: InfoCardProps) {
         >
             <div className="flex items-center gap-3">
                 {isError ? (
-                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500" />
+                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500"/>
                 ) : (
-                    <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                    <CheckCircleIcon className="h-6 w-6 text-green-500"/>
                 )}
                 <span className="whitespace-nowrap font-medium">{message}</span>
             </div>
 
             {!isError && (
                 <button onClick={() => setVisible(false)} aria-label="Close">
-                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800" />
+                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800"/>
                 </button>
             )}
         </div>

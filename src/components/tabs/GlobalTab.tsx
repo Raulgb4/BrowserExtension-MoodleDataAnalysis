@@ -1,9 +1,14 @@
+/**
+ * @file GlobalTab.tsx
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+
 import "../../chartConfig";
-import { Bar } from "react-chartjs-2";
+import {Bar} from "react-chartjs-2";
 import React from "react";
-import { exportToCSV } from "../../utils/exportUtils";
-
-
+import {exportToCSV} from "../../utils/exportUtils";
 
 const GlobalTab: React.FC = () => {
     const labels = ["A", "B", "C"];
@@ -24,7 +29,7 @@ const GlobalTab: React.FC = () => {
         <div>
             <p className="mb-2 font-semibold text-gray-800">Participación global</p>
 
-            <Bar data={data} />
+            <Bar data={data}/>
 
             <div className="mt-3 flex justify-center gap-2">
                 <button

@@ -1,4 +1,10 @@
-// src/chartConfig.ts
+/**
+ * @file chartConfig.ts
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+
 import {
     Chart as ChartJS,
     CategoryScale,

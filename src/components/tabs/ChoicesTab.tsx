@@ -1,4 +1,11 @@
-import { Pie } from "react-chartjs-2";
+/**
+ * @file ChoicesTab.tsx
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+import {Pie} from "react-chartjs-2";
+import React from "react";
 
 const ChoicesTab: React.FC = () => {
     // Datos tontos de ejemplo para una actividad tipo "elección"
@@ -25,7 +32,7 @@ const ChoicesTab: React.FC = () => {
                 Resultados de la actividad de elección (ficticia)
             </p>
             <div className="max-w-full px-4">
-                <Pie data={data} />
+                <Pie data={data}/>
             </div>
         </div>
     );
