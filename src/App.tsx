@@ -15,11 +15,12 @@ import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
 import Button from "./components/Button";
 import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
+import TabSection from "./components/TabSection";
 
 /**
  * @function App
  * @description
- * The main React component responsible for rendering the user interface of the Moodle Data Analyzer extension.
+ * The main React part responsible for rendering the user interface of the Moodle Data Analyzer extension.
  * This component handles initialization, user interaction, data scraping, and UI updates.
  *
  * On mount, it checks whether the current browser tab is a Moodle course page.
@@ -123,11 +124,15 @@ export function App() {
 
 
     return (
-        <div className="bg-white rounded-xl shadow-xl p-4 text-center overflow-auto h-full">
+        <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
             <h1 className="text-[20px] mb-4 text-[#f98012] font-extrabold">Moodle Data Analyzer</h1>
+
             {isLoading && <Loader/>}
             {!isLoading && button}
             {outputMessage && <InfoCard message={outputMessage} isError={isError}/>}
+
+            {!isLoading && outputMessage && !isError && <TabSection />}
+
         </div>
     );
 }

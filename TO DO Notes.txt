@@ -2,24 +2,39 @@
   TODO - Moodle Extension
 =============================
 
-🔧 Nueva funcionalidad
-------------------------
-1. [Alta] Implementar la persistencia de datos usando `chrome.storage.local`.
-   - Los datos mostrados en la extensión deben persistir incluso al cerrarse o minimizarse.
+🎨 Visualización (Frontend)
+----------------------------
+1. [Alta] Implementar el análisis de los datos.
 
-2. [Baja] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
-
-3. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de CV UMA y entorno local.
+   - Conseguir que los datos scrapeados se almacenen en una base de datos persistente `chrome.storage.local`.
+     Implementar la persistencia de datos. Los datos mostrados en la extensión deben persistir
+     incluso al cerrarse o minimizarse la extensión.
+   - Modificar los componentes React de las gráficas (carpeta `tabs`) para que alimenten las gráficas con esos datos.
+   - Conseguir que las gráficas se puedan exportar a diferentes formatos desarrollando funciones en
+     el archivo `exportUtils.ts` creado para esa finalidad:
+     - CSV
+     - PDF con tablas y figuras
+     - JPEG
+     - Otros formatos útiles
 
 🛠️ Solución de problemas
 --------------------------
-1. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con los valores mostrados en Moodle.
- Revisar earliest y most recent post de los foros -> Problema de la Zona Horaria
+1. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
+   los valores mostrados en Moodle.
+   - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
 
-🎨 Visualización (Frontend)
-----------------------------
-1. [Alta] Diseñar bocetos (mockups) a papel de la interfaz deseada.
-   - Definir qué gráficos se van a mostrar.
-   - Determinar qué datos se visualizarán y cómo representarlos gráficamente.
+2. [Media] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
+   está creciendo demasiado (más de 244 KB). Soluciones propuestas:
+   - Lazy loading con `React.lazy`.
+   - Reducir el tamaño de Chart.js importando solo los elementos que se usan. Ver `chartConfig.ts`.
 
-2. [Alta] Comenzar a implementar esta parte
+
+🔧 Funcionalidad adicional
+--------------------------
+
+2. [Baja] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
+
+3. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
+   CV UMA y entorno local.
+
+

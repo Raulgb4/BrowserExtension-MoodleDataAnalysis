@@ -29,9 +29,11 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.10",
+    "chart.js": "^4.5.0",
     "npm": "^11.4.2",
     "postcss-import": "^16.1.1",
     "react": "^19.1.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0"
   }
 }
