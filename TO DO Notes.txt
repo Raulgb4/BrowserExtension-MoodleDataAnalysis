@@ -4,12 +4,15 @@
 
 🎨 Visualización (Frontend)
 ----------------------------
+
 1. [Alta] Implementar el análisis de los datos.
 
    - Conseguir que los datos scrapeados se almacenen en una base de datos persistente `chrome.storage.local`.
      Implementar la persistencia de datos. Los datos mostrados en la extensión deben persistir
      incluso al cerrarse o minimizarse la extensión.
+
    - Modificar los componentes React de las gráficas (carpeta `tabs`) para que alimenten las gráficas con esos datos.
+
    - Conseguir que las gráficas se puedan exportar a diferentes formatos desarrollando funciones en
      el archivo `exportUtils.ts` creado para esa finalidad:
      - CSV
@@ -17,8 +20,11 @@
      - JPEG
      - Otros formatos útiles
 
+2. [Media] Refactoring y JSDoc
+
 🛠️ Solución de problemas
 --------------------------
+
 1. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
    los valores mostrados en Moodle.
    - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
@@ -27,7 +33,6 @@
    está creciendo demasiado (más de 244 KB). Soluciones propuestas:
    - Lazy loading con `React.lazy`.
    - Reducir el tamaño de Chart.js importando solo los elementos que se usan. Ver `chartConfig.ts`.
-
 
 🔧 Funcionalidad adicional
 --------------------------
