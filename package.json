@@ -28,6 +28,7 @@
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/cli": "^4.1.10",
     "chart.js": "^4.5.0",
     "npm": "^11.4.2",

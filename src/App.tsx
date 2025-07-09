@@ -71,7 +71,7 @@ export function App() {
             );
 
             console.log("Course data:", course);
-            setOutputMessage("Analysis complete. Check the logs for detailed data.");
+            setOutputMessage("Analysis completed successfully!");
             setButton(restartButton);
 
         } catch (error) {

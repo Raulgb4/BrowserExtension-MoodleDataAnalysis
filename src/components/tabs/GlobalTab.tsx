@@ -22,17 +22,33 @@ const GlobalTab: React.FC = () => {
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-2">
-                <p className="font-semibold text-gray-800">Participación global</p>
+            <p className="mb-2 font-semibold text-gray-800">Participación global</p>
+
+            <Bar data={data} />
+
+            <div className="mt-3 flex justify-center gap-2">
                 <button
                     onClick={() => exportToCSV(labels, values)}
                     title="Descargar CSV"
-                    className="text-sm text-white bg-orange-500 hover:bg-orange-600 px-2 py-1 rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
                 >
                     Exportar CSV
                 </button>
+
+                <button
+                    title="Descargar PDF"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
+                >
+                    Exportar PDF
+                </button>
+
+                <button
+                    title="Descargar PNG"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
+                >
+                    Exportar PNG
+                </button>
             </div>
-            <Bar data={data} />
         </div>
     );
 };
