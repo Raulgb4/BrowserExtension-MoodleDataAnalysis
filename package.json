@@ -31,6 +31,8 @@
     "@heroicons/react": "^2.2.0",
     "@tailwindcss/cli": "^4.1.10",
     "chart.js": "^4.5.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "npm": "^11.4.2",
     "postcss-import": "^16.1.1",
     "react": "^19.1.0",
