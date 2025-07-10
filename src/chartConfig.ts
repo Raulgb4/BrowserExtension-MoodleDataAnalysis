@@ -11,11 +11,13 @@ import {
     LinearScale,
     BarElement,
     ArcElement,
+    RadialLinearScale,
     LineElement,
     PointElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 } from "chart.js";
 
 ChartJS.register(
@@ -23,9 +25,11 @@ ChartJS.register(
     LinearScale,
     BarElement,
     ArcElement,
+    RadialLinearScale,
     LineElement,
     PointElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );

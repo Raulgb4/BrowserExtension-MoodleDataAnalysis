@@ -20,36 +20,65 @@ Gráficas sugeridas:
 */
 
 const ChoicesTab: React.FC = () => {
-    // Datos ficticios para una actividad tipo "elección"
-    const labels = ["Option A", "Option B", "Option C"];
-    const values = [12, 8, 5];
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: "Responses",
-                data: values,
-                backgroundColor: [
-                    "rgba(249, 128, 18, 0.6)", // UMA orange
-                    "rgba(249, 186, 75, 0.6)", // lighter tone
-                    "rgba(255, 229, 185, 0.6)", // very light
-                ],
-                borderColor: "white",
-                borderWidth: 2,
+    // Datos ficticios de 3 actividades tipo Choice
+    const choices = [
+        {
+            title: "Favorite Language",
+            responses: {
+                "JavaScript": 14,
+                "Python": 20,
+                "C++": 6,
             },
-        ],
-    };
+        },
+        {
+            title: "Preferred IDE",
+            responses: {
+                "VS Code": 18,
+                "PyCharm": 7,
+                "IntelliJ": 9,
+            },
+        },
+        {
+            title: "Study Method",
+            responses: {
+                "Group": 10,
+                "Solo": 15,
+                "Mixed": 5,
+            },
+        },
+    ];
 
     return (
         <div>
-            <GraphBlock
-                title="Choice Activity Results (Mock Data)"
-                chartType="pie"
-                data={data}
-                labels={labels}
-                values={values}
-            />
+            {choices.map((choice, index) => {
+                const labels = Object.keys(choice.responses);
+                const values = Object.values(choice.responses);
+
+                const data = {
+                    labels,
+                    datasets: [
+                        {
+                            label: "Responses",
+                            data: values,
+                            backgroundColor: "rgba(249, 128, 18, 0.6)",
+                            borderColor: "rgba(249, 128, 18, 1)",
+                            borderWidth: 1,
+                        },
+                    ],
+                };
+
+                return (
+                    <div key={index} className="mb-6">
+                        <GraphBlock
+                            title={`"${choice.title}" Results`}
+                            chartType="bar"
+                            data={data}
+                            labels={labels}
+                            values={values}
+                        />
+                    </div>
+                );
+            })}
         </div>
     );
 };
