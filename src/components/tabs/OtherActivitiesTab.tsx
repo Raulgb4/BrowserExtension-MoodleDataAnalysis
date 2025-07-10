@@ -25,86 +25,119 @@ Gráficas sugeridas:
 */
 
 const OtherActivitiesTab: React.FC = () => {
+    // ─── Mock data ────────────────────────────────────────────
+    const mockUrlResources = [
+        {
+            activityName: "Presentación de TALF",
+            numViews: 631,
+            numUsers: 171,
+            lastAccess: 363600000,
+        },
+        {
+            activityName: "Apuntes y scripts (repo en bitbucket)",
+            numViews: 760,
+            numUsers: 157,
+            lastAccess: 1472400000,
+        },
+    ];
 
-    // ─── URL Resources ──────────────────────────────────────
-    const urlLabels = ["Link 1", "Link 2", "Link 3"];
-    const urlValues = [24, 18, 32];
-    const urlData = {
-        labels: urlLabels,
+    const mockResources = [
+        {
+            activityName: "Copia local del repo talfuma",
+            numViews: 181,
+            numUsers: 86,
+            lastAccess: 428400000,
+        },
+        {
+            activityName: "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
+            numViews: 4806,
+            numUsers: 203,
+            lastAccess: 788400000,
+        },
+    ];
+
+    const mockWorkshops = [
+        {
+            activityName: "Taller Bloque 1",
+            numViews: 1005,
+            numUsers: 39,
+            lastAccess: 428400000,
+        },
+        {
+            activityName: "Taller Bloque 2",
+            numViews: 699,
+            numUsers: 37,
+            lastAccess: 1472400000,
+        },
+    ];
+
+    // ─── Datos para cada gráfica ──────────────────────────────
+
+    const getBarData = (
+        items: typeof mockUrlResources,
+        label: string,
+        background: string,
+        border: string
+    ) => ({
+        labels: items.map(i => i.activityName),
         datasets: [
             {
-                label: "Visits",
-                data: urlValues,
-                backgroundColor: "rgba(100, 181, 246, 0.6)",
-                borderColor: "rgba(100, 181, 246, 1)",
+                label,
+                data: items.map(i => i.numViews),
+                backgroundColor: background,
+                borderColor: border,
                 borderWidth: 1,
             },
         ],
-    };
-
-    // ─── File Resources ─────────────────────────────────────
-    const fileLabels = ["Document A", "Slides B", "Guide C"];
-    const fileValues = [40, 22, 15];
-    const fileData = {
-        labels: fileLabels,
-        datasets: [
-            {
-                label: "Downloads",
-                data: fileValues,
-                backgroundColor: "rgba(255, 167, 38, 0.6)",
-                borderColor: "rgba(255, 167, 38, 1)",
-                borderWidth: 1,
-            },
-        ],
-    };
-
-    // ─── Workshops ──────────────────────────────────────────
-    const workshopLabels = ["Workshop X", "Workshop Y"];
-    const workshopValues = [10, 14];
-    const workshopData = {
-        labels: workshopLabels,
-        datasets: [
-            {
-                label: "Submissions",
-                data: workshopValues,
-                backgroundColor: "rgba(129, 199, 132, 0.6)",
-                borderColor: "rgba(129, 199, 132, 1)",
-                borderWidth: 1,
-            },
-        ],
-    };
+    });
 
     return (
         <div>
             <GraphBlock
                 title="URL Resource Visits (Mock Data)"
                 chartType="bar"
-                data={urlData}
-                labels={urlLabels}
-                values={urlValues}
+                data={getBarData(
+                    mockUrlResources,
+                    "Visits",
+                    "rgba(100, 181, 246, 0.6)",
+                    "rgba(100, 181, 246, 1)"
+                )}
+                labels={mockUrlResources.map(i => i.activityName)}
+                values={mockUrlResources.map(i => i.numViews)}
             />
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
 
             <GraphBlock
-                title="File Resource Downloads (Mock Data)"
+                title="File Resource Visits (Mock Data)"
                 chartType="bar"
-                data={fileData}
-                labels={fileLabels}
-                values={fileValues}
+                data={getBarData(
+                    mockResources,
+                    "Visits",
+                    "rgba(255, 167, 38, 0.6)",
+                    "rgba(255, 167, 38, 1)"
+                )}
+                labels={mockResources.map(i => i.activityName)}
+                values={mockResources.map(i => i.numViews)}
             />
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
 
             <GraphBlock
-                title="Workshop Submissions (Mock Data)"
+                title="Workshop Visits (Mock Data)"
                 chartType="bar"
-                data={workshopData}
-                labels={workshopLabels}
-                values={workshopValues}
+                data={getBarData(
+                    mockWorkshops,
+                    "Visits",
+                    "rgba(129, 199, 132, 0.6)",
+                    "rgba(129, 199, 132, 1)"
+                )}
+                labels={mockWorkshops.map(i => i.activityName)}
+                values={mockWorkshops.map(i => i.numViews)}
             />
         </div>
     );
 };
 
 export default OtherActivitiesTab;
+
