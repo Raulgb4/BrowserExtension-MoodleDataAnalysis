@@ -1,6 +1,7 @@
 import React from "react";
-import {Pie, Bar, Line, Radar} from "react-chartjs-2"; // importa los necesarios
-import {exportToCSV} from "../utils/exportUtils";
+import { Pie, Bar, Line, Radar } from "react-chartjs-2";
+import { ChartOptions } from "chart.js";
+import { exportToCSV } from "../utils/exportUtils";
 
 type ChartType = "pie" | "bar" | "line" | "radar";
 
@@ -10,10 +11,10 @@ interface GraphBlockProps {
     data: any;
     labels: string[];
     values: number[];
+    options?: ChartOptions;
 }
 
-const GraphBlock: React.FC<GraphBlockProps> = ({ title, chartType, data, labels, values }) => {
-    // Selecciona el componente de gráfico según el tipo
+const GraphBlock: React.FC<GraphBlockProps> = ({ title, chartType, data, labels, values, options }) => {
     const ChartComponent =
         chartType === "pie"
             ? Pie
@@ -23,12 +24,11 @@ const GraphBlock: React.FC<GraphBlockProps> = ({ title, chartType, data, labels,
                     ? Line
                     : Radar;
 
-    // Tamaños configurables por tipo
     const chartSizes: Record<ChartType, string> = {
         pie: "w-[200px]",
-        bar: "w-[300px]",
+        bar: "w-[350px]",
         line: "w-[350px]",
-        radar: "w-[300px]", // ← Tamaño para radar
+        radar: "w-[300px]",
     };
 
     const chartWidthClass = chartSizes[chartType] || "w-[250px]";
@@ -38,7 +38,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({ title, chartType, data, labels,
             <p className="mb-2 text-center font-semibold text-gray-800">{title}</p>
 
             <div className={`${chartWidthClass} mx-auto`}>
-                <ChartComponent data={data} />
+                <ChartComponent data={data} options={options as any} />
             </div>
 
             <div className="mt-3 flex justify-center gap-2">

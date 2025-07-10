@@ -68,14 +68,19 @@ const ChoicesTab: React.FC = () => {
                 };
 
                 return (
-                    <div key={index} className="mb-6">
+                    <div key={index}>
                         <GraphBlock
-                            title={`"${choice.title}" Results`}
+                            title={`"${choice.title}" Results (Mock Data)`}
                             chartType="bar"
                             data={data}
                             labels={labels}
                             values={values}
                         />
+
+                        {/* Añadir separador excepto después del último */}
+                        {index < choices.length - 1 && (
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                        )}
                     </div>
                 );
             })}
