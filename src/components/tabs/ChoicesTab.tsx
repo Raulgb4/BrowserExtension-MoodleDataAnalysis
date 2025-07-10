@@ -9,16 +9,6 @@ import React from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
-/*
-TODO:
-ChoicesTab
-Objetivo docente: Ver participación y distribución de respuestas.
-
-Gráficas sugeridas:
-1. Barras: Número de respuestas por opción.
-2. Barras múltiples: Comparativa de participación por elección.
-*/
-
 const ChoicesTab: React.FC = () => {
     // Datos ficticios de 3 actividades tipo Choice
     const choices = [

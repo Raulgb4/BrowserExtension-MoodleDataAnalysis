@@ -9,15 +9,6 @@ import React from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
-/*
-TODO:
-QuizzesTab
-Objetivo docente: Visualizar rendimiento del alumnado.
-
-Gráficas sugeridas:
-3. Línea: Evolución media de notas (si hay múltiples quizzes).
-*/
-
 const QuizzesTab: React.FC = () => {
     const mockQuizzes = [
         {

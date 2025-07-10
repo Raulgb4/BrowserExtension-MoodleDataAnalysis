@@ -9,28 +9,57 @@ import React from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
-/*
-TODO:
-ForumsTab
-Objetivo docente: Analizar participación en foros.
-
-Gráficas sugeridas:
-1. Barras: Número de mensajes por estudiante.
-2. Barras por foro: Publicaciones totales por foro.
-3. (Opcional) Dispersión: mensajes vs. respuestas recibidas.
-*/
-
 const ForumsTab: React.FC = () => {
-    const labels = ["Student A", "Student B", "Student C", "Student D"];
-    const values = [5, 12, 3, 7];
+    const mockForums = [
+        {
+            activityName: "Foro de dudas",
+            subscriptions: 205,
+            participantsStats: [
+                {
+                    participantName: "Student A",
+                    discussionsPosted: 1,
+                    repliesPosted: 3,
+                    views: 10,
+                },
+                {
+                    participantName: "Student B",
+                    discussionsPosted: 0,
+                    repliesPosted: 1,
+                    views: 5,
+                },
+            ],
+        },
+        {
+            activityName: "Foro general",
+            subscriptions: 192,
+            participantsStats: [
+                {
+                    participantName: "Student A",
+                    discussionsPosted: 0,
+                    repliesPosted: 2,
+                    views: 8,
+                },
+                {
+                    participantName: "Student C",
+                    discussionsPosted: 1,
+                    repliesPosted: 1,
+                    views: 6,
+                },
+            ],
+        },
+    ];
 
-    const data = {
-        labels,
+    // ─── Gráfica 1: Número de suscripciones por foro ─────────────
+    const forumLabels = mockForums.map(f => f.activityName);
+    const forumSubscriptions = mockForums.map(f => f.subscriptions);
+
+    const subsData = {
+        labels: forumLabels,
         datasets: [
             {
-                label: "Posts published",
-                data: values,
-                backgroundColor: "rgba(249, 128, 18, 0.6)", // UMA orange
+                label: "Subscriptions",
+                data: forumSubscriptions,
+                backgroundColor: "rgba(249, 128, 18, 0.6)",
                 borderColor: "rgba(249, 128, 18, 1)",
                 borderWidth: 1,
             },
@@ -39,13 +68,60 @@ const ForumsTab: React.FC = () => {
 
     return (
         <div>
+            {/* Gráfica de suscripciones */}
             <GraphBlock
-                title="Forum Participation (Mock Data)"
+                title="Subscriptions per Forum"
                 chartType="bar"
-                data={data}
-                labels={labels}
-                values={values}
+                data={subsData}
+                labels={forumLabels}
+                values={forumSubscriptions}
             />
+
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+
+            {/* Gráfica por foro: participación individual */}
+            {mockForums.map((forum, index) => {
+                const participants = forum.participantsStats.map(p => p.participantName);
+                const maxActivity = Math.max(
+                    ...forum.participantsStats.map(p =>
+                        p.discussionsPosted + p.repliesPosted + p.views
+                    )
+                ) || 1;
+
+                const values = forum.participantsStats.map(p => {
+                    const score = p.discussionsPosted + p.repliesPosted + p.views;
+                    return parseFloat(((score / maxActivity) * 100).toFixed(2));
+                });
+
+                const data = {
+                    labels: participants,
+                    datasets: [
+                        {
+                            label: "Participation (%)",
+                            data: values,
+                            fill: false,
+                            borderColor: "rgba(100, 181, 246, 1)",
+                            backgroundColor: "rgba(100, 181, 246, 0.6)",
+                            tension: 0.3,
+                        },
+                    ],
+                };
+
+                return (
+                    <div key={index}>
+                        <GraphBlock
+                            title={`Participation – ${forum.activityName}`}
+                            chartType="line"
+                            data={data}
+                            labels={participants}
+                            values={values}
+                        />
+                        {index < mockForums.length - 1 && (
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 };
