@@ -13,15 +13,6 @@ import React from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
-/*
-TODO:
-GlobalTab (UrlResources, Resources, Workshops)
-Resumen global con:
-- Total de vistas por tipo de actividad.
-- Participación media por actividad.
-- Comparativa entre foros, quizzes y elecciones.
-*/
-
 const GlobalTab: React.FC = () => {
     const activityName = ["Choices", "Quizzes", "Forums", "URL Resources", "Resources", "Workshops"];
 

@@ -9,37 +9,50 @@ import React from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
-/*
-TODO:
-ParticipantsTab
-Objetivo docente: Saber cuántos estudiantes están accediendo al curso.
-
-Gráficas sugeridas:
-1. Diagrama de sectores: Participantes activos vs. inactivos.
-2. Barras: Frecuencia de accesos por participante (si hay datos de acceso).
-3. Histograma del número de vistas totales por usuario.
-*/
-
 const ParticipantsTab: React.FC = () => {
-    const numParticipantsTotal = 215;
-    const numParticipantsActive = 32;
-    const numParticipantsInactive = numParticipantsTotal - numParticipantsActive;
+    // Datos ficticios de lastAccess en milisegundos desde último acceso
+    const mockParticipants: { id: number; lastAccessToCourse?: number }[] = Array.from({ length: 215 }, (_, i) => {
+        if (i < 120) return { id: i + 1, lastAccessToCourse: 1000 * 60 * 60 * 24 * Math.floor(Math.random() * 180) }; // hace X días
+        if (i < 180) return { id: i + 1, lastAccessToCourse: 1000 * 60 * 60 * 24 * Math.floor(Math.random() * 7) }; // reciente
+        return { id: i + 1 }; // sin acceso
+    });
 
-    const labels = ["Active", "Inactive"];
-    const values = [numParticipantsActive, numParticipantsInactive];
+    const now = Date.now();
+    const ranges = {
+        "Last 7 days": 0,
+        "8–30 days": 0,
+        "31–90 days": 0,
+        "> 90 days": 0,
+        "Never accessed": 0,
+    };
+
+    for (const participant of mockParticipants) {
+        const access = participant.lastAccessToCourse;
+        if (access === undefined) {
+            ranges["Never accessed"]++;
+        } else {
+            const daysAgo = Math.floor((now - access) / (1000 * 60 * 60 * 24));
+            if (daysAgo <= 7) ranges["Last 7 days"]++;
+            else if (daysAgo <= 30) ranges["8–30 days"]++;
+            else if (daysAgo <= 90) ranges["31–90 days"]++;
+            else ranges["> 90 days"]++;
+        }
+    }
+
+    const labels = Object.keys(ranges);
+    const values = Object.values(ranges);
 
     const data = {
         labels,
         datasets: [
             {
-                label: "Participants",
+                label: "Participants by Last Access Time",
                 data: values,
-                backgroundColor: [
-                    "rgba(249, 128, 18, 0.6)", // naranja activo
-                    "rgba(203, 213, 225, 0.8)", // gris inactivo
-                ],
-                borderColor: "white",
-                borderWidth: 2,
+                fill: true,
+                borderColor: "rgba(59, 130, 246, 1)",
+                backgroundColor: "rgba(59, 130, 246, 0.2)",
+                pointBackgroundColor: "rgba(59, 130, 246, 1)",
+                tension: 0.3,
             },
         ],
     };
@@ -49,6 +62,30 @@ const ParticipantsTab: React.FC = () => {
             <GraphBlock
                 title="Global Participation (Mock Data)"
                 chartType="pie"
+                data={{
+                    labels: ["Active", "Inactive"],
+                    datasets: [
+                        {
+                            label: "Participants",
+                            data: [180, 35],
+                            backgroundColor: [
+                                "rgba(249, 128, 18, 0.6)",
+                                "rgba(203, 213, 225, 0.8)",
+                            ],
+                            borderColor: "white",
+                            borderWidth: 2,
+                        },
+                    ],
+                }}
+                labels={["Active", "Inactive"]}
+                values={[180, 35]}
+            />
+
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+
+            <GraphBlock
+                title="Last Access Distribution (Mock Data)"
+                chartType="line"
                 data={data}
                 labels={labels}
                 values={values}
