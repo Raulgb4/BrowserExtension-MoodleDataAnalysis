@@ -13,17 +13,6 @@ import React from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
-/*
-TODO:
-OtherActivitiesTab (UrlResources, Resources, Workshops)
-Objetivo docente: Evaluar el uso de recursos.
-
-Gráficas sugeridas:
-1. URL Resources → Barras: Visitas por enlace.
-2. Resources → Barras: Descargas por archivo.
-3. Workshops → Barras: Entregas por taller.
-*/
-
 const OtherActivitiesTab: React.FC = () => {
     // ─── Mock data ────────────────────────────────────────────
     const mockUrlResources = [
