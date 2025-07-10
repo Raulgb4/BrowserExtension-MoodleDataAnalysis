@@ -11,17 +11,20 @@ import {
     LinearScale,
     BarElement,
     ArcElement,
+    LineElement,
+    PointElement,
     Title,
     Tooltip,
     Legend
 } from "chart.js";
 
-// Registrar los componentes que usarás
 ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
     ArcElement,
+    LineElement,
+    PointElement,
     Title,
     Tooltip,
     Legend

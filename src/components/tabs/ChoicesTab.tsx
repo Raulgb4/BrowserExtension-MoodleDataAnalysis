@@ -7,6 +7,7 @@
 
 import React from "react";
 import GraphBlock from "../GraphBlock";
+import "../../chartConfig";
 
 /*
 TODO:

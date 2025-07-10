@@ -11,6 +11,7 @@
 
 import React from "react";
 import GraphBlock from "../GraphBlock";
+import "../../chartConfig";
 
 /*
 TODO:
@@ -22,35 +23,65 @@ Resumen global con:
 */
 
 const GlobalTab: React.FC = () => {
+    const activityName = ["Choices", "Quizzes", "Forums", "URL Resources", "Resources", "Workshops"];
 
-    // ─── URL Resources ──────────────────────────────────────
-    const urlLabels = ["Link 1", "Link 2", "Link 3"];
-    const urlValues = [24, 18, 32];
-    const urlData = {
-        labels: urlLabels,
+    // Total number of visits per activity type (mock)
+    const numViews = [64, 105, 89, 74, 52, 38];
+
+    // Number of unique users who accessed each activity (mock)
+    const numUsers = [25, 35, 42, 30, 28, 19];
+
+    // Average views per user
+    const avgViewsPerUser = numViews.map((views, i) =>
+        numUsers[i] !== 0 ? parseFloat((views / numUsers[i]).toFixed(2)) : 0
+    );
+
+    const totalViewsData = {
+        labels: activityName,
         datasets: [
             {
-                label: "Visits",
-                data: urlValues,
-                backgroundColor: "rgba(100, 181, 246, 0.6)",
-                borderColor: "rgba(100, 181, 246, 1)",
+                label: "Total Visits",
+                data: numViews,
+                backgroundColor: "rgba(249, 128, 18, 0.6)",
+                borderColor: "rgba(249, 128, 18, 1)",
                 borderWidth: 1,
             },
         ],
     };
 
+    const avgViewsData = {
+        labels: activityName,
+        datasets: [
+            {
+                label: "Average Views per User",
+                data: avgViewsPerUser,
+                fill: false,
+                borderColor: "rgba(100, 181, 246, 1)",
+                backgroundColor: "rgba(100, 181, 246, 0.6)",
+                tension: 0.3, // suaviza la curva
+            },
+        ],
+    };
 
     return (
         <div>
             <GraphBlock
-                title="URL Resource Visits (Mock Data)"
+                title="Total Visits by Activity Type (Mock Data)"
                 chartType="bar"
-                data={urlData}
-                labels={urlLabels}
-                values={urlValues}
+                data={totalViewsData}
+                labels={activityName}
+                values={numViews}
             />
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+
+            <GraphBlock
+                title="Average Views per User (Mock Data)"
+                chartType="line" // 🎯 ahora es gráfico de línea
+                data={avgViewsData}
+                labels={activityName}
+                values={avgViewsPerUser}
+            />
         </div>
     );
 };

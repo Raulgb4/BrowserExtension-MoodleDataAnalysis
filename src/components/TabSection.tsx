@@ -11,7 +11,7 @@ import TabContent from "./TabContent";
 const tabs = ["Global", "Participants", "Choices", "Quizzes", "Forums", "Other Activities"];
 
 const TabSection: React.FC = () => {
-    const [activeTab, setActiveTab] = useState("Participants");
+    const [activeTab, setActiveTab] = useState("Global");
 
     return (
         <div className="mt-6">

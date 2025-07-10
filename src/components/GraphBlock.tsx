@@ -1,6 +1,6 @@
 import React from "react";
-import { Pie, Bar, Line } from "react-chartjs-2"; // importa los necesarios
-import { exportToCSV } from "../utils/exportUtils";
+import {Pie, Bar, Line} from "react-chartjs-2"; // importa los necesarios
+import {exportToCSV} from "../utils/exportUtils";
 
 type ChartType = "pie" | "bar" | "line";
 
@@ -12,17 +12,25 @@ interface GraphBlockProps {
     values: number[];
 }
 
-const GraphBlock: React.FC<GraphBlockProps> = ({ title, chartType, data, labels, values }) => {
+const GraphBlock: React.FC<GraphBlockProps> = ({title, chartType, data, labels, values}) => {
     const ChartComponent = chartType === "pie" ? Pie : chartType === "bar" ? Bar : Line;
+
+    // Tamaños configurables por tipo de gráfico
+    const chartSizes: Record<string, string> = {
+        pie: "w-[200px]",
+        bar: "w-[300px]",
+        line: "w-[350px]",
+    };
+
+    const chartWidthClass = chartSizes[chartType] || "w-[250px]"; // fallback por si se pasa uno no definido
 
     return (
         <div className="mb-6">
             <p className="mb-2 text-center font-semibold text-gray-800">{title}</p>
 
-            <div className="w-[200px] mx-auto">
-                <ChartComponent data={data} />
+            <div className={`${chartWidthClass} mx-auto`}>
+                <ChartComponent data={data}/>
             </div>
-
             <div className="mt-3 flex justify-center gap-2">
                 <button
                     onClick={() => exportToCSV(labels, values)}
