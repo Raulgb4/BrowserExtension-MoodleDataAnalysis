@@ -16,11 +16,6 @@
    - Conseguir que a las gráficas se les puede aplicar filtros.
 
 2. [Media] Refactoring y JSDoc
-    - Archivo `exportUtils.ts`
-    - Archivo `chartConfig.ts`
-    - Archivo `TabContent.tsx`
-    - Archivo `TabSection.tsx`
-    - Archivo `GraphBlock.tsx`
 
     - Archivo `ChoicesTab.tsx`
     - Archivo `ForumsTab.tsx`
