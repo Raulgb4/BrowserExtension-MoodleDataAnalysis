@@ -1,6 +1,11 @@
 /**
  * @file TabContent.tsx
- *
+ * @description
+ * This component is responsible for rendering the appropriate content tab
+ * based on the currently selected tab label. It maps tab names to their
+ * corresponding components and displays them dynamically.
+ * Used in the main interface to switch between different data visualizations
+ * like Global stats, Participants, Quizzes, Forums, and more.
  * @author Raúl García Balongo
  * @date 2025
  */
@@ -17,23 +22,19 @@ interface TabContentProps {
     tab: string;
 }
 
+const tabComponents: Record<string, React.FC> = {
+    Global: GlobalTab,
+    Participants: ParticipantsTab,
+    Choices: ChoicesTab,
+    Quizzes: QuizzesTab,
+    Forums: ForumsTab,
+    "Other Activities": OtherActivitiesTab,
+};
+
 const TabContent: React.FC<TabContentProps> = ({tab}) => {
-    switch (tab) {
-        case "Global":
-            return <GlobalTab/>;
-        case "Participants":
-            return <ParticipantsTab/>;
-        case "Choices":
-            return <ChoicesTab/>;
-        case "Quizzes":
-            return <QuizzesTab/>;
-        case "Forums":
-            return <ForumsTab/>;
-        case "Other Activities":
-            return <OtherActivitiesTab/>
-        default:
-            return <p>Selecciona una pestaña para ver el contenido.</p>;
-    }
+    const Component = tabComponents[tab];
+
+    return Component ? <Component/> : <p>Selecciona una pestaña para ver el contenido.</p>;
 };
 
 export default TabContent;

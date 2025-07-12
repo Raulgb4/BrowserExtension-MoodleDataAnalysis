@@ -1,14 +1,20 @@
 /**
  * @file exportUtils.ts
+ * @description
+ * This utility module provides functions to export chart data and visualizations
+ * in various formats including CSV, image (PNG or JPEG), and PDF.
+ * It leverages Chart.js for accessing chart instances, and jsPDF with jsPDF-AutoTable
+to generate structured documents containing both charts and associated data.
  *
+ * These exports are intended to enhance the usability and shareability of
+ * statistical information extracted from Moodle activities or other data sources.
  * @author Raúl García Balongo
  * @date 2025
  */
-
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { Chart as ChartJS } from "chart.js";
-import { RefObject } from "react";
+import {Chart as ChartJS} from "chart.js";
+import React, {RefObject} from "react";
 
 /**
  * @function exportToCSV
@@ -32,7 +38,7 @@ export function exportToCSV(
     values: number[],
     filename: string = "export.csv"
 ): void {
-    const header = ["Categoría", "Valor"];
+    const header = ["Category", "Value"];
     const rows = labels.map((label, i) => [label, values[i]]);
 
     const csv = [header, ...rows]
@@ -54,7 +60,7 @@ export function exportToCSV(
  * @function exportToImage
  * @description
  * Utility function to export a Chart.js chart as an image (PNG or JPEG).
- * It uses Chart.js' built-in `toBase64Image()` method to generate
+ * It uses 'Chart.js' built-in `toBase64Image()` method to generate
  * a base64-encoded image and triggers a download in the browser.
  *
  * @param {React.RefObject<ChartJS | null>} chartRef - Ref to the rendered chart instance.
@@ -76,7 +82,6 @@ export function exportToImage(
 
     const canvas = chart.canvas as HTMLCanvasElement;
 
-    // Crear un nuevo canvas con fondo blanco
     const exportCanvas = document.createElement("canvas");
     exportCanvas.width = canvas.width;
     exportCanvas.height = canvas.height;
@@ -87,7 +92,6 @@ export function exportToImage(
         return;
     }
 
-    // Pintar fondo blanco y copiar contenido original
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
     ctx.drawImage(canvas, 0, 0);
@@ -103,7 +107,6 @@ export function exportToImage(
     document.body.removeChild(link);
 }
 
-
 /**
  * @function exportToPDF
  * @description
@@ -111,7 +114,7 @@ export function exportToImage(
  * The PDF includes the chart image and a data table with corresponding labels and values.
  *
  * It uses `toBase64Image()` from Chart.js to extract the chart visual as an image,
- * and `jspdf-autotable` to render the data in tabular form.
+ * and `jspdf-auto table` to render the data in tabular form.
  *
  * @param {React.RefObject<ChartJS | null>} chartRef - Reference to the Chart.js instance.
  * @param {string[]} labels - The labels corresponding to chart data categories.
@@ -135,7 +138,6 @@ export function exportToPDF(
     const base64Image = chart.toBase64Image();
     const doc = new jsPDF();
 
-    // Add the chart image
     const imgProps = (doc as any).getImageProperties?.(base64Image);
     const pdfWidth = 180;
     const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
@@ -143,18 +145,16 @@ export function exportToPDF(
 
     doc.addImage(base64Image, "PNG", 15, 20, pdfWidth, pdfHeight);
 
-    // Add some space after the image
     const tableY = 20 + pdfHeight + 10;
 
-    // Prepare table data
     const tableData = labels.map((label, i) => [label, values[i]]);
 
     autoTable(doc, {
         startY: tableY,
         head: [["Category", "Value"]],
         body: tableData,
-        styles: { fontSize: 10 },
-        headStyles: { fillColor: [249, 128, 18] }, // UMA orange
+        styles: {fontSize: 10},
+        headStyles: {fillColor: [249, 128, 18]},
     });
 
     doc.save(filename);

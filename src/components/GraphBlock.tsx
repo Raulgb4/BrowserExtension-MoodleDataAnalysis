@@ -1,7 +1,21 @@
-import React, { useRef } from "react";
-import { Pie, Bar, Line, Radar } from "react-chartjs-2";
-import { Chart as ChartJS, ChartOptions } from "chart.js";
-import { exportToCSV, exportToImage, exportToPDF } from "../utils/exportUtils";
+/**
+ * @file GraphBlock.tsx
+ * @description
+ * Reusable React component that renders a Chart.js-based graph (Pie, Bar, Line, or Radar)
+ * with built-in export options. It supports rendering chart visualizations with custom titles,
+ * configurable sizes, and export buttons for CSV, PDF, PNG, and JPEG formats.
+ *
+ * The component receives data and configuration props and dynamically chooses
+ * the appropriate Chart.js component based on the specified chart type.
+ * It also includes a ref to access the chart instance for export functionality.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+import React, {useRef} from "react";
+import {Pie, Bar, Line, Radar} from "react-chartjs-2";
+import {Chart as ChartJS, ChartOptions} from "chart.js";
+import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
 
 type ChartType = "pie" | "bar" | "line" | "radar";
 
@@ -14,6 +28,20 @@ interface GraphBlockProps {
     options?: ChartOptions;
 }
 
+const chartComponents: Record<ChartType, React.ComponentType<any>> = {
+    pie: Pie,
+    bar: Bar,
+    line: Line,
+    radar: Radar,
+};
+
+const chartSizes: Record<ChartType, string> = {
+    pie: "w-[200px]",
+    bar: "w-[350px]",
+    line: "w-[350px]",
+    radar: "w-[300px]",
+};
+
 const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    title,
                                                    chartType,
@@ -22,46 +50,24 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    values,
                                                    options,
                                                }) => {
-    const chartSizes: Record<ChartType, string> = {
-        pie: "w-[200px]",
-        bar: "w-[350px]",
-        line: "w-[350px]",
-        radar: "w-[300px]",
-    };
-
-    const chartWidthClass = chartSizes[chartType] || "w-[250px]";
-
-    // Ref específico según el tipo de gráfico
     const chartRef = useRef<ChartJS>(null);
-
-    const renderChart = () => {
-        switch (chartType) {
-            case "pie":
-                return <Pie ref={chartRef as any} data={data} options={options as any} />;
-            case "bar":
-                return <Bar ref={chartRef as any} data={data} options={options as any} />;
-            case "line":
-                return <Line ref={chartRef as any} data={data} options={options as any} />;
-            case "radar":
-                return <Radar ref={chartRef as any} data={data} options={options as any} />;
-            default:
-                return null;
-        }
-    };
+    const ChartComponent = chartComponents[chartType];
+    const chartWidthClass = chartSizes[chartType] || "w-[250px]";
 
     return (
         <div className="mb-6">
             <p className="mb-2 text-center font-semibold text-gray-800">{title}</p>
 
             <div className={`${chartWidthClass} mx-auto`}>
-                {renderChart()}
+                <ChartComponent ref={chartRef as any} data={data} options={options as any}/>
             </div>
 
             <div className="mt-3 flex justify-center gap-2">
                 <button
                     onClick={() => exportToCSV(labels, values)}
                     title="Download CSV"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
+                    rounded transition"
                 >
                     Export CSV
                 </button>
@@ -69,7 +75,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 <button
                     onClick={() => exportToPDF(chartRef, labels, values, `${title}.pdf`)}
                     title="Download PDF"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
+                    rounded transition"
                 >
                     Export PDF
                 </button>
@@ -77,7 +84,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 <button
                     onClick={() => exportToImage(chartRef, "png", title)}
                     title="Download PNG"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
+                    rounded transition"
                 >
                     Export PNG
                 </button>
@@ -85,11 +93,11 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 <button
                     onClick={() => exportToImage(chartRef, "jpeg", title)}
                     title="Download JPEG"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
+                    rounded transition"
                 >
                     Export JPEG
                 </button>
-
             </div>
         </div>
     );

@@ -21,12 +21,18 @@
     - Archivo `TabContent.tsx`
     - Archivo `TabSection.tsx`
     - Archivo `GraphBlock.tsx`
+
     - Archivo `ChoicesTab.tsx`
     - Archivo `ForumsTab.tsx`
     - Archivo `GlobalTab.tsx`
     - Archivo `OtherActivitiesTab.tsx`
     - Archivo `ParticipantsTab.tsx`
     - Archivo `QuizzesTab.tsx`
+
+3. [Media] Conseguir que se muestre "Datos scrapeados hace "X minutos".
+   - Mostrar el tiempo transcurrido desde el último scrapeo.
+   Será necesario guardaar la fecha en ms del último scrapeo en el modelo.
+   Recurso útil: [https://github.com/github/relative-time-element]
 
 🛠️ Solución de problemas
 --------------------------
