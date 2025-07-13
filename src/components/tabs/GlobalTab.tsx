@@ -3,45 +3,76 @@
  *
  * @description
  * Displays bar charts for additional Moodle activities: URL resources, files, and workshops.
- * Uses the reusable GraphBlock component for consistent layout and export functionality.
+ * Use the reusable GraphBlock component for consistent layout and export functionality.
  *
  * @author Raúl García Balongo
  * @date 2025
  */
 
-import React from "react";
+import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
+const activityTypes = [
+    {key: "choices", label: "Choices"},
+    {key: "quizzes", label: "Quizzes"},
+    {key: "forums", label: "Forums"},
+    {key: "urlResources", label: "URL Resources"},
+    {key: "resources", label: "Resources"},
+    {key: "workshops", label: "Workshops"},
+];
+
 const GlobalTab: React.FC = () => {
-    const activityName = ["Choices", "Quizzes", "Forums", "URL Resources", "Resources", "Workshops"];
+    const [numViews, setNumViews] = useState<number[]>([]);
+    const [numUsers, setNumUsers] = useState<number[]>([]);
+    const [lastAccess, setLastAccess] = useState<number[]>([]);
+    const [activityLabels, setActivityLabels] = useState<string[]>([]);
 
-    // Total number of visits per activity type (mock)
-    const numViews = [64, 105, 89, 74, 52, 38];
+    useEffect(() => {
+        chrome.storage.local.get(null, (result) => {
 
-    // Number of unique users who accessed each activity (mock)
-    const numUsers = [25, 35, 42, 30, 28, 19];
+            const courseKey = Object.keys(result).find(key => key.startsWith("course_"));
+            if (!courseKey) return;
 
-    // Last access timestamps (mock, hace X días)
-    const lastAccess = [
-        Date.now() - 1000 * 60 * 60 * 24 * 3,   // 3 días
-        Date.now() - 1000 * 60 * 60 * 24 * 15,  // 15 días
-        Date.now() - 1000 * 60 * 60 * 24 * 1,   // 1 día
-        Date.now() - 1000 * 60 * 60 * 24 * 40,  // 40 días
-        Date.now() - 1000 * 60 * 60 * 24 * 10,  // 10 días
-        Date.now() - 1000 * 60 * 60 * 24 * 5,   // 5 días
-    ];
+            const course = result[courseKey];
+
+            const views: number[] = [];
+            const users: number[] = [];
+            const access: number[] = [];
+            const labels: string[] = [];
+
+            for (const {key, label} of activityTypes) {
+                const activities = course[key] || [];
+                const totalViews = activities.reduce((sum: number, a: any) => sum + (a.numViews || 0), 0);
+                const totalUsers = activities.reduce((sum: number, a: any) => sum + (a.numUsers || 0), 0);
+                const latestAccess = activities.reduce((latest: number, a: any) =>
+                        a.lastAccess && a.lastAccess > latest ? a.lastAccess : latest,
+                    0
+                );
+
+                views.push(totalViews);
+                users.push(totalUsers);
+                access.push(latestAccess || 0);
+                labels.push(label);
+            }
+
+            setNumViews(views);
+            setNumUsers(users);
+            setLastAccess(access);
+            setActivityLabels(labels);
+        });
+    }, []);
 
     const avgViewsPerUser = numViews.map((views, i) =>
         numUsers[i] !== 0 ? parseFloat((views / numUsers[i]).toFixed(2)) : 0
     );
 
     const daysSinceLastAccess = lastAccess.map(ts =>
-        Math.floor((Date.now() - ts) / (1000 * 60 * 60 * 24))
+        ts ? Math.floor(ts / (1000 * 60 * 60 * 24)) : 0
     );
 
     const totalViewsData = {
-        labels: activityName,
+        labels: activityLabels,
         datasets: [
             {
                 label: "Total Visits",
@@ -54,7 +85,7 @@ const GlobalTab: React.FC = () => {
     };
 
     const avgViewsData = {
-        labels: activityName,
+        labels: activityLabels,
         datasets: [
             {
                 label: "Average Views per User",
@@ -68,7 +99,7 @@ const GlobalTab: React.FC = () => {
     };
 
     const lastAccessData = {
-        labels: activityName,
+        labels: activityLabels,
         datasets: [
             {
                 label: "Days Since Last Access",
@@ -85,30 +116,30 @@ const GlobalTab: React.FC = () => {
     return (
         <div>
             <GraphBlock
-                title="Total Visits by Activity Type (Mock Data)"
+                title="Total Visits by Activity Type"
                 chartType="bar"
                 data={totalViewsData}
-                labels={activityName}
+                labels={activityLabels}
                 values={numViews}
             />
 
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
 
             <GraphBlock
-                title="Average Views per User (Mock Data)"
+                title="Average Views per User"
                 chartType="line"
                 data={avgViewsData}
-                labels={activityName}
+                labels={activityLabels}
                 values={avgViewsPerUser}
             />
 
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
 
             <GraphBlock
-                title="Days Since Last Access (Mock Data)"
+                title="Days Since Last Access"
                 chartType="radar"
                 data={lastAccessData}
-                labels={activityName}
+                labels={activityLabels}
                 values={daysSinceLastAccess}
             />
         </div>

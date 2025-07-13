@@ -71,6 +71,15 @@ export function App() {
             );
 
             console.log("Course data:", course);
+
+            chrome.storage.local.set({ [`course_${courseId}`]: course }, () => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error saving course data:", chrome.runtime.lastError);
+                } else {
+                    console.log(`Course data saved successfully under key "course_${courseId}"`);
+                }
+            });
+
             setOutputMessage("Analysis completed successfully!");
             setButton(restartButton);
 
