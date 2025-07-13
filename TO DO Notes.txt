@@ -12,19 +12,13 @@
    Conseguir que las gráficas se puedan visualizar correctamente cuando
    hay muchos datos gracias a los filtros.
 
-3. [Media] Refactoring, JSDOC y repaso del código.
-    - Archivo `ChoicesTab.tsx`
-    - Archivo `ForumsTab.tsx`
-    - Archivo `GlobalTab.tsx`
-    - Archivo `OtherActivitiesTab.tsx`
-    - Archivo `ParticipantsTab.tsx`
-    - Archivo `QuizzesTab.tsx`
-
-4. [Media] Conseguir que se muestre "Datos scrapeados hace "X minutos".
-   - Mostrar el tiempo transcurrido desde el último scrapeo.
-   Será necesario guardaar la fecha en ms del último scrapeo en el modelo.
+3. [Media] Conseguir que se muestre "Datos scrapeados hace X minutos".
+   Mostrar el tiempo transcurrido desde el último scrapeo.
+   Será necesario guardar la fecha en ms del último scrapeo en el modelo.
    Recurso útil: [https://github.com/github/relative-time-element]
    He observado que con este recurso hay que modificar mucho código. Buscar una alternativa.
+
+4. [Media] Refactoring, JSDOC y repaso del código.
 
 🛠️ Solución de problemas
 --------------------------
