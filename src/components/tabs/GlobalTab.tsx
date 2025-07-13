@@ -2,8 +2,12 @@
  * @file GlobalTab.tsx
  *
  * @description
- * Displays bar charts for additional Moodle activities: URL resources, files, and workshops.
- * Use the reusable GraphBlock component for consistent layout and export functionality.
+ * Displays aggregated course statistics using real scraped data from Chrome local storage.
+ * It visualizes three key metrics for each activity type (choices, quizzes, forums, etc.):
+ * - Total number of visits
+ * - Average views per user
+ * - Days since last access
+ * Data is extracted dynamically and presented through bar, line, and radar charts.
  *
  * @author Raúl García Balongo
  * @date 2025
