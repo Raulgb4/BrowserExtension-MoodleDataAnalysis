@@ -5,18 +5,14 @@
 🎨 Visualización (Frontend)
 ----------------------------
 
-1. [Alta] Implementar el análisis de los datos.
+1. [Alta] Conseguir que los datos mostrados en la extensión persistan
+   incluso al cerrarse o minimizarse la extensión.
 
-   - Conseguir que los datos scrapeados se almacenen en una base de datos persistente `chrome.storage.local`.
-     Implementar la persistencia de datos. Los datos mostrados en la extensión deben persistir
-     incluso al cerrarse o minimizarse la extensión.
-       - Modificar los componentes React de las gráficas (carpeta `tabs`) para que alimenten las gráficas con esos datos.
-       Ahora mismo, las gráficas están alimentadas con datos de ejemplo (Mock Data).
+2. [Alta] Conseguir que a las gráficas se les puede aplicar filtros.
+   Conseguir que las gráficas se puedan visualizar correctamente cuando
+   hay muchos datos gracias a los filtros.
 
-   - Conseguir que a las gráficas se les puede aplicar filtros.
-
-2. [Media] Refactoring y JSDoc
-
+3. [Media] Refactoring, JSDOC y repaso del código.
     - Archivo `ChoicesTab.tsx`
     - Archivo `ForumsTab.tsx`
     - Archivo `GlobalTab.tsx`
@@ -24,10 +20,11 @@
     - Archivo `ParticipantsTab.tsx`
     - Archivo `QuizzesTab.tsx`
 
-3. [Media] Conseguir que se muestre "Datos scrapeados hace "X minutos".
+4. [Media] Conseguir que se muestre "Datos scrapeados hace "X minutos".
    - Mostrar el tiempo transcurrido desde el último scrapeo.
    Será necesario guardaar la fecha en ms del último scrapeo en el modelo.
    Recurso útil: [https://github.com/github/relative-time-element]
+   He observado que con este recurso hay que modificar mucho código. Buscar una alternativa.
 
 🛠️ Solución de problemas
 --------------------------
@@ -48,5 +45,3 @@
 
 3. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
    CV UMA y entorno local.
-
-
