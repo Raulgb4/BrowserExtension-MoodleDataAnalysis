@@ -3,76 +3,46 @@
  *
  * @description
  * Displays bar charts for additional Moodle activities: URL resources, files, and workshops.
- * Uses the reusable GraphBlock component for consistent layout and export functionality.
+ * Use the reusable GraphBlock component for consistent layout and export functionality.
  *
  * @author Raúl García Balongo
  * @date 2025
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
 const OtherActivitiesTab: React.FC = () => {
-    // ─── Mock data ────────────────────────────────────────────
-    const mockUrlResources = [
-        {
-            activityName: "Presentación de TALF",
-            numViews: 631,
-            numUsers: 171,
-            lastAccess: 363600000,
-        },
-        {
-            activityName: "Apuntes y scripts (repo en bitbucket)",
-            numViews: 760,
-            numUsers: 157,
-            lastAccess: 1472400000,
-        },
-    ];
+    const [urlResources, setUrlResources] = useState<any[]>([]);
+    const [resources, setResources] = useState<any[]>([]);
+    const [workshops, setWorkshops] = useState<any[]>([]);
 
-    const mockResources = [
-        {
-            activityName: "Copia local del repo talfuma",
-            numViews: 181,
-            numUsers: 86,
-            lastAccess: 428400000,
-        },
-        {
-            activityName: "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
-            numViews: 4806,
-            numUsers: 203,
-            lastAccess: 788400000,
-        },
-    ];
+    useEffect(() => {
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) =>
+                key.startsWith("course_")
+            );
+            if (!courseKey) return;
 
-    const mockWorkshops = [
-        {
-            activityName: "Taller Bloque 1",
-            numViews: 1005,
-            numUsers: 39,
-            lastAccess: 428400000,
-        },
-        {
-            activityName: "Taller Bloque 2",
-            numViews: 699,
-            numUsers: 37,
-            lastAccess: 1472400000,
-        },
-    ];
-
-    // ─── Datos para cada gráfica ──────────────────────────────
+            const course = result[courseKey];
+            setUrlResources(course.urlResources || []);
+            setResources(course.resources || []);
+            setWorkshops(course.workshops || []);
+        });
+    }, []);
 
     const getBarData = (
-        items: typeof mockUrlResources,
+        items: { activityName: string; numViews: number }[],
         label: string,
         background: string,
         border: string
     ) => ({
-        labels: items.map(i => i.activityName),
+        labels: items.map((i) => i.activityName),
         datasets: [
             {
                 label,
-                data: items.map(i => i.numViews),
+                data: items.map((i) => i.numViews),
                 backgroundColor: background,
                 borderColor: border,
                 borderWidth: 1,
@@ -82,51 +52,61 @@ const OtherActivitiesTab: React.FC = () => {
 
     return (
         <div>
-            <GraphBlock
-                title="URL Resource Visits (Mock Data)"
-                chartType="bar"
-                data={getBarData(
-                    mockUrlResources,
-                    "Visits",
-                    "rgba(100, 181, 246, 0.6)",
-                    "rgba(100, 181, 246, 1)"
-                )}
-                labels={mockUrlResources.map(i => i.activityName)}
-                values={mockUrlResources.map(i => i.numViews)}
-            />
+            {/* URL Resources */}
+            {urlResources.length > 0 && (
+                <>
+                    <GraphBlock
+                        title="URL Resource Visits"
+                        chartType="bar"
+                        data={getBarData(
+                            urlResources,
+                            "Visits",
+                            "rgba(100, 181, 246, 0.6)",
+                            "rgba(100, 181, 246, 1)"
+                        )}
+                        labels={urlResources.map((i) => i.activityName)}
+                        values={urlResources.map((i) => i.numViews)}
+                    />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                </>
+            )}
 
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+            {/* File Resources */}
+            {resources.length > 0 && (
+                <>
+                    <GraphBlock
+                        title="File Resource Visits"
+                        chartType="bar"
+                        data={getBarData(
+                            resources,
+                            "Visits",
+                            "rgba(255, 167, 38, 0.6)",
+                            "rgba(255, 167, 38, 1)"
+                        )}
+                        labels={resources.map((i) => i.activityName)}
+                        values={resources.map((i) => i.numViews)}
+                    />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                </>
+            )}
 
-            <GraphBlock
-                title="File Resource Visits (Mock Data)"
-                chartType="bar"
-                data={getBarData(
-                    mockResources,
-                    "Visits",
-                    "rgba(255, 167, 38, 0.6)",
-                    "rgba(255, 167, 38, 1)"
-                )}
-                labels={mockResources.map(i => i.activityName)}
-                values={mockResources.map(i => i.numViews)}
-            />
-
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
-
-            <GraphBlock
-                title="Workshop Visits (Mock Data)"
-                chartType="bar"
-                data={getBarData(
-                    mockWorkshops,
-                    "Visits",
-                    "rgba(129, 199, 132, 0.6)",
-                    "rgba(129, 199, 132, 1)"
-                )}
-                labels={mockWorkshops.map(i => i.activityName)}
-                values={mockWorkshops.map(i => i.numViews)}
-            />
+            {/* Workshops */}
+            {workshops.length > 0 && (
+                <GraphBlock
+                    title="Workshop Visits"
+                    chartType="bar"
+                    data={getBarData(
+                        workshops,
+                        "Visits",
+                        "rgba(129, 199, 132, 0.6)",
+                        "rgba(129, 199, 132, 1)"
+                    )}
+                    labels={workshops.map((i) => i.activityName)}
+                    values={workshops.map((i) => i.numViews)}
+                />
+            )}
         </div>
     );
 };
 
 export default OtherActivitiesTab;
-
