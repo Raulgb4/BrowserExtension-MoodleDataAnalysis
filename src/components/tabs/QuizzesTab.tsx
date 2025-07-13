@@ -2,7 +2,7 @@
  * @file QuizzesTab.tsx
  *
  * @description Displays quiz statistics based on scraped Moodle data.
- * Shows top 5 students per quiz and the evolution of average scores.
+ * Shows the top 5 students per quiz and the evolution of average scores.
  *
  * @author Raúl García Balongo
  * @date 2025
