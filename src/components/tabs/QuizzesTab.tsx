@@ -1,55 +1,64 @@
 /**
  * @file QuizzesTab.tsx
  *
+ * @description Displays quiz statistics based on scraped Moodle data.
+ * Shows top 5 students per quiz and the evolution of average scores.
+ *
  * @author Raúl García Balongo
  * @date 2025
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
+interface Quiz {
+    activityName: string;
+    participantStats: {
+        participantId: number;
+        participantName: string;
+        grade: number;
+        normalizedGrade: number;
+        duration: number;
+    }[];
+}
+
 const QuizzesTab: React.FC = () => {
-    const mockQuizzes = [
-        {
-            activityName: "Quiz 1 – Math Basics",
-            topParticipants: [
-                {name: "Student A", score: 9.5},
-                {name: "Student B", score: 8.7},
-                {name: "Student C", score: 8.2},
-                {name: "Student D", score: 7.8},
-                {name: "Student E", score: 7.5},
-            ],
-        },
-        {
-            activityName: "Quiz 2 – Algorithms",
-            topParticipants: [
-                {name: "Student F", score: 10},
-                {name: "Student G", score: 9.8},
-                {name: "Student H", score: 9.4},
-                {name: "Student I", score: 8.9},
-                {name: "Student J", score: 8.3},
-            ],
-        },
-        {
-            activityName: "Quiz 3 – Databases",
-            topParticipants: [
-                {name: "Student K", score: 9.1},
-                {name: "Student L", score: 8.9},
-                {name: "Student M", score: 8.7},
-                {name: "Student N", score: 8.5},
-                {name: "Student O", score: 8.2},
-            ],
-        },
-    ];
+    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
-    // Calcular medias por quiz
-    const avgScores = mockQuizzes.map(quiz => {
-        const total = quiz.topParticipants.reduce((sum, p) => sum + p.score, 0);
-        return parseFloat((total / quiz.topParticipants.length).toFixed(2));
+    useEffect(() => {
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) =>
+                key.startsWith("course_")
+            );
+            if (!courseKey) return;
+
+            const course = result[courseKey];
+            const realQuizzes = course.quizzes || [];
+
+            // Filtrar quizzes con datos válidos
+            const filtered = realQuizzes.filter(
+                (q: any) =>
+                    q.participantStats &&
+                    Array.isArray(q.participantStats) &&
+                    q.participantStats.length > 0
+            );
+
+            setQuizzes(filtered);
+        });
+    }, []);
+
+    const quizLabels = quizzes.map((quiz) => quiz.activityName);
+
+    const avgScores = quizzes.map((quiz) => {
+        const total = quiz.participantStats.reduce(
+            (sum, p) => sum + p.normalizedGrade,
+            0
+        );
+        return parseFloat(
+            (total / quiz.participantStats.length).toFixed(2)
+        );
     });
-
-    const quizLabels = mockQuizzes.map(quiz => quiz.activityName);
 
     const avgLineData = {
         labels: quizLabels,
@@ -67,10 +76,13 @@ const QuizzesTab: React.FC = () => {
 
     return (
         <div>
-            {/* Gráficas por quiz */}
-            {mockQuizzes.map((quiz, index) => {
-                const labels = quiz.topParticipants.map(p => p.name);
-                const values = quiz.topParticipants.map(p => p.score);
+            {quizzes.map((quiz, index) => {
+                const topParticipants = [...quiz.participantStats]
+                    .sort((a, b) => b.normalizedGrade - a.normalizedGrade)
+                    .slice(0, 5);
+
+                const labels = topParticipants.map((p) => p.participantName);
+                const values = topParticipants.map((p) => p.normalizedGrade);
 
                 const data = {
                     labels,
@@ -103,7 +115,7 @@ const QuizzesTab: React.FC = () => {
                 return (
                     <div key={index}>
                         <GraphBlock
-                            title={`${quiz.activityName} – Top 5 Students (Mock Data)`}
+                            title={`${quiz.activityName} – Top 5 Students`}
                             chartType="bar"
                             data={data}
                             labels={labels}
@@ -111,28 +123,27 @@ const QuizzesTab: React.FC = () => {
                             options={options}
                         />
 
-                        {/* Separador solo si no es el último quiz */}
-                        {index < mockQuizzes.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                        {index < quizzes.length - 1 && (
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
                         )}
                     </div>
                 );
             })}
 
-            {/* Separador antes de la línea de evolución */}
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
-
-            {/* Gráfica de evolución media */}
-            <GraphBlock
-                title="Average Score Evolution (Mock Data)"
-                chartType="line"
-                data={avgLineData}
-                labels={quizLabels}
-                values={avgScores}
-            />
+            {quizzes.length > 0 && (
+                <>
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                    <GraphBlock
+                        title="Average Score Evolution"
+                        chartType="line"
+                        data={avgLineData}
+                        labels={quizLabels}
+                        values={avgScores}
+                    />
+                </>
+            )}
         </div>
     );
-
 };
 
 export default QuizzesTab;
