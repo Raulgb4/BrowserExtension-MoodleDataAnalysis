@@ -5,7 +5,7 @@
  * @date 2025
  */
 
-import React, {ReactElement, useEffect} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import {
     parseMoodleCourseUrl,
     getScrapeUrlParticipants,
@@ -31,10 +31,12 @@ import TabSection from "./components/TabSection";
  * a start/restart button, and an info card displaying feedback messages or errors.
  */
 export function App() {
-    const [isLoading, setIsLoading] = React.useState(false);
-    const [outputMessage, setOutputMessage] = React.useState("");
-    const [button, setButton] = React.useState<ReactElement | null>(null);
-    const [isError, setIsError] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [outputMessage, setOutputMessage] = useState("");
+    const [button, setButton] = useState<ReactElement | null>(null);
+    const [isError, setIsError] = useState(false);
+    const [isValidCoursePage, setIsValidCoursePage] = useState(false);
+    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null);
 
     async function analyzeCourseData(courseId: string) {
         setIsLoading(true);
@@ -72,13 +74,19 @@ export function App() {
 
             console.log("Course data:", course);
 
-            chrome.storage.local.set({ [`course_${courseId}`]: course }, () => {
-                if (chrome.runtime.lastError) {
-                    console.error("Error saving course data:", chrome.runtime.lastError);
-                } else {
-                    console.log(`Course data saved successfully under key "course_${courseId}"`);
+            chrome.storage.local.set(
+                {
+                    [`course_${courseId}`]: course,
+                    lastAnalyzedCourseId: courseId
+                },
+                () => {
+                    if (chrome.runtime.lastError) {
+                        console.error("Error saving course data:", chrome.runtime.lastError);
+                    } else {
+                        console.log(`Course data saved successfully under key "course_${courseId}"`);
+                    }
                 }
-            });
+            );
 
             setOutputMessage("Analysis completed successfully!");
             setButton(restartButton);
@@ -107,7 +115,7 @@ export function App() {
     };
 
     useEffect(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             const tab = tabs[0];
             const url = tab?.url;
 
@@ -116,7 +124,7 @@ export function App() {
                 return;
             }
 
-            const { isCoursePage, courseId } = parseMoodleCourseUrl(url);
+            const {isCoursePage, courseId} = parseMoodleCourseUrl(url);
 
             if (!isCoursePage) {
                 showError("This is not a Moodle course page.");
@@ -127,10 +135,38 @@ export function App() {
                 showError("No course found or it has no course ID.");
                 return;
             }
-            setupStartButton(courseId);
+
+            setIsValidCoursePage(true);
+            setCurrentCourseId(courseId);
+
+            chrome.storage.local.get("lastAnalyzedCourseId", (res) => {
+                if (!res.lastAnalyzedCourseId) {
+                    setupStartButton(courseId);
+                }
+            });
         });
     }, []);
 
+    useEffect(() => {
+        if (!isValidCoursePage || !currentCourseId) return;
+
+        chrome.storage.local.get(`course_${currentCourseId}`, (data) => {
+            const course = data[`course_${currentCourseId}`];
+            if (course) {
+                console.log("Restoring previous course data:", course);
+
+                setButton(
+                    <Button
+                        id="restartButton"
+                        text="Restart"
+                        onClick={() => analyzeCourseData(currentCourseId)}
+                    />
+                );
+
+                setOutputMessage("restored");
+            }
+        });
+    }, [isValidCoursePage, currentCourseId]);
 
     return (
         <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
@@ -138,10 +174,11 @@ export function App() {
 
             {isLoading && <Loader/>}
             {!isLoading && button}
-            {outputMessage && <InfoCard message={outputMessage} isError={isError}/>}
+            {outputMessage && outputMessage !== "restored" && (
+                <InfoCard message={outputMessage} isError={isError}/>
+            )}
 
-            {!isLoading && outputMessage && !isError && <TabSection />}
-
+            {!isLoading && outputMessage && !isError && <TabSection/>}
         </div>
     );
 }
