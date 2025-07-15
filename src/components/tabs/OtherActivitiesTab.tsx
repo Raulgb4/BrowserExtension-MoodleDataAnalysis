@@ -17,6 +17,7 @@ const OtherActivitiesTab: React.FC = () => {
     const [urlResources, setUrlResources] = useState<any[]>([]);
     const [resources, setResources] = useState<any[]>([]);
     const [workshops, setWorkshops] = useState<any[]>([]);
+    const [topCount, setTopCount] = useState<number>(10);
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
@@ -31,6 +32,14 @@ const OtherActivitiesTab: React.FC = () => {
             setWorkshops(course.workshops || []);
         });
     }, []);
+
+    const getTopItems = (
+        items: { activityName: string; numViews: number }[]
+    ) => {
+        return [...items]
+            .sort((a, b) => b.numViews - a.numViews)
+            .slice(0, topCount);
+    };
 
     const getBarData = (
         items: { activityName: string; numViews: number }[],
@@ -50,60 +59,87 @@ const OtherActivitiesTab: React.FC = () => {
         ],
     });
 
+    const renderGraphWithFilter = (
+        title: string,
+        items: any[],
+        color: { bg: string; border: string }
+    ) => {
+        const topItems = getTopItems(items);
+        return (
+            <>
+                <GraphBlock
+                    title={`${title} (Top ${topCount})`}
+                    chartType="bar"
+                    data={getBarData(topItems, "Visits", color.bg, color.border)}
+                    labels={topItems.map((i) => i.activityName)}
+                    values={topItems.map((i) => i.numViews)}
+                >
+                    <div className="flex items-center justify-center gap-2 w-full text-sm text-gray-700">
+                        <label>
+                            Show top{" "}
+                            <input
+                                type="number"
+                                value={topCount}
+                                min={1}
+                                max={100}
+                                onChange={(e) =>
+                                    setTopCount(Math.max(1, Number(e.target.value)))
+                                }
+                                className="border px-2 py-1 w-16 text-center rounded"
+                            />{" "}
+                            activities
+                        </label>
+                    </div>
+                </GraphBlock>
+                <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+            </>
+        );
+    };
+
     return (
         <div>
-            {/* URL Resources */}
-            {urlResources.length > 0 && (
-                <>
-                    <GraphBlock
-                        title="URL Resource Visits"
-                        chartType="bar"
-                        data={getBarData(
-                            urlResources,
-                            "Visits",
-                            "rgba(100, 181, 246, 0.6)",
-                            "rgba(100, 181, 246, 1)"
-                        )}
-                        labels={urlResources.map((i) => i.activityName)}
-                        values={urlResources.map((i) => i.numViews)}
-                    />
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
-                </>
-            )}
+            {urlResources.length > 0 &&
+                renderGraphWithFilter("URL Resource Visits", urlResources, {
+                    bg: "rgba(100, 181, 246, 0.6)",
+                    border: "rgba(100, 181, 246, 1)",
+                })}
 
-            {/* File Resources */}
-            {resources.length > 0 && (
-                <>
-                    <GraphBlock
-                        title="File Resource Visits"
-                        chartType="bar"
-                        data={getBarData(
-                            resources,
-                            "Visits",
-                            "rgba(255, 167, 38, 0.6)",
-                            "rgba(255, 167, 38, 1)"
-                        )}
-                        labels={resources.map((i) => i.activityName)}
-                        values={resources.map((i) => i.numViews)}
-                    />
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
-                </>
-            )}
+            {resources.length > 0 &&
+                renderGraphWithFilter("File Resource Visits", resources, {
+                    bg: "rgba(255, 167, 38, 0.6)",
+                    border: "rgba(255, 167, 38, 1)",
+                })}
 
-            {/* Workshops */}
             {workshops.length > 0 && (
                 <GraphBlock
                     title="Workshop Visits"
                     chartType="bar"
                     data={getBarData(
-                        workshops,
+                        getTopItems(workshops),
                         "Visits",
                         "rgba(129, 199, 132, 0.6)",
                         "rgba(129, 199, 132, 1)"
                     )}
-                    labels={workshops.map((i) => i.activityName)}
-                    values={workshops.map((i) => i.numViews)}
-                />
+                    labels={getTopItems(workshops).map((i) => i.activityName)}
+                    values={getTopItems(workshops).map((i) => i.numViews)}
+                >
+                    <div className="flex items-center justify-center gap-2 w-full text-sm text-gray-700">
+                        <label>
+                            Show top{" "}
+                            <input
+                                type="number"
+                                value={topCount}
+                                min={1}
+                                max={100}
+                                onChange={(e) =>
+                                    setTopCount(Math.max(1, Number(e.target.value)))
+                                }
+                                className="border px-2 py-1 w-16 text-center rounded"
+                            />{" "}
+                            activities
+                        </label>
+                    </div>
+                </GraphBlock>
             )}
         </div>
     );
