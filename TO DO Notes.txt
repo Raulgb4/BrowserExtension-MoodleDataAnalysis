@@ -5,29 +5,23 @@
 🎨 Visualización (Frontend)
 ----------------------------
 
-1. [Alta] Conseguir que se muestre "Datos scrapeados hace X minutos".
-   Mostrar el tiempo transcurrido desde el último scrapeo.
-   Será necesario guardar la fecha en ms del último scrapeo en el modelo.
-   Recurso útil: [https://github.com/github/relative-time-element]
-   He observado que con este recurso hay que modificar mucho código. Buscar una alternativa.
-
-2. [Media] Conseguir que a las gráficas se les puede aplicar filtros.
+1. [Media] Conseguir que a las gráficas se les puede aplicar filtros.
    Conseguir que las gráficas se puedan visualizar correctamente cuando
    hay muchos datos gracias a los filtros.
 
-3. [Media] Refactoring, JSDOC y repaso del código.
+2. [Media] Refactoring, JSDOC y repaso del código.
 
 🛠️ Solución de problemas
 --------------------------
 
-1. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
-   los valores mostrados en Moodle.
-   - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
-
-2. [Media] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
+1. [Media] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
    está creciendo demasiado (más de 244 KB). Soluciones propuestas:
    - Lazy loading con `React.lazy`.
    - Reducir el tamaño de Chart.js importando solo los elementos que se usan. Ver `chartConfig.ts`.
+
+2. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
+   los valores mostrados en Moodle.
+   - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
 
 🔧 Funcionalidad adicional
 --------------------------

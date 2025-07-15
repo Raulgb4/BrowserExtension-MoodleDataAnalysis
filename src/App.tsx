@@ -16,6 +16,8 @@ import Button from "./components/Button";
 import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
+import {getRelativeTime} from "./services/dataProcessor";
+
 
 /**
  * @function App
@@ -37,6 +39,7 @@ export function App() {
     const [isError, setIsError] = useState(false);
     const [isValidCoursePage, setIsValidCoursePage] = useState(false);
     const [currentCourseId, setCurrentCourseId] = useState<string | null>(null);
+    const [lastAnalyzedAgo, setLastAnalyzedAgo] = useState<string | null>(null);
 
     async function analyzeCourseData(courseId: string) {
         setIsLoading(true);
@@ -77,7 +80,8 @@ export function App() {
             chrome.storage.local.set(
                 {
                     [`course_${courseId}`]: course,
-                    lastAnalyzedCourseId: courseId
+                    lastAnalyzedCourseId: courseId,
+                    lastAnalyzedAt: Date.now()
                 },
                 () => {
                     if (chrome.runtime.lastError) {
@@ -90,6 +94,7 @@ export function App() {
 
             setOutputMessage("Analysis completed successfully!");
             setButton(restartButton);
+            setLastAnalyzedAgo(getRelativeTime(new Date()));
 
         } catch (error) {
             console.error("Error during analysis:", error);
@@ -150,8 +155,10 @@ export function App() {
     useEffect(() => {
         if (!isValidCoursePage || !currentCourseId) return;
 
-        chrome.storage.local.get(`course_${currentCourseId}`, (data) => {
+        chrome.storage.local.get([`course_${currentCourseId}`, "lastAnalyzedAt"], (data) => {
             const course = data[`course_${currentCourseId}`];
+            const timestamp = data.lastAnalyzedAt;
+
             if (course) {
                 console.log("Restoring previous course data:", course);
 
@@ -164,8 +171,29 @@ export function App() {
                 );
 
                 setOutputMessage("restored");
+
+                if (timestamp) {
+                    const ago = getRelativeTime(new Date(timestamp));
+                    setLastAnalyzedAgo(ago);
+                }
             }
         });
+    }, [isValidCoursePage, currentCourseId]);
+
+    useEffect(() => {
+        if (!isValidCoursePage || !currentCourseId) return;
+
+        const interval = setInterval(() => {
+            chrome.storage.local.get("lastAnalyzedAt", (data) => {
+                const timestamp = data.lastAnalyzedAt;
+                if (timestamp) {
+                    const ago = getRelativeTime(new Date(timestamp));
+                    setLastAnalyzedAgo(ago);
+                }
+            });
+        }, 60 * 1000);
+
+        return () => clearInterval(interval);
     }, [isValidCoursePage, currentCourseId]);
 
     return (
@@ -176,6 +204,12 @@ export function App() {
             {!isLoading && button}
             {outputMessage && outputMessage !== "restored" && (
                 <InfoCard message={outputMessage} isError={isError}/>
+            )}
+
+            {!isLoading && lastAnalyzedAgo && !isError && (
+                <p className="text-xs text-gray-500 mt-2">
+                    Último análisis realizado hace {lastAnalyzedAgo}
+                </p>
             )}
 
             {!isLoading && outputMessage && !isError && <TabSection/>}

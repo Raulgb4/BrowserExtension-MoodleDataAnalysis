@@ -126,7 +126,6 @@ export function parseStatus(raw: string | undefined): string | undefined {
     return filtered.join(' ') || "Not current";
 }
 
-
 /**
  * Safely parses the numeric value of a table cell's text content.
  *
@@ -151,4 +150,26 @@ export function parseViewsAndUsers(raw: string): { numViews: number; numUsers: n
         numViews: match ? parseInt(match[1]) : 0,
         numUsers: match ? parseInt(match[2]) : 0,
     };
+}
+
+/**
+ * Converts a JavaScript Date object into a human-readable relative time string.
+ *
+ * For example: "3 días", "2 horas", "5 minutos", or "unos segundos".
+ *
+ * @param date - The past Date to compare against the current time.
+ * @returns A string representing how much time has passed since the given date.
+ */
+export function getRelativeTime(date: Date): string {
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHrs = Math.floor(diffMin / 60);
+    const diffDays = Math.floor(diffHrs / 24);
+
+    if (diffDays > 0) return `${diffDays} día${diffDays > 1 ? "s" : ""}`;
+    if (diffHrs > 0) return `${diffHrs} hora${diffHrs > 1 ? "s" : ""}`;
+    if (diffMin > 0) return `${diffMin} minuto${diffMin > 1 ? "s" : ""}`;
+    return `unos segundos`;
 }
