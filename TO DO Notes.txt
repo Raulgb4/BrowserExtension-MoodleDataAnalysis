@@ -8,19 +8,17 @@
 1. [Media] En la exportación, debe aparecer los filtros que se están aplicando
    en la gráfica. Por ejemplo, si se ha filtrado por fecha, que aparezca
    el rango de fechas en la exportación.
-   En la exportación a PDF, que aparezca el nombre de la gráfica.
+   En la exportación a PDF, que aparezca el nombre de la gráfica como título del documento.
+   O en la exportación a imagen que también aparezca el nombre de la gráfica.
 
-2. [Media] Refactoring, JSDOC y repaso del código.
-
-🛠️ Solución de problemas
---------------------------
-
-1. [Media] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
+2. [Media] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
    está creciendo demasiado (más de 244 KB). Soluciones propuestas:
    - Lazy loading con `React.lazy`.
    - Reducir el tamaño de Chart.js importando solo los elementos que se usan. Ver `chartConfig.ts`.
 
-2. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
+3. [Media] Refactoring, JSDOC y repaso del código.
+
+4. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
    los valores mostrados en Moodle.
    - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
 

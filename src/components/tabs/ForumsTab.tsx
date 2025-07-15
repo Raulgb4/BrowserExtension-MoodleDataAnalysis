@@ -9,7 +9,7 @@
  * @date 2025
  */
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 
@@ -26,7 +26,7 @@ interface Forum {
 
 const ForumsTab: React.FC = () => {
     const [forums, setForums] = useState<Forum[]>([]);
-    const [topN, setTopN] = useState(20);
+    const [topNs, setTopNs] = useState<Record<number, number>>({});
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
@@ -46,6 +46,12 @@ const ForumsTab: React.FC = () => {
             );
 
             setForums(filtered);
+
+            const initialTopNs: Record<number, number> = {};
+            filtered.forEach((_forum: Forum, i: number) => {
+                initialTopNs[i] = 20;
+            });
+            setTopNs(initialTopNs);
         });
     }, []);
 
@@ -75,10 +81,11 @@ const ForumsTab: React.FC = () => {
                 values={forumSubscriptions}
             />
 
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
 
             {forums.map((forum, index) => {
-                // Ordenar por actividad total y limitar al topN
+                const topN = topNs[index] || 20;
+
                 const sortedStats = [...forum.participantsStats].sort((a, b) => {
                     const aTotal = a.discussionsPosted + a.repliesPosted + a.views;
                     const bTotal = b.discussionsPosted + b.repliesPosted + b.views;
@@ -110,6 +117,13 @@ const ForumsTab: React.FC = () => {
                     ],
                 };
 
+                const handleTopNChange = (value: number) => {
+                    setTopNs((prev) => ({
+                        ...prev,
+                        [index]: value,
+                    }));
+                };
+
                 return (
                     <div key={index}>
                         <GraphBlock
@@ -128,14 +142,16 @@ const ForumsTab: React.FC = () => {
                                     min={1}
                                     max={forum.participantsStats.length}
                                     value={topN}
-                                    onChange={(e) => setTopN(Number(e.target.value))}
+                                    onChange={(e) =>
+                                        handleTopNChange(Number(e.target.value))
+                                    }
                                     className="w-20 border border-gray-300 rounded px-2 py-1 text-sm text-center"
                                 />
                             </div>
                         </GraphBlock>
 
                         {index < forums.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
                     </div>
                 );
