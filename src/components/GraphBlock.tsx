@@ -3,7 +3,7 @@
  * @description
  * Reusable React component that renders a Chart.js-based graph (Pie, Bar, Line, or Radar)
  * with built-in export options. It supports rendering chart visualizations with custom titles,
- * configurable sizes, and export buttons for CSV, PDF, PNG, and JPEG formats.
+ * configurable sizes, export buttons, and optional custom filters passed as children.
  *
  * The component receives data and configuration props and dynamically chooses
  * the appropriate Chart.js component based on the specified chart type.
@@ -12,10 +12,10 @@
  * @author Raúl García Balongo
  * @date 2025
  */
-import React, {useRef} from "react";
-import {Pie, Bar, Line, Radar} from "react-chartjs-2";
-import {Chart as ChartJS, ChartOptions} from "chart.js";
-import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
+import React, { useRef } from "react";
+import { Pie, Bar, Line, Radar } from "react-chartjs-2";
+import { Chart as ChartJS, ChartOptions } from "chart.js";
+import { exportToCSV, exportToPDF, exportToImage } from "../utils/exportUtils";
 
 type ChartType = "pie" | "bar" | "line" | "radar";
 
@@ -26,6 +26,7 @@ interface GraphBlockProps {
     labels: string[];
     values: number[];
     options?: ChartOptions;
+    children?: React.ReactNode; // Permite filtros personalizados
 }
 
 const chartComponents: Record<ChartType, React.ComponentType<any>> = {
@@ -37,9 +38,9 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
 
 const chartSizes: Record<ChartType, string> = {
     pie: "w-[200px]",
-    bar: "w-[350px]",
-    line: "w-[350px]",
-    radar: "w-[300px]",
+    bar: "w-[400px]",
+    line: "w-[400px]",
+    radar: "w-[350px]",
 };
 
 const GraphBlock: React.FC<GraphBlockProps> = ({
@@ -49,52 +50,52 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    labels,
                                                    values,
                                                    options,
+                                                   children,
                                                }) => {
     const chartRef = useRef<ChartJS>(null);
     const ChartComponent = chartComponents[chartType];
-    const chartWidthClass = chartSizes[chartType] || "w-[250px]";
+    const chartWidthClass = chartSizes[chartType] || "w-[300px]";
 
     return (
         <div className="mb-6">
             <p className="mb-2 text-center font-semibold text-gray-800">{title}</p>
 
             <div className={`${chartWidthClass} mx-auto`}>
-                <ChartComponent ref={chartRef as any} data={data} options={options as any}/>
+                <ChartComponent ref={chartRef as any} data={data} options={options as any} />
             </div>
 
-            <div className="mt-3 flex justify-center gap-2">
+            {children && (
+                <div className="mt-3 mb-2 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
+                    {children}
+                </div>
+            )}
+
+            <div className="mt-3 flex justify-center gap-2 flex-wrap">
                 <button
                     onClick={() => exportToCSV(labels, values)}
                     title="Download CSV"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
-                    rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
                 >
                     Export CSV
                 </button>
-
                 <button
                     onClick={() => exportToPDF(chartRef, labels, values, `${title}.pdf`)}
                     title="Download PDF"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
-                    rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
                 >
                     Export PDF
                 </button>
-
                 <button
                     onClick={() => exportToImage(chartRef, "png", title)}
                     title="Download PNG"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
-                    rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
                 >
                     Export PNG
                 </button>
-
                 <button
                     onClick={() => exportToImage(chartRef, "jpeg", title)}
                     title="Download JPEG"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5
-                    rounded transition"
+                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
                 >
                     Export JPEG
                 </button>
