@@ -9,7 +9,11 @@
    Conseguir que las gráficas se puedan visualizar correctamente cuando
    hay muchos datos gracias a los filtros.
 
-2. [Media] Refactoring, JSDOC y repaso del código.
+2. [Media] En la exportación, debe aparecer los filtros que se están aplicando
+   en la gráfica. Por ejemplo, si se ha filtrado por fecha, que aparezca
+   el rango de fechas en la exportación.
+
+3. [Media] Refactoring, JSDOC y repaso del código.
 
 🛠️ Solución de problemas
 --------------------------

@@ -26,6 +26,7 @@ interface Forum {
 
 const ForumsTab: React.FC = () => {
     const [forums, setForums] = useState<Forum[]>([]);
+    const [topN, setTopN] = useState(20);
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
@@ -77,16 +78,20 @@ const ForumsTab: React.FC = () => {
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
 
             {forums.map((forum, index) => {
-                const participants = forum.participantsStats.map((p) => p.participantName);
+                // Ordenar por actividad total y limitar al topN
+                const sortedStats = [...forum.participantsStats].sort((a, b) => {
+                    const aTotal = a.discussionsPosted + a.repliesPosted + a.views;
+                    const bTotal = b.discussionsPosted + b.repliesPosted + b.views;
+                    return bTotal - aTotal;
+                });
+
+                const topStats = sortedStats.slice(0, topN);
+                const participants = topStats.map((p) => p.participantName);
 
                 const maxActivity =
-                    Math.max(
-                        ...forum.participantsStats.map(
-                            (p) => p.discussionsPosted + p.repliesPosted + p.views
-                        )
-                    ) || 1;
+                    Math.max(...topStats.map((p) => p.discussionsPosted + p.repliesPosted + p.views)) || 1;
 
-                const values = forum.participantsStats.map((p) => {
+                const values = topStats.map((p) => {
                     const total = p.discussionsPosted + p.repliesPosted + p.views;
                     return parseFloat(((total / maxActivity) * 100).toFixed(2));
                 });
@@ -113,7 +118,22 @@ const ForumsTab: React.FC = () => {
                             data={data}
                             labels={participants}
                             values={values}
-                        />
+                        >
+                            <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
+                                Show top N participants:
+                            </p>
+                            <div className="flex justify-center mb-4">
+                                <input
+                                    type="number"
+                                    min={1}
+                                    max={forum.participantsStats.length}
+                                    value={topN}
+                                    onChange={(e) => setTopN(Number(e.target.value))}
+                                    className="w-20 border border-gray-300 rounded px-2 py-1 text-sm text-center"
+                                />
+                            </div>
+                        </GraphBlock>
+
                         {index < forums.length - 1 && (
                             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
                         )}
