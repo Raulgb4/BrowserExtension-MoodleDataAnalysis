@@ -5,20 +5,17 @@
 🎨 Visualización (Frontend)
 ----------------------------
 
-1. [Alta] Conseguir que los datos mostrados en la extensión persistan
-   incluso al cerrarse o minimizarse la extensión.
-
-2. [Alta] Conseguir que a las gráficas se les puede aplicar filtros.
-   Conseguir que las gráficas se puedan visualizar correctamente cuando
-   hay muchos datos gracias a los filtros.
-
-3. [Media] Conseguir que se muestre "Datos scrapeados hace X minutos".
+1. [Alta] Conseguir que se muestre "Datos scrapeados hace X minutos".
    Mostrar el tiempo transcurrido desde el último scrapeo.
    Será necesario guardar la fecha en ms del último scrapeo en el modelo.
    Recurso útil: [https://github.com/github/relative-time-element]
    He observado que con este recurso hay que modificar mucho código. Buscar una alternativa.
 
-4. [Media] Refactoring, JSDOC y repaso del código.
+2. [Media] Conseguir que a las gráficas se les puede aplicar filtros.
+   Conseguir que las gráficas se puedan visualizar correctamente cuando
+   hay muchos datos gracias a los filtros.
+
+3. [Media] Refactoring, JSDOC y repaso del código.
 
 🛠️ Solución de problemas
 --------------------------
@@ -35,7 +32,7 @@
 🔧 Funcionalidad adicional
 --------------------------
 
-2. [Baja] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
+1. [Baja] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
 
-3. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
+2. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
    CV UMA y entorno local.
