@@ -198,7 +198,10 @@ export function App() {
 
     return (
         <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
-            <h1 className="text-[20px] mb-4 text-[#f98012] font-extrabold">Moodle Data Analyzer</h1>
+            <h1 className="text-2xl mb-4 font-black text-orange-600 tracking-wide drop-shadow-sm animate-fade-in
+            border-b-2 border-orange-200 pb-1 whitespace-nowrap">
+                Moodle Data Analyzer
+            </h1>
 
             {isLoading && <Loader/>}
             {!isLoading && button}
@@ -207,7 +210,7 @@ export function App() {
             )}
 
             {!isLoading && lastAnalyzedAgo && !isError && (
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-sm text-gray-600 mt-4 pt-1">
                     Último análisis realizado hace {lastAnalyzedAgo}
                 </p>
             )}

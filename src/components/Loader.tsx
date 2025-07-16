@@ -15,10 +15,15 @@
  */
 export default function Loader() {
     return (
-        <div className="flex flex-col items-center justify-center h-full">
-            <div
-                className="w-12 h-12 border-[5px] border-orange-400 border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-sm text-orange-500 font-medium mt-2">Loading analysis...</span>
+        <div className="flex flex-col items-center justify-center gap-3 h-full animate-fade-in">
+            <div className="relative w-14 h-14">
+                <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-orange-400 animate-spin"></div>
+                <div className="absolute inset-1.5 rounded-full bg-orange-100 opacity-60 animate-pulse shadow-inner"></div>
+            </div>
+
+            <span className="text-sm font-semibold text-orange-600 animate-pulse-slow tracking-wide">
+                Analyzing Moodle data...
+            </span>
         </div>
     );
 }

@@ -36,7 +36,7 @@ export default function Button({style, text, id, onClick}: ButtonProps) {
             id={id}
             type="button"
             onClick={onClick}
-            className={`w-[120px] h-[120px] text-[16px] bg-[#f98012] text-white rounded-full font-semibold transition-all duration-300 hover:bg-[#e16e00] hover:scale-105 shadow-lg mx-auto ${style}`}
+            className={`w-[140px] h-[140px] text-[18px] bg-gradient-to-br from-orange-500 to-orange-400 text-white rounded-full font-bold transition-transform duration-300 hover:scale-110 shadow-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 ${style}`}
         >
             {text}
         </button>
