@@ -26,22 +26,44 @@ export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 const BASE = MOODLE_BASE_URL_LOCAL;
 
 /**
- * Tries to extract a course ID from a Moodle course URL.
+ * Checks if a given URL belongs to a Moodle course-related section
+ * and extracts the associated course ID if present.
  *
- * @param url - The full URL string to check.
- * @returns An object with `isCoursePage` and `courseId` (if valid).
+ * @param url - The full Moodle page URL.
+ * @returns An object indicating if it's a valid course page and the course ID (if found).
  */
-export function parseMoodleCourseUrl(url: string): { isCoursePage: boolean; courseId: string | null; } {
+export function extractMoodleCourseId(url: string): {
+    isCoursePage: boolean;
+    courseId: string | null;
+} {
     try {
         const parsed = new URL(url);
-        const isCoursePage = parsed.pathname === "/course/view.php";
-        const courseId = parsed.searchParams.get("id");
-        return {isCoursePage, courseId};
+        const validPaths = [
+            "/course/view.php",
+            "/course/edit.php",
+            "/user/index.php",
+            "/grade/report/grader/index.php",
+            "/course/overview.php",
+            "/report/outline/index.php",
+            "/report/view.php",
+            "/question/banks.php",
+            "/course/completion.php",
+            "/badges/index.php",
+            "/admin/tool/lp/coursecompetencies.php",
+            "/mod/lti/coursetools.php",
+            "/backup/view.php"
+        ];
+
+        const isCoursePage = validPaths.includes(parsed.pathname);
+        const courseId = parsed.searchParams.get("id") || parsed.searchParams.get("courseid");
+
+        return { isCoursePage, courseId };
     } catch {
         console.warn("Invalid URL:", url);
-        return {isCoursePage: false, courseId: null};
+        return { isCoursePage: false, courseId: null };
     }
 }
+
 
 /**
  * Parameterized route templates for constructing Moodle URLs dynamically.

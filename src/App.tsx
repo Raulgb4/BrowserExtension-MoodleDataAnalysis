@@ -7,7 +7,7 @@
 
 import React, {ReactElement, useEffect, useState} from "react";
 import {
-    parseMoodleCourseUrl,
+    extractMoodleCourseId,
     getScrapeUrlParticipants,
     getScrapeUrlActivityReport,
 } from "./utils/urlBuilder";
@@ -120,24 +120,24 @@ export function App() {
     };
 
     useEffect(() => {
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const tab = tabs[0];
             const url = tab?.url;
 
             if (!url || !url.startsWith("http")) {
-                showError("No active tab found or it has no valid URL.");
+                showError("No active tab found or the URL is not valid.");
                 return;
             }
 
-            const {isCoursePage, courseId} = parseMoodleCourseUrl(url);
+            const { isCoursePage, courseId } = extractMoodleCourseId(url);
 
             if (!isCoursePage) {
-                showError("This is not a Moodle course page.");
+                showError("This page is not recognized as part of a Moodle course.");
                 return;
             }
 
             if (!courseId) {
-                showError("No course found or it has no course ID.");
+                showError("Unable to detect a course ID in the current Moodle URL.");
                 return;
             }
 

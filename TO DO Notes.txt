@@ -4,19 +4,16 @@
 
 [Prioridad]
 
-1. [Media] Refactoring, JSDOC y repaso del código.
-Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
-   está creciendo demasiado (más de 244 KB). Soluciones propuestas:
-   - Lazy loading con `React.lazy`.
-   - Reducir el tamaño de Chart.js importando solo los elementos que se usan. Ver `chartConfig.ts`.
+1. [Alta] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
+   está creciendo demasiado (más de 244 KB). ¿React.lazy?
 
-2. [Media] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
-   Se observa que las secciones de Settings, Participants, Grades y Activities tienen el id del curso y
-   por tanto, se podría empezar un análisis desde estas páginas además de desde la sección de "Course".
+2. [Media] Refactoring, JSDOC y repaso del código.
 
-3. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
+3. [Media] Enviar informe de seguimiento a tutores y solicitar feedback y
+    siguientes pasos.
+
+4. [Media] Adaptar la aplicación al entorno de producción: Campus Virtual Universidad de Málaga.
+
+5. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
    los valores mostrados en Moodle.
    - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
-
-4. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
-   CV UMA y entorno local.
