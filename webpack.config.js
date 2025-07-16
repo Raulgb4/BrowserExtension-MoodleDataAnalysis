@@ -51,5 +51,10 @@ module.exports = {
                 { from: "public", to: "." }
             ]
         })
-    ]
+    ],
+
+    performance: {
+        maxAssetSize: 1500000,
+        maxEntrypointSize: 1500000,
+    },
 }
