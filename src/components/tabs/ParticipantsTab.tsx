@@ -153,11 +153,18 @@ const ParticipantsTab: React.FC = () => {
         ],
     };
 
+    const getFilteredTitle = (base: string, roles: string[]) => {
+        if (roles.length === 0) return `${base} (No roles selected)`;
+        if (roles.length === 1) return `${base} (${roles[0]})`;
+        return `${base} (${roles.join(" & ")})`;
+    };
+
+
     return (
         <div className="space-y-8">
             {/* Gráfica 1 con filtros */}
             <GraphBlock
-                title="Global Participation"
+                title={getFilteredTitle("Global Participation", selectedRolesParticipation)}
                 chartType="pie"
                 data={pieData}
                 labels={["Active", "Inactive"]}
@@ -181,11 +188,11 @@ const ParticipantsTab: React.FC = () => {
                 </div>
             </GraphBlock>
 
-            <hr className="border-t border-gray-300 w-3/4 mx-auto"/>
+            <hr className="border-t border-gray-300 w-3/4 mx-auto" />
 
             {/* Gráfica 2 con filtros */}
             <GraphBlock
-                title="Last Access Distribution"
+                title={getFilteredTitle("Last Access Distribution", selectedRolesAccess)}
                 chartType="line"
                 data={accessData}
                 labels={lastAccessLabels}

@@ -87,27 +87,66 @@ export function exportToImage(
     }
 
     const canvas = chart.canvas as HTMLCanvasElement;
-    const paddingTop = 40;
+    const originalWidth = canvas.width;
+    const originalHeight = canvas.height;
 
     const exportCanvas = document.createElement("canvas");
-    exportCanvas.width = canvas.width;
-    exportCanvas.height = canvas.height + paddingTop;
-
     const ctx = exportCanvas.getContext("2d");
+
     if (!ctx) {
         console.warn("Unable to get canvas context for export.");
         return;
     }
 
-    ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
-
-    ctx.fillStyle = "black";
+    // Configurar estilos de fuente
     ctx.font = "bold 16px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(filename, exportCanvas.width / 2, 25);
+    const maxTextWidth = originalWidth - 40;
 
-    ctx.drawImage(canvas, 0, paddingTop);
+    // Función para dividir el título largo en varias líneas
+    const wrapText = (text: string, maxWidth: number): string[] => {
+        const words = text.split(" ");
+        const lines: string[] = [];
+        let currentLine = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+            const word = words[i];
+            const width = ctx.measureText(currentLine + " " + word).width;
+            if (width < maxWidth) {
+                currentLine += " " + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+
+        lines.push(currentLine);
+        return lines;
+    };
+
+    const titleLines = wrapText(filename, maxTextWidth);
+    const titleHeight = titleLines.length * 22 + 10; // espacio vertical por línea
+    exportCanvas.width = originalWidth;
+    exportCanvas.height = originalHeight + titleHeight;
+
+    // Reasignar el contexto (algunas versiones pierden el contexto después de cambiar altura)
+    const finalCtx = exportCanvas.getContext("2d");
+    if (!finalCtx) {
+        console.warn("Unable to get final canvas context.");
+        return;
+    }
+
+    finalCtx.fillStyle = "white";
+    finalCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+
+    finalCtx.fillStyle = "black";
+    finalCtx.font = "bold 16px sans-serif";
+    finalCtx.textAlign = "center";
+
+    titleLines.forEach((line, i) => {
+        finalCtx.fillText(line, exportCanvas.width / 2, 25 + i * 22);
+    });
+
+    finalCtx.drawImage(canvas, 0, titleHeight);
 
     const mimeType = `image/${format}`;
     const base64Image = exportCanvas.toDataURL(mimeType);
@@ -119,6 +158,7 @@ export function exportToImage(
     link.click();
     document.body.removeChild(link);
 }
+
 
 /**
  * @function exportToPDF
