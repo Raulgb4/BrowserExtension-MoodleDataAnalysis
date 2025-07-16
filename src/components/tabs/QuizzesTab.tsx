@@ -124,7 +124,7 @@ const QuizzesTab: React.FC = () => {
                 return (
                     <div key={index}>
                         <GraphBlock
-                            title={`${quiz.activityName} – Top ${topN} Students`}
+                            title={`${quiz.activityName} - Top ${topN} Students`}
                             chartType="bar"
                             data={data}
                             labels={labels}

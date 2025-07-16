@@ -110,7 +110,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
             <div className="mt-3 flex justify-center gap-2 flex-wrap">
                 <button
-                    onClick={() => exportToCSV(labels, values)}
+                    onClick={() => exportToCSV(labels, values, title)}
                     title="Download CSV"
                     className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
                 >

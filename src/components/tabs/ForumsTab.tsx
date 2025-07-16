@@ -127,7 +127,7 @@ const ForumsTab: React.FC = () => {
                 return (
                     <div key={index}>
                         <GraphBlock
-                            title={`Participation – ${forum.activityName}`}
+                            title={`Participation - ${forum.activityName}`}
                             chartType="line"
                             data={data}
                             labels={participants}

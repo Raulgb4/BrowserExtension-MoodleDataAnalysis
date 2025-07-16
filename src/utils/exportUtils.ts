@@ -4,7 +4,7 @@
  * This utility module provides functions to export chart data and visualizations
  * in various formats including CSV, image (PNG or JPEG), and PDF.
  * It leverages Chart.js for accessing chart instances, and jsPDF with jsPDF-AutoTable
-to generate structured documents containing both charts and associated data.
+ to generate structured documents containing both charts and associated data.
  *
  * These exports are intended to enhance the usability and shareability of
  * statistical information extracted from Moodle activities or other data sources.
@@ -38,14 +38,19 @@ export function exportToCSV(
     values: number[],
     filename: string = "export.csv"
 ): void {
+    const title = filename.replace(/\.[^/.]+$/, ""); // sin .csv
     const header = ["Category", "Value"];
     const rows = labels.map((label, i) => [label, values[i]]);
 
-    const csv = [header, ...rows]
+    const csv = [
+        [title],          // primera fila: título
+        header,           // segunda fila: cabecera
+        ...rows           // datos
+    ]
         .map((row) => row.join(","))
         .join("\n");
 
-    const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
     const downloadLink = document.createElement("a");
@@ -55,6 +60,7 @@ export function exportToCSV(
     downloadLink.click();
     document.body.removeChild(downloadLink);
 }
+
 
 /**
  * @function exportToImage
@@ -81,10 +87,11 @@ export function exportToImage(
     }
 
     const canvas = chart.canvas as HTMLCanvasElement;
+    const paddingTop = 40;
 
     const exportCanvas = document.createElement("canvas");
     exportCanvas.width = canvas.width;
-    exportCanvas.height = canvas.height;
+    exportCanvas.height = canvas.height + paddingTop;
 
     const ctx = exportCanvas.getContext("2d");
     if (!ctx) {
@@ -94,7 +101,13 @@ export function exportToImage(
 
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
-    ctx.drawImage(canvas, 0, 0);
+
+    ctx.fillStyle = "black";
+    ctx.font = "bold 16px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(filename, exportCanvas.width / 2, 25);
+
+    ctx.drawImage(canvas, 0, paddingTop);
 
     const mimeType = `image/${format}`;
     const base64Image = exportCanvas.toDataURL(mimeType);
@@ -138,15 +151,21 @@ export function exportToPDF(
     const base64Image = chart.toBase64Image();
     const doc = new jsPDF();
 
+    const title = filename.replace(/\.[^/.]+$/, "");
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    const pageWidth = doc.internal.pageSize.getWidth();
+    doc.text(title, pageWidth / 2, 15, {align: "center"});
+
     const imgProps = (doc as any).getImageProperties?.(base64Image);
     const pdfWidth = 180;
     const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
     const pdfHeight = pdfWidth * aspectRatio;
 
-    doc.addImage(base64Image, "PNG", 15, 20, pdfWidth, pdfHeight);
+    doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
 
-    const tableY = 20 + pdfHeight + 10;
-
+    const tableY = 25 + pdfHeight + 10;
     const tableData = labels.map((label, i) => [label, values[i]]);
 
     autoTable(doc, {
