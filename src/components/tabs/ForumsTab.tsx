@@ -81,7 +81,7 @@ const ForumsTab: React.FC = () => {
                 values={forumSubscriptions}
             />
 
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
 
             {forums.map((forum, index) => {
                 const topN = topNs[index] || 20;
@@ -127,31 +127,32 @@ const ForumsTab: React.FC = () => {
                 return (
                     <div key={index}>
                         <GraphBlock
-                            title={`Participation - ${forum.activityName}`}
+                            title={`${forum.activityName} - Top ${topN} participants`}
                             chartType="line"
                             data={data}
                             labels={participants}
                             values={values}
                         >
-                            <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
-                                Show top N participants:
-                            </p>
-                            <div className="flex justify-center mb-4">
-                                <input
-                                    type="number"
-                                    min={1}
-                                    max={forum.participantsStats.length}
-                                    value={topN}
-                                    onChange={(e) =>
-                                        handleTopNChange(Number(e.target.value))
-                                    }
-                                    className="w-20 border border-gray-300 rounded px-2 py-1 text-sm text-center"
-                                />
+                            <div className="flex justify-center mb-4 text-sm text-gray-700">
+                                <label className="flex items-center gap-2">
+                                    Show top
+                                    <input
+                                        type="number"
+                                        min={1}
+                                        max={forum.participantsStats.length}
+                                        value={topN}
+                                        onChange={(e) =>
+                                            handleTopNChange(Number(e.target.value))
+                                        }
+                                        className="w-16 border border-gray-300 rounded px-2 py-1 text-center"
+                                    />
+                                    participants
+                                </label>
                             </div>
                         </GraphBlock>
 
                         {index < forums.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
                         )}
                     </div>
                 );

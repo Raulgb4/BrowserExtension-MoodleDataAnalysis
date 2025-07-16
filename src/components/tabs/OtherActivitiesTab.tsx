@@ -88,7 +88,7 @@ const OtherActivitiesTab: React.FC = () => {
         return (
             <>
                 <GraphBlock
-                    title={`${title} (Top ${count})`}
+                    title={`${title} - Top ${count} activities`}
                     chartType="bar"
                     data={getBarData(topItems, "Visits", color.bg, color.border)}
                     labels={topItems.map((i) => i.activityName)}
@@ -109,7 +109,7 @@ const OtherActivitiesTab: React.FC = () => {
                         </label>
                     </div>
                 </GraphBlock>
-                <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
             </>
         );
     };

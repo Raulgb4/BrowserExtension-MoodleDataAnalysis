@@ -2,26 +2,21 @@
   TODO - Moodle Extension
 =============================
 
-🎨 Visualización (Frontend)
-----------------------------
+[Prioridad]
 
-1. [Media] Estandarizar la apariencia de los filtros en Quizzes, Forums y Other Activities.
-
-2. [Media] Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
+1. [Media] Refactoring, JSDOC y repaso del código.
+Solucionar los warnings que salen al hacer `npm run build`. Se producen porque `popup.js`
    está creciendo demasiado (más de 244 KB). Soluciones propuestas:
    - Lazy loading con `React.lazy`.
    - Reducir el tamaño de Chart.js importando solo los elementos que se usan. Ver `chartConfig.ts`.
 
-3. [Media] Refactoring, JSDOC y repaso del código.
+2. [Media] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
+   Se observa que las secciones de Settings, Participants, Grades y Activities tienen el id del curso y
+   por tanto, se podría empezar un análisis desde estas páginas además de desde la sección de "Course".
 
-4. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
+3. [Media] Revisar discrepancias en los datos de fechas: algunas no coinciden de forma exacta con
    los valores mostrados en Moodle.
    - Revisar earliest y most recent post de los foros -> Posible problema de zona horaria.
 
-🔧 Funcionalidad adicional
---------------------------
-
-1. [Baja] Detectar si nos encontramos en una página de Moodle en general (no solo en la sección de "Course").
-
-2. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
+4. [Baja] Eliminar la constante fija `BASE` para permitir compatibilidad multiplataforma, más allá de
    CV UMA y entorno local.
