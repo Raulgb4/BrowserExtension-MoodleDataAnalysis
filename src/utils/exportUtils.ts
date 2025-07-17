@@ -11,6 +11,7 @@
  * @author Raúl García Balongo
  * @date 2025
  */
+
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {Chart as ChartJS} from "chart.js";
@@ -38,19 +39,19 @@ export function exportToCSV(
     values: number[],
     filename: string = "export.csv"
 ): void {
-    const title = filename.replace(/\.[^/.]+$/, ""); // sin .csv
+    const title = filename.replace(/\.[^/.]+$/, "");
     const header = ["Category", "Value"];
     const rows = labels.map((label, i) => [label, values[i]]);
 
     const csv = [
-        [title],          // primera fila: título
-        header,           // segunda fila: cabecera
-        ...rows           // datos
+        [title],
+        header,
+        ...rows
     ]
         .map((row) => row.join(","))
         .join("\n");
 
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
     const url = URL.createObjectURL(blob);
 
     const downloadLink = document.createElement("a");
@@ -61,7 +62,6 @@ export function exportToCSV(
     document.body.removeChild(downloadLink);
 }
 
-
 /**
  * @function exportToImage
  * @description
@@ -71,14 +71,14 @@ export function exportToCSV(
  *
  * @param {React.RefObject<ChartJS | null>} chartRef - Ref to the rendered chart instance.
  * @param {"png" | "jpeg"} format - Desired image format ("png" or "jpeg").
- * @param {string} [filename="chart"] - Base filename without extension.
+ * @param [filename="chart"] - Base filename without extension.
  *
  * @returns {void}
  */
 export function exportToImage(
     chartRef: React.RefObject<ChartJS | null>,
     format: "png" | "jpeg",
-    filename: string = "chart"
+    filename = "chart"
 ): void {
     const chart = chartRef.current;
     if (!chart) {
@@ -86,9 +86,8 @@ export function exportToImage(
         return;
     }
 
-    const canvas = chart.canvas as HTMLCanvasElement;
-    const originalWidth = canvas.width;
-    const originalHeight = canvas.height;
+    const sourceCanvas = chart.canvas as HTMLCanvasElement;
+    const {width: originalWidth, height: originalHeight} = sourceCanvas;
 
     const exportCanvas = document.createElement("canvas");
     const ctx = exportCanvas.getContext("2d");
@@ -98,21 +97,20 @@ export function exportToImage(
         return;
     }
 
-    // Configurar estilos de fuente
+    // Title wrapping
     ctx.font = "bold 16px sans-serif";
     const maxTextWidth = originalWidth - 40;
 
-    // Función para dividir el título largo en varias líneas
     const wrapText = (text: string, maxWidth: number): string[] => {
         const words = text.split(" ");
         const lines: string[] = [];
-        let currentLine = words[0];
+        let currentLine = words[0] ?? "";
 
         for (let i = 1; i < words.length; i++) {
             const word = words[i];
-            const width = ctx.measureText(currentLine + " " + word).width;
-            if (width < maxWidth) {
-                currentLine += " " + word;
+            const testLine = currentLine + " " + word;
+            if (ctx.measureText(testLine).width < maxWidth) {
+                currentLine = testLine;
             } else {
                 lines.push(currentLine);
                 currentLine = word;
@@ -124,20 +122,22 @@ export function exportToImage(
     };
 
     const titleLines = wrapText(filename, maxTextWidth);
-    const titleHeight = titleLines.length * 22 + 10; // espacio vertical por línea
+    const titleHeight = titleLines.length * 22 + 10;
+
     exportCanvas.width = originalWidth;
     exportCanvas.height = originalHeight + titleHeight;
 
-    // Reasignar el contexto (algunas versiones pierden el contexto después de cambiar altura)
     const finalCtx = exportCanvas.getContext("2d");
     if (!finalCtx) {
         console.warn("Unable to get final canvas context.");
         return;
     }
 
+    // Background
     finalCtx.fillStyle = "white";
     finalCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
 
+    // Title
     finalCtx.fillStyle = "black";
     finalCtx.font = "bold 16px sans-serif";
     finalCtx.textAlign = "center";
@@ -146,41 +146,38 @@ export function exportToImage(
         finalCtx.fillText(line, exportCanvas.width / 2, 25 + i * 22);
     });
 
-    finalCtx.drawImage(canvas, 0, titleHeight);
+    // Chart
+    finalCtx.drawImage(sourceCanvas, 0, titleHeight);
 
+    // Export
     const mimeType = `image/${format}`;
-    const base64Image = exportCanvas.toDataURL(mimeType);
+    const imageDataUrl = exportCanvas.toDataURL(mimeType);
 
     const link = document.createElement("a");
-    link.href = base64Image;
+    link.href = imageDataUrl;
     link.download = `${filename}.${format}`;
+    link.style.display = "none";
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
 
-
 /**
- * @function exportToPDF
- * @description
- * Utility function to export a Chart.js chart as a PDF file.
- * The PDF includes the chart image and a data table with corresponding labels and values.
+ * Exports a Chart.js chart as a PDF file with its image and a data table.
  *
- * It uses `toBase64Image()` from Chart.js to extract the chart visual as an image,
- * and `jspdf-auto table` to render the data in tabular form.
+ * Uses `ChartJS.toBase64Image()` to embed the chart and `jspdf-auto table` for tabular data.
  *
- * @param {React.RefObject<ChartJS | null>} chartRef - Reference to the Chart.js instance.
- * @param {string[]} labels - The labels corresponding to chart data categories.
- * @param {number[]} values - The values associated with each label.
- * @param {string} [filename="chart.pdf"] - Desired filename for the exported PDF.
- *
- * @returns {void}
+ * @param chartRef - Reference to the Chart.js instance.
+ * @param labels - The labels corresponding to chart data categories.
+ * @param values - The values associated with each label.
+ * @param filename - Desired filename for the exported PDF (default: "chart.pdf").
  */
 export function exportToPDF(
     chartRef: RefObject<ChartJS | null>,
     labels: string[],
     values: number[],
-    filename: string = "chart.pdf"
+    filename = "chart.pdf"
 ): void {
     const chart = chartRef.current;
     if (!chart) {
@@ -190,14 +187,15 @@ export function exportToPDF(
 
     const base64Image = chart.toBase64Image();
     const doc = new jsPDF();
+    const title = filename.replace(/\.[^/.]+$/, ""); // Remove extension
 
-    const title = filename.replace(/\.[^/.]+$/, "");
-
+    // Title
     doc.setFontSize(14);
     doc.setFont("helvetica", "bold");
     const pageWidth = doc.internal.pageSize.getWidth();
     doc.text(title, pageWidth / 2, 15, {align: "center"});
 
+    // Chart image
     const imgProps = (doc as any).getImageProperties?.(base64Image);
     const pdfWidth = 180;
     const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
@@ -205,11 +203,12 @@ export function exportToPDF(
 
     doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
 
-    const tableY = 25 + pdfHeight + 10;
+    // Table
+    const tableStartY = 25 + pdfHeight + 10;
     const tableData = labels.map((label, i) => [label, values[i]]);
 
     autoTable(doc, {
-        startY: tableY,
+        startY: tableStartY,
         head: [["Category", "Value"]],
         body: tableData,
         styles: {fontSize: 10},

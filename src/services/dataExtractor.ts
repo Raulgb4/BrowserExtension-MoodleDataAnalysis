@@ -61,7 +61,7 @@ async function fetchAndParse(url: string): Promise<Document> {
  * from the corresponding HTML attribute.
  *
  * @param participantsUrl - The full URL of the Moodle participants page to scrape.
- * @returns The total number of participants as a number, or null if not found or an error occurs.
+ * @returns The total number of participants as a number, or null if not found, or an error occurs.
  */
 export async function scrapeNumParticipants(participantsUrl: string): Promise<number | null> {
     try {
@@ -316,7 +316,7 @@ export async function scrapeQuizzes(
  * - Forum report page (to gather per-participant activity stats)
  *
  * It compiles participant metrics such as posts, replies, views, word count, and timestamps
- * of earliest and most recent posts, and returns them in a structured `Forum` object.
+ * of the earliest and most recent posts and returns them in a structured `Forum` object.
  *
  * @param id - The unique identifier of the forum activity.
  * @param activityName - The display name of the forum as shown in the course.

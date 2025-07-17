@@ -27,7 +27,7 @@ export function normalizeTimeToMillis(input: string): number | undefined {
     const trimmed = input.trim().toLowerCase();
     if (trimmed === 'never' || trimmed === '-') return undefined;
 
-    // Try to parse full date string (e.g., "Tuesday, 18 October 2022, 6:49 PM")
+    // Try to parse the full date string (e.g., "Tuesday, 18 October 2022, 6:49 PM")
     const parsedDate = Date.parse(trimmed);
     if (!isNaN(parsedDate)) return parsedDate;
 
@@ -155,7 +155,7 @@ export function parseViewsAndUsers(raw: string): { numViews: number; numUsers: n
 /**
  * Converts a JavaScript Date object into a human-readable relative time string.
  *
- * For example: "3 days", "2 hours", "5 minutes", or "a few seconds".
+ * For example, "3 days", "2 hours", "5 minutes", or "a few seconds".
  *
  * @param date - The past Date to compare against the current time.
  * @returns A string representing how much time has passed since the given date.

@@ -15,7 +15,7 @@
 
 /** Base URLs for different Moodle environments */
 export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
-export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
+//export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 
 /**
  * Base URL currently in use.
@@ -57,10 +57,10 @@ export function extractMoodleCourseId(url: string): {
         const isCoursePage = validPaths.includes(parsed.pathname);
         const courseId = parsed.searchParams.get("id") || parsed.searchParams.get("courseid");
 
-        return { isCoursePage, courseId };
+        return {isCoursePage, courseId};
     } catch {
         console.warn("Invalid URL:", url);
-        return { isCoursePage: false, courseId: null };
+        return {isCoursePage: false, courseId: null};
     }
 }
 
@@ -129,11 +129,11 @@ export const URLS = {
 };
 
 /**
- * Generates the URL for the participants list of a course.
+ * Generates the URL for the participant list of a course.
  *
  * @param courseId - The ID of the Moodle course.
  * @param totalParticipants - Optional. Number of participants to include per page.
- * @returns An object with a `participants` key mapping to the full participants list URL.
+ * @returns An object with `participants` key mapping to the full participants list URL.
  */
 export function getScrapeUrlParticipants(courseId: string | number, totalParticipants?: number): Record<string, string> {
     return {
@@ -200,7 +200,7 @@ export function getScrapeUrlForumMain(id: string | number): Record<string, strin
  * Generates the URL used to access the forum reports page for a specific course and forum.
  *
  * This URL provides detailed statistical information about forum participation, such as
- * number of posts, replies, views, and word counts for each user.
+ *  the number of posts, replies, views, and word counts for each user.
  *
  * @param courseId - The unique identifier of the course containing the forum.
  * @param forumId - The unique identifier of the forum activity.
@@ -214,7 +214,7 @@ export function getScrapeUrlForumReports(courseId: string | number, forumId: str
 }
 
 /**
- * Generates the URL used to access the subscriptions page of a specific forum.
+ * Generates the URL used to access the subscription page of a specific forum.
  *
  * This URL is used to determine how many users are subscribed to the forum,
  * which can be useful for analyzing engagement levels.
