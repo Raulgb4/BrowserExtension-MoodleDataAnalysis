@@ -1,5 +1,11 @@
 /**
  * @file InfoCard.tsx
+ * @description
+ * Reusable notification component for displaying success or error messages in the Moodle Data Analyzer extension.
+ * It includes automatic fade-out for non-error messages and a manual close button for quick dismissals.
+ *
+ * The component uses Tailwind CSS for styling and supports dynamic icons and colors based on a message type.
+ * Designed to improve user feedback during actions such as data analysis or restoration.
  *
  * @author Raúl García Balongo
  * @date 2025
@@ -15,7 +21,7 @@ interface InfoCardProps {
 }
 
 
-export default function InfoCard({ message, isError = false }: InfoCardProps) {
+export default function InfoCard({message, isError = false}: InfoCardProps) {
     const [visible, setVisible] = useState(true);        // Controla si se muestra en pantalla
     const [fadingOut, setFadingOut] = useState(false);   // Controla el estado de desvanecimiento
 
@@ -44,20 +50,21 @@ export default function InfoCard({ message, isError = false }: InfoCardProps) {
         <div
             id="output"
             role="alert"
+            aria-live="polite"
             className={`${baseClasses} ${isError ? errorClasses : successClasses} ${fadingOut ? "opacity-0" : "opacity-100"}`}
         >
             <div className="flex items-center gap-3">
                 {isError ? (
-                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500" />
+                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500"/>
                 ) : (
-                    <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                    <CheckCircleIcon className="h-6 w-6 text-green-500"/>
                 )}
                 <span className="whitespace-nowrap font-medium">{message}</span>
             </div>
 
             {!isError && (
                 <button onClick={() => setFadingOut(true)} aria-label="Close">
-                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800" />
+                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800"/>
                 </button>
             )}
         </div>

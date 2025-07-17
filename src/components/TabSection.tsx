@@ -11,7 +11,7 @@
  *
  * It uses React state to track the active tab and applies conditional styling for visual feedback.
  */
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import TabContent from "./TabContent";
 
 const tabs = [
@@ -29,17 +29,19 @@ const TabSection: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>("Global");
 
     useEffect(() => {
-        chrome.storage.local.get("activeTab", (result) => {
-            if (result.activeTab && tabs.includes(result.activeTab)) {
-                setActiveTab(result.activeTab as Tab);
+        chrome.storage.local.get("activeTab", ({activeTab}) => {
+            if (tabs.includes(activeTab)) {
+                setActiveTab(activeTab as Tab);
             }
         });
     }, []);
 
-    useEffect(() => {
-        chrome.storage.local.set({ activeTab });
-    }, [activeTab]);
 
+    useEffect(() => {
+        chrome.storage.local
+            .set({activeTab})
+            .catch((err) => console.error("Error saving activeTab:", err));
+    }, [activeTab]);
 
     return (
         <div className="mt-6">
