@@ -73,7 +73,8 @@ const OtherActivitiesTab: React.FC = () => {
         key: "url" | "file" | "workshop",
         title: string,
         items: any[],
-        color: { bg: string; border: string }
+        color: { bg: string; border: string },
+        showDivider: boolean
     ) => {
         const count = topCounts[key];
         const topItems = getTopItems(items, count);
@@ -86,7 +87,7 @@ const OtherActivitiesTab: React.FC = () => {
         };
 
         return (
-            <>
+            <div key={key}>
                 <GraphBlock
                     title={`${title} - Top ${count} activities`}
                     chartType="bar"
@@ -109,30 +110,55 @@ const OtherActivitiesTab: React.FC = () => {
                         </label>
                     </div>
                 </GraphBlock>
-                <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
-            </>
+
+                {showDivider && (
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                )}
+            </div>
         );
     };
 
+    const graphsToRender = [
+        {
+            key: "url" as const,
+            title: "URL Resource Visits",
+            items: urlResources,
+            color: {
+                bg: "rgba(100, 181, 246, 0.6)",
+                border: "rgba(100, 181, 246, 1)",
+            },
+        },
+        {
+            key: "file" as const,
+            title: "File Resource Visits",
+            items: resources,
+            color: {
+                bg: "rgba(255, 167, 38, 0.6)",
+                border: "rgba(255, 167, 38, 1)",
+            },
+        },
+        {
+            key: "workshop" as const,
+            title: "Workshop Visits",
+            items: workshops,
+            color: {
+                bg: "rgba(129, 199, 132, 0.6)",
+                border: "rgba(129, 199, 132, 1)",
+            },
+        },
+    ].filter((g) => g.items.length > 0);
+
     return (
         <div>
-            {urlResources.length > 0 &&
-                renderGraphWithFilter("url", "URL Resource Visits", urlResources, {
-                    bg: "rgba(100, 181, 246, 0.6)",
-                    border: "rgba(100, 181, 246, 1)",
-                })}
-
-            {resources.length > 0 &&
-                renderGraphWithFilter("file", "File Resource Visits", resources, {
-                    bg: "rgba(255, 167, 38, 0.6)",
-                    border: "rgba(255, 167, 38, 1)",
-                })}
-
-            {workshops.length > 0 &&
-                renderGraphWithFilter("workshop", "Workshop Visits", workshops, {
-                    bg: "rgba(129, 199, 132, 0.6)",
-                    border: "rgba(129, 199, 132, 1)",
-                })}
+            {graphsToRender.map((g, index) =>
+                renderGraphWithFilter(
+                    g.key,
+                    g.title,
+                    g.items,
+                    g.color,
+                    index < graphsToRender.length - 1 // solo muestra <hr /> si no es el último
+                )
+            )}
         </div>
     );
 };
