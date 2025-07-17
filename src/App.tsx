@@ -18,7 +18,6 @@ import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
 import {getRelativeTime} from "./services/dataProcessor";
 
-
 /**
  * @function App
  * @description
@@ -33,69 +32,95 @@ import {getRelativeTime} from "./services/dataProcessor";
  * a start/restart button, and an info card displaying feedback messages or errors.
  */
 export function App() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [outputMessage, setOutputMessage] = useState("");
-    const [button, setButton] = useState<ReactElement | null>(null);
-    const [isError, setIsError] = useState(false);
+
     const [isValidCoursePage, setIsValidCoursePage] = useState(false);
     const [currentCourseId, setCurrentCourseId] = useState<string | null>(null);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [outputMessage, setOutputMessage] = useState("");
+    const [button, setButton] = useState<ReactElement | null>(null);
     const [lastAnalyzedAgo, setLastAnalyzedAgo] = useState<string | null>(null);
+    const [isRestored, setIsRestored] = useState(false);
 
-    async function analyzeCourseData(courseId: string) {
-        setIsLoading(true);
-        setButton(null);
-        setOutputMessage("");
+    function createStartButton(courseId: string, onClick: (id: string) => void): ReactElement {
+        return (
+            <Button
+                id="startButton"
+                text="Start"
+                onClick={() => onClick(courseId)}
+            />
+        );
+    }
 
-        const restartButton = (
+    function createRestartButton(courseId: string, onClick: (id: string) => void): ReactElement {
+        return (
             <Button
                 id="restartButton"
                 text="Restart"
-                onClick={() => analyzeCourseData(courseId)}
+                onClick={() => onClick(courseId)}
             />
         );
+    }
+
+    async function fetchTotalParticipants(courseId: string): Promise<number | null> {
+        const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
+        const total = await scrapeNumParticipants(preliminaryUrl);
+
+        if (total === null) {
+            console.warn("Unable to extract total participant count.");
+        }
+
+        return total;
+    }
+
+    async function fetchAndStoreCourseData(courseId: string, totalParticipants: number) {
+        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
+        const {activityReport} = getScrapeUrlActivityReport(courseId);
+
+        const course = await scrapeCourse(courseId, activityReport, participants, totalParticipants);
+        console.log("Course data:", course);
+
+        const storageData = {
+            [`course_${courseId}`]: course,
+            lastAnalyzedCourseId: courseId,
+            lastAnalyzedAt: Date.now(),
+        };
+
+        chrome.storage.local.set(storageData, () => {
+            if (chrome.runtime.lastError) {
+                console.error("Error saving course data:", chrome.runtime.lastError);
+            } else {
+                console.log(`Course data saved successfully under key "course_${courseId}"`);
+            }
+        });
+
+        return course;
+    }
+
+    async function analyzeCourseData(courseId: string) {
+
+        setIsLoading(true);
+        setButton(null);
+        setIsRestored(false);
+        setOutputMessage("");
 
         try {
-            const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
-            const totalParticipants = await scrapeNumParticipants(preliminaryUrl);
+            const totalParticipants = await fetchTotalParticipants(courseId);
 
             if (totalParticipants === null) {
-                console.warn("Unable to extract total participant count.");
                 setOutputMessage("Failed to determine participant count.");
-                setButton(restartButton);
+                setButton(createRestartButton(courseId, analyzeCourseData));
                 return;
             }
 
-            const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
-            const {activityReport} = getScrapeUrlActivityReport(courseId);
+            await fetchAndStoreCourseData(courseId, totalParticipants);
 
-            const course = await scrapeCourse(
-                courseId,
-                activityReport,
-                participants,
-                totalParticipants
-            );
-
-            console.log("Course data:", course);
-
-            chrome.storage.local.set(
-                {
-                    [`course_${courseId}`]: course,
-                    lastAnalyzedCourseId: courseId,
-                    lastAnalyzedAt: Date.now()
-                },
-                () => {
-                    if (chrome.runtime.lastError) {
-                        console.error("Error saving course data:", chrome.runtime.lastError);
-                    } else {
-                        console.log(`Course data saved successfully under key "course_${courseId}"`);
-                    }
-                }
-            );
+            setIsError(false);
 
             setOutputMessage("Analysis completed successfully!");
-            setButton(restartButton);
+            setButton(createRestartButton(courseId, analyzeCourseData));
             setLastAnalyzedAgo(getRelativeTime(new Date()));
-
         } catch (error) {
             console.error("Error during analysis:", error);
             setOutputMessage("An error occurred while analyzing the course.");
@@ -104,94 +129,98 @@ export function App() {
         }
     }
 
-    const showError = (msg: string) => {
-        setOutputMessage(msg);
+    function validateAndExtractCourseId(url?: string): string | null {
+        if (!url || !url.startsWith("http")) {
+            displayErrorMessage("No active tab found or the URL is not valid.");
+            return null;
+        }
+
+        const {isCoursePage, courseId} = extractMoodleCourseId(url);
+
+        if (!isCoursePage) {
+            displayErrorMessage("This page is not recognized as part of a Moodle course.");
+            return null;
+        }
+
+        if (!courseId) {
+            displayErrorMessage("Unable to detect a course ID in the current Moodle URL.");
+            return null;
+        }
+
+        return courseId;
+    }
+
+    const displayErrorMessage = (message: string) => {
+        setOutputMessage(message);
         setIsError(true);
     };
 
-    const setupStartButton = (courseId: string) => {
-        setButton(
-            <Button
-                id="startButton"
-                text="Start"
-                onClick={() => analyzeCourseData(courseId)}
-            />
-        );
-    };
-
     useEffect(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const tab = tabs[0];
-            const url = tab?.url;
+        const initializePopup = () => {
+            chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+                const tab = tabs?.[0];
+                const courseId = validateAndExtractCourseId(tab?.url);
+                if (!courseId) return;
 
-            if (!url || !url.startsWith("http")) {
-                showError("No active tab found or the URL is not valid.");
-                return;
-            }
+                setIsValidCoursePage(true);
+                setCurrentCourseId(courseId);
 
-            const { isCoursePage, courseId } = extractMoodleCourseId(url);
+                maybeRenderStartButton(courseId);
+            });
+        };
 
-            if (!isCoursePage) {
-                showError("This page is not recognized as part of a Moodle course.");
-                return;
-            }
-
-            if (!courseId) {
-                showError("Unable to detect a course ID in the current Moodle URL.");
-                return;
-            }
-
-            setIsValidCoursePage(true);
-            setCurrentCourseId(courseId);
-
+        const maybeRenderStartButton = (courseId: string) => {
             chrome.storage.local.get("lastAnalyzedCourseId", (res) => {
                 if (!res.lastAnalyzedCourseId) {
-                    setupStartButton(courseId);
+                    setButton(createStartButton(courseId, analyzeCourseData));
                 }
             });
-        });
+        };
+
+        initializePopup();
     }, []);
 
     useEffect(() => {
         if (!isValidCoursePage || !currentCourseId) return;
 
-        chrome.storage.local.get([`course_${currentCourseId}`, "lastAnalyzedAt"], (data) => {
-            const course = data[`course_${currentCourseId}`];
-            const timestamp = data.lastAnalyzedAt;
+        const restorePreviousAnalysis = () => {
+            chrome.storage.local.get([`course_${currentCourseId}`, "lastAnalyzedAt"], (data) => {
+                const course = data[`course_${currentCourseId}`];
+                const timestamp = data.lastAnalyzedAt;
 
-            if (course) {
+                if (!course) return;
+
                 console.log("Restoring previous course data:", course);
 
-                setButton(
-                    <Button
-                        id="restartButton"
-                        text="Restart"
-                        onClick={() => analyzeCourseData(currentCourseId)}
-                    />
-                );
-
-                setOutputMessage("restored");
+                setButton(createRestartButton(currentCourseId, analyzeCourseData));
+                setIsRestored(true);
+                setOutputMessage("Previous analysis restored.");
+                setIsError(false);
 
                 if (timestamp) {
-                    const ago = getRelativeTime(new Date(timestamp));
-                    setLastAnalyzedAgo(ago);
+                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp)));
                 }
-            }
-        });
+            });
+        };
+
+        restorePreviousAnalysis();
     }, [isValidCoursePage, currentCourseId]);
 
     useEffect(() => {
         if (!isValidCoursePage || !currentCourseId) return;
 
-        const interval = setInterval(() => {
+        const updateLastAnalyzedAgo = () => {
             chrome.storage.local.get("lastAnalyzedAt", (data) => {
                 const timestamp = data.lastAnalyzedAt;
                 if (timestamp) {
-                    const ago = getRelativeTime(new Date(timestamp));
-                    setLastAnalyzedAgo(ago);
+                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp)));
                 }
             });
-        }, 60 * 1000);
+        };
+
+        updateLastAnalyzedAgo();
+
+        const interval = setInterval(updateLastAnalyzedAgo, 60_000);
 
         return () => clearInterval(interval);
     }, [isValidCoursePage, currentCourseId]);
@@ -199,23 +228,29 @@ export function App() {
     return (
         <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
             <h1 className="text-2xl mb-4 font-black text-orange-600 tracking-wide drop-shadow-sm animate-fade-in
-            border-b-2 border-orange-200 pb-1 whitespace-nowrap">
+                   border-b-2 border-orange-200 pb-1 whitespace-nowrap">
                 Moodle Data Analyzer
             </h1>
 
             {isLoading && <Loader/>}
-            {!isLoading && button}
-            {outputMessage && outputMessage !== "restored" && (
-                <InfoCard message={outputMessage} isError={isError}/>
-            )}
 
-            {!isLoading && lastAnalyzedAgo && !isError && (
-                <p className="text-sm text-gray-600 mt-4 pt-1">
-                    Último análisis realizado hace {lastAnalyzedAgo}
-                </p>
-            )}
+            {!isLoading && (
+                <>
+                    {button}
 
-            {!isLoading && outputMessage && !isError && <TabSection/>}
+                    {!isRestored && outputMessage && (
+                        <InfoCard message={outputMessage} isError={isError}/>
+                    )}
+
+                    {lastAnalyzedAgo && !isError && (
+                        <p className="text-sm text-gray-600 mt-4 pt-1">
+                            Last analysis performed {lastAnalyzedAgo} ago
+                        </p>
+                    )}
+
+                    {outputMessage && !isError && <TabSection/>}
+                </>
+            )}
         </div>
     );
 }
