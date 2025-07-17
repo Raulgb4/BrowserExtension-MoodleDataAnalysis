@@ -9,6 +9,7 @@
  * @author Raúl García Balongo
  * @date 2025
  */
+
 export interface ActivityBase {
     /**
      * The name/title of the activity as it appears in Moodle.
@@ -28,7 +29,7 @@ export interface ActivityBase {
     numUsers: number;
 
     /**
-     * The last time the activity was accessed by any student.
+     * The last time any student accessed the activity.
      * Also, a string to match the Moodle format (e.g., "Monday, 23 June 2025, 4:17 PM (28 mins 26 secs)" -> (28 mins 26 secs) -> ms).
      */
     lastAccess?: number;
