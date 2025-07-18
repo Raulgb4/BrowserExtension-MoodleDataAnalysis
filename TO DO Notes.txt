@@ -6,9 +6,8 @@
 
 1. [Alta] Refactorizar, documentar (JSDoc) y revisar exhaustivamente el código de la extensión:
    - components (carpeta) -> tabs (carpeta)
-                           -> GraphBlock
 
-    1.1. [Alta] Parpadeos extraños al cambiar entre las tabs
+    1.1. [Alta] Parpadeos extraños al cambiar entre las tabs Choices, Quizzes y Other Activities.
 
 2. [Alta] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
 
@@ -26,5 +25,5 @@
    El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js.
 
 6. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
-   - Especial atención a `earliest` y `most recent post` de los foros.
-   - Posible causa: desajustes relacionados con la zona horaria.
+ - Especial atención a `earliest` y `most recent post` de los foros.
+ - Posible causa: desajustes relacionados con la zona horaria.
