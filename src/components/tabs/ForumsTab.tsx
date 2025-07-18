@@ -77,8 +77,6 @@ const ForumsTab: React.FC = () => {
                 title="Subscriptions per Forum"
                 chartType="bar"
                 data={subsData}
-                labels={forumLabels}
-                values={forumSubscriptions}
             />
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
@@ -130,8 +128,6 @@ const ForumsTab: React.FC = () => {
                             title={`${forum.activityName} - Top ${topN} participants`}
                             chartType="line"
                             data={data}
-                            labels={participants}
-                            values={values}
                         >
                             <div className="flex justify-center mb-4 text-sm text-gray-700">
                                 <label className="flex items-center gap-2">

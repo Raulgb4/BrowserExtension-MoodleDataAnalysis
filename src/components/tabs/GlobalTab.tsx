@@ -123,8 +123,6 @@ const GlobalTab: React.FC = () => {
                 title="Total Visits by Activity Type"
                 chartType="bar"
                 data={totalViewsData}
-                labels={activityLabels}
-                values={numViews}
             />
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
@@ -133,8 +131,6 @@ const GlobalTab: React.FC = () => {
                 title="Average Views per User"
                 chartType="line"
                 data={avgViewsData}
-                labels={activityLabels}
-                values={avgViewsPerUser}
             />
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
@@ -143,8 +139,6 @@ const GlobalTab: React.FC = () => {
                 title="Days Since Last Access"
                 chartType="radar"
                 data={lastAccessData}
-                labels={activityLabels}
-                values={daysSinceLastAccess}
             />
         </div>
     );

@@ -62,8 +62,6 @@ const ChoicesTab: React.FC = () => {
                             title={`"${choice.activityName}" Results`}
                             chartType="bar"
                             data={data}
-                            labels={labels}
-                            values={values}
                         />
 
                         {index < choices.length - 1 && (

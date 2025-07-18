@@ -167,8 +167,6 @@ const ParticipantsTab: React.FC = () => {
                 title={getFilteredTitle("Global Participation", selectedRolesParticipation)}
                 chartType="pie"
                 data={pieData}
-                labels={["Active", "Inactive"]}
-                values={[activeCount, inactiveCount]}
             >
                 <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
                     Filter by role:
@@ -195,8 +193,6 @@ const ParticipantsTab: React.FC = () => {
                 title={getFilteredTitle("Last Access Distribution", selectedRolesAccess)}
                 chartType="line"
                 data={accessData}
-                labels={lastAccessLabels}
-                values={lastAccessRanges}
             >
                 <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
                     Filter by role:
@@ -217,6 +213,7 @@ const ParticipantsTab: React.FC = () => {
             </GraphBlock>
         </div>
     );
+
 };
 
 export default ParticipantsTab;

@@ -92,8 +92,6 @@ const OtherActivitiesTab: React.FC = () => {
                     title={`${title} - Top ${count} activities`}
                     chartType="bar"
                     data={getBarData(topItems, "Visits", color.bg, color.border)}
-                    labels={topItems.map((i) => i.activityName)}
-                    values={topItems.map((i) => i.numViews)}
                 >
                     <div className="flex items-center justify-center gap-2 w-full text-sm text-gray-700">
                         <label>

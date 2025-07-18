@@ -127,8 +127,6 @@ const QuizzesTab: React.FC = () => {
                             title={`${quiz.activityName} - Top ${topN} students`}
                             chartType="bar"
                             data={data}
-                            labels={labels}
-                            values={values}
                             options={options}
                         >
                             <div className="w-full flex justify-center items-center gap-2 mt-2 text-sm text-gray-700">
@@ -163,8 +161,6 @@ const QuizzesTab: React.FC = () => {
                         title="Average Score Evolution"
                         chartType="line"
                         data={avgLineData}
-                        labels={quizLabels}
-                        values={avgScores}
                     />
                 </>
             )}
