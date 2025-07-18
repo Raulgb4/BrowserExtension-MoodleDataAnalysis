@@ -5,7 +5,7 @@
 [Prioridad]
 
 1. [Alta] Refactorizar, documentar (JSDoc) y revisar exhaustivamente el código de la extensión:
-   - components (carpeta) -> tabs (carpeta)
+   - components (carpeta) -> tabs (carpeta) -> QuizzesTab.tsx, ForumsTab.tsx y OtherActivitiesTab.tsx.
 
     1.1. [Alta] Parpadeos extraños al cambiar entre las tabs Choices, Quizzes y Other Activities.
 
