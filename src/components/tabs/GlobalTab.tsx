@@ -109,7 +109,7 @@ const GlobalTab: React.FC = () => {
 
     const totalViewsData = createChartData(
         activityLabels,
-        "Total Visits",
+        "Total Visits by Activity Type",
         numViews,
         {bg: "rgba(249, 128, 18, 0.6)", border: "rgba(249, 128, 18, 1)"}
     );

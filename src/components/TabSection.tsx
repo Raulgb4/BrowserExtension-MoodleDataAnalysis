@@ -13,33 +13,41 @@
  */
 import React, {useEffect, useState} from "react";
 import TabContent from "./TabContent";
+import {
+    GlobeAltIcon,
+    UsersIcon,
+    AdjustmentsHorizontalIcon,
+    QuestionMarkCircleIcon,
+    ChatBubbleLeftRightIcon,
+    Squares2X2Icon
+} from "@heroicons/react/24/solid";
+
 
 const tabs = [
-    "Global",
-    "Participants",
-    "Choices",
-    "Quizzes",
-    "Forums",
-    "Other Activities",
+    { name: "Global", icon: GlobeAltIcon },
+    { name: "Participants", icon: UsersIcon },
+    { name: "Choices", icon: AdjustmentsHorizontalIcon },
+    { name: "Quizzes", icon: QuestionMarkCircleIcon },
+    { name: "Forums", icon: ChatBubbleLeftRightIcon },
+    { name: "Other Activities", icon: Squares2X2Icon },
 ] as const;
 
-type Tab = typeof tabs[number];
+type Tab = (typeof tabs)[number]["name"];
 
 const TabSection: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>("Global");
 
     useEffect(() => {
-        chrome.storage.local.get("activeTab", ({activeTab}) => {
-            if (tabs.includes(activeTab)) {
+        chrome.storage.local.get("activeTab", ({ activeTab }) => {
+            if (tabs.find(tab => tab.name === activeTab)) {
                 setActiveTab(activeTab as Tab);
             }
         });
     }, []);
 
-
     useEffect(() => {
         chrome.storage.local
-            .set({activeTab})
+            .set({ activeTab })
             .catch((err) => console.error("Error saving activeTab:", err));
     }, [activeTab]);
 
@@ -47,20 +55,21 @@ const TabSection: React.FC = () => {
         <div className="mt-6">
             {/* Tabs */}
             <div className="border-b border-gray-200">
-                <nav className="flex space-x-6 justify-center" aria-label="Tabs">
-                    {tabs.map((tab) => {
-                        const isActive = activeTab === tab;
+                <nav className="flex space-x-4 sm:space-x-6 justify-center" aria-label="Tabs">
+                    {tabs.map(({ name, icon: Icon }) => {
+                        const isActive = activeTab === name;
                         return (
                             <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`pb-2 text-sm font-medium transition-all ${
+                                key={name}
+                                onClick={() => setActiveTab(name)}
+                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium transition-all ${
                                     isActive
                                         ? "text-orange-600 border-b-2 border-orange-600"
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
-                                <span className="whitespace-nowrap">{tab}</span>
+                                <Icon className="w-4 h-4" aria-hidden="true" />
+                                <span className="whitespace-nowrap">{name}</span>
                             </button>
                         );
                     })}
@@ -69,7 +78,7 @@ const TabSection: React.FC = () => {
 
             {/* Tab content */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab}/>
+                <TabContent tab={activeTab} />
             </div>
         </div>
     );

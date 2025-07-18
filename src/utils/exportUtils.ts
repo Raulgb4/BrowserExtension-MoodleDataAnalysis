@@ -190,10 +190,15 @@ export function exportToPDF(
     const title = filename.replace(/\.[^/.]+$/, ""); // Remove extension
 
     // Title
-    doc.setFontSize(14);
+    doc.setFontSize(12); // Tailwind text-sm
     doc.setFont("helvetica", "bold");
+    doc.setTextColor(249, 128, 18); // text-orange-600 (#f98012)
+    doc.setDrawColor(249, 128, 18); // Border color similar
+    doc.setFillColor(255, 247, 237); // bg-orange-100 aprox (#fff7ed)
     const pageWidth = doc.internal.pageSize.getWidth();
-    doc.text(title, pageWidth / 2, 15, {align: "center"});
+    doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, 'F'); // background box
+    doc.text(title, pageWidth / 2, 18, {align: "center"}); // centered text
+
 
     // Chart image
     const imgProps = (doc as any).getImageProperties?.(base64Image);

@@ -17,6 +17,7 @@ import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
 import {getRelativeTime} from "./services/dataProcessor";
+import {ClockIcon} from "@heroicons/react/20/solid";
 
 /**
  * @function App
@@ -57,7 +58,7 @@ export function App() {
         return (
             <Button
                 id="restartButton"
-                text="Restart"
+                text="Reanalyze"
                 onClick={() => onClick(courseId)}
             />
         );
@@ -227,10 +228,16 @@ export function App() {
 
     return (
         <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
-            <h1 className="text-2xl mb-4 font-black text-orange-600 tracking-wide drop-shadow-sm animate-fade-in
-                   border-b-2 border-orange-200 pb-1 whitespace-nowrap">
-                Moodle Data Analyzer
-            </h1>
+            <div className="flex flex-row items-center justify-center gap-2 mb-4 animate-fade-in">
+                <img
+                    src="/icons/icon48.png"
+                    alt="Extension Logo"
+                    className="w-6 h-6 drop-shadow-sm"
+                />
+                <h1 className="text-2xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2 border-orange-200 pb-1">
+                    Moodle Data Analyzer
+                </h1>
+            </div>
 
             {isLoading && <Loader/>}
 
@@ -243,9 +250,15 @@ export function App() {
                     )}
 
                     {lastAnalyzedAgo && !isError && (
-                        <p className="text-sm text-gray-600 mt-4 pt-1">
-                            Last analysis performed {lastAnalyzedAgo} ago
-                        </p>
+                        <div className="mt-4 mx-auto flex items-center gap-2 text-sm text-gray-700
+                        bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
+                          animate-fade-in w-fit">
+                            <ClockIcon className="w-4 h-4 text-orange-500"/>
+                            <span>
+                                Last analysis performed{" "}
+                                <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
+                            </span>
+                        </div>
                     )}
 
                     {outputMessage && !isError && <TabSection/>}

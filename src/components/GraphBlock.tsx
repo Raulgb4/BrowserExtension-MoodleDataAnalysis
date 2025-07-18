@@ -16,6 +16,11 @@ import React, {useRef} from "react";
 import {Pie, Bar, Line, Radar} from "react-chartjs-2";
 import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
 import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
+import {
+    DocumentArrowDownIcon,
+    ArrowDownTrayIcon,
+    PhotoIcon,
+} from "@heroicons/react/24/outline";
 
 type ChartType = "pie" | "bar" | "line" | "radar";
 
@@ -100,10 +105,52 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
 
     return (
-        <div className="mb-6" role="region" aria-labelledby={sanitizedId}>
-            <p id={sanitizedId} className="mb-2 text-center font-semibold text-gray-800">
-                {title}
-            </p>
+        <div className="mb-6 relative" role="region" aria-labelledby={sanitizedId}>
+            <div className="mb-2 flex flex-col gap-2">
+                <p
+                    id={sanitizedId}
+                    className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
+                    bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full break-words text-left"
+                >
+                    {title}
+                </p>
+
+                <div className="flex gap-2 flex-wrap justify-end">
+                    {/* CSV */}
+                    <button
+                        onClick={() => exportToCSV(exportLabels, exportValues, title)}
+                        title="Download CSV"
+                        aria-label="Export chart as CSV"
+                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded hover:bg-orange-100 transition text-orange-600 text-xs"
+                    >
+                        <DocumentArrowDownIcon className="w-4 h-4" />
+                        CSV
+                    </button>
+
+                    <button
+                        onClick={() => exportToPDF(chartRef, exportLabels, exportValues, `${title}.pdf`)}
+                        title="Download PDF"
+                        aria-label="Export chart as PDF"
+                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded hover:bg-orange-100 transition text-orange-600 text-xs"
+                    >
+                        <ArrowDownTrayIcon className="w-4 h-4" />
+                        PDF
+                    </button>
+
+                    {imageFormats.map((format) => (
+                        <button
+                            key={format}
+                            onClick={() => exportToImage(chartRef, format, title)}
+                            title={`Download ${format.toUpperCase()}`}
+                            aria-label={`Export chart as ${format.toUpperCase()}`}
+                            className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded hover:bg-orange-100 transition text-orange-600 text-xs"
+                        >
+                            <PhotoIcon className="w-4 h-4" />
+                            {format.toUpperCase()}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
             <div className={`${chartWidthClass} mx-auto`}>
                 <ChartWithRef ref={chartRef} data={data} options={mergedOptions} />
@@ -114,38 +161,6 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     {children}
                 </div>
             )}
-
-            <div className="mt-3 flex justify-center gap-2 flex-wrap">
-                <button
-                    onClick={() => exportToCSV(exportLabels, exportValues, title)}
-                    title="Download CSV"
-                    aria-label="Export chart as CSV"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
-                >
-                    Export CSV
-                </button>
-
-                <button
-                    onClick={() => exportToPDF(chartRef, exportLabels, exportValues, `${title}.pdf`)}
-                    title="Download PDF"
-                    aria-label="Export chart as PDF"
-                    className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
-                >
-                    Export PDF
-                </button>
-
-                {imageFormats.map((format) => (
-                    <button
-                        key={format}
-                        onClick={() => exportToImage(chartRef, format, title)}
-                        title={`Download ${format.toUpperCase()}`}
-                        aria-label={`Export chart as ${format.toUpperCase()}`}
-                        className="text-xs text-orange-600 border border-orange-500 hover:bg-orange-100 px-2 py-0.5 rounded transition"
-                    >
-                        Export {format.toUpperCase()}
-                    </button>
-                ))}
-            </div>
         </div>
     );
 };

@@ -22,7 +22,9 @@
 5. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
    de suprimir los warnings de tamaño. Actualmente se ha aplicado una solución provisional:
    desactivar los avisos de tamaño configurando la propiedad `performance` en `webpack.config.js`.
-   El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js.
+   El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js y los iconos
+   de heroicons.
+
 
 6. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
