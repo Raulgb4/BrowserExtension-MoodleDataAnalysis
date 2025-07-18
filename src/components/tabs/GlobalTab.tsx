@@ -15,9 +15,22 @@
 
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
+import {
+    calculateAvgViews,
+    calculateDaysSince,
+    createChartData,
+} from "../../utils/chartDataUtils";
 import "../../chartConfig";
 
-const activityTypes = [
+type ActivityTypeKey =
+    | "choices"
+    | "quizzes"
+    | "forums"
+    | "urlResources"
+    | "resources"
+    | "workshops";
+
+const activityTypes: { key: ActivityTypeKey; label: string }[] = [
     {key: "choices", label: "Choices"},
     {key: "quizzes", label: "Quizzes"},
     {key: "forums", label: "Forums"},
@@ -25,6 +38,47 @@ const activityTypes = [
     {key: "resources", label: "Resources"},
     {key: "workshops", label: "Workshops"},
 ];
+
+interface AggregatedData {
+    views: number[];
+    users: number[];
+    access: number[];
+    labels: string[];
+}
+
+function aggregateActivityData(course: Record<string, any[]>): AggregatedData {
+    const views: number[] = [];
+    const users: number[] = [];
+    const access: number[] = [];
+    const labels: string[] = [];
+
+    for (const {key, label} of activityTypes) {
+        const activities = course[key] || [];
+
+        const totalViews = activities.reduce(
+            (sum, a) => sum + (a.numViews || 0),
+            0
+        );
+
+        const totalUsers = activities.reduce(
+            (sum, a) => sum + (a.numUsers || 0),
+            0
+        );
+
+        const latestAccess = activities.reduce(
+            (latest, a) =>
+                a.lastAccess && a.lastAccess > latest ? a.lastAccess : latest,
+            0
+        );
+
+        views.push(totalViews);
+        users.push(totalUsers);
+        access.push(latestAccess || 0);
+        labels.push(label);
+    }
+
+    return {views, users, access, labels};
+}
 
 const GlobalTab: React.FC = () => {
     const [numViews, setNumViews] = useState<number[]>([]);
@@ -34,31 +88,13 @@ const GlobalTab: React.FC = () => {
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
-
-            const courseKey = Object.keys(result).find(key => key.startsWith("course_"));
+            const courseKey = Object.keys(result).find((key) =>
+                key.startsWith("course_")
+            );
             if (!courseKey) return;
 
             const course = result[courseKey];
-
-            const views: number[] = [];
-            const users: number[] = [];
-            const access: number[] = [];
-            const labels: string[] = [];
-
-            for (const {key, label} of activityTypes) {
-                const activities = course[key] || [];
-                const totalViews = activities.reduce((sum: number, a: any) => sum + (a.numViews || 0), 0);
-                const totalUsers = activities.reduce((sum: number, a: any) => sum + (a.numUsers || 0), 0);
-                const latestAccess = activities.reduce((latest: number, a: any) =>
-                        a.lastAccess && a.lastAccess > latest ? a.lastAccess : latest,
-                    0
-                );
-
-                views.push(totalViews);
-                users.push(totalUsers);
-                access.push(latestAccess || 0);
-                labels.push(label);
-            }
+            const {views, users, access, labels} = aggregateActivityData(course);
 
             setNumViews(views);
             setNumUsers(users);
@@ -67,80 +103,65 @@ const GlobalTab: React.FC = () => {
         });
     }, []);
 
-    const avgViewsPerUser = numViews.map((views, i) =>
-        numUsers[i] !== 0 ? parseFloat((views / numUsers[i]).toFixed(2)) : 0
+    const avgViewsPerUser = calculateAvgViews(numViews, numUsers);
+
+    const daysSinceLastAccess = calculateDaysSince(lastAccess);
+
+    const totalViewsData = createChartData(
+        activityLabels,
+        "Total Visits",
+        numViews,
+        {bg: "rgba(249, 128, 18, 0.6)", border: "rgba(249, 128, 18, 1)"}
     );
 
-    const daysSinceLastAccess = lastAccess.map(ts =>
-        ts ? Math.floor(ts / (1000 * 60 * 60 * 24)) : 0
+    const avgViewsData = createChartData(
+        activityLabels,
+        "Average Views per User",
+        avgViewsPerUser,
+        {bg: "rgba(100, 181, 246, 0.6)", border: "rgba(100, 181, 246, 1)"},
+        {fill: false, tension: 0.3}
     );
 
-    const totalViewsData = {
-        labels: activityLabels,
-        datasets: [
-            {
-                label: "Total Visits",
-                data: numViews,
-                backgroundColor: "rgba(249, 128, 18, 0.6)",
-                borderColor: "rgba(249, 128, 18, 1)",
-                borderWidth: 1,
-            },
-        ],
-    };
+    const lastAccessData = createChartData(
+        activityLabels,
+        "Days Since Last Access",
+        daysSinceLastAccess,
+        {bg: "rgba(255, 99, 132, 0.2)", border: "rgba(255, 99, 132, 1)"},
+        {
+            fill: true,
+            pointBackgroundColor: "rgba(255, 99, 132, 1)",
+        }
+    );
 
-    const avgViewsData = {
-        labels: activityLabels,
-        datasets: [
-            {
-                label: "Average Views per User",
-                data: avgViewsPerUser,
-                fill: false,
-                borderColor: "rgba(100, 181, 246, 1)",
-                backgroundColor: "rgba(100, 181, 246, 0.6)",
-                tension: 0.3,
-            },
-        ],
-    };
-
-    const lastAccessData = {
-        labels: activityLabels,
-        datasets: [
-            {
-                label: "Days Since Last Access",
-                data: daysSinceLastAccess,
-                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 1,
-                pointBackgroundColor: "rgba(255, 99, 132, 1)",
-                fill: true,
-            },
-        ],
-    };
+    const chartBlocks = [
+        {
+            title: "Total Visits by Activity Type",
+            chartType: "bar" as const,
+            data: totalViewsData,
+        },
+        {
+            title: "Average Views per User",
+            chartType: "line" as const,
+            data: avgViewsData,
+        },
+        {
+            title: "Days Since Last Access",
+            chartType: "radar" as const,
+            data: lastAccessData,
+        },
+    ];
 
     return (
-        <div>
-            <GraphBlock
-                title="Total Visits by Activity Type"
-                chartType="bar"
-                data={totalViewsData}
-            />
-
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
-
-            <GraphBlock
-                title="Average Views per User"
-                chartType="line"
-                data={avgViewsData}
-            />
-
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
-
-            <GraphBlock
-                title="Days Since Last Access"
-                chartType="radar"
-                data={lastAccessData}
-            />
-        </div>
+        <>
+            {chartBlocks.map(({ title, chartType, data }, index) => (
+                <React.Fragment key={title}>
+                    <GraphBlock title={title} chartType={chartType} data={data} />
+                    {index < chartBlocks.length - 1 && (
+                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                    )}
+                </React.Fragment>
+            ))}
+        </>
     );
 };
 

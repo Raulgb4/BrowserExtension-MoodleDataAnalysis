@@ -16,6 +16,13 @@
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
+import {
+    extractUniqueRoles,
+    filterByRoles,
+    computeActiveInactive,
+    computeAccessRanges,
+} from "../../utils/chartDataUtils";
+import {Participant} from "../../models/Participant";
 
 const ParticipantsTab: React.FC = () => {
     const [activeCount, setActiveCount] = useState(0);
@@ -24,7 +31,7 @@ const ParticipantsTab: React.FC = () => {
     const [availableRoles, setAvailableRoles] = useState<string[]>([]);
     const [selectedRolesParticipation, setSelectedRolesParticipation] = useState<string[]>([]);
     const [selectedRolesAccess, setSelectedRolesAccess] = useState<string[]>([]);
-    const [participants, setParticipants] = useState<any[]>([]);
+    const [participants, setParticipants] = useState<Participant[]>([]);
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
@@ -32,16 +39,9 @@ const ParticipantsTab: React.FC = () => {
             if (!courseKey) return;
 
             const course = result[courseKey];
-            const allParticipants = course.participants || [];
+            const allParticipants = Array.isArray(course.participants) ? course.participants : [];
+            const roleArray = extractUniqueRoles(allParticipants);
 
-            const allRoles = new Set<string>();
-            for (const p of allParticipants) {
-                if (Array.isArray(p.roles)) {
-                    p.roles.forEach((r: string) => allRoles.add(r));
-                }
-            }
-
-            const roleArray = Array.from(allRoles);
             setParticipants(allParticipants);
             setAvailableRoles(roleArray);
             setSelectedRolesParticipation(roleArray);
@@ -50,56 +50,16 @@ const ParticipantsTab: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const MS_PER_DAY = 1000 * 60 * 60 * 24;
-        let active = 0;
-        let inactive = 0;
-
-        const filtered = participants.filter((p) =>
-            p.roles?.some((r: string) => selectedRolesParticipation.includes(r))
-        );
-
-        for (const p of filtered) {
-            const lastAccess = p.lastAccessToCourse;
-            const daysAgo = lastAccess !== undefined ? Math.floor(lastAccess / MS_PER_DAY) : null;
-
-            if (daysAgo === null || daysAgo > 7) inactive++;
-            else active++;
-        }
-
+        const filtered = filterByRoles(participants, selectedRolesParticipation);
+        const {active, inactive} = computeActiveInactive(filtered);
         setActiveCount(active);
         setInactiveCount(inactive);
     }, [participants, selectedRolesParticipation]);
 
     useEffect(() => {
-        const MS_PER_DAY = 1000 * 60 * 60 * 24;
-        const ranges = {
-            "Last 7 days": 0,
-            "8-30 days": 0,
-            "31-90 days": 0,
-            "> 90 days": 0,
-            "Never accessed": 0,
-        };
-
-        const filtered = participants.filter((p) =>
-            p.roles?.some((r: string) => selectedRolesAccess.includes(r))
-        );
-
-        for (const p of filtered) {
-            const lastAccess = p.lastAccessToCourse;
-
-            if (lastAccess === undefined) {
-                ranges["Never accessed"]++;
-            } else {
-                const daysAgo = Math.floor(lastAccess / MS_PER_DAY);
-
-                if (daysAgo <= 7) ranges["Last 7 days"]++;
-                else if (daysAgo <= 30) ranges["8-30 days"]++;
-                else if (daysAgo <= 90) ranges["31-90 days"]++;
-                else ranges["> 90 days"]++;
-            }
-        }
-
-        setLastAccessRanges(Object.values(ranges));
+        const filtered = filterByRoles(participants, selectedRolesAccess);
+        const ranges = computeAccessRanges(filtered);
+        setLastAccessRanges(ranges);
     }, [participants, selectedRolesAccess]);
 
     const handleRoleChangeParticipation = (role: string) => {
@@ -159,61 +119,67 @@ const ParticipantsTab: React.FC = () => {
         return `${base} (${roles.join(" & ")})`;
     };
 
+    const RoleFilter: React.FC<{
+        title: string;
+        roles: string[];
+        selectedRoles: string[];
+        onToggle: (role: string) => void;
+    }> = ({title, roles, selectedRoles, onToggle}) => (
+        <>
+            <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
+                {title}
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+                {roles.map((role) => (
+                    <label
+                        key={role}
+                        className="text-sm text-gray-700 cursor-pointer"
+                    >
+                        <input
+                            type="checkbox"
+                            checked={selectedRoles.includes(role)}
+                            onChange={() => onToggle(role)}
+                            className="mr-1 rounded focus:ring focus:ring-orange-300 text-orange-500"
+                        />
+                        {role}
+                    </label>
+                ))}
+            </div>
+        </>
+    );
+
 
     return (
         <div className="space-y-8">
-            {/* Gráfica 1 con filtros */}
             <GraphBlock
                 title={getFilteredTitle("Global Participation", selectedRolesParticipation)}
                 chartType="pie"
                 data={pieData}
             >
-                <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
-                    Filter by role:
-                </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                    {availableRoles.map((role) => (
-                        <label key={role} className="text-sm text-gray-700">
-                            <input
-                                type="checkbox"
-                                checked={selectedRolesParticipation.includes(role)}
-                                onChange={() => handleRoleChangeParticipation(role)}
-                                className="mr-1"
-                            />
-                            {role}
-                        </label>
-                    ))}
-                </div>
+                <RoleFilter
+                    title="Filter by role:"
+                    roles={availableRoles}
+                    selectedRoles={selectedRolesParticipation}
+                    onToggle={handleRoleChangeParticipation}
+                />
             </GraphBlock>
 
-            <hr className="border-t border-gray-300 w-3/4 mx-auto" />
+            <hr className="border-t border-gray-300 w-3/4 mx-auto"/>
 
-            {/* Gráfica 2 con filtros */}
             <GraphBlock
                 title={getFilteredTitle("Last Access Distribution", selectedRolesAccess)}
                 chartType="line"
                 data={accessData}
             >
-                <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
-                    Filter by role:
-                </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                    {availableRoles.map((role) => (
-                        <label key={role} className="text-sm text-gray-700">
-                            <input
-                                type="checkbox"
-                                checked={selectedRolesAccess.includes(role)}
-                                onChange={() => handleRoleChangeAccess(role)}
-                                className="mr-1"
-                            />
-                            {role}
-                        </label>
-                    ))}
-                </div>
+                <RoleFilter
+                    title="Filter by role:"
+                    roles={availableRoles}
+                    selectedRoles={selectedRolesAccess}
+                    onToggle={handleRoleChangeAccess}
+                />
             </GraphBlock>
         </div>
     );
-
 };
 
 export default ParticipantsTab;
