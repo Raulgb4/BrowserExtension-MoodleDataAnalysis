@@ -11,6 +11,7 @@
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
+import {ChartData} from "chart.js";
 
 interface Choice {
     activityName: string;
@@ -22,28 +23,30 @@ const ChoicesTab: React.FC = () => {
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find(key => key.startsWith("course_"));
-            if (!courseKey) return;
+            const courseKey = Object.keys(result).find((key) =>
+                key.startsWith("course_")
+            );
+            if (!courseKey || !result[courseKey]?.choices) return;
 
-            const course = result[courseKey];
-            const realChoices = course.choices || [];
+            const rawChoices = result[courseKey].choices as Choice[];
 
-            // Filtramos solo aquellos que tengan respuestas válidas
-            const filteredChoices = realChoices.filter((c: any) =>
-                c.responseCounts && Object.keys(c.responseCounts).length > 0
+            const filtered = rawChoices.filter(
+                (choice) =>
+                    choice.responseCounts &&
+                    Object.keys(choice.responseCounts).length > 0
             );
 
-            setChoices(filteredChoices);
+            setChoices(filtered);
         });
     }, []);
 
     return (
-        <div>
+        <div className="space-y-8">
             {choices.map((choice, index) => {
                 const labels = Object.keys(choice.responseCounts);
                 const values = Object.values(choice.responseCounts);
 
-                const data = {
+                const data: ChartData<"bar"> = {
                     labels,
                     datasets: [
                         {
@@ -57,17 +60,16 @@ const ChoicesTab: React.FC = () => {
                 };
 
                 return (
-                    <div key={index}>
+                    <React.Fragment key={choice.activityName}>
                         <GraphBlock
                             title={`"${choice.activityName}" Results`}
                             chartType="bar"
                             data={data}
                         />
-
                         {index < choices.length - 1 && (
                             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
-                    </div>
+                    </React.Fragment>
                 );
             })}
         </div>
