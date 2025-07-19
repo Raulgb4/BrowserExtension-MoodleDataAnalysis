@@ -12,11 +12,7 @@ import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {ChartData} from "chart.js";
-
-interface Choice {
-    activityName: string;
-    responseCounts: Record<string, number>;
-}
+import {Choice} from "../../models/Choice";
 
 const ChoicesTab: React.FC = () => {
     const [choices, setChoices] = useState<Choice[]>([]);
@@ -26,12 +22,13 @@ const ChoicesTab: React.FC = () => {
             const courseKey = Object.keys(result).find((key) =>
                 key.startsWith("course_")
             );
-            if (!courseKey || !result[courseKey]?.choices) return;
+            if (!courseKey) return;
 
-            const rawChoices = result[courseKey].choices as Choice[];
+            const rawChoices = result[courseKey]?.choices;
+            if (!Array.isArray(rawChoices)) return;
 
             const filtered = rawChoices.filter(
-                (choice) =>
+                (choice: Choice) =>
                     choice.responseCounts &&
                     Object.keys(choice.responseCounts).length > 0
             );
@@ -60,14 +57,14 @@ const ChoicesTab: React.FC = () => {
                 };
 
                 return (
-                    <React.Fragment key={choice.activityName}>
+                    <React.Fragment key={choice.id}>
                         <GraphBlock
                             title={`"${choice.activityName}" Results`}
                             chartType="bar"
                             data={data}
                         />
                         {index < choices.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
                         )}
                     </React.Fragment>
                 );

@@ -234,7 +234,7 @@ export function App() {
                     alt="Extension Logo"
                     className="w-6 h-6 drop-shadow-sm"
                 />
-                <h1 className="text-2xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2 border-orange-200 pb-1">
+                <h1 className="text-2xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2 border-orange-200 pb-1 whitespace-nowrap">
                     Moodle Data Analyzer
                 </h1>
             </div>
