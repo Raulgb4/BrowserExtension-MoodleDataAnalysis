@@ -8,20 +8,11 @@
  * @date 2025
  */
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
-
-interface Quiz {
-    activityName: string;
-    participantStats: {
-        participantId: number;
-        participantName: string;
-        grade: number;
-        normalizedGrade: number;
-        duration: number;
-    }[];
-}
+import {Quiz} from "../../models/Quiz";
+import {calculateAvgNormalizedScores} from "../../utils/chartDataUtils";
 
 const QuizzesTab: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -34,38 +25,34 @@ const QuizzesTab: React.FC = () => {
             );
             if (!courseKey) return;
 
-            const course = result[courseKey];
-            const realQuizzes = course.quizzes || [];
+            const rawQuizzes = result[courseKey]?.quizzes;
+            if (!Array.isArray(rawQuizzes)) return;
 
-            const filtered = realQuizzes.filter(
-                (q: any) =>
-                    q.participantStats &&
-                    Array.isArray(q.participantStats) &&
-                    q.participantStats.length > 0
+            const filtered: Quiz[] = rawQuizzes.filter(
+                (quiz: any): quiz is Quiz =>
+                    quiz &&
+                    Array.isArray(quiz.participantStats) &&
+                    quiz.participantStats.length > 0
             );
 
             setQuizzes(filtered);
-            setTopNByQuiz(filtered.map(() => 5)); // Por defecto top 5
+            setTopNByQuiz(filtered.map(() => 5));
         });
     }, []);
 
     const handleTopNChange = (index: number, value: number) => {
         setTopNByQuiz((prev) => {
             const updated = [...prev];
-            updated[index] = Math.max(1, value); // mínimo 1
+            updated[index] = sanitizeTopN(value);
             return updated;
         });
     };
 
-    const quizLabels = quizzes.map((quiz) => quiz.activityName);
+    const sanitizeTopN = (value: number) => Math.max(1, value);
 
-    const avgScores = quizzes.map((quiz) => {
-        const total = quiz.participantStats.reduce(
-            (sum, p) => sum + p.normalizedGrade,
-            0
-        );
-        return parseFloat((total / quiz.participantStats.length).toFixed(2));
-    });
+    const avgScores = calculateAvgNormalizedScores(quizzes);
+
+    const quizLabels = quizzes.map((quiz) => quiz.activityName);
 
     const avgLineData = {
         labels: quizLabels,
@@ -82,16 +69,22 @@ const QuizzesTab: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="space-y-8">
             {quizzes.map((quiz, index) => {
                 const topN = topNByQuiz[index] || 5;
 
-                const topParticipants = [...quiz.participantStats]
-                    .sort((a, b) => b.normalizedGrade - a.normalizedGrade)
-                    .slice(0, topN);
+                const getTopParticipantsData = () => {
+                    const sorted = [...quiz.participantStats].sort(
+                        (a, b) => b.normalizedGrade - a.normalizedGrade
+                    );
+                    const top = sorted.slice(0, topN);
+                    return {
+                        labels: top.map((p) => p.participantName),
+                        values: top.map((p) => p.normalizedGrade),
+                    };
+                };
 
-                const labels = topParticipants.map((p) => p.participantName);
-                const values = topParticipants.map((p) => p.normalizedGrade);
+                const {labels, values} = getTopParticipantsData();
 
                 const data = {
                     labels,
@@ -122,7 +115,7 @@ const QuizzesTab: React.FC = () => {
                 };
 
                 return (
-                    <div key={index}>
+                    <div key={quiz.id}>
                         <GraphBlock
                             title={`${quiz.activityName} - Top ${topN} students`}
                             chartType="bar"
@@ -130,17 +123,19 @@ const QuizzesTab: React.FC = () => {
                             options={options}
                         >
                             <div className="w-full flex justify-center items-center gap-2 mt-2 text-sm text-gray-700">
-                                <label htmlFor={`topN-${index}`}>
-                                    Show top
-                                </label>
+                                <label htmlFor={`topN-${quiz.id}`}>Show top</label>
                                 <input
-                                    id={`topN-${index}`}
+                                    id={`topN-${quiz.id}`}
                                     type="number"
                                     min={1}
                                     value={topN}
-                                    onChange={(e) =>
-                                        handleTopNChange(index, parseInt(e.target.value) || 1)
-                                    }
+                                    onChange={(e) => {
+                                        const value = parseInt(e.target.value);
+                                        handleTopNChange(
+                                            index,
+                                            Number.isNaN(value) ? 1 : value
+                                        );
+                                    }}
                                     className="w-16 border rounded px-2 py-1 text-sm text-gray-800"
                                 />
                                 <span>students</span>
@@ -148,7 +143,7 @@ const QuizzesTab: React.FC = () => {
                         </GraphBlock>
 
                         {index < quizzes.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
                     </div>
                 );
@@ -156,7 +151,7 @@ const QuizzesTab: React.FC = () => {
 
             {quizzes.length > 0 && (
                 <>
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                     <GraphBlock
                         title="Average Score Evolution"
                         chartType="line"

@@ -15,6 +15,7 @@
  */
 
 import { ChartData } from "chart.js";
+import {Quiz} from "../models/Quiz";
 
 export const calculateAvgViews = (views: number[], users: number[]): number[] =>
     views.map((v, i) =>
@@ -101,3 +102,13 @@ export const computeAccessRanges = (participants: any[]): number[] => {
 
     return Object.values(ranges);
 };
+
+export const calculateAvgNormalizedScores = (quizzes: Quiz[]): number[] =>
+    quizzes.map(quiz => {
+        const total = quiz.participantStats.reduce(
+            (sum, p) => sum + p.normalizedGrade,
+            0
+        );
+        const avg = total / quiz.participantStats.length;
+        return parseFloat(avg.toFixed(2));
+    });
