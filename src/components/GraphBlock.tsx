@@ -29,9 +29,10 @@ interface GraphBlockProps {
     chartType: ChartType;
     data: ChartData<ChartType>;
     options?: ChartOptions;
-    children?: React.ReactNode; // filters
+    children?: React.ReactNode; // filters or role selectors
 }
 
+// Chart components by type
 const chartComponents: Record<ChartType, React.ComponentType<any>> = {
     pie: Pie,
     bar: Bar,
@@ -39,13 +40,15 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
     radar: Radar,
 };
 
+// Max chart width per type
 const chartSizes: Record<ChartType, string> = {
-    pie: "w-64",    // ~256px
-    bar: "w-full max-w-4xl",   // ~1024px
+    pie: "w-64",
+    bar: "w-full max-w-4xl",
     line: "w-full max-w-4xl",
-    radar: "w-96",  // ~384px
+    radar: "w-96",
 };
 
+// Truncate long labels for X-axis
 const truncate = (label: string, maxLength = 15): string =>
     label.length > maxLength ? label.slice(0, maxLength) + "…" : label;
 
@@ -60,6 +63,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     const ChartComponent = chartComponents[chartType];
     const chartWidthClass = chartSizes[chartType] || "w-[300px]";
 
+    // Validate and extract labels/values for export
     const exportLabels = Array.isArray(data.labels) && data.labels.every(l => typeof l === "string")
         ? data.labels as string[]
         : [];
@@ -68,6 +72,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
         ? data.datasets[0].data as number[]
         : [];
 
+    // Default chart options for bar/line
     const defaultOptions: ChartOptions = {
         plugins: {
             legend: {
@@ -91,6 +96,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 : {},
     };
 
+    // Merge default and custom options
     const mergedOptions: ChartOptions = {
         ...defaultOptions,
         ...options,
@@ -100,12 +106,14 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
         },
     };
 
+    // For a11y
     const sanitizedId = `chart-title-${title.replace(/\s+/g, "-").toLowerCase()}`;
     const imageFormats: ("png" | "jpeg")[] = ["png", "jpeg"];
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
 
     return (
         <div className="mb-6 relative" role="region" aria-labelledby={sanitizedId}>
+            {/* Title and export buttons */}
             <div className="mb-2 flex flex-col gap-2">
                 <p
                     id={sanitizedId}
@@ -116,7 +124,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 </p>
 
                 <div className="flex gap-2 flex-wrap justify-end">
-                    {/* CSV */}
+                    {/* CSV export */}
                     <button
                         onClick={() => exportToCSV(exportLabels, exportValues, title)}
                         title="Download CSV"
@@ -127,6 +135,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                         CSV
                     </button>
 
+                    {/* PDF export */}
                     <button
                         onClick={() => exportToPDF(chartRef, exportLabels, exportValues, `${title}.pdf`)}
                         title="Download PDF"
@@ -137,6 +146,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                         PDF
                     </button>
 
+                    {/* Image exports */}
                     {imageFormats.map((format) => (
                         <button
                             key={format}
@@ -152,10 +162,12 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 </div>
             </div>
 
+            {/* Chart */}
             <div className={`${chartWidthClass} mx-auto`}>
                 <ChartWithRef ref={chartRef} data={data} options={mergedOptions} />
             </div>
 
+            {/* Optional children (filters or controls) */}
             {children && (
                 <div className="my-3 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
                     {children}

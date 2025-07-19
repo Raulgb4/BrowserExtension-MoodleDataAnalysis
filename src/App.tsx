@@ -34,15 +34,15 @@ import {ClockIcon} from "@heroicons/react/20/solid";
  */
 export function App() {
 
-    const [isValidCoursePage, setIsValidCoursePage] = useState(false);
-    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null);
+    const [isValidCoursePage, setIsValidCoursePage] = useState(false); // Checks if the current page is a valid Moodle course page
+    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null); // Stores the detected course ID
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-    const [outputMessage, setOutputMessage] = useState("");
-    const [button, setButton] = useState<ReactElement | null>(null);
-    const [lastAnalyzedAgo, setLastAnalyzedAgo] = useState<string | null>(null);
-    const [isRestored, setIsRestored] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Indicates data scraping in progress
+    const [isError, setIsError] = useState(false); // Tracks if an error occurred during scraping
+    const [outputMessage, setOutputMessage] = useState(""); // Message shown to the user after scraping
+    const [button, setButton] = useState<ReactElement | null>(null); // Start or restart a button element
+    const [lastAnalyzedAgo, setLastAnalyzedAgo] = useState<string | null>(null); // Time since last analysis
+    const [isRestored, setIsRestored] = useState(false); // Indicates if data has been restored from storage
 
     function createStartButton(courseId: string, onClick: (id: string) => void): ReactElement {
         return (
@@ -65,8 +65,8 @@ export function App() {
     }
 
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
-        const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
-        const total = await scrapeNumParticipants(preliminaryUrl);
+        const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId); // Get initial participant URL (no limit)
+        const total = await scrapeNumParticipants(preliminaryUrl); // Fetch the total participant count
 
         if (total === null) {
             console.warn("Unable to extract total participant count.");
@@ -76,10 +76,10 @@ export function App() {
     }
 
     async function fetchAndStoreCourseData(courseId: string, totalParticipants: number) {
-        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
-        const {activityReport} = getScrapeUrlActivityReport(courseId);
+        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
+        const {activityReport} = getScrapeUrlActivityReport(courseId); // URL to get an activity report
 
-        const course = await scrapeCourse(courseId, activityReport, participants, totalParticipants);
+        const course = await scrapeCourse(courseId, activityReport, participants, totalParticipants); // Main scraping function
         console.log("Course data:", course);
 
         const storageData = {
@@ -88,6 +88,7 @@ export function App() {
             lastAnalyzedAt: Date.now(),
         };
 
+        // Save course data and analysis metadata to local storage
         chrome.storage.local.set(storageData, () => {
             if (chrome.runtime.lastError) {
                 console.error("Error saving course data:", chrome.runtime.lastError);
@@ -100,33 +101,31 @@ export function App() {
     }
 
     async function analyzeCourseData(courseId: string) {
-
-        setIsLoading(true);
-        setButton(null);
-        setIsRestored(false);
-        setOutputMessage("");
+        setIsLoading(true); // Show loading state
+        setButton(null); // Remove the existing button while analyzing
+        setIsRestored(false); // Clear restored flag
+        setOutputMessage(""); // Reset message
 
         try {
-            const totalParticipants = await fetchTotalParticipants(courseId);
+            const totalParticipants = await fetchTotalParticipants(courseId); // Get the total number of participants
 
             if (totalParticipants === null) {
-                setOutputMessage("Failed to determine participant count.");
-                setButton(createRestartButton(courseId, analyzeCourseData));
+                setOutputMessage("Failed to determine participant count."); // Error if count not retrieved
+                setButton(createRestartButton(courseId, analyzeCourseData)); // Offer retry
                 return;
             }
 
-            await fetchAndStoreCourseData(courseId, totalParticipants);
+            await fetchAndStoreCourseData(courseId, totalParticipants); // Scrape and store course data
 
             setIsError(false);
-
             setOutputMessage("Analysis completed successfully!");
-            setButton(createRestartButton(courseId, analyzeCourseData));
-            setLastAnalyzedAgo(getRelativeTime(new Date()));
+            setButton(createRestartButton(courseId, analyzeCourseData)); // Offer to reanalyze
+            setLastAnalyzedAgo(getRelativeTime(new Date())); // Show time of analysis
         } catch (error) {
             console.error("Error during analysis:", error);
-            setOutputMessage("An error occurred while analyzing the course.");
+            setOutputMessage("An error occurred while analyzing the course."); // Catch unexpected errors
         } finally {
-            setIsLoading(false);
+            setIsLoading(false); // End loading state
         }
     }
 
@@ -136,7 +135,7 @@ export function App() {
             return null;
         }
 
-        const {isCoursePage, courseId} = extractMoodleCourseId(url);
+        const {isCoursePage, courseId} = extractMoodleCourseId(url); // Try to extract course ID from URL
 
         if (!isCoursePage) {
             displayErrorMessage("This page is not recognized as part of a Moodle course.");
@@ -153,32 +152,32 @@ export function App() {
 
     const displayErrorMessage = (message: string) => {
         setOutputMessage(message);
-        setIsError(true);
+        setIsError(true); // Show error indicator in UI
     };
 
     useEffect(() => {
         const initializePopup = () => {
             chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
                 const tab = tabs?.[0];
-                const courseId = validateAndExtractCourseId(tab?.url);
+                const courseId = validateAndExtractCourseId(tab?.url); // Validate and extract course ID
                 if (!courseId) return;
 
-                setIsValidCoursePage(true);
-                setCurrentCourseId(courseId);
+                setIsValidCoursePage(true); // Confirm we are on a valid Moodle course page
+                setCurrentCourseId(courseId); // Store course ID
 
-                maybeRenderStartButton(courseId);
+                maybeRenderStartButton(courseId); // Show the start button if needed
             });
         };
 
         const maybeRenderStartButton = (courseId: string) => {
             chrome.storage.local.get("lastAnalyzedCourseId", (res) => {
                 if (!res.lastAnalyzedCourseId) {
-                    setButton(createStartButton(courseId, analyzeCourseData));
+                    setButton(createStartButton(courseId, analyzeCourseData)); // Only show if no previous analysis
                 }
             });
         };
 
-        initializePopup();
+        initializePopup(); // Run on mount
     }, []);
 
     useEffect(() => {
@@ -193,18 +192,18 @@ export function App() {
 
                 console.log("Restoring previous course data:", course);
 
-                setButton(createRestartButton(currentCourseId, analyzeCourseData));
+                setButton(createRestartButton(currentCourseId, analyzeCourseData)); // Allow reanalysis
                 setIsRestored(true);
                 setOutputMessage("Previous analysis restored.");
                 setIsError(false);
 
                 if (timestamp) {
-                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp)));
+                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp))); // Show when it was last analyzed
                 }
             });
         };
 
-        restorePreviousAnalysis();
+        restorePreviousAnalysis(); // Restore data if available
     }, [isValidCoursePage, currentCourseId]);
 
     useEffect(() => {
@@ -214,16 +213,16 @@ export function App() {
             chrome.storage.local.get("lastAnalyzedAt", (data) => {
                 const timestamp = data.lastAnalyzedAt;
                 if (timestamp) {
-                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp)));
+                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp))); // Update relative time display
                 }
             });
         };
 
-        updateLastAnalyzedAgo();
+        updateLastAnalyzedAgo(); // Initial call
 
-        const interval = setInterval(updateLastAnalyzedAgo, 60_000);
+        const interval = setInterval(updateLastAnalyzedAgo, 60_000); // Refresh every 60s
 
-        return () => clearInterval(interval);
+        return () => clearInterval(interval); // Cleanup on unmounting
     }, [isValidCoursePage, currentCourseId]);
 
     return (
@@ -239,29 +238,29 @@ export function App() {
                 </h1>
             </div>
 
-            {isLoading && <Loader/>}
+            {isLoading && <Loader/>} {/* Show loader while analyzing */}
 
             {!isLoading && (
                 <>
-                    {button}
+                    {button} {/* Start or reanalyze button */}
 
                     {!isRestored && outputMessage && (
-                        <InfoCard message={outputMessage} isError={isError}/>
+                        <InfoCard message={outputMessage} isError={isError}/> // Show a feedback message
                     )}
 
                     {lastAnalyzedAgo && !isError && (
                         <div className="mt-4 mx-auto flex items-center gap-2 text-sm text-gray-700
-                        bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
-                          animate-fade-in w-fit">
+                    bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
+                    animate-fade-in w-fit">
                             <ClockIcon className="w-4 h-4 text-orange-500"/>
                             <span>
-                                Last analysis performed{" "}
+                            Last analysis performed{" "}
                                 <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
-                            </span>
+                        </span>
                         </div>
                     )}
 
-                    {outputMessage && !isError && <TabSection/>}
+                    {outputMessage && !isError && <TabSection/>} {/* Load tab interface after success */}
                 </>
             )}
         </div>

@@ -25,15 +25,22 @@ import {
 import {Participant} from "../../models/Participant";
 
 const ParticipantsTab: React.FC = () => {
+    // State for active/inactive participant counts
     const [activeCount, setActiveCount] = useState(0);
     const [inactiveCount, setInactiveCount] = useState(0);
+
+    // State for access time range counts
     const [lastAccessRanges, setLastAccessRanges] = useState<number[]>([]);
+
+    // Roles available and currently selected for filtering
     const [availableRoles, setAvailableRoles] = useState<string[]>([]);
     const [selectedRolesParticipation, setSelectedRolesParticipation] = useState<string[]>([]);
     const [selectedRolesAccess, setSelectedRolesAccess] = useState<string[]>([]);
+
     const [participants, setParticipants] = useState<Participant[]>([]);
 
     useEffect(() => {
+        // Load participants and roles from local storage
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find(key => key.startsWith("course_"));
             if (!courseKey) return;
@@ -44,12 +51,13 @@ const ParticipantsTab: React.FC = () => {
 
             setParticipants(allParticipants);
             setAvailableRoles(roleArray);
-            setSelectedRolesParticipation(roleArray);
+            setSelectedRolesParticipation(roleArray); // Default: all roles selected
             setSelectedRolesAccess(roleArray);
         });
     }, []);
 
     useEffect(() => {
+        // Update active/inactive count based on selected roles
         const filtered = filterByRoles(participants, selectedRolesParticipation);
         const {active, inactive} = computeActiveInactive(filtered);
         setActiveCount(active);
@@ -57,18 +65,21 @@ const ParticipantsTab: React.FC = () => {
     }, [participants, selectedRolesParticipation]);
 
     useEffect(() => {
+        // Update the last access range distribution based on selected roles
         const filtered = filterByRoles(participants, selectedRolesAccess);
         const ranges = computeAccessRanges(filtered);
         setLastAccessRanges(ranges);
     }, [participants, selectedRolesAccess]);
 
     const handleRoleChangeParticipation = (role: string) => {
+        // Toggle role selection for the participation chart
         setSelectedRolesParticipation(prev =>
             prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]
         );
     };
 
     const handleRoleChangeAccess = (role: string) => {
+        // Toggle role selection for access chart
         setSelectedRolesAccess(prev =>
             prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]
         );
@@ -81,8 +92,8 @@ const ParticipantsTab: React.FC = () => {
                 label: "Participants",
                 data: [activeCount, inactiveCount],
                 backgroundColor: [
-                    "rgba(249, 128, 18, 0.6)",
-                    "rgba(203, 213, 225, 0.8)",
+                    "rgba(249, 128, 18, 0.6)", // orange
+                    "rgba(203, 213, 225, 0.8)", // gray
                 ],
                 borderColor: "white",
                 borderWidth: 2,
@@ -105,20 +116,22 @@ const ParticipantsTab: React.FC = () => {
                 label: "Participants by Last Access Time",
                 data: lastAccessRanges,
                 fill: true,
-                borderColor: "rgba(59, 130, 246, 1)",
+                borderColor: "rgba(59, 130, 246, 1)", // blue
                 backgroundColor: "rgba(59, 130, 246, 0.2)",
                 pointBackgroundColor: "rgba(59, 130, 246, 1)",
-                tension: 0.3,
+                tension: 0.3, // line smoothing
             },
         ],
     };
 
     const getFilteredTitle = (base: string, roles: string[]) => {
+        // Append selected roles to the chart title
         if (roles.length === 0) return `${base} (No roles selected)`;
         if (roles.length === 1) return `${base} (${roles[0]})`;
         return `${base} (${roles.join(" & ")})`;
     };
 
+    // Role selector component for chart filters
     const RoleFilter: React.FC<{
         title: string;
         roles: string[];
@@ -148,9 +161,9 @@ const ParticipantsTab: React.FC = () => {
         </>
     );
 
-
     return (
         <div className="space-y-8">
+            {/* Pie chart: Active vs Inactive participants */}
             <GraphBlock
                 title={getFilteredTitle("Global Participation", selectedRolesParticipation)}
                 chartType="pie"
@@ -166,6 +179,7 @@ const ParticipantsTab: React.FC = () => {
 
             <hr className="border-t border-gray-300 w-3/4 mx-auto"/>
 
+            {/* Line chart: Last access distribution */}
             <GraphBlock
                 title={getFilteredTitle("Last Access Distribution", selectedRolesAccess)}
                 chartType="line"
@@ -183,4 +197,5 @@ const ParticipantsTab: React.FC = () => {
 };
 
 export default ParticipantsTab;
+
 

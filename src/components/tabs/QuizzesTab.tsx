@@ -16,9 +16,10 @@ import {calculateAvgNormalizedScores, getTopByMetric} from "../../utils/chartDat
 
 const QuizzesTab: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-    const [topNByQuiz, setTopNByQuiz] = useState<number[]>([]);
+    const [topNByQuiz, setTopNByQuiz] = useState<number[]>([]); // Track top N per quiz for charts
 
     useEffect(() => {
+        // Retrieve quizzes from local storage
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find((key) =>
                 key.startsWith("course_")
@@ -28,6 +29,7 @@ const QuizzesTab: React.FC = () => {
             const rawQuizzes = result[courseKey]?.quizzes;
             if (!Array.isArray(rawQuizzes)) return;
 
+            // Filter quizzes that have participant stats
             const filtered: Quiz[] = rawQuizzes.filter(
                 (quiz: any): quiz is Quiz =>
                     quiz &&
@@ -36,10 +38,11 @@ const QuizzesTab: React.FC = () => {
             );
 
             setQuizzes(filtered);
-            setTopNByQuiz(filtered.map(() => 5));
+            setTopNByQuiz(filtered.map(() => 5)); // Initialize all top-N with 5
         });
     }, []);
 
+    // Update top-N value for specific quiz
     const handleTopNChange = (index: number, value: number) => {
         setTopNByQuiz((prev) => {
             const updated = [...prev];
@@ -48,10 +51,9 @@ const QuizzesTab: React.FC = () => {
         });
     };
 
-    const sanitizeTopN = (value: number) => Math.max(1, value);
+    const sanitizeTopN = (value: number) => Math.max(1, value); // Prevent zero or negative top-N
 
-    const avgScores = calculateAvgNormalizedScores(quizzes);
-
+    const avgScores = calculateAvgNormalizedScores(quizzes); // Average per quiz
     const quizLabels = quizzes.map((quiz) => quiz.activityName);
 
     const avgLineData = {
@@ -73,6 +75,7 @@ const QuizzesTab: React.FC = () => {
             {quizzes.map((quiz, index) => {
                 const topN = topNByQuiz[index] || 5;
 
+                // Get top-N participants by score
                 const {labels, values} = getTopByMetric(
                     quiz.participantStats,
                     topN,
@@ -94,11 +97,11 @@ const QuizzesTab: React.FC = () => {
                 };
 
                 const options = {
-                    indexAxis: "y" as const,
+                    indexAxis: "y" as const, // Horizontal bars
                     scales: {
                         x: {
                             beginAtZero: true,
-                            max: 10,
+                            max: 10, // Max score value (normalized)
                         },
                     },
                     plugins: {
@@ -110,12 +113,14 @@ const QuizzesTab: React.FC = () => {
 
                 return (
                     <div key={quiz.id}>
+                        {/* Top-N participants for this quiz */}
                         <GraphBlock
                             title={`${quiz.activityName} - Top ${topN} students`}
                             chartType="bar"
                             data={data}
                             options={options}
                         >
+                            {/* Control to adjust Top-N value */}
                             <div className="w-full flex justify-center items-center gap-2 mt-2 text-sm text-gray-700">
                                 <label htmlFor={`topN-${quiz.id}`}>Show top</label>
                                 <input
@@ -136,6 +141,7 @@ const QuizzesTab: React.FC = () => {
                             </div>
                         </GraphBlock>
 
+                        {/* Divider between quizzes */}
                         {index < quizzes.length - 1 && (
                             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
@@ -143,6 +149,7 @@ const QuizzesTab: React.FC = () => {
                 );
             })}
 
+            {/* Line chart with average score evolution across all quizzes */}
             {quizzes.length > 0 && (
                 <>
                     <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
@@ -158,3 +165,4 @@ const QuizzesTab: React.FC = () => {
 };
 
 export default QuizzesTab;
+

@@ -14,19 +14,43 @@
  * @date 2025
  */
 
-import { ChartData } from "chart.js";
+import {ChartData} from "chart.js";
 import {Quiz} from "../models/Quiz";
 
+/**
+ * Calculates the average number of views per user for each activity.
+ *
+ * @param views - Array of total views for each activity type.
+ * @param users - Array of total users for each activity type.
+ * @returns An array with average views per user, rounded to two decimal places.
+ */
 export const calculateAvgViews = (views: number[], users: number[]): number[] =>
     views.map((v, i) =>
         users[i] !== 0 ? parseFloat((v / users[i]).toFixed(2)) : 0
     );
 
+/**
+ * Calculates the number of days since each provided timestamp.
+ *
+ * @param timestamps - Array of timestamps in milliseconds (e.g., last access times).
+ * @returns An array of day counts since each timestamp (0 if undefined or 0).
+ */
 export const calculateDaysSince = (timestamps: number[]): number[] =>
     timestamps.map(ts =>
         ts ? Math.floor(ts / (1000 * 60 * 60 * 24)) : 0
     );
 
+
+/**
+ * Creates a Chart.js-compatible bar chart dataset with custom colors and optional configuration.
+ *
+ * @param labels - The labels for the x-axis (e.g., activity names).
+ * @param label - The label for the dataset (e.g. "Visits").
+ * @param data - The numeric values corresponding to each label.
+ * @param color - An object with `bg` (backgroundColor) and `border` (borderColor).
+ * @param config - Optional. Additional configuration to merge into the dataset (e.g. `tension`, `fill`).
+ * @returns A `ChartData<'bar'>` object ready for rendering with Chart.js.
+ */
 export const createChartData = (
     labels: string[],
     label: string,
@@ -47,6 +71,12 @@ export const createChartData = (
     ],
 });
 
+/**
+ * Extracts all unique role names from a list of participants.
+ *
+ * @param participants - Array of participant objects, each potentially containing a `roles` array.
+ * @returns An array of unique role names present in the input list.
+ */
 export const extractUniqueRoles = (participants: any[]): string[] => {
     const roles = new Set<string>();
     participants.forEach(p => {
@@ -57,11 +87,25 @@ export const extractUniqueRoles = (participants: any[]): string[] => {
     return Array.from(roles);
 };
 
+
+/**
+ * Filters a list of participants based on selected roles.
+ *
+ * @param participants - The full list of course participants.
+ * @param selectedRoles - The roles that should be included in the filter.
+ * @returns A filtered array containing only participants with matching roles.
+ */
 export const filterByRoles = (participants: any[], selectedRoles: string[]): any[] =>
     participants.filter(p =>
         p.roles?.some((r: string) => selectedRoles.includes(r))
     );
 
+/**
+ * Computes the number of active and inactive participants based on their last access date.
+ *
+ * @param participants - Array of participants with an optional `lastAccessToCourse` timestamp.
+ * @returns An object containing counts of `active` (last access ≤ 7 days) and `inactive` participants.
+ */
 export const computeActiveInactive = (participants: any[]): { active: number; inactive: number } => {
     const MS_PER_DAY = 1000 * 60 * 60 * 24;
     let active = 0;
@@ -74,9 +118,16 @@ export const computeActiveInactive = (participants: any[]): { active: number; in
         else active++;
     }
 
-    return { active, inactive };
+    return {active, inactive};
 };
 
+/**
+ * Categorizes participants into time-based ranges according to their last access date.
+ *
+ * @param participants - Array of participants with an optional `lastAccessToCourse` timestamp.
+ * @returns An array of five numbers corresponding to these access ranges:
+ *          [Last 7 days, 8–30 days, 31–90 days, > 90 days, Never accessed]
+ */
 export const computeAccessRanges = (participants: any[]): number[] => {
     const MS_PER_DAY = 1000 * 60 * 60 * 24;
     const ranges = {
@@ -103,6 +154,12 @@ export const computeAccessRanges = (participants: any[]): number[] => {
     return Object.values(ranges);
 };
 
+/**
+ * Calculates the average normalized score for each quiz.
+ *
+ * @param quizzes - Array of `Quiz` objects, each containing participant statistics.
+ * @returns An array of average normalized scores, rounded to two decimal places, one per quiz.
+ */
 export const calculateAvgNormalizedScores = (quizzes: Quiz[]): number[] =>
     quizzes.map(quiz => {
         const total = quiz.participantStats.reduce(
@@ -113,6 +170,16 @@ export const calculateAvgNormalizedScores = (quizzes: Quiz[]): number[] =>
         return parseFloat(avg.toFixed(2));
     });
 
+/**
+ * Retrieves the top N items from a dataset based on a numeric metric.
+ *
+ * @typeParam T - The type of elements in the dataset.
+ * @param items - Array of items to evaluate.
+ * @param topN - The number of top items to return.
+ * @param valueSelector - Function to extract the numeric metric from each item.
+ * @param labelSelector - Function to extract the label for each item.
+ * @returns An object containing `labels` and `values` arrays, corresponding to the top N items.
+ */
 export function getTopByMetric<T>(
     items: T[],
     topN: number,

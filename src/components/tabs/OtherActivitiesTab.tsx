@@ -33,6 +33,7 @@ const OtherActivitiesTab: React.FC = () => {
     const [resources, setResources] = useState<Resource[]>([]);
     const [workshops, setWorkshops] = useState<Workshop[]>([]);
 
+    // Stores the number of top items to show per activity type
     const [topCounts, setTopCounts] = useState<Record<GraphKey, number>>({
         url: 10,
         file: 10,
@@ -40,6 +41,7 @@ const OtherActivitiesTab: React.FC = () => {
     });
 
     useEffect(() => {
+        // Load activity data from local storage
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find((key) =>
                 key.startsWith("course_")
@@ -53,6 +55,7 @@ const OtherActivitiesTab: React.FC = () => {
         });
     }, []);
 
+    // Render chart and input control for one activity type
     const renderGraphWithFilter = (
         key: GraphKey,
         title: string,
@@ -62,7 +65,8 @@ const OtherActivitiesTab: React.FC = () => {
     ) => {
         const count = topCounts[key];
 
-        const { labels, values } = getTopByMetric(
+        // Get top N items by number of views
+        const {labels, values} = getTopByMetric(
             items,
             count,
             (item) => item.numViews,
@@ -85,7 +89,7 @@ const OtherActivitiesTab: React.FC = () => {
         const handleChange = (value: number) => {
             setTopCounts((prev) => ({
                 ...prev,
-                [key]: Math.max(1, value),
+                [key]: Math.max(1, value), // Enforce a minimum of 1
             }));
         };
 
@@ -96,6 +100,7 @@ const OtherActivitiesTab: React.FC = () => {
                     chartType="bar"
                     data={chartData}
                 >
+                    {/* Input for adjusting top N value */}
                     <div className="flex items-center justify-center gap-2 w-full text-sm text-gray-700">
                         <label htmlFor={`top-input-${key}`}>Show top</label>
                         <input
@@ -111,13 +116,15 @@ const OtherActivitiesTab: React.FC = () => {
                     </div>
                 </GraphBlock>
 
+                {/* Divider between charts */}
                 {showDivider && (
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                 )}
             </div>
         );
     };
 
+    // Define which activity groups to display charts for
     const graphsToRender: GraphConfig[] = [
         {
             key: "url" as const,
@@ -146,10 +153,11 @@ const OtherActivitiesTab: React.FC = () => {
                 border: "rgba(129, 199, 132, 1)",
             },
         },
-    ].filter((g) => g.items.length > 0);
+    ].filter((g) => g.items.length > 0); // Only render non-empty groups
 
     return (
         <div>
+            {/* Render charts for all configured activity groups */}
             {graphsToRender.map((g, index) =>
                 renderGraphWithFilter(
                     g.key,

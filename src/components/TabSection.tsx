@@ -23,40 +23,44 @@ import {
 } from "@heroicons/react/24/solid";
 
 
+// Define available tabs with corresponding icons
 const tabs = [
-    { name: "Global", icon: GlobeAltIcon },
-    { name: "Participants", icon: UsersIcon },
-    { name: "Choices", icon: AdjustmentsHorizontalIcon },
-    { name: "Quizzes", icon: QuestionMarkCircleIcon },
-    { name: "Forums", icon: ChatBubbleLeftRightIcon },
-    { name: "Other Activities", icon: Squares2X2Icon },
+    {name: "Global", icon: GlobeAltIcon},
+    {name: "Participants", icon: UsersIcon},
+    {name: "Choices", icon: AdjustmentsHorizontalIcon},
+    {name: "Quizzes", icon: QuestionMarkCircleIcon},
+    {name: "Forums", icon: ChatBubbleLeftRightIcon},
+    {name: "Other Activities", icon: Squares2X2Icon},
 ] as const;
 
+// Extract valid tab names as a type
 type Tab = (typeof tabs)[number]["name"];
 
 const TabSection: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>("Global");
 
+    // Load the last selected tab from chrome storage (if available)
     useEffect(() => {
-        chrome.storage.local.get("activeTab", ({ activeTab }) => {
+        chrome.storage.local.get("activeTab", ({activeTab}) => {
             if (tabs.find(tab => tab.name === activeTab)) {
                 setActiveTab(activeTab as Tab);
             }
         });
     }, []);
 
+    // Persist current tab selection to chrome storage
     useEffect(() => {
         chrome.storage.local
-            .set({ activeTab })
+            .set({activeTab})
             .catch((err) => console.error("Error saving activeTab:", err));
     }, [activeTab]);
 
     return (
         <div className="mt-6">
-            {/* Tabs */}
+            {/* Tab buttons */}
             <div className="border-b border-gray-200">
                 <nav className="flex space-x-4 sm:space-x-6 justify-center" aria-label="Tabs">
-                    {tabs.map(({ name, icon: Icon }) => {
+                    {tabs.map(({name, icon: Icon}) => {
                         const isActive = activeTab === name;
                         return (
                             <button
@@ -68,7 +72,7 @@ const TabSection: React.FC = () => {
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
-                                <Icon className="w-4 h-4" aria-hidden="true" />
+                                <Icon className="w-4 h-4" aria-hidden="true"/>
                                 <span className="whitespace-nowrap">{name}</span>
                             </button>
                         );
@@ -76,9 +80,9 @@ const TabSection: React.FC = () => {
                 </nav>
             </div>
 
-            {/* Tab content */}
+            {/* Dynamic content based on a selected tab */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab} />
+                <TabContent tab={activeTab}/>
             </div>
         </div>
     );

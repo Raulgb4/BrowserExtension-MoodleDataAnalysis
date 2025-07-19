@@ -18,9 +18,10 @@ import {getTopByMetric} from "../../utils/chartDataUtils";
 
 const ForumsTab: React.FC = () => {
     const [forums, setForums] = useState<Forum[]>([]);
-    const [topNs, setTopNs] = useState<Record<number, number>>({});
+    const [topNs, setTopNs] = useState<Record<number, number>>({}); // Tracks top-N participants per forum
 
     useEffect(() => {
+        // Load forums from local storage
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find((key) =>
                 key.startsWith("course_")
@@ -30,6 +31,7 @@ const ForumsTab: React.FC = () => {
             const rawForums = result[courseKey]?.forums;
             if (!Array.isArray(rawForums)) return;
 
+            // Only include forums with valid participant statistics
             const validForums: Forum[] = rawForums.filter(
                 (f: any): f is Forum =>
                     f &&
@@ -38,10 +40,11 @@ const ForumsTab: React.FC = () => {
             );
 
             setForums(validForums);
-            setTopNs(getInitialTopNs(validForums.length, 20));
+            setTopNs(getInitialTopNs(validForums.length, 20)); // Initialize top-N values
         });
     }, []);
 
+    // Initialize a top-N record for each forum index
     const getInitialTopNs = (
         count: number,
         defaultValue: number
@@ -70,9 +73,11 @@ const ForumsTab: React.FC = () => {
         ],
     };
 
+    // Sum total actions for a participant
     const getTotalActivity = (p: ForumParticipantData) =>
         p.discussionsPosted + p.repliesPosted + p.views;
 
+    // Convert raw total to percentage relative to max
     const calculateParticipationPercentage = (
         p: ForumParticipantData,
         maxTotal: number
@@ -90,6 +95,7 @@ const ForumsTab: React.FC = () => {
 
     return (
         <div>
+            {/* Bar chart for forum subscriptions */}
             <GraphBlock
                 title="Subscriptions per Forum"
                 chartType="bar"
@@ -98,12 +104,15 @@ const ForumsTab: React.FC = () => {
 
             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
 
+            {/* Chart for each forum */}
             {forums.map((forum, index) => {
                 const topN = topNs[forum.id] || 20;
 
+                // Get the highest total activity across participants
                 const maxTotal =
                     Math.max(...forum.participantsStats.map(getTotalActivity)) || 1;
 
+                // Get top-N participants by activity %
                 const {labels, values} = getTopByMetric(
                     forum.participantsStats,
                     topN,
@@ -127,11 +136,13 @@ const ForumsTab: React.FC = () => {
 
                 return (
                     <div key={forum.id}>
+                        {/* Line chart for forum activity distribution */}
                         <GraphBlock
                             title={`${forum.activityName} - Top ${topN} participants`}
                             chartType="line"
                             data={data}
                         >
+                            {/* Top-N input control */}
                             <div className="flex justify-center mb-4 text-sm text-gray-700">
                                 <label className="flex items-center gap-2">
                                     Show top
@@ -153,6 +164,7 @@ const ForumsTab: React.FC = () => {
                             </div>
                         </GraphBlock>
 
+                        {/* Divider between forums */}
                         {index < forums.length - 1 && (
                             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}

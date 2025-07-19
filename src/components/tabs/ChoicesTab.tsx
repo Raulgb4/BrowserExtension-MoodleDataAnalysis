@@ -18,6 +18,7 @@ const ChoicesTab: React.FC = () => {
     const [choices, setChoices] = useState<Choice[]>([]);
 
     useEffect(() => {
+        // Load course data from local storage
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find((key) =>
                 key.startsWith("course_")
@@ -27,6 +28,7 @@ const ChoicesTab: React.FC = () => {
             const rawChoices = result[courseKey]?.choices;
             if (!Array.isArray(rawChoices)) return;
 
+            // Filter out choices with no responses
             const filtered = rawChoices.filter(
                 (choice: Choice) =>
                     choice.responseCounts &&
@@ -40,6 +42,7 @@ const ChoicesTab: React.FC = () => {
     return (
         <div className="space-y-8">
             {choices.map((choice, index) => {
+                // Extract response labels and values
                 const labels = Object.keys(choice.responseCounts);
                 const values = Object.values(choice.responseCounts);
 
@@ -49,7 +52,7 @@ const ChoicesTab: React.FC = () => {
                         {
                             label: "Responses",
                             data: values,
-                            backgroundColor: "rgba(249, 128, 18, 0.6)",
+                            backgroundColor: "rgba(249, 128, 18, 0.6)", // orange
                             borderColor: "rgba(249, 128, 18, 1)",
                             borderWidth: 1,
                         },
@@ -58,13 +61,14 @@ const ChoicesTab: React.FC = () => {
 
                 return (
                     <React.Fragment key={choice.id}>
+                        {/* Bar chart for each Choice activity */}
                         <GraphBlock
                             title={`"${choice.activityName}" Results`}
                             chartType="bar"
                             data={data}
                         />
                         {index < choices.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
                     </React.Fragment>
                 );

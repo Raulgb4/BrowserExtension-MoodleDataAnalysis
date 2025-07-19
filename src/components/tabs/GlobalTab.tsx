@@ -30,6 +30,7 @@ type ActivityTypeKey =
     | "resources"
     | "workshops";
 
+// List of activity types to aggregate and visualize
 const activityTypes: { key: ActivityTypeKey; label: string }[] = [
     {key: "choices", label: "Choices"},
     {key: "quizzes", label: "Quizzes"},
@@ -46,6 +47,7 @@ interface AggregatedData {
     labels: string[];
 }
 
+// Aggregates view/user/access stats for each activity type
 function aggregateActivityData(course: Record<string, any[]>): AggregatedData {
     const views: number[] = [];
     const users: number[] = [];
@@ -88,6 +90,7 @@ const GlobalTab: React.FC = () => {
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
+            // Identify a course key stored in local storage
             const courseKey = Object.keys(result).find((key) =>
                 key.startsWith("course_")
             );
@@ -103,10 +106,11 @@ const GlobalTab: React.FC = () => {
         });
     }, []);
 
+    // Derived metrics
     const avgViewsPerUser = calculateAvgViews(numViews, numUsers);
-
     const daysSinceLastAccess = calculateDaysSince(lastAccess);
 
+    // Chart data for each metric
     const totalViewsData = createChartData(
         activityLabels,
         "Total Visits by Activity Type",
@@ -133,6 +137,7 @@ const GlobalTab: React.FC = () => {
         }
     );
 
+    // Array of chart configurations to render
     const chartBlocks = [
         {
             title: "Total Visits by Activity Type",
@@ -153,11 +158,11 @@ const GlobalTab: React.FC = () => {
 
     return (
         <>
-            {chartBlocks.map(({ title, chartType, data }, index) => (
+            {chartBlocks.map(({title, chartType, data}, index) => (
                 <React.Fragment key={title}>
-                    <GraphBlock title={title} chartType={chartType} data={data} />
+                    <GraphBlock title={title} chartType={chartType} data={data}/>
                     {index < chartBlocks.length - 1 && (
-                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                     )}
                 </React.Fragment>
             ))}
