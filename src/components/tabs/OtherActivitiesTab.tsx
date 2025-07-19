@@ -12,17 +12,28 @@
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
+import {ActivityBase, Resource, URLResource, Workshop} from "../../models/ActivityBase";
+import {ChartData} from "chart.js";
+import {getTopByMetric} from "../../utils/chartDataUtils";
+
+type GraphKey = "url" | "file" | "workshop";
+
+interface GraphConfig {
+    key: GraphKey;
+    title: string;
+    items: ActivityBase[];
+    color: {
+        bg: string;
+        border: string;
+    };
+}
 
 const OtherActivitiesTab: React.FC = () => {
-    const [urlResources, setUrlResources] = useState<any[]>([]);
-    const [resources, setResources] = useState<any[]>([]);
-    const [workshops, setWorkshops] = useState<any[]>([]);
+    const [urlResources, setUrlResources] = useState<URLResource[]>([]);
+    const [resources, setResources] = useState<Resource[]>([]);
+    const [workshops, setWorkshops] = useState<Workshop[]>([]);
 
-    const [topCounts, setTopCounts] = useState<{
-        url: number;
-        file: number;
-        workshop: number;
-    }>({
+    const [topCounts, setTopCounts] = useState<Record<GraphKey, number>>({
         url: 10,
         file: 10,
         workshop: 10,
@@ -42,42 +53,34 @@ const OtherActivitiesTab: React.FC = () => {
         });
     }, []);
 
-    const getTopItems = (
-        items: { activityName: string; numViews: number }[],
-        count: number
-    ) => {
-        return [...items]
-            .sort((a, b) => b.numViews - a.numViews)
-            .slice(0, count);
-    };
-
-    const getBarData = (
-        items: { activityName: string; numViews: number }[],
-        label: string,
-        background: string,
-        border: string
-    ) => ({
-        labels: items.map((i) => i.activityName),
-        datasets: [
-            {
-                label,
-                data: items.map((i) => i.numViews),
-                backgroundColor: background,
-                borderColor: border,
-                borderWidth: 1,
-            },
-        ],
-    });
-
     const renderGraphWithFilter = (
-        key: "url" | "file" | "workshop",
+        key: GraphKey,
         title: string,
-        items: any[],
+        items: ActivityBase[],
         color: { bg: string; border: string },
         showDivider: boolean
     ) => {
         const count = topCounts[key];
-        const topItems = getTopItems(items, count);
+
+        const { labels, values } = getTopByMetric(
+            items,
+            count,
+            (item) => item.numViews,
+            (item) => item.activityName
+        );
+
+        const chartData: ChartData<"bar"> = {
+            labels,
+            datasets: [
+                {
+                    label: "Visits",
+                    data: values,
+                    backgroundColor: color.bg,
+                    borderColor: color.border,
+                    borderWidth: 1,
+                },
+            ],
+        };
 
         const handleChange = (value: number) => {
             setTopCounts((prev) => ({
@@ -91,32 +94,31 @@ const OtherActivitiesTab: React.FC = () => {
                 <GraphBlock
                     title={`${title} - Top ${count} activities`}
                     chartType="bar"
-                    data={getBarData(topItems, "Visits", color.bg, color.border)}
+                    data={chartData}
                 >
                     <div className="flex items-center justify-center gap-2 w-full text-sm text-gray-700">
-                        <label>
-                            Show top{" "}
-                            <input
-                                type="number"
-                                value={count}
-                                min={1}
-                                max={100}
-                                onChange={(e) => handleChange(Number(e.target.value))}
-                                className="border px-2 py-1 w-16 text-center rounded"
-                            />{" "}
-                            activities
-                        </label>
+                        <label htmlFor={`top-input-${key}`}>Show top</label>
+                        <input
+                            id={`top-input-${key}`}
+                            type="number"
+                            value={count}
+                            min={1}
+                            max={100}
+                            onChange={(e) => handleChange(Number(e.target.value))}
+                            className="border px-2 py-1 w-16 text-center rounded"
+                        />
+                        <span>activities</span>
                     </div>
                 </GraphBlock>
 
                 {showDivider && (
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
                 )}
             </div>
         );
     };
 
-    const graphsToRender = [
+    const graphsToRender: GraphConfig[] = [
         {
             key: "url" as const,
             title: "URL Resource Visits",
@@ -154,7 +156,7 @@ const OtherActivitiesTab: React.FC = () => {
                     g.title,
                     g.items,
                     g.color,
-                    index < graphsToRender.length - 1 // solo muestra <hr /> si no es el último
+                    index < graphsToRender.length - 1
                 )
             )}
         </div>
