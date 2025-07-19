@@ -12,17 +12,9 @@
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
-
-interface Forum {
-    activityName: string;
-    subscriptions: number;
-    participantsStats: {
-        participantName: string;
-        discussionsPosted: number;
-        repliesPosted: number;
-        views: number;
-    }[];
-}
+import {Forum, ForumParticipantData} from "../../models/Forum";
+import {ChartData} from "chart.js";
+import {getTopByMetric} from "../../utils/chartDataUtils";
 
 const ForumsTab: React.FC = () => {
     const [forums, setForums] = useState<Forum[]>([]);
@@ -35,30 +27,37 @@ const ForumsTab: React.FC = () => {
             );
             if (!courseKey) return;
 
-            const course = result[courseKey];
-            const realForums = course.forums || [];
+            const rawForums = result[courseKey]?.forums;
+            if (!Array.isArray(rawForums)) return;
 
-            const filtered = realForums.filter(
-                (f: any) =>
-                    f.participantsStats &&
+            const validForums: Forum[] = rawForums.filter(
+                (f: any): f is Forum =>
+                    f &&
                     Array.isArray(f.participantsStats) &&
                     f.participantsStats.length > 0
             );
 
-            setForums(filtered);
-
-            const initialTopNs: Record<number, number> = {};
-            filtered.forEach((_forum: Forum, i: number) => {
-                initialTopNs[i] = 20;
-            });
-            setTopNs(initialTopNs);
+            setForums(validForums);
+            setTopNs(getInitialTopNs(validForums.length, 20));
         });
     }, []);
+
+    const getInitialTopNs = (
+        count: number,
+        defaultValue: number
+    ): Record<number, number> =>
+        Array.from({length: count}, () => null).reduce<Record<number, number>>(
+            (acc, _, i) => {
+                acc[i] = defaultValue;
+                return acc;
+            },
+            {}
+        );
 
     const forumLabels = forums.map((f) => f.activityName);
     const forumSubscriptions = forums.map((f) => f.subscriptions);
 
-    const subsData = {
+    const subsData: ChartData<"bar"> = {
         labels: forumLabels,
         datasets: [
             {
@@ -71,6 +70,24 @@ const ForumsTab: React.FC = () => {
         ],
     };
 
+    const getTotalActivity = (p: ForumParticipantData) =>
+        p.discussionsPosted + p.repliesPosted + p.views;
+
+    const calculateParticipationPercentage = (
+        p: ForumParticipantData,
+        maxTotal: number
+    ): number => {
+        const total = getTotalActivity(p);
+        return parseFloat(((total / maxTotal) * 100).toFixed(2));
+    };
+
+    const handleTopNChange = (forumId: number, value: number) => {
+        setTopNs((prev) => ({
+            ...prev,
+            [forumId]: value,
+        }));
+    };
+
     return (
         <div>
             <GraphBlock
@@ -79,30 +96,23 @@ const ForumsTab: React.FC = () => {
                 data={subsData}
             />
 
-            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
 
             {forums.map((forum, index) => {
-                const topN = topNs[index] || 20;
+                const topN = topNs[forum.id] || 20;
 
-                const sortedStats = [...forum.participantsStats].sort((a, b) => {
-                    const aTotal = a.discussionsPosted + a.repliesPosted + a.views;
-                    const bTotal = b.discussionsPosted + b.repliesPosted + b.views;
-                    return bTotal - aTotal;
-                });
+                const maxTotal =
+                    Math.max(...forum.participantsStats.map(getTotalActivity)) || 1;
 
-                const topStats = sortedStats.slice(0, topN);
-                const participants = topStats.map((p) => p.participantName);
-
-                const maxActivity =
-                    Math.max(...topStats.map((p) => p.discussionsPosted + p.repliesPosted + p.views)) || 1;
-
-                const values = topStats.map((p) => {
-                    const total = p.discussionsPosted + p.repliesPosted + p.views;
-                    return parseFloat(((total / maxActivity) * 100).toFixed(2));
-                });
+                const {labels, values} = getTopByMetric(
+                    forum.participantsStats,
+                    topN,
+                    (p) => calculateParticipationPercentage(p, maxTotal),
+                    (p) => p.participantName
+                );
 
                 const data = {
-                    labels: participants,
+                    labels,
                     datasets: [
                         {
                             label: "Participation (%)",
@@ -115,15 +125,8 @@ const ForumsTab: React.FC = () => {
                     ],
                 };
 
-                const handleTopNChange = (value: number) => {
-                    setTopNs((prev) => ({
-                        ...prev,
-                        [index]: value,
-                    }));
-                };
-
                 return (
-                    <div key={index}>
+                    <div key={forum.id}>
                         <GraphBlock
                             title={`${forum.activityName} - Top ${topN} participants`}
                             chartType="line"
@@ -138,7 +141,10 @@ const ForumsTab: React.FC = () => {
                                         max={forum.participantsStats.length}
                                         value={topN}
                                         onChange={(e) =>
-                                            handleTopNChange(Number(e.target.value))
+                                            handleTopNChange(
+                                                forum.id,
+                                                Number(e.target.value)
+                                            )
                                         }
                                         className="w-16 border border-gray-300 rounded px-2 py-1 text-center"
                                     />
@@ -148,7 +154,7 @@ const ForumsTab: React.FC = () => {
                         </GraphBlock>
 
                         {index < forums.length - 1 && (
-                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
                     </div>
                 );

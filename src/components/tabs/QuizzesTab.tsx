@@ -12,7 +12,7 @@ import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {Quiz} from "../../models/Quiz";
-import {calculateAvgNormalizedScores} from "../../utils/chartDataUtils";
+import {calculateAvgNormalizedScores, getTopByMetric} from "../../utils/chartDataUtils";
 
 const QuizzesTab: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -73,18 +73,12 @@ const QuizzesTab: React.FC = () => {
             {quizzes.map((quiz, index) => {
                 const topN = topNByQuiz[index] || 5;
 
-                const getTopParticipantsData = () => {
-                    const sorted = [...quiz.participantStats].sort(
-                        (a, b) => b.normalizedGrade - a.normalizedGrade
-                    );
-                    const top = sorted.slice(0, topN);
-                    return {
-                        labels: top.map((p) => p.participantName),
-                        values: top.map((p) => p.normalizedGrade),
-                    };
-                };
-
-                const {labels, values} = getTopParticipantsData();
+                const {labels, values} = getTopByMetric(
+                    quiz.participantStats,
+                    topN,
+                    (p) => p.normalizedGrade,
+                    (p) => p.participantName
+                );
 
                 const data = {
                     labels,

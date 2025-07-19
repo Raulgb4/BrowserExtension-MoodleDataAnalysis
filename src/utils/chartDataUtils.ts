@@ -112,3 +112,18 @@ export const calculateAvgNormalizedScores = (quizzes: Quiz[]): number[] =>
         const avg = total / quiz.participantStats.length;
         return parseFloat(avg.toFixed(2));
     });
+
+export function getTopByMetric<T>(
+    items: T[],
+    topN: number,
+    valueSelector: (item: T) => number,
+    labelSelector: (item: T) => string
+): { labels: string[]; values: number[] } {
+    const sorted = [...items].sort((a, b) => valueSelector(b) - valueSelector(a));
+    const top = sorted.slice(0, topN);
+
+    return {
+        labels: top.map(labelSelector),
+        values: top.map(valueSelector),
+    };
+}
