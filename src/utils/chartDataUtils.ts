@@ -30,18 +30,6 @@ export const calculateAvgViews = (views: number[], users: number[]): number[] =>
     );
 
 /**
- * Calculates the number of days since each provided timestamp.
- *
- * @param timestamps - Array of timestamps in milliseconds (e.g., last access times).
- * @returns An array of day counts since each timestamp (0 if undefined or 0).
- */
-export const calculateDaysSince = (timestamps: number[]): number[] =>
-    timestamps.map(ts =>
-        ts ? Math.floor(ts / (1000 * 60 * 60 * 24)) : 0
-    );
-
-
-/**
  * Creates a Chart.js-compatible bar chart dataset with custom colors and optional configuration.
  *
  * @param labels - The labels for the x-axis (e.g., activity names).

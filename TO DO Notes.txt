@@ -4,11 +4,9 @@
 
 [Prioridad]
 
-1. [Alta] Sustituir alguna gráfica
+1. [Alta] Formateo del código
 
-2. [Alta] Formateo del código
-
-3. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
+2. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
    solicitando los siguientes pasos. Incluir un vídeo demostrativo de la extensión en funcionamiento.
 
 -------------------------------------------------------

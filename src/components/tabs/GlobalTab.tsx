@@ -17,10 +17,10 @@ import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import {
     calculateAvgViews,
-    calculateDaysSince,
     createChartData,
 } from "../../utils/chartDataUtils";
 import "../../chartConfig";
+import {ChartData} from "chart.js";
 
 type ActivityTypeKey =
     | "choices"
@@ -43,7 +43,7 @@ const activityTypes: { key: ActivityTypeKey; label: string }[] = [
 interface AggregatedData {
     views: number[];
     users: number[];
-    access: number[];
+    avgAccessAgeMs: number[];
     labels: string[];
 }
 
@@ -51,7 +51,7 @@ interface AggregatedData {
 function aggregateActivityData(course: Record<string, any[]>): AggregatedData {
     const views: number[] = [];
     const users: number[] = [];
-    const access: number[] = [];
+    const avgAccessAgeMs: number[] = [];
     const labels: string[] = [];
 
     for (const {key, label} of activityTypes) {
@@ -67,19 +67,22 @@ function aggregateActivityData(course: Record<string, any[]>): AggregatedData {
             0
         );
 
-        const latestAccess = activities.reduce(
-            (latest, a) =>
-                a.lastAccess && a.lastAccess > latest ? a.lastAccess : latest,
-            0
-        );
+        const validAccesses = activities
+            .map((a) => a.lastAccess)
+            .filter((ts) => typeof ts === "number" && ts > 0);
 
+        const avgDaysAgo =
+            validAccesses.length > 0
+                ? validAccesses.reduce((sum, ts) => sum + ts, 0) / validAccesses.length
+                : 0;
+
+        avgAccessAgeMs.push(avgDaysAgo);
         views.push(totalViews);
         users.push(totalUsers);
-        access.push(latestAccess || 0);
         labels.push(label);
     }
 
-    return {views, users, access, labels};
+    return {views, users, avgAccessAgeMs, labels};
 }
 
 const GlobalTab: React.FC = () => {
@@ -97,18 +100,18 @@ const GlobalTab: React.FC = () => {
             if (!courseKey) return;
 
             const course = result[courseKey];
-            const {views, users, access, labels} = aggregateActivityData(course);
+            const {views, users, avgAccessAgeMs, labels} = aggregateActivityData(course);
 
             setNumViews(views);
             setNumUsers(users);
-            setLastAccess(access);
+            setLastAccess(avgAccessAgeMs);
             setActivityLabels(labels);
         });
     }, []);
 
     // Derived metrics
     const avgViewsPerUser = calculateAvgViews(numViews, numUsers);
-    const daysSinceLastAccess = calculateDaysSince(lastAccess);
+    const daysSinceLastAccess = lastAccess.map(ms => Math.floor(ms / (1000 * 60 * 60 * 24)));
 
     // Chart data for each metric
     const totalViewsData = createChartData(
@@ -126,16 +129,42 @@ const GlobalTab: React.FC = () => {
         {fill: false, tension: 0.3}
     );
 
-    const lastAccessData = createChartData(
-        activityLabels,
-        "Days",
-        daysSinceLastAccess,
-        {bg: "rgba(255, 99, 132, 0.2)", border: "rgba(255, 99, 132, 1)"},
-        {
-            fill: true,
-            pointBackgroundColor: "rgba(255, 99, 132, 1)",
-        }
-    );
+    const generateColors = (count: number, opacity = 0.6): string[] => {
+        const palette = [
+            [255, 99, 132],
+            [54, 162, 235],
+            [255, 206, 86],
+            [75, 192, 192],
+            [153, 102, 255],
+            [255, 159, 64],
+            [100, 181, 246],
+            [129, 199, 132],
+            [233, 30, 99],
+            [66, 165, 245],
+        ];
+        return Array.from({length: count}, (_, i) => {
+            const [r, g, b] = palette[i % palette.length];
+            return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        });
+    };
+
+    const polarColors = {
+        bg: generateColors(activityLabels.length, 0.6),
+        border: generateColors(activityLabels.length, 1),
+    };
+
+    const lastAccessData: ChartData<"polarArea"> = {
+        labels: activityLabels,
+        datasets: [
+            {
+                label: "Average Days",
+                data: daysSinceLastAccess,
+                backgroundColor: polarColors.bg,
+                borderColor: polarColors.border,
+                borderWidth: 1,
+            },
+        ],
+    };
 
     // Array of chart configurations to render
     const chartBlocks = [
@@ -150,10 +179,10 @@ const GlobalTab: React.FC = () => {
             data: avgViewsData,
         },
         {
-            title: "Days Since Last Access",
-            chartType: "radar" as const,
+            title: "Average Days Since Last Access by Activity Type",
+            chartType: "polarArea" as const,
             data: lastAccessData,
-        },
+        }
     ];
 
     return (

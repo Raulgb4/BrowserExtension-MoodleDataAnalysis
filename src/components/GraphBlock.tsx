@@ -13,19 +13,19 @@
  * @date 2025
  */
 
-import React, { useRef } from "react";
-import { Pie, Bar, Line, Radar } from "react-chartjs-2";
-import { Chart as ChartJS, ChartData, ChartOptions } from "chart.js";
-import { exportToCSV, exportToPDF, exportToImage } from "../utils/exportUtils";
+import React, {useRef} from "react";
+import {Pie, Bar, Line, Radar, PolarArea} from "react-chartjs-2";
+import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
+import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
 import {
     DocumentArrowDownIcon,
     ArrowDownTrayIcon,
     PhotoIcon,
 } from "@heroicons/react/24/outline";
-import { useAnalysisContext } from "../context/AnalysisContext";
-import { formatDateForExport } from "../utils/exportUtils";
+import {useAnalysisContext} from "../context/AnalysisContext";
+import {formatDateForExport} from "../utils/exportUtils";
 
-type ChartType = "pie" | "bar" | "line" | "radar";
+type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea";
 
 interface GraphBlockProps {
     title: string;
@@ -40,6 +40,7 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
     bar: Bar,
     line: Line,
     radar: Radar,
+    polarArea: PolarArea,
 };
 
 const chartSizes: Record<ChartType, string> = {
@@ -47,6 +48,7 @@ const chartSizes: Record<ChartType, string> = {
     bar: "w-full max-w-4xl",
     line: "w-full max-w-4xl",
     radar: "w-96",
+    polarArea: "w-96",
 };
 
 const truncate = (label: string, maxLength = 15): string =>
@@ -60,7 +62,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    children,
                                                }) => {
     const chartRef = useRef<ChartJS>(null);
-    const { lastAnalyzedAt } = useAnalysisContext();
+    const {lastAnalyzedAt} = useAnalysisContext();
 
     const ChartComponent = chartComponents[chartType];
     const chartWidthClass = chartSizes[chartType] || "w-[300px]";
@@ -136,7 +138,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
                         hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <DocumentArrowDownIcon className="w-4 h-4" />
+                        <DocumentArrowDownIcon className="w-4 h-4"/>
                         CSV
                     </button>
 
@@ -148,7 +150,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
                         hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <ArrowDownTrayIcon className="w-4 h-4" />
+                        <ArrowDownTrayIcon className="w-4 h-4"/>
                         PDF
                     </button>
 
@@ -161,7 +163,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                             className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
                              hover:bg-orange-100 transition text-orange-600 text-xs"
                         >
-                            <PhotoIcon className="w-4 h-4" />
+                            <PhotoIcon className="w-4 h-4"/>
                             {format.toUpperCase()}
                         </button>
                     ))}
@@ -170,7 +172,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
             {/* Chart */}
             <div className={`${chartWidthClass} mx-auto`}>
-                <ChartWithRef ref={chartRef} data={data} options={mergedOptions} />
+                <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
             </div>
 
             {/* Optional children (filters or controls) */}
