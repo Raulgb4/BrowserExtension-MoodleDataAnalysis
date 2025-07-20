@@ -1,7 +1,7 @@
 /**
  * @file chartConfig.ts
  * @description
- * This file is responsible for registering the necessary Chart.js components
+ * This file is responsible for registering the necessary Chart.js parts
  * globally for rendering different types of charts across the application.
  * Components like bar, pie, radar, and line charts rely on the proper registration
  * of scales, elements, and plugins. This configuration ensures that all visualizations

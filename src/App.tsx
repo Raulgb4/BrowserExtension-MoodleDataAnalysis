@@ -1,5 +1,19 @@
 /**
  * @file App.tsx
+ * @description
+ * Main entry point for the Moodle Data Analyzer extension's popup interface.
+ * This component coordinates the initialization, data scraping, UI rendering,
+ * and state management of the extension. It handles:
+ *
+ * - Verifying whether the current tab is a Moodle course page.
+ * - Extracting the course ID from the URL.
+ * - Providing a button to start or reanalyze the course data.
+ * - Launching scraping routines to collect participant and activity information.
+ * - Persisting scraped data into `chrome.storage.local`.
+ * - Displaying feedback messages and restoring previous analysis sessions.
+ * - Updating the UI with the last analysis timestamp and access to detailed views.
+ *
+ * Integrates with context providers and child components like Button, Loader, InfoCard, and TabSection.
  *
  * @author Raúl García Balongo
  * @date 2025

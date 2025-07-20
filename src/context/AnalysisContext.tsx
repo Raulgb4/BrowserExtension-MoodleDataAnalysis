@@ -12,7 +12,7 @@
  * @date 2025
  */
 
-import { createContext, useContext } from "react";
+import {createContext, useContext} from "react";
 
 interface AnalysisContextProps {
     lastAnalyzedAgo: string | null;

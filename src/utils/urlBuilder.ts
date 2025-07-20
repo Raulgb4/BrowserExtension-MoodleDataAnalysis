@@ -135,7 +135,8 @@ export const URLS = {
  * @param totalParticipants - Optional. Number of participants to include per page.
  * @returns An object with `participants` key mapping to the full participants list URL.
  */
-export function getScrapeUrlParticipants(courseId: string | number, totalParticipants?: number): Record<string, string> {
+export function getScrapeUrlParticipants(courseId: string | number, totalParticipants?: number): Record<string,
+    string> {
     return {
         participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`,
     };

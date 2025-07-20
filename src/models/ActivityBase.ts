@@ -30,7 +30,8 @@ export interface ActivityBase {
 
     /**
      * The last time any student accessed the activity.
-     * Also, a string to match the Moodle format (e.g., "Monday, 23 June 2025, 4:17 PM (28 mins 26 secs)" -> (28 mins 26 secs) -> ms).
+     * Also, a string to match the Moodle format (e.g., "Monday, 23 June 2025, 4:17 PM (28 mins 26 secs)"
+     * -> (28 mins 26 secs) -> ms).
      */
     lastAccess?: number;
 }

@@ -10,7 +10,7 @@
  * @date 2025
  */
 
-import { ActivityBase } from "./ActivityBase";
+import {ActivityBase} from "./ActivityBase";
 
 /**
  * Represents a Moodle Choice activity with response statistics.
