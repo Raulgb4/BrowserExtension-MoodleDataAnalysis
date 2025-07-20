@@ -4,22 +4,17 @@
 
 [Prioridad]
 
-1. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
-   solicitando los siguientes pasos. Incluir un vídeo demostrativo de la extensión en funcionamiento.
-
--------------------------------------------------------
-
-2. [Media] Adaptar la extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga,
+1. [Media] Adaptar la extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga,
    comprobando compatibilidad y posibles diferencias con el entorno de desarrollo actual.
 
-3. [Media] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
+2. [Media] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
 
-4. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
+3. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
    de suprimir los warnings de tamaño. Actualmente se ha aplicado una solución provisional:
    desactivar los avisos de tamaño configurando la propiedad `performance` en `webpack.config.js`.
    El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js y los iconos
    de heroicons.
 
-5. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
+4. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
  - Posible causa: desajustes relacionados con la zona horaria.
