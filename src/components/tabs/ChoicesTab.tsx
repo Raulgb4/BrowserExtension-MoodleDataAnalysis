@@ -41,8 +41,30 @@ const ChoicesTab: React.FC = () => {
 
     return (
         <div className="space-y-8">
+            {/* Empty chart block when there are no choices */}
+            {choices.length === 0 && (
+                <>
+                    <GraphBlock
+                        title="Choice Results"
+                        chartType="bar"
+                        data={{
+                            labels: [],
+                            datasets: [
+                                {
+                                    label: "Responses",
+                                    data: [],
+                                    backgroundColor: "rgba(249, 128, 18, 0.6)",
+                                    borderColor: "rgba(249, 128, 18, 1)",
+                                    borderWidth: 1,
+                                },
+                            ],
+                        }}
+                    />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                </>
+            )}
+
             {choices.map((choice, index) => {
-                // Extract response labels and values
                 const labels = Object.keys(choice.responseCounts);
                 const values = Object.values(choice.responseCounts);
 
@@ -61,7 +83,6 @@ const ChoicesTab: React.FC = () => {
 
                 return (
                     <React.Fragment key={choice.id}>
-                        {/* Bar chart for each Choice activity */}
                         <GraphBlock
                             title={`"${choice.activityName}" Results`}
                             chartType="bar"

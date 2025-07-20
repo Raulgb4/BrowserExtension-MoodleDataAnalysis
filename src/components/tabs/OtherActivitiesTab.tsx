@@ -157,7 +157,29 @@ const OtherActivitiesTab: React.FC = () => {
 
     return (
         <div>
-            {/* Render charts for all configured activity groups */}
+            {graphsToRender.length === 0 && (
+                <>
+                    <GraphBlock
+                        title="Activity Overview"
+                        chartType="bar"
+                        data={{
+                            labels: [],
+                            datasets: [
+                                {
+                                    label: "Top Activities",
+                                    data: [],
+                                    backgroundColor: "rgba(203, 213, 225, 0.6)",
+                                    borderColor: "rgba(203, 213, 225, 1)",
+                                    borderWidth: 1,
+                                },
+                            ],
+                        }}
+                    />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                </>
+            )}
+
+            {/* Render real data */}
             {graphsToRender.map((g, index) =>
                 renderGraphWithFilter(
                     g.key,

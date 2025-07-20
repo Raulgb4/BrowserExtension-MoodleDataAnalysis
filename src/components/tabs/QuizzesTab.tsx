@@ -72,10 +72,18 @@ const QuizzesTab: React.FC = () => {
 
     return (
         <div className="space-y-8">
+            {/* Always render the average score evolution chart */}
+            <GraphBlock
+                title="Average Score Evolution"
+                chartType="line"
+                data={avgLineData}
+            />
+
+            <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+
             {quizzes.map((quiz, index) => {
                 const topN = topNByQuiz[index] || 5;
 
-                // Get top-N participants by score
                 const {labels, values} = getTopByMetric(
                     quiz.participantStats,
                     topN,
@@ -97,11 +105,11 @@ const QuizzesTab: React.FC = () => {
                 };
 
                 const options = {
-                    indexAxis: "y" as const, // Horizontal bars
+                    indexAxis: "y" as const,
                     scales: {
                         x: {
                             beginAtZero: true,
-                            max: 10, // Max score value (normalized)
+                            max: 10,
                         },
                     },
                     plugins: {
@@ -113,14 +121,12 @@ const QuizzesTab: React.FC = () => {
 
                 return (
                     <div key={quiz.id}>
-                        {/* Top-N participants for this quiz */}
                         <GraphBlock
                             title={`${quiz.activityName} - Top ${topN} students`}
                             chartType="bar"
                             data={data}
                             options={options}
                         >
-                            {/* Control to adjust Top-N value */}
                             <div className="w-full flex justify-center items-center gap-2 mt-2 text-sm text-gray-700">
                                 <label htmlFor={`topN-${quiz.id}`}>Show top</label>
                                 <input
@@ -130,10 +136,7 @@ const QuizzesTab: React.FC = () => {
                                     value={topN}
                                     onChange={(e) => {
                                         const value = parseInt(e.target.value);
-                                        handleTopNChange(
-                                            index,
-                                            Number.isNaN(value) ? 1 : value
-                                        );
+                                        handleTopNChange(index, Number.isNaN(value) ? 1 : value);
                                     }}
                                     className="w-16 border rounded px-2 py-1 text-sm text-gray-800"
                                 />
@@ -141,25 +144,12 @@ const QuizzesTab: React.FC = () => {
                             </div>
                         </GraphBlock>
 
-                        {/* Divider between quizzes */}
                         {index < quizzes.length - 1 && (
                             <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                         )}
                     </div>
                 );
             })}
-
-            {/* Line chart with average score evolution across all quizzes */}
-            {quizzes.length > 0 && (
-                <>
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
-                    <GraphBlock
-                        title="Average Score Evolution"
-                        chartType="line"
-                        data={avgLineData}
-                    />
-                </>
-            )}
         </div>
     );
 };

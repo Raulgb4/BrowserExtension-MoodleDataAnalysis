@@ -4,10 +4,15 @@
 
 [Prioridad]
 
-1. [Alta] Parpadeos extraños al cambiar entre las tabs Choices, Quizzes y Other Activities.
+1. [Alta] - Poner fecha a los informes de exportación/imagen -> La hora del análisis
 
 2. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
    solicitando los siguientes pasos. Incluir un vídeo demostrativo de la extensión en funcionamiento.
+
+3. [Alta] Controlar desbordamiento en el filtro campo de texto numérico. El número no puede
+   ser mayor que el número de datos en el eje del gráfico.
+
+4. [Alta] Usar bubble charts en los gráficos de Foros bubble chart
 
 -------------------------------------------------------
 
