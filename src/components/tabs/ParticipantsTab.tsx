@@ -113,7 +113,7 @@ const ParticipantsTab: React.FC = () => {
         labels: lastAccessLabels,
         datasets: [
             {
-                label: "Participants by Last Access Time",
+                label: "Participants",
                 data: lastAccessRanges,
                 fill: true,
                 borderColor: "rgba(59, 130, 246, 1)", // blue

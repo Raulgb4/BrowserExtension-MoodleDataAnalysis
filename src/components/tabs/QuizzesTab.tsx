@@ -115,7 +115,7 @@ const QuizzesTab: React.FC = () => {
                     },
                     plugins: {
                         legend: {
-                            display: false,
+                            display: true,
                         },
                     },
                 };

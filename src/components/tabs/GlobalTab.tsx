@@ -113,14 +113,14 @@ const GlobalTab: React.FC = () => {
     // Chart data for each metric
     const totalViewsData = createChartData(
         activityLabels,
-        "Total Visits by Activity Type",
+        "Visits",
         numViews,
         {bg: "rgba(249, 128, 18, 0.6)", border: "rgba(249, 128, 18, 1)"}
     );
 
     const avgViewsData = createChartData(
         activityLabels,
-        "Average Views per User",
+        "Views",
         avgViewsPerUser,
         {bg: "rgba(100, 181, 246, 0.6)", border: "rgba(100, 181, 246, 1)"},
         {fill: false, tension: 0.3}
@@ -128,7 +128,7 @@ const GlobalTab: React.FC = () => {
 
     const lastAccessData = createChartData(
         activityLabels,
-        "Days Since Last Access",
+        "Days",
         daysSinceLastAccess,
         {bg: "rgba(255, 99, 132, 0.2)", border: "rgba(255, 99, 132, 1)"},
         {

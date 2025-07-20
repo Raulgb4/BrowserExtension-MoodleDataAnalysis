@@ -106,7 +106,7 @@ const ForumsTab: React.FC = () => {
 
             {/* Chart for each forum */}
             {forums.map((forum, index) => {
-                const topN = topNs[forum.id] || 20;
+                const topN = topNs[forum.id] || 10;
 
                 // Get the highest total activity across participants
                 const maxTotal =
