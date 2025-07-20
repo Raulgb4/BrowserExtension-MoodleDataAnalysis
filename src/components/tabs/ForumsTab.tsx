@@ -40,7 +40,7 @@ const ForumsTab: React.FC = () => {
             );
 
             setForums(validForums);
-            setTopNs(getInitialTopNs(validForums.length, 20)); // Initialize top-N values
+            setTopNs(getInitialTopNs(validForums.length, 5)); // Initialize top-N values
         });
     }, []);
 
@@ -151,12 +151,14 @@ const ForumsTab: React.FC = () => {
                                         min={1}
                                         max={forum.participantsStats.length}
                                         value={topN}
-                                        onChange={(e) =>
-                                            handleTopNChange(
-                                                forum.id,
-                                                Number(e.target.value)
-                                            )
-                                        }
+                                        onChange={(e) => {
+                                            const value = parseInt(e.target.value);
+                                            const maxAllowed = forum.participantsStats.length;
+                                            const sanitizedValue = Number.isNaN(value)
+                                                ? 1
+                                                : Math.min(Math.max(1, value), maxAllowed);
+                                            handleTopNChange(forum.id, sanitizedValue);
+                                        }}
                                         className="w-16 border border-gray-300 rounded px-2 py-1 text-center"
                                     />
                                     participants

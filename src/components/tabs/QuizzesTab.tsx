@@ -134,10 +134,15 @@ const QuizzesTab: React.FC = () => {
                                     id={`topN-${quiz.id}`}
                                     type="number"
                                     min={1}
+                                    max={quiz.participantStats.length}
                                     value={topN}
                                     onChange={(e) => {
                                         const value = parseInt(e.target.value);
-                                        handleTopNChange(index, Number.isNaN(value) ? 1 : value);
+                                        const maxAllowed = quiz.participantStats.length;
+                                        const sanitizedValue = Number.isNaN(value)
+                                            ? 1
+                                            : Math.min(Math.max(1, value), maxAllowed);
+                                        handleTopNChange(index, sanitizedValue);
                                     }}
                                     className="w-16 border rounded px-2 py-1 text-sm text-gray-800"
                                 />

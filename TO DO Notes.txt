@@ -4,14 +4,11 @@
 
 [Prioridad]
 
-1. [Alta] Controlar desbordamiento en el filtro campo de texto numérico. El número no puede
-   ser mayor que el número de datos en el eje del gráfico.
+1. [Alta] Sustituir alguna gráfica
 
-2. [Alta] Usar bubble charts en los gráficos de Foros bubble chart
+2. [Alta] Formateo del código
 
-3. [Alta] Formateo del código
-
-4. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
+3. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
    solicitando los siguientes pasos. Incluir un vídeo demostrativo de la extensión en funcionamiento.
 
 -------------------------------------------------------

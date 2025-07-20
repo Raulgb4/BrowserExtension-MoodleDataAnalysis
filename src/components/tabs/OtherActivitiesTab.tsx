@@ -35,9 +35,9 @@ const OtherActivitiesTab: React.FC = () => {
 
     // Stores the number of top items to show per activity type
     const [topCounts, setTopCounts] = useState<Record<GraphKey, number>>({
-        url: 10,
-        file: 10,
-        workshop: 10,
+        url: 3,
+        file: 3,
+        workshop: 3,
     });
 
     useEffect(() => {
@@ -106,15 +106,23 @@ const OtherActivitiesTab: React.FC = () => {
                         <input
                             id={`top-input-${key}`}
                             type="number"
-                            value={count}
                             min={1}
-                            max={100}
-                            onChange={(e) => handleChange(Number(e.target.value))}
+                            max={items.length}
+                            value={count}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                const maxAllowed = items.length;
+                                const sanitizedValue = Number.isNaN(value)
+                                    ? 1
+                                    : Math.min(Math.max(1, value), maxAllowed);
+                                handleChange(sanitizedValue);
+                            }}
                             className="border px-2 py-1 w-16 text-center rounded"
                         />
                         <span>activities</span>
                     </div>
                 </GraphBlock>
+
 
                 {/* Divider between charts */}
                 {showDivider && (
