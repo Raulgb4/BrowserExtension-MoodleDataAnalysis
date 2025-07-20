@@ -51,7 +51,8 @@ const QuizzesTab: React.FC = () => {
         });
     };
 
-    const sanitizeTopN = (value: number) => Math.max(1, value); // Prevent zero or negative top-N
+    // Prevent zero or negative top-N
+    const sanitizeTopN = (value: number) => Math.max(1, value);
 
     const avgScores = calculateAvgNormalizedScores(quizzes); // Average per quiz
     const quizLabels = quizzes.map((quiz) => quiz.activityName);

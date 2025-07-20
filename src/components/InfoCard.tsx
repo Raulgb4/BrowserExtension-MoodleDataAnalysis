@@ -22,19 +22,19 @@ interface InfoCardProps {
 
 
 export default function InfoCard({message, isError = false}: InfoCardProps) {
-    const [visible, setVisible] = useState(true);        // Controla si se muestra en pantalla
-    const [fadingOut, setFadingOut] = useState(false);   // Controla el estado de desvanecimiento
+    const [visible, setVisible] = useState(true);
+    const [fadingOut, setFadingOut] = useState(false);
 
     useEffect(() => {
         if (!isError) {
-            const timer = setTimeout(() => setFadingOut(true), 3000); // Inicia el fade
+            const timer = setTimeout(() => setFadingOut(true), 3000);
             return () => clearTimeout(timer);
         }
     }, [isError]);
 
     useEffect(() => {
         if (fadingOut) {
-            const timer = setTimeout(() => setVisible(false), 500); // Espera a que termine el fade
+            const timer = setTimeout(() => setVisible(false), 500);
             return () => clearTimeout(timer);
         }
     }, [fadingOut]);
@@ -51,7 +51,8 @@ export default function InfoCard({message, isError = false}: InfoCardProps) {
             id="output"
             role="alert"
             aria-live="polite"
-            className={`${baseClasses} ${isError ? errorClasses : successClasses} ${fadingOut ? "opacity-0" : "opacity-100"}`}
+            className={`${baseClasses} ${isError ? errorClasses : successClasses} 
+            ${fadingOut ? "opacity-0" : "opacity-100"}`}
         >
             <div className="flex items-center gap-3">
                 {isError ? (

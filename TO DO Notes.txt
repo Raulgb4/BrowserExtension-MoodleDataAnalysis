@@ -4,29 +4,29 @@
 
 [Prioridad]
 
-1. [Alta] - Poner fecha a los informes de exportación/imagen -> La hora del análisis
-
-2. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
-   solicitando los siguientes pasos. Incluir un vídeo demostrativo de la extensión en funcionamiento.
-
-3. [Alta] Controlar desbordamiento en el filtro campo de texto numérico. El número no puede
+1. [Alta] Controlar desbordamiento en el filtro campo de texto numérico. El número no puede
    ser mayor que el número de datos en el eje del gráfico.
 
-4. [Alta] Usar bubble charts en los gráficos de Foros bubble chart
+2. [Alta] Usar bubble charts en los gráficos de Foros bubble chart
+
+3. [Alta] Formateo del código
+
+4. [Alta] Redactar y enviar un informe de seguimiento a los tutores, solicitando feedback y
+   solicitando los siguientes pasos. Incluir un vídeo demostrativo de la extensión en funcionamiento.
 
 -------------------------------------------------------
 
-3. [Media] Adaptar la extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga,
+4. [Media] Adaptar la extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga,
    comprobando compatibilidad y posibles diferencias con el entorno de desarrollo actual.
 
-4. [Media] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
+5. [Media] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
 
-5. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
+6. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
    de suprimir los warnings de tamaño. Actualmente se ha aplicado una solución provisional:
    desactivar los avisos de tamaño configurando la propiedad `performance` en `webpack.config.js`.
    El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js y los iconos
    de heroicons.
 
-6. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
+7. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
  - Posible causa: desajustes relacionados con la zona horaria.

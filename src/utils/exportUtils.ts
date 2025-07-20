@@ -18,6 +18,24 @@ import {Chart as ChartJS} from "chart.js";
 import React, {RefObject} from "react";
 
 /**
+ * @function formatDateForExport
+ * @description
+ * Formats a JavaScript Date object into a string suitable for use in filenames.
+ * The format is `YYYY-MM-DD_HH-MM` to ensure compatibility across file systems.
+ *
+ * @param {Date} date - The Date object to format.
+ * @returns {string} A formatted string representing the date and time.
+ */
+export const formatDateForExport = (date: Date): string => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    const h = String(date.getHours()).padStart(2, "0");
+    const min = String(date.getMinutes()).padStart(2, "0");
+    return `${y}-${m}-${d}_${h}-${min}`;
+};
+
+/**
  * @function exportToCSV
  * @description
  * Utility function to export chart data as a CSV file.

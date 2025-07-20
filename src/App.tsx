@@ -18,6 +18,7 @@ import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
 import {getRelativeTime} from "./services/dataProcessor";
 import {ClockIcon} from "@heroicons/react/20/solid";
+import {AnalysisContext} from "./context/AnalysisContext";
 
 /**
  * @function App
@@ -34,14 +35,17 @@ import {ClockIcon} from "@heroicons/react/20/solid";
  */
 export function App() {
 
-    const [isValidCoursePage, setIsValidCoursePage] = useState(false); // Checks if the current page is a valid Moodle course page
-    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null); // Stores the detected course ID
-
+    // Checks if the current page is a valid Moodle course page
+    const [isValidCoursePage, setIsValidCoursePage] = useState(false);
+    // Stores the detected course ID
+    const [currentCourseId, setCurrentCourseId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false); // Indicates data scraping in progress
     const [isError, setIsError] = useState(false); // Tracks if an error occurred during scraping
     const [outputMessage, setOutputMessage] = useState(""); // Message shown to the user after scraping
     const [button, setButton] = useState<ReactElement | null>(null); // Start or restart a button element
     const [lastAnalyzedAgo, setLastAnalyzedAgo] = useState<string | null>(null); // Time since last analysis
+    // Absolute timestamp of the last analysis (used for file naming and detailed logs)
+    const [lastAnalyzedAt, setLastAnalyzedAt] = useState<Date | null>(null);
     const [isRestored, setIsRestored] = useState(false); // Indicates if data has been restored from storage
 
     function createStartButton(courseId: string, onClick: (id: string) => void): ReactElement {
@@ -79,7 +83,8 @@ export function App() {
         const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
         const {activityReport} = getScrapeUrlActivityReport(courseId); // URL to get an activity report
 
-        const course = await scrapeCourse(courseId, activityReport, participants, totalParticipants); // Main scraping function
+        // Main scraping function
+        const course = await scrapeCourse(courseId, activityReport, participants, totalParticipants);
         console.log("Course data:", course);
 
         const storageData = {
@@ -107,7 +112,8 @@ export function App() {
         setOutputMessage(""); // Reset message
 
         try {
-            const totalParticipants = await fetchTotalParticipants(courseId); // Get the total number of participants
+            // Get the total number of participants
+            const totalParticipants = await fetchTotalParticipants(courseId);
 
             if (totalParticipants === null) {
                 setOutputMessage("Failed to determine participant count."); // Error if count not retrieved
@@ -120,7 +126,9 @@ export function App() {
             setIsError(false);
             setOutputMessage("Analysis completed successfully!");
             setButton(createRestartButton(courseId, analyzeCourseData)); // Offer to reanalyze
-            setLastAnalyzedAgo(getRelativeTime(new Date())); // Show time of analysis
+            const now = new Date();
+            setLastAnalyzedAgo(getRelativeTime(now));
+            setLastAnalyzedAt(now);
         } catch (error) {
             console.error("Error during analysis:", error);
             setOutputMessage("An error occurred while analyzing the course."); // Catch unexpected errors
@@ -198,7 +206,9 @@ export function App() {
                 setIsError(false);
 
                 if (timestamp) {
-                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp))); // Show when it was last analyzed
+                    const date = new Date(timestamp);
+                    setLastAnalyzedAgo(getRelativeTime(date));
+                    setLastAnalyzedAt(date);
                 }
             });
         };
@@ -226,43 +236,46 @@ export function App() {
     }, [isValidCoursePage, currentCourseId]);
 
     return (
-        <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
-            <div className="flex flex-row items-center justify-center gap-2 mb-4 animate-fade-in">
-                <img
-                    src="/icons/icon48.png"
-                    alt="Extension Logo"
-                    className="w-6 h-6 drop-shadow-sm"
-                />
-                <h1 className="text-2xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2 border-orange-200 pb-1 whitespace-nowrap">
-                    Moodle Data Analyzer
-                </h1>
+        <AnalysisContext.Provider value={{lastAnalyzedAgo, lastAnalyzedAt}}>
+            <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
+                <div className="flex flex-row items-center justify-center gap-2 mb-4 animate-fade-in">
+                    <img
+                        src="/icons/icon48.png"
+                        alt="Extension Logo"
+                        className="w-6 h-6 drop-shadow-sm"
+                    />
+                    <h1 className="text-2xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2
+                    border-orange-200 pb-1 whitespace-nowrap">
+                        Moodle Data Analyzer
+                    </h1>
+                </div>
+
+                {isLoading && <Loader/>} {/* Show loader while analyzing */}
+
+                {!isLoading && (
+                    <>
+                        {button} {/* Start or reanalyze button */}
+
+                        {!isRestored && outputMessage && (
+                            <InfoCard message={outputMessage} isError={isError}/> // Show a feedback message
+                        )}
+
+                        {lastAnalyzedAgo && !isError && (
+                            <div className="mt-4 mx-auto flex items-center gap-2 text-sm text-gray-700
+                        bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
+                        animate-fade-in w-fit">
+                                <ClockIcon className="w-4 h-4 text-orange-500"/>
+                                <span>
+                                Last analysis performed{" "}
+                                    <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
+                            </span>
+                            </div>
+                        )}
+
+                        {outputMessage && !isError && <TabSection/>} {/* Load tab interface after success */}
+                    </>
+                )}
             </div>
-
-            {isLoading && <Loader/>} {/* Show loader while analyzing */}
-
-            {!isLoading && (
-                <>
-                    {button} {/* Start or reanalyze button */}
-
-                    {!isRestored && outputMessage && (
-                        <InfoCard message={outputMessage} isError={isError}/> // Show a feedback message
-                    )}
-
-                    {lastAnalyzedAgo && !isError && (
-                        <div className="mt-4 mx-auto flex items-center gap-2 text-sm text-gray-700
-                    bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
-                    animate-fade-in w-fit">
-                            <ClockIcon className="w-4 h-4 text-orange-500"/>
-                            <span>
-                            Last analysis performed{" "}
-                                <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
-                        </span>
-                        </div>
-                    )}
-
-                    {outputMessage && !isError && <TabSection/>} {/* Load tab interface after success */}
-                </>
-            )}
-        </div>
+        </AnalysisContext.Provider>
     );
 }

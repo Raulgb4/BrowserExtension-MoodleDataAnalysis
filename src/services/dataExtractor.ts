@@ -502,11 +502,13 @@ export async function scrapeCourse(
                 choices.push(...choiceResults);
                 break;
             case href.includes('/mod/quiz/'):
-                const quizResults = await scrapeQuizzes(id, activityName, numViews, numUsers, lastAccess, totalParticipants);
+                const quizResults = await scrapeQuizzes(id, activityName, numViews, numUsers, lastAccess,
+                    totalParticipants);
                 quizzes.push(...quizResults);
                 break;
             case href.includes('/mod/forum/'):
-                const forumResults = await scrapeForums(id, activityName, numViews, numUsers, lastAccess, totalParticipants, courseId);
+                const forumResults = await scrapeForums(id, activityName, numViews, numUsers, lastAccess,
+                    totalParticipants, courseId);
                 forums.push(...forumResults);
                 break;
         }

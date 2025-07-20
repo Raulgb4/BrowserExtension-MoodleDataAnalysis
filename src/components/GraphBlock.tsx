@@ -12,15 +12,18 @@
  * @author Raúl García Balongo
  * @date 2025
  */
-import React, {useRef} from "react";
-import {Pie, Bar, Line, Radar} from "react-chartjs-2";
-import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
-import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
+
+import React, { useRef } from "react";
+import { Pie, Bar, Line, Radar } from "react-chartjs-2";
+import { Chart as ChartJS, ChartData, ChartOptions } from "chart.js";
+import { exportToCSV, exportToPDF, exportToImage } from "../utils/exportUtils";
 import {
     DocumentArrowDownIcon,
     ArrowDownTrayIcon,
     PhotoIcon,
 } from "@heroicons/react/24/outline";
+import { useAnalysisContext } from "../context/AnalysisContext";
+import { formatDateForExport } from "../utils/exportUtils";
 
 type ChartType = "pie" | "bar" | "line" | "radar";
 
@@ -32,7 +35,6 @@ interface GraphBlockProps {
     children?: React.ReactNode; // filters or role selectors
 }
 
-// Chart components by type
 const chartComponents: Record<ChartType, React.ComponentType<any>> = {
     pie: Pie,
     bar: Bar,
@@ -40,7 +42,6 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
     radar: Radar,
 };
 
-// Max chart width per type
 const chartSizes: Record<ChartType, string> = {
     pie: "w-64",
     bar: "w-full max-w-4xl",
@@ -48,7 +49,6 @@ const chartSizes: Record<ChartType, string> = {
     radar: "w-96",
 };
 
-// Truncate long labels for X-axis
 const truncate = (label: string, maxLength = 15): string =>
     label.length > maxLength ? label.slice(0, maxLength) + "…" : label;
 
@@ -60,19 +60,22 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    children,
                                                }) => {
     const chartRef = useRef<ChartJS>(null);
+    const { lastAnalyzedAt } = useAnalysisContext();
+
     const ChartComponent = chartComponents[chartType];
     const chartWidthClass = chartSizes[chartType] || "w-[300px]";
 
-    // Validate and extract labels/values for export
-    const exportLabels = Array.isArray(data.labels) && data.labels.every(l => typeof l === "string")
-        ? data.labels as string[]
-        : [];
+    const exportLabels =
+        Array.isArray(data.labels) && data.labels.every((l) => typeof l === "string")
+            ? (data.labels as string[])
+            : [];
 
-    const exportValues = Array.isArray(data.datasets?.[0]?.data) && data.datasets[0].data.every(v => typeof v === "number")
-        ? data.datasets[0].data as number[]
-        : [];
+    const exportValues =
+        Array.isArray(data.datasets?.[0]?.data) &&
+        data.datasets[0].data.every((v) => typeof v === "number")
+            ? (data.datasets[0].data as number[])
+            : [];
 
-    // Default chart options for bar/line
     const defaultOptions: ChartOptions = {
         plugins: {
             legend: {
@@ -96,7 +99,6 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 : {},
     };
 
-    // Merge default and custom options
     const mergedOptions: ChartOptions = {
         ...defaultOptions,
         ...options,
@@ -106,9 +108,12 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
         },
     };
 
-    // For a11y
     const sanitizedId = `chart-title-${title.replace(/\s+/g, "-").toLowerCase()}`;
     const imageFormats: ("png" | "jpeg")[] = ["png", "jpeg"];
+
+    const formattedDate = lastAnalyzedAt ? formatDateForExport(lastAnalyzedAt) : "unknown";
+    const baseFileName = `${title}__${formattedDate}`;
+
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
 
     return (
@@ -124,36 +129,37 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 </p>
 
                 <div className="flex gap-2 flex-wrap justify-end">
-                    {/* CSV export */}
                     <button
-                        onClick={() => exportToCSV(exportLabels, exportValues, title)}
+                        onClick={() => exportToCSV(exportLabels, exportValues, baseFileName)}
                         title="Download CSV"
                         aria-label="Export chart as CSV"
-                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded hover:bg-orange-100 transition text-orange-600 text-xs"
+                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
+                        hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
                         <DocumentArrowDownIcon className="w-4 h-4" />
                         CSV
                     </button>
 
-                    {/* PDF export */}
                     <button
-                        onClick={() => exportToPDF(chartRef, exportLabels, exportValues, `${title}.pdf`)}
+                        onClick={() => exportToPDF(chartRef, exportLabels, exportValues,
+                            `${baseFileName}.pdf`)}
                         title="Download PDF"
                         aria-label="Export chart as PDF"
-                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded hover:bg-orange-100 transition text-orange-600 text-xs"
+                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
+                        hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
                         <ArrowDownTrayIcon className="w-4 h-4" />
                         PDF
                     </button>
 
-                    {/* Image exports */}
                     {imageFormats.map((format) => (
                         <button
                             key={format}
-                            onClick={() => exportToImage(chartRef, format, title)}
+                            onClick={() => exportToImage(chartRef, format, baseFileName)}
                             title={`Download ${format.toUpperCase()}`}
                             aria-label={`Export chart as ${format.toUpperCase()}`}
-                            className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded hover:bg-orange-100 transition text-orange-600 text-xs"
+                            className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
+                             hover:bg-orange-100 transition text-orange-600 text-xs"
                         >
                             <PhotoIcon className="w-4 h-4" />
                             {format.toUpperCase()}

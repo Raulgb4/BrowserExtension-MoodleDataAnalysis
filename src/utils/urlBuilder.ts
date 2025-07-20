@@ -207,7 +207,8 @@ export function getScrapeUrlForumMain(id: string | number): Record<string, strin
  * @param totalParticipants - (Optional) Total number of course participants, used to construct the report URL.
  * @returns An object containing the `forumReports` key with the full URL to the forum report page.
  */
-export function getScrapeUrlForumReports(courseId: string | number, forumId: string | number, totalParticipants?: number): Record<string, string> {
+export function getScrapeUrlForumReports(courseId: string | number, forumId: string | number,
+                                         totalParticipants?: number): Record<string, string> {
     return {
         forumReports: `${BASE}${URLS.FORUM_REPORTS(courseId, forumId, totalParticipants)}`,
     };
