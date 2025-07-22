@@ -194,57 +194,99 @@ export function App() {
         return courseId;
     }
 
+    // Extracts courseId from a URL and updates state accordingly
+    function extractAndSetCourseId(url?: string | null) {
+        const courseId = validateAndExtractCourseId(url ?? undefined);
+
+        if (courseId) {
+            setIsValidCoursePage(true);
+            setCurrentCourseId(courseId);
+        } else {
+            setIsValidCoursePage(false);
+            setCurrentCourseId(null);
+
+            // Optional: only show message if we had a course before
+            if (currentCourseId !== null) {
+                displayErrorMessage("This page is not recognized as part of a Moodle course.");
+            }
+        }
+    }
+
+    // Displays an error message and flags UI error state
     const displayErrorMessage = (message: string) => {
         setOutputMessage(message);
-        setIsError(true); // Show error indicator in UI
+        setIsError(true);
     };
 
+    // On mount: check the current active tab to extract the course ID
     useEffect(() => {
-        const initializePopup = () => {
-            chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-                const tab = tabs?.[0];
-                const courseId = validateAndExtractCourseId(tab?.url); // Validate and extract course ID
-                if (!courseId) return;
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+            extractAndSetCourseId(tabs?.[0]?.url);
+        });
+    }, []);
 
-                setIsValidCoursePage(true); // Confirm we are on a valid Moodle course page
-                setCurrentCourseId(courseId); // Store course ID
+    // When a tab is updated or activated, re-extract the course ID (for side panel support)
+    useEffect(() => {
+        const handleTabUpdate = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+            if (changeInfo.status === "complete" && tab.active) {
+                extractAndSetCourseId(tab.url);
+            }
+        };
+
+        const handleTabActivated = (activeInfo: chrome.tabs.TabActiveInfo) => {
+            chrome.tabs.get(activeInfo.tabId, (tab) => {
+                extractAndSetCourseId(tab?.url);
             });
         };
 
-        initializePopup(); // Run on mount
+        chrome.tabs.onUpdated.addListener(handleTabUpdate);
+        chrome.tabs.onActivated.addListener(handleTabActivated);
+
+        return () => {
+            chrome.tabs.onUpdated.removeListener(handleTabUpdate);
+            chrome.tabs.onActivated.removeListener(handleTabActivated);
+        };
     }, []);
 
+    // Clear analysis UI state when switching course
+    useEffect(() => {
+        if (!currentCourseId) return; // Don’t reset if switching to an invalid tab
+
+        setIsRestored(false);
+        setOutputMessage("");
+        setIsError(false);
+        setButton(null);
+        setLastAnalyzedAgo(null);
+        setLastAnalyzedAt(null);
+    }, [currentCourseId]);
+
+    // Restore previous analysis for the current course, if available
     useEffect(() => {
         if (!isValidCoursePage || !currentCourseId) return;
 
-        const restorePreviousAnalysis = () => {
-            chrome.storage.local.get(["lastAnalyzedCourseId", `course_${currentCourseId}`, "lastAnalyzedAt"], (data) => {
-                const lastAnalyzedId = data.lastAnalyzedCourseId;
+        chrome.storage.local.get(
+            ["lastAnalyzedCourseId", `course_${currentCourseId}`, "lastAnalyzedAt"],
+            (data) => {
+                const lastId = data.lastAnalyzedCourseId;
                 const course = data[`course_${currentCourseId}`];
                 const timestamp = data.lastAnalyzedAt;
 
-                // If switching to a different course, do not restore, just offer new analysis
-                if (lastAnalyzedId && lastAnalyzedId !== currentCourseId) {
-                    setIsRestored(false);
-                    setIsError(false);
-                    setOutputMessage(""); // No error, no infoCard
-                    setLastAnalyzedAgo(null);
-                    setLastAnalyzedAt(null);
+                if (lastId && lastId !== currentCourseId) {
+                    // Don't restore if user switched courses
                     setButton(createStartButton(currentCourseId, analyzeCourseDataWithCleanup));
                     return;
                 }
 
-                // Normal restore
                 if (!course) {
-                    // If there’s no previous analysis for this course, and it's not a multi-course conflict, show the start button
-                    if (!lastAnalyzedId) {
+                    // No data available for current course
+                    if (!lastId) {
                         setButton(createStartButton(currentCourseId, analyzeCourseData));
                     }
                     return;
                 }
 
+                // Restore existing course data
                 console.log("Restoring previous course data:", course);
-
                 setButton(createRestartButton(currentCourseId, analyzeCourseData));
                 setIsRestored(true);
                 setOutputMessage("Previous analysis restored.");
@@ -255,21 +297,11 @@ export function App() {
                     setLastAnalyzedAgo(getRelativeTime(date));
                     setLastAnalyzedAt(date);
                 }
-            });
-        };
-
-        restorePreviousAnalysis();
+            }
+        );
     }, [isValidCoursePage, currentCourseId]);
 
-    useEffect(() => {
-        setIsRestored(false);
-        setOutputMessage("");
-        setIsError(false);
-        setButton(null);
-        setLastAnalyzedAgo(null);
-        setLastAnalyzedAt(null);
-    }, [currentCourseId]);
-
+    // Periodically update "time since last analysis"
     useEffect(() => {
         if (!isValidCoursePage || !currentCourseId) return;
 
@@ -287,11 +319,10 @@ export function App() {
         };
 
         updateLastAnalyzedAgo();
-
         const interval = setInterval(updateLastAnalyzedAgo, 60_000);
-
         return () => clearInterval(interval);
     }, [isValidCoursePage, currentCourseId]);
+
 
     return (
         <AnalysisContext.Provider value={{lastAnalyzedAgo, lastAnalyzedAt}}>
@@ -312,27 +343,27 @@ export function App() {
 
                 {!isLoading && (
                     <>
-                        {button} {/* Start or reanalyze button */}
+                        {!isError && button} {/* Only show Start/Reanalyze button if no error */}
 
                         {!isRestored && outputMessage && (
-                            <InfoCard message={outputMessage} isError={isError}/> // Show a feedback message
+                            <InfoCard message={outputMessage} isError={isError}/> // Show feedback message
                         )}
 
                         {lastAnalyzedAgo && !isError && (
                             <div className="mt-4 mx-auto flex items-center gap-2 text-sm text-gray-700
-                        bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
-                        animate-fade-in w-fit">
+                            bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
+                              animate-fade-in w-fit">
                                 <ClockIcon className="w-4 h-4 text-orange-500"/>
                                 <span>
                                 Last analysis performed{" "}
-                                    <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
-                            </span>
+                                    <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago </span>
                             </div>
                         )}
 
-                        {outputMessage && !isError && <TabSection/>} {/* Load tab interface after success */}
+                        {outputMessage && !isError && <TabSection/>} {/* Only load tab interface if no error */}
                     </>
                 )}
+
             </div>
         </AnalysisContext.Provider>
     );
