@@ -4,47 +4,46 @@
 
 [Prioridad]
 
-1. [Alta] Modo panel lateral para la extensión: Sería interesante que permitieras ejecutar la extensión en modo
-panel lateral, de forma que no se cierre cada vez que el usuario clique en la página web. Esto es algo que ya hemos
-probado con otras extensiones (con la ayuda de chatGPT) y ha funcionado sin problemas: solo hay que cambiar el
-manifest.json y meterle un mini JS script. El inconveniente es que si tu CSS no lo has diseñado totalmente responsive
-se descolocarán algunas partes. Además, es opcional, el usuario es el que decide querer abrirla así o no
-(por defecto se abre de manera flotante).
+1. [Alta] Modo panel lateral para la extensión: Hacer que las gráficas y sus leyendas asociadas sean responsivas.
 
 2. [Alta] Internacionalización (i18n): Idioma. Adáptalo al Español y que el usuario pueda elegir el idioma
 Inglés o Español. Impleméntalo de tal forma que sea fácil de traducir a cualquier otro idioma.
 
-3. [Alta] Exportación completa en PDF/DOCX: Crea un botón que sea exportar un documento PDF (también sería deseable
-que además se pueda exportar en formato DOCX) tipo memoria con todas las gráficas que es generado, es decir, un
+3. [Alta] Capacidad de exportación de una gráfica a formato DOCX.
+
+4. [Alta] Scrapear y guardar en el modelo de datos el nombre del curso que se está analizando.
+
+5. [Alta] Exportación completa en PDF o DOCX: Crea un botón que sea exportar un documento PDF (también sería deseable
+que además se pueda exportar en formato DOCX) tipo memoria con todas las gráficas que se han generado, es decir, un
 documento con portada en la que aparezca el nombre del curso, un índice (opcional), y todas las gráficas que
 es generado.
 
-4. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
+6. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
 concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante, se podría poner su nombre,
 calificación final, todas aquellas actividades que han sido evaluadas junto con la calificación obtenida, y la
 interacción que ha tenido en cada actividad.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-5. [Alta] Adaptación al entorno oficial de producción: En cuanto tengas esto hecho, te daré acceso a un curso oficial
+7. [Alta] Adaptación al entorno oficial de producción: En cuanto tengas esto hecho, te daré acceso a un curso oficial
 de la UMA para adaptar la extensión a dicho entorno. Esta funcionalidad es mejor dejarla para el finalAdaptar la
 extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga, comprobando compatibilidad
 y posibles diferencias con el entorno de desarrollo actual.
 
-6. [Alta] Verificación de consistencia de datos: Testeo completo para verificar que los datos mostrados coinciden
+8. [Alta] Verificación de consistencia de datos: Testeo completo para verificar que los datos mostrados coinciden
 con los que aparecen en Moodle.
 
-7. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
+9. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
 ese curso. Lo que se quiere es modificar esta lógica para que los análisis anteriores NO se eliminen, sino que
 se acumulen o conserven, permitiendo mantener múltiples versiones del análisis o un histórico por
 curso, si se considera útil.
 
-8. [Baja] Optimización del tamaño del bundle Evaluar nuevas formas de reducir el tamaño final del bundle para
+10. [Baja] Optimización del tamaño del bundle Evaluar nuevas formas de reducir el tamaño final del bundle para
 intentar eliminar la necesidad de suprimir los warnings de tamaño. Actualmente se ha aplicado una solución provisional:
 desactivar los avisos de tamaño configurando la propiedad `performance` en `webpack.config.js`.
 El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js y los iconos de heroicons.
 
-9. [Baja] Análisis de discrepancias en fechas Analizar discrepancias detectadas en datos de fechas entre
+11. [Baja] Análisis de discrepancias en fechas Analizar discrepancias detectadas en datos de fechas entre
 la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
  - Posible causa: desajustes relacionados con la zona horaria.
