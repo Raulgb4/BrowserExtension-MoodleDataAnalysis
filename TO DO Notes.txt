@@ -4,17 +4,47 @@
 
 [Prioridad]
 
-1. [Media] Adaptar la extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga,
-   comprobando compatibilidad y posibles diferencias con el entorno de desarrollo actual.
+1. [Alta] En el github, pon el directorio de la extensión para que se pueda descargar de ahí
+y posteriormente cargarlo en el navegador mediante la carga descomprimida, tal y como tú lo haces en el video.
 
-2. [Media] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
+2. [Alta] Recarga cookies por si se cambia de pestaña: es posible que yo tenga abierto en el navegador
+dos pestañas de moodle con un curso diferente, por lo que pasar de una pestaña a otra puede producir fallo.
 
-3. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
+3. [Alta] Sería interesante que permitieras ejecutar la extensión en modo panel lateral, de forma que no se
+cierre cada vez que el usuario clique en la página web. Esto es algo que ya hemos probado con otras extensiones
+(con la ayuda de chatGPT ;) ) y ha funcionado sin problemas: sólo hay que cambiar el manifest.json y meterle
+un mini JS script. El inconveniente es que si tu CSS no lo has diseñado totalmente responsive se descolocarán
+algunas partes. Además, es opcional, el usuario es el que decide querer abrirla así o no
+(por defecto se abre de manera flotante).
+
+4. [Alta] Idioma. Adáptalo al Español y que el usuario pueda elegir el idioma Inglés o Español. Impleméntalo de tal
+forma que sea fácil de traducir a cualquier otro idioma.
+
+5. [Alta] Crea un botón que sea exportar un documento PDF (también sería deseable que además se pueda exportar
+en formato DOCX) tipo memoria con todas las gráficas que es generado, es decir, un documento con portada en la
+que aparezca el nombre del curso, un índice (opcional), y todas las gráficas que es generado.
+
+6. [Alta] Sería interesante generar un informe tipo PDF filtrando por una persona concreta, docentes por un lado,
+y estudiantes por otro. Por ejemplo, para estudiante, se podría poner su nombre, calificación final, todas aquellas
+actividades que han sido evaluadas junto con la calificación obtenida, y la interacción
+que ha tenido en cada actividad.
+
+------------------------------------------------------------------------------------------------------------------------
+
+
+. [Alta] En cuanto tengas esto hecho, te daré acceso a un curso oficial de la UMA para adaptar la extensión
+a dicho entorno. Esta funcionalidad es mejor dejarla para el finalAdaptar la extensión al entorno de producción
+real del Campus Virtual de la Universidad de Málaga, comprobando compatibilidad y posibles diferencias con el
+entorno de desarrollo actual.
+
+. [Media] Testeo completo para verificar que los datos mostrados coinciden con los que aparecen en Moodle.
+
+. [Baja] Evaluar nuevas formas de reducir el tamaño final del bundle para intentar eliminar la necesidad
    de suprimir los warnings de tamaño. Actualmente se ha aplicado una solución provisional:
    desactivar los avisos de tamaño configurando la propiedad `performance` en `webpack.config.js`.
    El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js y los iconos
    de heroicons.
 
-4. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
+. [Baja] Analizar discrepancias detectadas en datos de fechas entre la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
  - Posible causa: desajustes relacionados con la zona horaria.

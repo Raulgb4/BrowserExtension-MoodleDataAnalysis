@@ -30,7 +30,7 @@ libs/
 # === Build or Distribution Output ===
 # Ignore directories that store compiled or bundled versions of the extension.
 # These are usually generated when preparing the extension for deployment.
-dist/
+#dist/
 build/
 
 
