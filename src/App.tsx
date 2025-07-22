@@ -206,15 +206,26 @@ export function App() {
         if (!isValidCoursePage || !currentCourseId) return;
 
         const restorePreviousAnalysis = () => {
-            chrome.storage.local.get([`course_${currentCourseId}`, "lastAnalyzedAt"], (data) => {
+            chrome.storage.local.get(["lastAnalyzedCourseId", `course_${currentCourseId}`, "lastAnalyzedAt"], (data) => {
+                const lastAnalyzedId = data.lastAnalyzedCourseId;
                 const course = data[`course_${currentCourseId}`];
                 const timestamp = data.lastAnalyzedAt;
 
+                // Show error if the current course is different from the last analyzed
+                if (lastAnalyzedId && lastAnalyzedId !== currentCourseId) {
+                    setIsError(true);
+                    setOutputMessage("La extensión no soporta varios cursos.");
+                    setIsRestored(false);
+                    setButton(null);
+                    return;
+                }
+
+                // Normal restore
                 if (!course) return;
 
                 console.log("Restoring previous course data:", course);
 
-                setButton(createRestartButton(currentCourseId, analyzeCourseData)); // Allow reanalysis
+                setButton(createRestartButton(currentCourseId, analyzeCourseData));
                 setIsRestored(true);
                 setOutputMessage("Previous analysis restored.");
                 setIsError(false);
@@ -227,8 +238,17 @@ export function App() {
             });
         };
 
-        restorePreviousAnalysis(); // Restore data if available
+        restorePreviousAnalysis();
     }, [isValidCoursePage, currentCourseId]);
+
+    useEffect(() => {
+        setIsRestored(false);
+        setOutputMessage("");
+        setIsError(false);
+        setButton(null);
+        setLastAnalyzedAgo(null);
+        setLastAnalyzedAt(null);
+    }, [currentCourseId]);
 
     useEffect(() => {
         if (!isValidCoursePage || !currentCourseId) return;
