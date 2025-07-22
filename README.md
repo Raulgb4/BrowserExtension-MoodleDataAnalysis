@@ -46,35 +46,18 @@ This will generate a `dist/` folder with the final compiled Chrome Extension fil
 
 ### 🧩 Load Extension Manually
 
-You have two options to load the extension in Chrome manually:
-
-#### Option 1: Clone the Repository
-
 1. Clone this repository:
    ```bash
-   git clone https://github.com/RaulgB4/BrowserExtension-MoodleDataAnalysis.git
+   git clone https://github.com/Raulgb4/BrowserExtension-MoodleDataAnalysis.git
    ```
 
 2. Open Google Chrome and go to: `chrome://extensions/`
 
-3. Enable **Developer Mode** (top-right corner)
+3. Enable **Developer Mode** (top-right)
 
-4. Click on **"Load unpacked"** and select the `dist/` folder inside the cloned repository
+4. Click on **"Load unpacked"** and select the `dist/` folder.
 
 You're now ready to use the extension.
-
-#### Option 2: Download Only the `dist/` Folder (No Git Required)
-
-1. Go to the following link:
-[Download dist/ only](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FRaulgB4%2FBrowserExtension-MoodleDataAnalysis%2Ftree%2Fdevelop%2Fdist)
-
-2. This will download only the `dist/` folder as a ZIP file.
-
-3. Extract the ZIP, then go to `chrome://extensions/` in Chrome
-
-4. Enable **Developer Mode**, click on **"Load unpacked"**, and select the extracted folder.
-
-That's it!
 
 ---
 
