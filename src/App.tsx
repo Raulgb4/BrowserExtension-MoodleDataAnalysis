@@ -151,6 +151,28 @@ export function App() {
         }
     }
 
+    async function analyzeCourseDataWithCleanup(courseId: string) {
+        chrome.storage.local.get("lastAnalyzedCourseId", (res) => {
+            const lastId = res.lastAnalyzedCourseId;
+            if (lastId && lastId !== courseId) {
+                chrome.storage.local.remove(
+                    [`course_${lastId}`, "lastAnalyzedCourseId", "lastAnalyzedAt"],
+                    () => {
+                        if (chrome.runtime.lastError) {
+                            console.error("Error removing old course data:", chrome.runtime.lastError);
+                        } else {
+                            console.log(`Previous course data (${lastId}) removed.`);
+                            analyzeCourseData(courseId);
+                        }
+                    }
+                );
+            } else {
+                analyzeCourseData(courseId);
+            }
+        });
+    }
+
+
     function validateAndExtractCourseId(url?: string): string | null {
         if (!url || !url.startsWith("http")) {
             displayErrorMessage("No active tab found or the URL is not valid.");
@@ -186,16 +208,6 @@ export function App() {
 
                 setIsValidCoursePage(true); // Confirm we are on a valid Moodle course page
                 setCurrentCourseId(courseId); // Store course ID
-
-                maybeRenderStartButton(courseId); // Show the start button if needed
-            });
-        };
-
-        const maybeRenderStartButton = (courseId: string) => {
-            chrome.storage.local.get("lastAnalyzedCourseId", (res) => {
-                if (!res.lastAnalyzedCourseId) {
-                    setButton(createStartButton(courseId, analyzeCourseData)); // Only show if no previous analysis
-                }
             });
         };
 
@@ -211,12 +223,14 @@ export function App() {
                 const course = data[`course_${currentCourseId}`];
                 const timestamp = data.lastAnalyzedAt;
 
-                // Show error if the current course is different from the last analyzed
+                // If switching to a different course, do not restore, just offer new analysis
                 if (lastAnalyzedId && lastAnalyzedId !== currentCourseId) {
-                    setIsError(true);
-                    setOutputMessage("La extensión no soporta varios cursos.");
                     setIsRestored(false);
-                    setButton(null);
+                    setIsError(false);
+                    setOutputMessage(""); // No error, no infoCard
+                    setLastAnalyzedAgo(null);
+                    setLastAnalyzedAt(null);
+                    setButton(createStartButton(currentCourseId, analyzeCourseDataWithCleanup));
                     return;
                 }
 
@@ -260,19 +274,23 @@ export function App() {
         if (!isValidCoursePage || !currentCourseId) return;
 
         const updateLastAnalyzedAgo = () => {
-            chrome.storage.local.get("lastAnalyzedAt", (data) => {
+            chrome.storage.local.get(["lastAnalyzedAt", "lastAnalyzedCourseId"], (data) => {
                 const timestamp = data.lastAnalyzedAt;
-                if (timestamp) {
-                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp))); // Update relative time display
+                const lastCourse = data.lastAnalyzedCourseId;
+
+                if (timestamp && lastCourse === currentCourseId) {
+                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp)));
+                } else {
+                    setLastAnalyzedAgo(null);
                 }
             });
         };
 
-        updateLastAnalyzedAgo(); // Initial call
+        updateLastAnalyzedAgo();
 
-        const interval = setInterval(updateLastAnalyzedAgo, 60_000); // Refresh every 60s
+        const interval = setInterval(updateLastAnalyzedAgo, 60_000);
 
-        return () => clearInterval(interval); // Cleanup on unmounting
+        return () => clearInterval(interval);
     }, [isValidCoursePage, currentCourseId]);
 
     return (
