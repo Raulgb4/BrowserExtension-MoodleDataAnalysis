@@ -419,9 +419,6 @@
   .min-w-\[310px\] {
     min-width: 310px;
   }
-  .min-w-\[650px\] {
-    min-width: 650px;
-  }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }

@@ -59,7 +59,7 @@ const TabSection: React.FC = () => {
         <div className="mt-6">
             {/* Tab buttons */}
             <div className="border-b border-gray-200 overflow-x-auto">
-                <div className="min-w-[650px]">
+                <div className="w-full">
                     <nav
                         className="flex space-x-4 sm:space-x-6 justify-center"
                         aria-label="Tabs"
