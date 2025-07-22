@@ -205,7 +205,7 @@ export function App() {
             setIsValidCoursePage(false);
             setCurrentCourseId(null);
 
-            // Optional: only show message if we had a course before
+            // Optional: only show a message if we had a course before
             if (currentCourseId !== null) {
                 displayErrorMessage("This page is not recognized as part of a Moodle course.");
             }
@@ -227,7 +227,7 @@ export function App() {
 
     // When a tab is updated or activated, re-extract the course ID (for side panel support)
     useEffect(() => {
-        const handleTabUpdate = (tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+        const handleTabUpdate = (_tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
             if (changeInfo.status === "complete" && tab.active) {
                 extractAndSetCourseId(tab.url);
             }
@@ -272,13 +272,13 @@ export function App() {
                 const timestamp = data.lastAnalyzedAt;
 
                 if (lastId && lastId !== currentCourseId) {
-                    // Don't restore if user switched courses
+                    // Don't restore if a user switched courses
                     setButton(createStartButton(currentCourseId, analyzeCourseDataWithCleanup));
                     return;
                 }
 
                 if (!course) {
-                    // No data available for current course
+                    // No data available for the current course
                     if (!lastId) {
                         setButton(createStartButton(currentCourseId, analyzeCourseData));
                     }
@@ -328,7 +328,7 @@ export function App() {
         <AnalysisContext.Provider value={{ lastAnalyzedAgo, lastAnalyzedAt }}>
             <div
                 className={`bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
-        ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[280px] max-w-[600px]"}`}
+        ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
             >
                 <div className="flex flex-col items-center justify-center gap-2 mb-4 animate-fade-in text-center">
                     <img
@@ -336,8 +336,7 @@ export function App() {
                         alt="Extension Logo"
                         className="w-6 h-6 drop-shadow-sm"
                     />
-                    <h1 className="text-xl sm:text-2xl font-black text-orange-600 tracking-wide
-                    drop-shadow-sm border-b-2 border-orange-200 pb-1 whitespace-nowrap">
+                    <h1 className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2 border-orange-200 pb-1 whitespace-nowrap">
                         Moodle Data Analyzer
                     </h1>
 
@@ -353,12 +352,14 @@ export function App() {
                         )}
 
                         {lastAnalyzedAgo && !isError && (
-                            <div className="mt-4 mx-auto flex flex-wrap justify-center items-center gap-2 text-sm text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm animate-fade-in w-full max-w-[500px]">
-                                <ClockIcon className="w-4 h-4 text-orange-500" />
-                                <span className="text-center">
-                                Last analysis performed{" "}
-                                    <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
-                            </span>
+                            <div className="mt-4 flex justify-center">
+                                <div className="inline-flex flex-wrap justify-center items-center gap-2 text-sm text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm animate-fade-in">
+                                    <ClockIcon className="w-4 h-4 text-orange-500" />
+                                    <span className="text-center">
+                                    Last analysis performed{" "}
+                                        <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
+                                    </span>
+                                </div>
                             </div>
                         )}
 
