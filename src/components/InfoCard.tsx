@@ -52,20 +52,20 @@ export default function InfoCard({message, isError = false}: InfoCardProps) {
             role="alert"
             aria-live="polite"
             className={`${baseClasses} ${isError ? errorClasses : successClasses} 
-            ${fadingOut ? "opacity-0" : "opacity-100"}`}
+        ${fadingOut ? "opacity-0" : "opacity-100"}`}
         >
             <div className="flex items-center gap-3">
                 {isError ? (
-                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500"/>
+                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500" />
                 ) : (
-                    <CheckCircleIcon className="h-6 w-6 text-green-500"/>
+                    <CheckCircleIcon className="h-6 w-6 text-green-500" />
                 )}
-                <span className="whitespace-nowrap font-medium">{message}</span>
+                <span className="font-medium break-words">{message}</span>
             </div>
 
             {!isError && (
                 <button onClick={() => setFadingOut(true)} aria-label="Close">
-                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800"/>
+                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800" />
                 </button>
             )}
         </div>

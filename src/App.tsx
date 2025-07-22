@@ -325,46 +325,48 @@ export function App() {
 
 
     return (
-        <AnalysisContext.Provider value={{lastAnalyzedAgo, lastAnalyzedAt}}>
-            <div className="bg-white rounded-xl shadow-xl p-4 text-center w-fit h-fit">
-                <div className="flex flex-row items-center justify-center gap-2 mb-4 animate-fade-in">
+        <AnalysisContext.Provider value={{ lastAnalyzedAgo, lastAnalyzedAt }}>
+            <div
+                className={`bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
+        ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[280px] max-w-[600px]"}`}
+            >
+                <div className="flex flex-col items-center justify-center gap-2 mb-4 animate-fade-in text-center">
                     <img
                         src="/icons/icon48.png"
                         alt="Extension Logo"
                         className="w-6 h-6 drop-shadow-sm"
                     />
-                    <h1 className="text-2xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2
-                    border-orange-200 pb-1 whitespace-nowrap">
+                    <h1 className="text-xl sm:text-2xl font-black text-orange-600 tracking-wide
+                    drop-shadow-sm border-b-2 border-orange-200 pb-1 whitespace-nowrap">
                         Moodle Data Analyzer
                     </h1>
+
+                    {!isLoading && !isError && <div className="mt-4">{button}</div>}
                 </div>
 
-                {isLoading && <Loader/>} {/* Show loader while analyzing */}
+                {isLoading && <Loader />} {/* Show loader while analyzing */}
 
                 {!isLoading && (
                     <>
-                        {!isError && button} {/* Only show Start/Reanalyze button if no error */}
-
                         {!isRestored && outputMessage && (
-                            <InfoCard message={outputMessage} isError={isError}/> // Show feedback message
+                            <InfoCard message={outputMessage} isError={isError} />
                         )}
 
                         {lastAnalyzedAgo && !isError && (
-                            <div className="mt-4 mx-auto flex items-center gap-2 text-sm text-gray-700
-                            bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm
-                              animate-fade-in w-fit">
-                                <ClockIcon className="w-4 h-4 text-orange-500"/>
-                                <span>
+                            <div className="mt-4 mx-auto flex flex-wrap justify-center items-center gap-2 text-sm text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm animate-fade-in w-full max-w-[500px]">
+                                <ClockIcon className="w-4 h-4 text-orange-500" />
+                                <span className="text-center">
                                 Last analysis performed{" "}
-                                    <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago </span>
+                                    <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
+                            </span>
                             </div>
                         )}
 
-                        {outputMessage && !isError && <TabSection/>} {/* Only load tab interface if no error */}
+                        {outputMessage && !isError && <TabSection />}
                     </>
                 )}
-
             </div>
         </AnalysisContext.Provider>
     );
+
 }
