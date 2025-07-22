@@ -169,7 +169,7 @@ const GlobalTab: React.FC = () => {
     // Array of chart configurations to render
     const chartBlocks = [
         {
-            title: "Total Visits by Activity Type",
+            title: "Total Visits by Activity Typesssssssssssss",
             chartType: "bar" as const,
             data: totalViewsData,
         },

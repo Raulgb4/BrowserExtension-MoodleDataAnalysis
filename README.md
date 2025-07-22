@@ -17,14 +17,14 @@ The extracted data is processed and visualized using multiple chart types (bar, 
 
 - ✅ Multiple sections within the extension, each with modular React components and corresponding charts.
 - ✅ Support for various chart types (bar, line, polar area...). Powered by Chart.js.
-- ✅ Dynamic chart titles and legends that update according to applied filters.
+- ✅ Dynamic chart titles and legends that update, according to applied filters.
 - ✅ Participant filters by role (student, teacher) to view segmented data.
 - ✅ Export charts in CSV, PDF, PNG, and JPEG (SVG export not supported).
-- ✅ Display of last analysis timestamp for user context.
+- ✅ Display of the last analysis timestamp for user context.
 - ✅ Persistent data storage even after minimizing or closing the extension popup.
 - ✅ Responsive layout with scrollable and clearly segmented sections.
 - ✅ Error control: gracefully handles pages that are not Moodle course pages.
-- ✅ Modular codebase: reusable functions for scraping, processing, filtering and chart rendering.
+- ✅ Modular codebase: reusable functions for scraping, processing, filtering, and chart rendering.
 - ✅ Manual re-analysis trigger to update scraped data.
 - ✅ Clear architectural separation between extraction, processing, and visualization modules.
 - ✅ English interface by default, with support for future internationalization (e.g., Spanish).
@@ -46,18 +46,35 @@ This will generate a `dist/` folder with the final compiled Chrome Extension fil
 
 ### 🧩 Load Extension Manually
 
+You have two options to load the extension in Chrome manually:
+
+#### Option 1: Clone the Repository
+
 1. Clone this repository:
    ```bash
-   git clone https://github.com/Raulgb4/BrowserExtension-MoodleDataAnalysis.git
+   git clone https://github.com/RaulgB4/BrowserExtension-MoodleDataAnalysis.git
    ```
 
 2. Open Google Chrome and go to: `chrome://extensions/`
 
-3. Enable **Developer Mode** (top-right)
+3. Enable **Developer Mode** (top-right corner)
 
-4. Click on **"Load unpacked"** and select the `dist/` folder.
+4. Click on **"Load unpacked"** and select the `dist/` folder inside the cloned repository
 
 You're now ready to use the extension.
+
+#### Option 2: Download Only the `dist/` Folder (No Git Required)
+
+1. Go to the following link:
+[Download dist/ only](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FRaulgB4%2FBrowserExtension-MoodleDataAnalysis%2Ftree%2Fdevelop%2Fdist)
+
+2. This will download only the `dist/` folder as a ZIP file.
+
+3. Extract the ZIP, then go to `chrome://extensions/` in Chrome
+
+4. Enable **Developer Mode**, click on **"Load unpacked"**, and select the extracted folder.
+
+That's it!
 
 ---
 
@@ -101,7 +118,7 @@ This project includes a preconfigured Moodle server using Docker Compose to allo
 
 ### 🔁 Stopping and Restarting
 
-- To run in background:
+- To run in the background:
   ```bash
   docker-compose up -d
   ```
