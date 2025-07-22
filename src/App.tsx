@@ -221,7 +221,13 @@ export function App() {
                 }
 
                 // Normal restore
-                if (!course) return;
+                if (!course) {
+                    // If there’s no previous analysis for this course, and it's not a multi-course conflict, show the start button
+                    if (!lastAnalyzedId) {
+                        setButton(createStartButton(currentCourseId, analyzeCourseData));
+                    }
+                    return;
+                }
 
                 console.log("Restoring previous course data:", course);
 
