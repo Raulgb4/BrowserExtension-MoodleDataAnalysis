@@ -69,10 +69,9 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     useEffect(() => {
         const observer = new ResizeObserver(() => {
             if (chartRef.current) {
-                // Retrasa el resize ligeramente para que se calcule el tamaño final real
                 setTimeout(() => {
                     chartRef.current?.resize();
-                }, 100); // Puedes ajustar entre 50-200ms según pruebas
+                }, 100);
             }
         });
 
@@ -101,6 +100,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             ? (data.datasets[0].data as number[])
             : [];
 
+    const maxLabelLength = 15;
+
     const defaultOptions: ChartOptions = {
         plugins: {
             legend: {
@@ -115,15 +116,22 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                 },
             },
         },
-
         scales:
             chartType === "bar" || chartType === "line"
                 ? {
+                    y: {
+                        ticks: {
+                            callback: function (_, index) {
+                                const label = this.getLabelForValue(index);
+                                return truncate(label, maxLabelLength); // For vertical bar charts
+                            },
+                        },
+                    },
                     x: {
                         ticks: {
                             callback: function (_, index) {
                                 const label = this.getLabelForValue(index);
-                                return truncate(label);
+                                return truncate(label, maxLabelLength); // For horizontal bar charts
                             },
                             maxRotation: 30,
                             minRotation: 0,
@@ -131,8 +139,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     },
                 }
                 : {},
-    };
 
+    };
     const mergedOptions: ChartOptions = {
         ...defaultOptions,
         ...options,
@@ -204,7 +212,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
             {/* Chart */}
             <div ref={containerRef} className={`${chartWidthClass} mx-auto max-w-full`}>
-            <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
+                <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
             </div>
 
             {/* Optional children (filters or controls) */}
