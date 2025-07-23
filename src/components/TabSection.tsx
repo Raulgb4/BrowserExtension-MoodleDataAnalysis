@@ -59,30 +59,28 @@ const TabSection: React.FC = () => {
         <div className="mt-6">
             {/* Tab buttons */}
             <div className="border-b border-gray-200 overflow-x-auto">
-                <div className="w-full">
-                    <nav
-                        className="flex space-x-4 sm:space-x-6 justify-center"
-                        aria-label="Tabs"
-                    >
-                        {tabs.map(({ name, icon: Icon }) => {
-                            const isActive = activeTab === name;
-                            return (
-                                <button
-                                    key={name}
-                                    onClick={() => setActiveTab(name)}
-                                    className={`flex items-center gap-1.5 pb-2 text-sm font-medium transition-all ${
-                                        isActive
-                                            ? "text-orange-600 border-b-2 border-orange-600"
-                                            : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
-                                    }`}
-                                >
-                                    <Icon className="w-4 h-4" aria-hidden="true" />
-                                    <span className="whitespace-nowrap">{name}</span>
-                                </button>
-                            );
-                        })}
-                    </nav>
-                </div>
+                <nav
+                    className="flex space-x-4 sm:space-x-6 min-w-max px-4"
+                    aria-label="Tabs"
+                >
+                    {tabs.map(({ name, icon: Icon }) => {
+                        const isActive = activeTab === name;
+                        return (
+                            <button
+                                key={name}
+                                onClick={() => setActiveTab(name)}
+                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium transition-all ${
+                                    isActive
+                                        ? "text-orange-600 border-b-2 border-orange-600"
+                                        : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
+                                }`}
+                            >
+                                <Icon className="w-4 h-4" aria-hidden="true" />
+                                <span className="whitespace-nowrap">{name}</span>
+                            </button>
+                        );
+                    })}
+                </nav>
             </div>
 
             {/* Dynamic content based on a selected tab */}
@@ -91,6 +89,7 @@ const TabSection: React.FC = () => {
             </div>
         </div>
     );
+
 
 };
 
