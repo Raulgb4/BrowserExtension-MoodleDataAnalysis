@@ -13,7 +13,7 @@
  * @date 2025
  */
 
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import {Pie, Bar, Line, Radar, PolarArea} from "react-chartjs-2";
 import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
 import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
@@ -62,6 +62,29 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    children,
                                                }) => {
     const chartRef = useRef<ChartJS>(null);
+
+
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new ResizeObserver(() => {
+            if (chartRef.current) {
+                // Retrasa el resize ligeramente para que se calcule el tamaño final real
+                setTimeout(() => {
+                    chartRef.current?.resize();
+                }, 100); // Puedes ajustar entre 50-200ms según pruebas
+            }
+        });
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
     const {lastAnalyzedAt} = useAnalysisContext();
 
     const ChartComponent = chartComponents[chartType];
@@ -82,8 +105,17 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
         plugins: {
             legend: {
                 display: true,
+                position: "top",
+                labels: {
+                    boxWidth: 12,
+                    boxHeight: 12,
+                    padding: 8,
+                    usePointStyle: true,
+                    textAlign: "center",
+                },
             },
         },
+
         scales:
             chartType === "bar" || chartType === "line"
                 ? {
@@ -171,8 +203,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             </div>
 
             {/* Chart */}
-            <div className={`${chartWidthClass} mx-auto`}>
-                <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
+            <div ref={containerRef} className={`${chartWidthClass} mx-auto max-w-full`}>
+            <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
             </div>
 
             {/* Optional children (filters or controls) */}
