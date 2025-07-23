@@ -60,7 +60,7 @@ const TabSection: React.FC = () => {
             {/* Tab buttons */}
             <div className="border-b border-gray-200 overflow-x-auto">
                 <nav
-                    className="flex space-x-4 sm:space-x-6 min-w-max px-4"
+                    className="flex px-4 gap-4 sm:gap-6 w-max"
                     aria-label="Tabs"
                 >
                     {tabs.map(({ name, icon: Icon }) => {
@@ -69,14 +69,14 @@ const TabSection: React.FC = () => {
                             <button
                                 key={name}
                                 onClick={() => setActiveTab(name)}
-                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium transition-all ${
+                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium whitespace-nowrap transition-all ${
                                     isActive
                                         ? "text-orange-600 border-b-2 border-orange-600"
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
                                 <Icon className="w-4 h-4" aria-hidden="true" />
-                                <span className="whitespace-nowrap">{name}</span>
+                                <span>{name}</span>
                             </button>
                         );
                     })}
