@@ -23,13 +23,14 @@ interface TabContentProps {
 }
 
 const tabComponents: Record<string, React.FC> = {
-    Global: GlobalTab,
-    Participants: ParticipantsTab,
-    Choices: ChoicesTab,
-    Quizzes: QuizzesTab,
-    Forums: ForumsTab,
-    "Other Activities": OtherActivitiesTab,
+    tab_global: GlobalTab,
+    tab_participants: ParticipantsTab,
+    tab_choices: ChoicesTab,
+    tab_quizzes: QuizzesTab,
+    tab_forums: ForumsTab,
+    tab_other_activities: OtherActivitiesTab,
 };
+
 
 const TabContent: React.FC<TabContentProps> = ({tab}) => {
     const Component = tabComponents[tab];

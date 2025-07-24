@@ -16,5 +16,11 @@
     "minutes_one": "{{count}} minute",
     "minutes_other": "{{count}} minutes",
     "seconds": "a few seconds"
-  }
+  },
+  "tab_global": "Global",
+  "tab_participants": "Participants",
+  "tab_choices": "Choices",
+  "tab_quizzes": "Quizzes",
+  "tab_forums": "Forums",
+  "tab_other_activities": "Other Activities"
 }
