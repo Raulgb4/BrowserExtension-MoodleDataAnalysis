@@ -26,13 +26,15 @@ import {
     getScrapeUrlActivityReport,
 } from "./utils/urlBuilder";
 import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
-import Button from "./components/Button";
 import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
 import {getRelativeTime} from "./services/dataProcessor";
 import {ClockIcon} from "@heroicons/react/20/solid";
 import {AnalysisContext} from "./context/AnalysisContext";
+import LanguageSelector from "./components/LanguageSelector";
+import StartButton from "./components/StartButton";
+import RestartButton from "./components/RestartButton";
 
 /**
  * @function App
@@ -61,26 +63,6 @@ export function App() {
     // Absolute timestamp of the last analysis (used for file naming and detailed logs)
     const [lastAnalyzedAt, setLastAnalyzedAt] = useState<Date | null>(null);
     const [isRestored, setIsRestored] = useState(false); // Indicates if data has been restored from storage
-
-    function createStartButton(courseId: string, onClick: (id: string) => void): ReactElement {
-        return (
-            <Button
-                id="startButton"
-                text="Start"
-                onClick={() => onClick(courseId)}
-            />
-        );
-    }
-
-    function createRestartButton(courseId: string, onClick: (id: string) => void): ReactElement {
-        return (
-            <Button
-                id="restartButton"
-                text="Reanalyze"
-                onClick={() => onClick(courseId)}
-            />
-        );
-    }
 
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
         const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId); // Get initial participant URL (no limit)
@@ -131,7 +113,7 @@ export function App() {
 
             if (totalParticipants === null) {
                 setOutputMessage("Failed to determine participant count."); // Error if count not retrieved
-                setButton(createRestartButton(courseId, analyzeCourseData)); // Offer retry
+                setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
                 return;
             }
 
@@ -139,7 +121,7 @@ export function App() {
 
             setIsError(false);
             setOutputMessage("Analysis completed successfully!");
-            setButton(createRestartButton(courseId, analyzeCourseData)); // Offer to reanalyze
+            setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
             const now = new Date();
             setLastAnalyzedAgo(getRelativeTime(now));
             setLastAnalyzedAt(now);
@@ -172,29 +154,27 @@ export function App() {
         });
     }
 
-
     function validateAndExtractCourseId(url?: string): string | null {
         if (!url || !url.startsWith("http")) {
-            displayErrorMessage("No active tab found or the URL is not valid.");
+            displayErrorMessage('error_invalid_url');
             return null;
         }
 
-        const {isCoursePage, courseId} = extractMoodleCourseId(url); // Try to extract course ID from URL
+        const {isCoursePage, courseId} = extractMoodleCourseId(url);
 
         if (!isCoursePage) {
-            displayErrorMessage("This page is not recognized as part of a Moodle course.");
+            displayErrorMessage('error_not_course_page');
             return null;
         }
 
         if (!courseId) {
-            displayErrorMessage("Unable to detect a course ID in the current Moodle URL.");
+            displayErrorMessage('error_missing_course_id');
             return null;
         }
 
         return courseId;
     }
 
-    // Extracts courseId from a URL and updates state accordingly
     function extractAndSetCourseId(url?: string | null) {
         const courseId = validateAndExtractCourseId(url ?? undefined);
 
@@ -205,18 +185,17 @@ export function App() {
             setIsValidCoursePage(false);
             setCurrentCourseId(null);
 
-            // Optional: only show a message if we had a course before
             if (currentCourseId !== null) {
-                displayErrorMessage("This page is not recognized as part of a Moodle course.");
+                displayErrorMessage('error_not_course_page');
             }
         }
     }
 
-    // Displays an error message and flags UI error state
     const displayErrorMessage = (message: string) => {
         setOutputMessage(message);
         setIsError(true);
     };
+
 
     // On mount: check the current active tab to extract the course ID
     useEffect(() => {
@@ -273,21 +252,21 @@ export function App() {
 
                 if (lastId && lastId !== currentCourseId) {
                     // Don't restore if a user switched courses
-                    setButton(createStartButton(currentCourseId, analyzeCourseDataWithCleanup));
+                    setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                     return;
                 }
 
                 if (!course) {
                     // No data available for the current course
                     if (!lastId) {
-                        setButton(createStartButton(currentCourseId, analyzeCourseData));
+                        setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseDataWithCleanup}/>);
                     }
                     return;
                 }
 
                 // Restore existing course data
                 console.log("Restoring previous course data:", course);
-                setButton(createRestartButton(currentCourseId, analyzeCourseData));
+                setButton(<RestartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                 setIsRestored(true);
                 setOutputMessage("Previous analysis restored.");
                 setIsError(false);
@@ -325,11 +304,14 @@ export function App() {
 
 
     return (
-        <AnalysisContext.Provider value={{ lastAnalyzedAgo, lastAnalyzedAt }}>
+        <AnalysisContext.Provider value={{lastAnalyzedAgo, lastAnalyzedAt}}>
             <div
-                className={`bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
-        ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
+                className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
+                ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
             >
+                <div className="absolute top-3 right-3">
+                    <LanguageSelector/>
+                </div>
                 <div className="flex flex-col items-center justify-center gap-2 mb-4 animate-fade-in text-center">
                     <img
                         src="/icons/icon48.png"
@@ -343,18 +325,19 @@ export function App() {
                     {!isLoading && !isError && <div className="mt-4">{button}</div>}
                 </div>
 
-                {isLoading && <Loader />} {/* Show loader while analyzing */}
+                {isLoading && <Loader/>} {/* Show loader while analyzing */}
 
                 {!isLoading && (
                     <>
                         {!isRestored && outputMessage && (
-                            <InfoCard message={outputMessage} isError={isError} />
+                            <InfoCard message={outputMessage} isError={isError}/>
                         )}
 
                         {lastAnalyzedAgo && !isError && (
                             <div className="mt-4 flex justify-center">
-                                <div className="inline-flex flex-wrap justify-center items-center gap-2 text-sm text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm animate-fade-in">
-                                    <ClockIcon className="w-4 h-4 text-orange-500" />
+                                <div
+                                    className="inline-flex flex-wrap justify-center items-center gap-2 text-sm text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm animate-fade-in">
+                                    <ClockIcon className="w-4 h-4 text-orange-500"/>
                                     <span className="text-center">
                                     Last analysis performed{" "}
                                         <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
@@ -363,7 +346,7 @@ export function App() {
                             </div>
                         )}
 
-                        {outputMessage && !isError && <TabSection />}
+                        {outputMessage && !isError && <TabSection/>}
                     </>
                 )}
             </div>

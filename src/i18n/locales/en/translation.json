@@ -1,0 +1,11 @@
+{
+  "title": "Moodle Data Analyzer",
+  "scrape": "Analyze Course",
+  "last_scraped": "Last analyzed {{time}} ago",
+  "start": "Start",
+  "reanalyze": "Reanalyze",
+  "error_invalid_url": "No active tab found or the URL is not valid.",
+  "error_not_course_page": "This page is not recognized as part of a Moodle course.",
+  "error_missing_course_id": "Unable to detect a course ID in the current Moodle URL.",
+  "last_analysis": "Last analysis performed <1>{{time}}</1> ago"
+}

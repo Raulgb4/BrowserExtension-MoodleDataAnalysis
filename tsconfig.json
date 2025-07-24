@@ -9,7 +9,8 @@
     "outDir": "dist/js",
     "noEmitOnError": true,
     "typeRoots": ["node_modules/@types"],
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
   },
   "include": ["src"]
 }

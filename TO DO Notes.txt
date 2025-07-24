@@ -4,8 +4,16 @@
 
 [Prioridad]
 
-1. [Alta] Internacionalización (i18n): Idioma. Adáptalo al Español y que el usuario pueda elegir el idioma
-Inglés o Español. Impleméntalo de tal forma que sea fácil de traducir a cualquier otro idioma.
+1. [Alta] Internacionalización (i18n): soporte multilingüe para la extensión.
+Implementar un sistema de internacionalización que permita mostrar la interfaz de la extensión en español o inglés,
+con posibilidad de añadir fácilmente nuevos idiomas en el futuro.
+Se utilizará la librería i18next junto con react-i18next, adaptando todos los textos de la interfaz para
+que se carguen dinámicamente desde archivos de traducción. Por defecto, el idioma inicial se establecerá en
+función del idioma configurado en el navegador del usuario.
+Además, se incorporará un selector de idioma en la interfaz, que permitirá al usuario cambiar manualmente
+entre inglés y español mediante un control visual basado en iconos de banderas.
+El sistema debe ser escalable, mantenible y compatible con React, asegurando que todas las cadenas de
+texto estén desacopladas del código fuente.
 
 2. [Alta] Capacidad de exportación de una gráfica a formato DOCX.
 

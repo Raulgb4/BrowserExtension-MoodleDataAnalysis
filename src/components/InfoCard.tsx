@@ -14,6 +14,7 @@
 import {CheckCircleIcon, ExclamationTriangleIcon} from "@heroicons/react/24/solid";
 import {XMarkIcon} from "@heroicons/react/16/solid";
 import {useState, useEffect} from "react";
+import { useTranslation } from 'react-i18next';
 
 interface InfoCardProps {
     message: string;
@@ -24,6 +25,7 @@ interface InfoCardProps {
 export default function InfoCard({message, isError = false}: InfoCardProps) {
     const [visible, setVisible] = useState(true);
     const [fadingOut, setFadingOut] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!isError) {
@@ -60,7 +62,7 @@ export default function InfoCard({message, isError = false}: InfoCardProps) {
                 ) : (
                     <CheckCircleIcon className="h-6 w-6 text-green-500" />
                 )}
-                <span className="font-medium break-words">{message}</span>
+                <span className="font-medium break-words">{t(message)}</span>
             </div>
 
             {!isError && (

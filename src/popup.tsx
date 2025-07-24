@@ -7,6 +7,7 @@
  * @author Raúl García Balongo
  * @date 2025
  */
+import './i18n/i18n';
 import {createRoot} from "react-dom/client";
 import {App} from "./App";
 
