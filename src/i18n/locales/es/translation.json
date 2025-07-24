@@ -31,7 +31,9 @@
     "global_participation": "Participación Global",
     "last_access_distribution": "Distribución del último Acceso",
     "choice_results": "Resultados de encuesta",
-    "choice_activity_results": "Resultados de \"{{name}}\""
+    "choice_activity_results": "Resultados de \"{{name}}\"",
+    "quiz_avg_score_evolution": "Evolución de la nota media",
+    "quiz_top_n": "{{name}} - Top {{count}} estudiantes"
   },
 
   "access": {
@@ -49,11 +51,14 @@
     "active": "Activo",
     "inactive": "Inactivo",
     "participants": "Participantes",
-    "responses": "Respuestas"
+    "responses": "Respuestas",
+    "normalized_score": "Nota normalizada",
+    "average_score": "Nota media"
   },
 
   "filter": {
-    "by_role": "Filtrar por rol:"
+    "by_role": "Filtrar por rol:",
+    "show_top": "Mostrar top"
   },
 
   "roles": {
@@ -69,5 +74,8 @@
     "workshops": "Talleres"
   },
   "category": "Categoría",
-  "value": "Valor"
+  "value": "Valor",
+  "label": {
+    "students": "estudiantes"
+  }
 }

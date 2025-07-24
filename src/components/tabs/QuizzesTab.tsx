@@ -13,10 +13,13 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {Quiz} from "../../models/Quiz";
 import {calculateAvgNormalizedScores, getTopByMetric} from "../../utils/chartDataUtils";
+import { useTranslation } from "react-i18next";
 
 const QuizzesTab: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [topNByQuiz, setTopNByQuiz] = useState<number[]>([]); // Track top N per quiz for charts
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Retrieve quizzes from local storage
@@ -61,7 +64,7 @@ const QuizzesTab: React.FC = () => {
         labels: quizLabels,
         datasets: [
             {
-                label: "Average Score",
+                label: t("legend.average_score"),
                 data: avgScores,
                 fill: false,
                 borderColor: "rgba(100, 181, 246, 1)",
@@ -75,7 +78,7 @@ const QuizzesTab: React.FC = () => {
         <div className="space-y-8">
             {/* Always render the average score evolution chart */}
             <GraphBlock
-                title="Average Score Evolution"
+                title={t("chart.quiz_avg_score_evolution")}
                 chartType="line"
                 data={avgLineData}
             />
@@ -96,7 +99,7 @@ const QuizzesTab: React.FC = () => {
                     labels,
                     datasets: [
                         {
-                            label: "Normalized Score",
+                            label: t("legend.normalized_score"),
                             data: values,
                             backgroundColor: "rgba(249, 128, 18, 0.6)",
                             borderColor: "rgba(249, 128, 18, 1)",
@@ -123,13 +126,15 @@ const QuizzesTab: React.FC = () => {
                 return (
                     <div key={quiz.id}>
                         <GraphBlock
-                            title={`${quiz.activityName} - Top ${topN} students`}
+                            title={t("chart.quiz_top_n", { name: quiz.activityName, count: topN })}
                             chartType="bar"
                             data={data}
                             options={options}
                         >
                             <div className="w-full flex justify-center items-center gap-2 mt-2 text-sm text-gray-700">
-                                <label htmlFor={`topN-${quiz.id}`}>Show top</label>
+                                <label htmlFor={`topN-${quiz.id}`}>
+                                    {t("filter.show_top")}
+                                </label>
                                 <input
                                     id={`topN-${quiz.id}`}
                                     type="number"
@@ -146,7 +151,7 @@ const QuizzesTab: React.FC = () => {
                                     }}
                                     className="w-16 border rounded px-2 py-1 text-sm text-gray-800"
                                 />
-                                <span>students</span>
+                                <span>{t("label.students")}</span>
                             </div>
                         </GraphBlock>
 
@@ -155,6 +160,7 @@ const QuizzesTab: React.FC = () => {
                         )}
                     </div>
                 );
+
             })}
         </div>
     );
