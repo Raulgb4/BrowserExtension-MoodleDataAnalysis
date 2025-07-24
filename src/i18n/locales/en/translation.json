@@ -35,7 +35,13 @@
     "quiz_avg_score_evolution": "Average Score Evolution",
     "quiz_top_n": "{{name}} - Top {{count}} students",
     "subscriptions_per_forum": "Subscriptions per Forum",
-    "forum_top_n": "{{name}} - Top {{count}} participants"
+    "forum_top_n": "{{name}} - Top {{count}} participants",
+    "url_visits": "URL Resource Visits",
+    "file_visits": "File Resource Visits",
+    "workshop_visits": "Workshop Visits",
+    "activity_overview": "Activity Overview",
+    "top_activities": "Top Activities",
+    "other_top_n": "{{name}} - Top {{count}} activities"
   },
 
   "access": {
@@ -81,7 +87,8 @@
 
   "label": {
     "students": "students",
-    "participants": "participants"
+    "participants": "participants",
+    "activities": "activities"
   }
 
 }

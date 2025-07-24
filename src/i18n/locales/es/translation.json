@@ -35,7 +35,13 @@
     "quiz_avg_score_evolution": "Evolución de la nota media",
     "quiz_top_n": "{{name}} - Top {{count}} estudiantes",
     "subscriptions_per_forum": "Suscripciones por foro",
-    "forum_top_n": "{{name}} - Top {{count}} participantes"
+    "forum_top_n": "{{name}} - Top {{count}} participantes",
+    "url_visits": "Visitas a enlaces",
+    "file_visits": "Visitas a archivos",
+    "workshop_visits": "Visitas a talleres",
+    "activity_overview": "Resumen de actividades",
+    "top_activities": "Actividades principales",
+    "other_top_n": "{{name}} - Top {{count}} actividades"
   },
 
   "access": {
@@ -81,6 +87,7 @@
   "value": "Valor",
   "label": {
     "students": "estudiantes",
-    "participants": "participantes"
+    "participants": "participantes",
+    "activities": "actividades"
   }
 }
