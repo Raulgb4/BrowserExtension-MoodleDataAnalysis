@@ -7,6 +7,7 @@
   "error_invalid_url": "No se encontró una pestaña activa o la URL no es válida.",
   "error_not_course_page": "Esta página no se reconoce como parte de un curso de Moodle.",
   "error_missing_course_id": "No se pudo detectar el ID del curso en la URL de Moodle.",
+  "success_analysis_completed": "¡Análisis completado con éxito!",
   "last_analysis": "Último análisis realizado hace <orange>{{time}}</orange>",
   "relative": {
     "days_one": "{{count}} día",

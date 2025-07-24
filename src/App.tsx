@@ -125,7 +125,7 @@ export function App() {
             await fetchAndStoreCourseData(courseId, totalParticipants); // Scrape and store course data
 
             setIsError(false);
-            setOutputMessage("Analysis completed successfully!");
+            setOutputMessage("success_analysis_completed");
             setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
             const now = new Date();
 
@@ -197,7 +197,7 @@ export function App() {
     }
 
     const setTranslatedError = (key: string) => {
-        setOutputMessage(t(key));
+        setOutputMessage(key);
         setIsError(true);
     };
 
@@ -311,7 +311,7 @@ export function App() {
                 {!isLoading && (
                     <>
                         {!isRestored && outputMessage && (
-                            <InfoCard message={outputMessage} isError={isError}/>
+                            <InfoCard message={t(outputMessage)} isError={isError} />
                         )}
 
 
