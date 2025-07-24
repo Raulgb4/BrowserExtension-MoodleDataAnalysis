@@ -72,6 +72,14 @@ export function extractMoodleCourseId(url: string): {
 export const URLS = {
 
     /**
+     * Returns the path to the main course view page.
+     * Used for scraping the course name and basic metadata.
+     * @param id Course ID
+     */
+    COURSE: (id: string | number) =>
+        `/course/view.php?id=${id}`,
+
+    /**
      * Returns the path to the participant list with optional pagination override.
      * @param id Course ID
      * @param perPage Number of participants to show per page (default: 1000)
@@ -127,6 +135,19 @@ export const URLS = {
 
 
 };
+
+/**
+ * Generates the URL for the main course view page.
+ * Used to scrape the course name and metadata.
+ *
+ * @param courseId - The ID of the Moodle course.
+ * @returns An object with a `courseMain` key mapping to the full course view URL.
+ */
+export function getScrapeUrlCourseMain(courseId: string | number): Record<string, string> {
+    return {
+        courseMain: `${BASE}${URLS.COURSE(courseId)}`,
+    };
+}
 
 /**
  * Generates the URL for the participant list of a course.

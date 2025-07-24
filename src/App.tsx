@@ -23,7 +23,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 import {
     extractMoodleCourseId,
     getScrapeUrlParticipants,
-    getScrapeUrlActivityReport,
+    getScrapeUrlActivityReport, getScrapeUrlCourseMain,
 } from "./utils/urlBuilder";
 import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
 import Loader from "./components/Loader";
@@ -66,6 +66,8 @@ export function App() {
     const [lastAnalyzedAt, setLastAnalyzedAt] = useState<Date | null>(null);
     const [isRestored, setIsRestored] = useState(false); // Indicates if data has been restored from storage
 
+    const [courseName, setCourseName] = useState<string | null>(null);
+
     // HOOK
     const relativeTime = useRelativeTime(lastAnalyzedAt);
 
@@ -81,11 +83,12 @@ export function App() {
     }
 
     async function fetchAndStoreCourseData(courseId: string, totalParticipants: number) {
-        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
+        const {courseMain} = getScrapeUrlCourseMain(courseId); // URL to get the course name
         const {activityReport} = getScrapeUrlActivityReport(courseId); // URL to get an activity report
+        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
 
         // Main scraping function
-        const course = await scrapeCourse(courseId, activityReport, participants, totalParticipants);
+        const course = await scrapeCourse(courseId, courseMain, activityReport, participants, totalParticipants);
         console.log("Course data:", course);
 
         const storageData = {
@@ -122,7 +125,8 @@ export function App() {
                 return;
             }
 
-            await fetchAndStoreCourseData(courseId, totalParticipants); // Scrape and store course data
+            const course = await fetchAndStoreCourseData(courseId, totalParticipants);
+            setCourseName(course.courseName ?? null);
 
             setIsError(false);
             setOutputMessage("success_analysis_completed");
@@ -270,6 +274,8 @@ export function App() {
 
                 // Restore existing course data
                 console.log("Restoring previous course data:", course);
+                //console.log("Course name:", course.courseName);
+                setCourseName(course.courseName ?? null);
                 setButton(<RestartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                 setIsRestored(true);
                 setOutputMessage("Previous analysis restored.");
@@ -287,53 +293,75 @@ export function App() {
         <AnalysisContext.Provider value={{lastAnalyzedAt}}>
             <div
                 className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
-                ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
+            ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
             >
                 <div className="absolute top-3 right-3">
                     <LanguageSelector/>
                 </div>
+
                 <div className="flex flex-col items-center justify-center gap-2 mb-4 animate-fade-in text-center">
                     <img
                         src="/icons/icon48.png"
                         alt="Extension Logo"
                         className="w-6 h-6 drop-shadow-sm"
                     />
-                    <h1 className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm
-                    border-b-2 border-orange-200 pb-1 whitespace-nowrap">
+                    <h1
+                        className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm
+                    border-b-2 border-orange-200 pb-1 whitespace-nowrap"
+                    >
                         Moodle Data Analyzer
                     </h1>
 
-                    {!isLoading && !isError && <div className="mt-4">{button}</div>}
+                    {!isLoading && !isError && (
+                        <>
+                            <div className="mt-4">{button}</div>
+                        </>
+                    )}
                 </div>
 
-                {isLoading && <Loader/>} {/* Show loader while analyzing */}
+                {isLoading && <Loader/>}
 
                 {!isLoading && (
                     <>
                         {!isRestored && outputMessage && (
-                            <InfoCard message={t(outputMessage)} isError={isError} />
+                            <InfoCard message={t(outputMessage)} isError={isError}/>
                         )}
 
-
                         {lastAnalyzedAt && !isError && (
-                            <div className="mt-4 flex justify-center">
-                                <div
-                                    className="inline-flex flex-wrap justify-center items-center gap-2 text-sm
-                                  text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded
+                            <>
+                                <div className="mt-4 flex justify-center">
+                                    <div
+                                        className="inline-flex flex-wrap justify-center items-center gap-2 text-sm
+                                    text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded
                                     shadow-sm animate-fade-in"
-                                >
-                                    <ClockIcon className="w-4 h-4 text-orange-500"/>
-                                    <span className="text-center">
+                                    >
+                                        <ClockIcon className="w-4 h-4 text-orange-500"/>
+                                        <span className="text-center">
                                         <Trans
                                             i18nKey="last_analysis"
-                                            values={{ time: relativeTime }}
+                                            values={{time: relativeTime}}
                                             components={{
-                                                orange: <span className="font-medium text-orange-600" />,
+                                                orange: <span className="font-medium text-orange-600"/>,
                                             }}
                                         />
                                     </span>
+                                    </div>
                                 </div>
-                            </div>
+
+                                {courseName && (
+                                    <div
+                                        className="mt-4 border border-orange-300 rounded-md px-3 py-2 text-center text-sm text-gray-800 font-semibold animate-fade-in"
+                                    >
+                                        <Trans
+                                            i18nKey="course_name_display"
+                                            values={{ name: courseName }}
+                                            components={{
+                                                orange: <span className="text-orange-600 font-bold" />,
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </>
                         )}
 
                         {outputMessage && !isError && <TabSection/>}

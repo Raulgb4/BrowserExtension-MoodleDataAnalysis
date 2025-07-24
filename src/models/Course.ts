@@ -24,6 +24,11 @@ export interface Course {
     id: number;
 
     /**
+     * Name of the course, as extracted from the Moodle page.
+     */
+    courseName: string;
+
+    /**
      * List of URL-based resources (modtype_url).
      */
     urlResources: URLResource[];

@@ -535,6 +535,9 @@
   .border-orange-200 {
     border-color: var(--color-orange-200);
   }
+  .border-orange-300 {
+    border-color: var(--color-orange-300);
+  }
   .border-orange-400 {
     border-color: var(--color-orange-400);
   }
@@ -611,6 +614,9 @@
   }
   .py-1\.5 {
     padding-block: calc(var(--spacing) * 1.5);
+  }
+  .py-2 {
+    padding-block: calc(var(--spacing) * 2);
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);

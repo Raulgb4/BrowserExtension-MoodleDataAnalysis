@@ -1,4 +1,5 @@
 {
+  "course_name_display": "Current course: <orange>{{name}}</orange>",
   "title": "Moodle Data Analyzer",
   "scrape": "Analyze Course",
   "last_scraped": "Last analyzed {{time}} ago",

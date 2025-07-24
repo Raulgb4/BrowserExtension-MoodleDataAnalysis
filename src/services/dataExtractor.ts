@@ -149,6 +149,39 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
     }
 }
 
+
+/**
+ * Scrapes the main course page to extract the course name (title).
+ *
+ * This function parses the main view of a Moodle course to retrieve the official course title
+ * displayed inside the page header, typically within a <h1> element.
+ *
+ * @param courseMainUrl - The full URL of the Moodle course view page (e.g., /course/view.php?id=123).
+ * @returns A promise that resolves to the course name as a string.
+ */
+export async function scrapeCourseMain(courseMainUrl: string): Promise<string> {
+    try {
+        const doc = await fetchAndParse(courseMainUrl);
+
+        const titleNode = doc
+            .querySelector(".page-context-header h1");
+
+        const courseName = titleNode?.textContent?.trim();
+
+        if (!courseName) {
+            console.warn("Course name not found on the main course page.");
+            return "";
+        }
+
+        return courseName;
+
+    } catch (error) {
+        console.error("Error scraping course name from main page:", error);
+        return "";
+    }
+}
+
+
 /**
  * Scrapes the response data from a specific Choice activity in Moodle.
  *
@@ -439,6 +472,7 @@ export async function scrapeForums(
  * For complex activities, additional scraping is performed to gather detailed statistics.
  *
  * @param courseId - The unique identifier of the Moodle course.
+ * @param courseMainUrl
  * @param activityReportUrl - The URL of the course's activity report page.
  * @param participantsUrl - The URL of the course's participant page.
  * @param totalParticipants - The total number of participants enrolled in the course (used in report URLs).
@@ -447,6 +481,7 @@ export async function scrapeForums(
  */
 export async function scrapeCourse(
     courseId: string,
+    courseMainUrl: string,
     activityReportUrl: string,
     participantsUrl: string,
     totalParticipants: number
@@ -455,6 +490,8 @@ export async function scrapeCourse(
     const participants = await scrapeParticipants(participantsUrl);
     const numParticipantsTotal = participants.length;
     const numParticipantsActive = participants.filter(p => p.lastAccessToCourse !== undefined).length;
+
+    const courseName = await scrapeCourseMain(courseMainUrl);
 
     const doc = await fetchAndParse(activityReportUrl);
     const table = doc.querySelector('table#outlinereport');
@@ -515,6 +552,7 @@ export async function scrapeCourse(
     }
     return {
         id: parseInt(courseId),
+        courseName,
         numParticipantsTotal,
         numParticipantsActive,
         participants,

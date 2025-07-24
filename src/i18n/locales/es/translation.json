@@ -1,4 +1,5 @@
 {
+  "course_name_display": "Curso actual: <orange>{{name}}</orange>",
   "title": "Analizador de Datos de Moodle",
   "scrape": "Analizar Curso",
   "last_scraped": "Último análisis hace {{time}}",
