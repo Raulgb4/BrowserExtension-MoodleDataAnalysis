@@ -8,20 +8,25 @@ import {getRelativeTime} from "../services/dataProcessor";
  * @param date - The reference date from which to calculate the relative time.
  * @param intervalMs - Update interval in milliseconds (default: 1 minute).
  */
+import { useTranslation } from "react-i18next";
+
 export function useRelativeTime(date: Date | null, intervalMs = 60_000): string | null {
+    const { t } = useTranslation();
+
     const [relative, setRelative] = useState<string | null>(() =>
-        date ? getRelativeTime(date) : null
+        date ? getRelativeTime(date, t) : null
     );
 
     useEffect(() => {
         if (!date) return;
 
-        const update = () => setRelative(getRelativeTime(date));
-        update(); // Run immediately on mount
+        const update = () => setRelative(getRelativeTime(date, t));
+        update(); // Run immediately
 
         const interval = setInterval(update, intervalMs);
         return () => clearInterval(interval);
-    }, [date, intervalMs]);
+    }, [date, intervalMs, t]);
 
     return relative;
 }
+

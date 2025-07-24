@@ -9,8 +9,6 @@
  * @date 2025
  */
 
-import i18next from "i18next";
-
 /**
  * Converts Moodle duration strings or absolute date strings to milliseconds.
  *
@@ -160,9 +158,10 @@ export function parseViewsAndUsers(raw: string): { numViews: number; numUsers: n
  * For example, "3 days", "2 hours", "5 minutes", or "a few seconds".
  *
  * @param date - The past Date to compare against the current time.
+ * @param t
  * @returns A string representing how much time has passed since the given date.
  */
-export function getRelativeTime(date: Date): string {
+export function getRelativeTime(date: Date, t: (key: string, options?: any) => string): string {
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffSec = Math.floor(diffMs / 1000);
@@ -171,13 +170,14 @@ export function getRelativeTime(date: Date): string {
     const diffDays = Math.floor(diffHrs / 24);
 
     if (diffDays > 0) {
-        return i18next.t("relative.days", { count: diffDays }); // "3 days"
+        return t("relative.days", { count: diffDays });
     }
     if (diffHrs > 0) {
-        return i18next.t("relative.hours", { count: diffHrs }); // "2 hours"
+        return t("relative.hours", { count: diffHrs });
     }
     if (diffMin > 0) {
-        return i18next.t("relative.minutes", { count: diffMin }); // "5 minutes"
+        return t("relative.minutes", { count: diffMin });
     }
-    return i18next.t("relative.seconds"); // "just now"
+    return t("relative.seconds");
 }
+
