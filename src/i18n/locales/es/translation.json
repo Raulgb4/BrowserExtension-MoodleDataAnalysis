@@ -40,5 +40,7 @@
     "urlResources": "Enlaces",
     "resources": "Archivos",
     "workshops": "Talleres"
-  }
+  },
+  "category": "Categoría",
+  "value": "Valor"
 }

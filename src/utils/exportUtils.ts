@@ -50,15 +50,17 @@ export const formatDateForExport = (date: Date): string => {
  * @param {number[]} values - Array of numeric values corresponding to each label.
  * @param {string} [filename="export.csv"] - The desired filename for the exported CSV.
  *
+ * @param headers
  * @returns {void} This function does not return anything; it triggers a download.
  */
 export function exportToCSV(
     labels: string[],
     values: number[],
-    filename: string = "export.csv"
+    filename: string = "export.csv",
+    headers: [string, string] = ["Category", "Value"]
 ): void {
     const title = filename.replace(/\.[^/.]+$/, "");
-    const header = ["Category", "Value"];
+    const header = headers;
     const rows = labels.map((label, i) => [label, values[i]]);
 
     const csv = [
@@ -190,12 +192,14 @@ export function exportToImage(
  * @param labels - The labels corresponding to chart data categories.
  * @param values - The values associated with each label.
  * @param filename - Desired filename for the exported PDF (default: "chart.pdf").
+ * @param headers
  */
 export function exportToPDF(
     chartRef: RefObject<ChartJS | null>,
     labels: string[],
     values: number[],
-    filename = "chart.pdf"
+    filename = "chart.pdf",
+    headers: [string, string] = ["Category", "Value"]
 ): void {
     const chart = chartRef.current;
     if (!chart) {
@@ -232,7 +236,7 @@ export function exportToPDF(
 
     autoTable(doc, {
         startY: tableStartY,
-        head: [["Category", "Value"]],
+        head: [headers],
         body: tableData,
         styles: {fontSize: 10},
         headStyles: {fillColor: [249, 128, 18]},

@@ -160,6 +160,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     const formattedDate = lastAnalyzedAt ? formatDateForExport(lastAnalyzedAt) : "unknown";
     const translatedTitle = t(title);
     const baseFileName = `${translatedTitle}__${formattedDate}`;
+    const headerLabels: [string, string] = [t("category"), t("value")];
 
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
 
@@ -177,7 +178,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
                 <div className="flex gap-2 flex-wrap justify-end">
                     <button
-                        onClick={() => exportToCSV(exportLabels, exportValues, baseFileName)}
+                        onClick={() => exportToCSV(exportLabels, exportValues, baseFileName, headerLabels)}
                         title="Download CSV"
                         aria-label="Export chart as CSV"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
@@ -189,7 +190,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
                     <button
                         onClick={() => exportToPDF(chartRef, exportLabels, exportValues,
-                            `${baseFileName}.pdf`)}
+                            `${baseFileName}.pdf`, headerLabels)}
                         title="Download PDF"
                         aria-label="Export chart as PDF"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
