@@ -13,9 +13,13 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {ChartData} from "chart.js";
 import {Choice} from "../../models/Choice";
+import { useTranslation } from "react-i18next";
+
 
 const ChoicesTab: React.FC = () => {
     const [choices, setChoices] = useState<Choice[]>([]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Load course data from local storage
@@ -45,13 +49,13 @@ const ChoicesTab: React.FC = () => {
             {choices.length === 0 && (
                 <>
                     <GraphBlock
-                        title="Choice Results"
+                        title={t("chart.choice_results")}
                         chartType="bar"
                         data={{
                             labels: [],
                             datasets: [
                                 {
-                                    label: "Responses",
+                                    label: t("legend.responses"),
                                     data: [],
                                     backgroundColor: "rgba(249, 128, 18, 0.6)",
                                     borderColor: "rgba(249, 128, 18, 1)",
@@ -72,7 +76,7 @@ const ChoicesTab: React.FC = () => {
                     labels,
                     datasets: [
                         {
-                            label: "Responses",
+                            label: t("legend.responses"),
                             data: values,
                             backgroundColor: "rgba(249, 128, 18, 0.6)", // orange
                             borderColor: "rgba(249, 128, 18, 1)",
@@ -84,7 +88,7 @@ const ChoicesTab: React.FC = () => {
                 return (
                     <React.Fragment key={choice.id}>
                         <GraphBlock
-                            title={`"${choice.activityName}" Results`}
+                            title={t("chart.choice_activity_results", { name: choice.activityName })}
                             chartType="bar"
                             data={data}
                         />

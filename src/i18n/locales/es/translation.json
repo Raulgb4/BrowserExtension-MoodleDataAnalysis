@@ -29,7 +29,9 @@
     "avg_views_per_user": "Media de visualizaciones por usuario",
     "avg_days_since_last_access": "Días desde el último acceso por tipo de actividad",
     "global_participation": "Participación Global",
-    "last_access_distribution": "Distribución del último Acceso"
+    "last_access_distribution": "Distribución del último Acceso",
+    "choice_results": "Resultados de encuesta",
+    "choice_activity_results": "Resultados de \"{{name}}\""
   },
 
   "access": {
@@ -46,7 +48,8 @@
     "views": "Visualizaciones",
     "active": "Activo",
     "inactive": "Inactivo",
-    "participants": "Participantes"
+    "participants": "Participantes",
+    "responses": "Respuestas"
   },
 
   "filter": {

@@ -29,7 +29,9 @@
     "avg_views_per_user": "Average Views per User",
     "avg_days_since_last_access": "Average Days Since Last Access by Activity Type",
     "global_participation": "Global Participation",
-    "last_access_distribution": "Last Access Distribution"
+    "last_access_distribution": "Last Access Distribution",
+    "choice_results": "Choice Results",
+    "choice_activity_results": "\"{{name}}\" Results"
   },
 
   "access": {
@@ -45,7 +47,8 @@
     "views": "Views",
     "active": "Active",
     "inactive": "Inactive",
-    "participants": "Participants"
+    "participants": "Participants",
+    "responses": "Responses"
   },
 
   "filter": {
