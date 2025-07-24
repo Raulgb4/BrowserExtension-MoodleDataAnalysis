@@ -15,12 +15,10 @@
 import {createContext, useContext} from "react";
 
 interface AnalysisContextProps {
-    lastAnalyzedAgo: string | null;
     lastAnalyzedAt: Date | null;
 }
 
 export const AnalysisContext = createContext<AnalysisContextProps>({
-    lastAnalyzedAgo: null,
     lastAnalyzedAt: null,
 });
 

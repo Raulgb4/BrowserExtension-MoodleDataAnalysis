@@ -1,11 +1,20 @@
 {
   "title": "Analizador de Datos de Moodle",
-  "scrape": "Analizar curso",
+  "scrape": "Analizar Curso",
   "last_scraped": "Último análisis hace {{time}}",
-  "start": "Iniciar",
+  "start": "Empezar",
   "reanalyze": "Reanalizar",
-  "error_invalid_url": "No se ha encontrado una pestaña activa o la URL no es válida.",
+  "error_invalid_url": "No se encontró una pestaña activa o la URL no es válida.",
   "error_not_course_page": "Esta página no se reconoce como parte de un curso de Moodle.",
-  "error_missing_course_id": "No se ha podido detectar un ID de curso en la URL de Moodle actual.",
-  "last_analysis": "Último análisis realizado hace <1>{{time}}</1>"
+  "error_missing_course_id": "No se pudo detectar el ID del curso en la URL de Moodle.",
+  "last_analysis": "Último análisis realizado hace <orange>{{time}}</orange>",
+  "relative": {
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días",
+    "hours_one": "{{count}} hora",
+    "hours_other": "{{count}} horas",
+    "minutes_one": "{{count}} minuto",
+    "minutes_other": "{{count}} minutos",
+    "seconds": "unos segundos"
+  }
 }

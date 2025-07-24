@@ -9,6 +9,8 @@
  * @date 2025
  */
 
+import i18next from "i18next";
+
 /**
  * Converts Moodle duration strings or absolute date strings to milliseconds.
  *
@@ -168,8 +170,14 @@ export function getRelativeTime(date: Date): string {
     const diffHrs = Math.floor(diffMin / 60);
     const diffDays = Math.floor(diffHrs / 24);
 
-    if (diffDays > 0) return `${diffDays} day${diffDays > 1 ? "s" : ""}`;
-    if (diffHrs > 0) return `${diffHrs} hour${diffHrs > 1 ? "s" : ""}`;
-    if (diffMin > 0) return `${diffMin} minute${diffMin > 1 ? "s" : ""}`;
-    return `a few seconds`;
+    if (diffDays > 0) {
+        return i18next.t("relative.days", { count: diffDays }); // "3 days"
+    }
+    if (diffHrs > 0) {
+        return i18next.t("relative.hours", { count: diffHrs }); // "2 hours"
+    }
+    if (diffMin > 0) {
+        return i18next.t("relative.minutes", { count: diffMin }); // "5 minutes"
+    }
+    return i18next.t("relative.seconds"); // "just now"
 }

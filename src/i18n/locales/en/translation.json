@@ -7,5 +7,14 @@
   "error_invalid_url": "No active tab found or the URL is not valid.",
   "error_not_course_page": "This page is not recognized as part of a Moodle course.",
   "error_missing_course_id": "Unable to detect a course ID in the current Moodle URL.",
-  "last_analysis": "Last analysis performed <1>{{time}}</1> ago"
+  "last_analysis": "Last analysis performed <orange>{{time}}</orange> ago",
+  "relative": {
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "hours_one": "{{count}} hour",
+    "hours_other": "{{count}} hours",
+    "minutes_one": "{{count}} minute",
+    "minutes_other": "{{count}} minutes",
+    "seconds": "a few seconds"
+  }
 }

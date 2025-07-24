@@ -29,12 +29,13 @@ import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
 import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
-import {getRelativeTime} from "./services/dataProcessor";
 import {ClockIcon} from "@heroicons/react/20/solid";
 import {AnalysisContext} from "./context/AnalysisContext";
 import LanguageSelector from "./components/LanguageSelector";
 import StartButton from "./components/StartButton";
 import RestartButton from "./components/RestartButton";
+import {Trans, useTranslation} from "react-i18next";
+import {useRelativeTime} from "./hooks/useRelativeTime";
 
 /**
  * @function App
@@ -51,6 +52,8 @@ import RestartButton from "./components/RestartButton";
  */
 export function App() {
 
+    const {t} = useTranslation();
+
     // Checks if the current page is a valid Moodle course page
     const [isValidCoursePage, setIsValidCoursePage] = useState(false);
     // Stores the detected course ID
@@ -59,10 +62,12 @@ export function App() {
     const [isError, setIsError] = useState(false); // Tracks if an error occurred during scraping
     const [outputMessage, setOutputMessage] = useState(""); // Message shown to the user after scraping
     const [button, setButton] = useState<ReactElement | null>(null); // Start or restart a button element
-    const [lastAnalyzedAgo, setLastAnalyzedAgo] = useState<string | null>(null); // Time since last analysis
-    // Absolute timestamp of the last analysis (used for file naming and detailed logs)
+
     const [lastAnalyzedAt, setLastAnalyzedAt] = useState<Date | null>(null);
     const [isRestored, setIsRestored] = useState(false); // Indicates if data has been restored from storage
+
+    // HOOK
+    const relativeTime = useRelativeTime(lastAnalyzedAt);
 
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
         const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId); // Get initial participant URL (no limit)
@@ -123,7 +128,7 @@ export function App() {
             setOutputMessage("Analysis completed successfully!");
             setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
             const now = new Date();
-            setLastAnalyzedAgo(getRelativeTime(now));
+
             setLastAnalyzedAt(now);
         } catch (error) {
             console.error("Error during analysis:", error);
@@ -156,19 +161,19 @@ export function App() {
 
     function validateAndExtractCourseId(url?: string): string | null {
         if (!url || !url.startsWith("http")) {
-            displayErrorMessage('error_invalid_url');
+            setTranslatedError('error_invalid_url');
             return null;
         }
 
         const {isCoursePage, courseId} = extractMoodleCourseId(url);
 
         if (!isCoursePage) {
-            displayErrorMessage('error_not_course_page');
+            setTranslatedError('error_not_course_page');
             return null;
         }
 
         if (!courseId) {
-            displayErrorMessage('error_missing_course_id');
+            setTranslatedError('error_missing_course_id');
             return null;
         }
 
@@ -186,13 +191,13 @@ export function App() {
             setCurrentCourseId(null);
 
             if (currentCourseId !== null) {
-                displayErrorMessage('error_not_course_page');
+                setTranslatedError('error_not_course_page');
             }
         }
     }
 
-    const displayErrorMessage = (message: string) => {
-        setOutputMessage(message);
+    const setTranslatedError = (key: string) => {
+        setOutputMessage(t(key));
         setIsError(true);
     };
 
@@ -235,7 +240,6 @@ export function App() {
         setOutputMessage("");
         setIsError(false);
         setButton(null);
-        setLastAnalyzedAgo(null);
         setLastAnalyzedAt(null);
     }, [currentCourseId]);
 
@@ -273,38 +277,14 @@ export function App() {
 
                 if (timestamp) {
                     const date = new Date(timestamp);
-                    setLastAnalyzedAgo(getRelativeTime(date));
                     setLastAnalyzedAt(date);
                 }
             }
         );
     }, [isValidCoursePage, currentCourseId]);
 
-    // Periodically update "time since last analysis"
-    useEffect(() => {
-        if (!isValidCoursePage || !currentCourseId) return;
-
-        const updateLastAnalyzedAgo = () => {
-            chrome.storage.local.get(["lastAnalyzedAt", "lastAnalyzedCourseId"], (data) => {
-                const timestamp = data.lastAnalyzedAt;
-                const lastCourse = data.lastAnalyzedCourseId;
-
-                if (timestamp && lastCourse === currentCourseId) {
-                    setLastAnalyzedAgo(getRelativeTime(new Date(timestamp)));
-                } else {
-                    setLastAnalyzedAgo(null);
-                }
-            });
-        };
-
-        updateLastAnalyzedAgo();
-        const interval = setInterval(updateLastAnalyzedAgo, 60_000);
-        return () => clearInterval(interval);
-    }, [isValidCoursePage, currentCourseId]);
-
-
     return (
-        <AnalysisContext.Provider value={{lastAnalyzedAgo, lastAnalyzedAt}}>
+        <AnalysisContext.Provider value={{lastAnalyzedAt}}>
             <div
                 className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
                 ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
@@ -318,7 +298,8 @@ export function App() {
                         alt="Extension Logo"
                         className="w-6 h-6 drop-shadow-sm"
                     />
-                    <h1 className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm border-b-2 border-orange-200 pb-1 whitespace-nowrap">
+                    <h1 className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm
+                    border-b-2 border-orange-200 pb-1 whitespace-nowrap">
                         Moodle Data Analyzer
                     </h1>
 
@@ -333,14 +314,23 @@ export function App() {
                             <InfoCard message={outputMessage} isError={isError}/>
                         )}
 
-                        {lastAnalyzedAgo && !isError && (
+
+                        {lastAnalyzedAt && !isError && (
                             <div className="mt-4 flex justify-center">
                                 <div
-                                    className="inline-flex flex-wrap justify-center items-center gap-2 text-sm text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded shadow-sm animate-fade-in">
+                                    className="inline-flex flex-wrap justify-center items-center gap-2 text-sm
+                                  text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded
+                                    shadow-sm animate-fade-in"
+                                >
                                     <ClockIcon className="w-4 h-4 text-orange-500"/>
                                     <span className="text-center">
-                                    Last analysis performed{" "}
-                                        <span className="font-medium text-orange-600">{lastAnalyzedAgo}</span> ago
+                                        <Trans
+                                            i18nKey="last_analysis"
+                                            values={{ time: relativeTime }}
+                                            components={{
+                                                orange: <span className="font-medium text-orange-600" />,
+                                            }}
+                                        />
                                     </span>
                                 </div>
                             </div>
@@ -352,5 +342,4 @@ export function App() {
             </div>
         </AnalysisContext.Provider>
     );
-
 }
