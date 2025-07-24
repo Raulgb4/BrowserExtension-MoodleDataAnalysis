@@ -21,7 +21,7 @@ import {
 } from "../../utils/chartDataUtils";
 import "../../chartConfig";
 import {ChartData} from "chart.js";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 type ActivityTypeKey =
     | "choices"
@@ -58,7 +58,7 @@ function aggregateActivityData(
     const avgAccessAgeMs: number[] = [];
     const labels: string[] = [];
 
-    for (const { key } of activityTypes) {
+    for (const {key} of activityTypes) {
         const activities = course[key] || [];
 
         const totalViews = activities.reduce(
@@ -86,7 +86,7 @@ function aggregateActivityData(
         labels.push(t(`activity.${key}`));
     }
 
-    return { views, users, avgAccessAgeMs, labels };
+    return {views, users, avgAccessAgeMs, labels};
 }
 
 
@@ -96,7 +96,7 @@ const GlobalTab: React.FC = () => {
     const [lastAccess, setLastAccess] = useState<number[]>([]);
     const [activityLabels, setActivityLabels] = useState<string[]>([]);
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {

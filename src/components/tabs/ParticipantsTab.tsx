@@ -23,6 +23,8 @@ import {
     computeAccessRanges,
 } from "../../utils/chartDataUtils";
 import {Participant} from "../../models/Participant";
+import { useTranslation } from "react-i18next";
+import {TFunction} from "i18next";
 
 const ParticipantsTab: React.FC = () => {
     // State for active/inactive participant counts
@@ -38,6 +40,8 @@ const ParticipantsTab: React.FC = () => {
     const [selectedRolesAccess, setSelectedRolesAccess] = useState<string[]>([]);
 
     const [participants, setParticipants] = useState<Participant[]>([]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Load participants and roles from local storage
@@ -86,10 +90,10 @@ const ParticipantsTab: React.FC = () => {
     };
 
     const pieData = {
-        labels: ["Active", "Inactive"],
+        labels: [t("legend.active"), t("legend.inactive")],
         datasets: [
             {
-                label: "Participants",
+                label: t("legend.participants"),
                 data: [activeCount, inactiveCount],
                 backgroundColor: [
                     "rgba(249, 128, 18, 0.6)", // orange
@@ -102,18 +106,18 @@ const ParticipantsTab: React.FC = () => {
     };
 
     const lastAccessLabels = [
-        "Last 7 days",
-        "8-30 days",
-        "31-90 days",
-        "> 90 days",
-        "Never accessed",
+        t("access.last_7_days"),
+        t("access.days_8_30"),
+        t("access.days_31_90"),
+        t("access.more_than_90"),
+        t("access.never_accessed"),
     ];
 
     const accessData = {
         labels: lastAccessLabels,
         datasets: [
             {
-                label: "Participants",
+                label: t("legend.participants"),
                 data: lastAccessRanges,
                 fill: true,
                 borderColor: "rgba(59, 130, 246, 1)", // blue
@@ -124,9 +128,8 @@ const ParticipantsTab: React.FC = () => {
         ],
     };
 
-    const getFilteredTitle = (base: string, roles: string[]) => {
-        // Append selected roles to the chart title
-        if (roles.length === 0) return `${base} (No roles selected)`;
+    const getFilteredTitle = (base: string, roles: string[], t: TFunction) => {
+        if (roles.length === 0) return `${base} (${t("roles.none_selected")})`;
         if (roles.length === 1) return `${base} (${roles[0]})`;
         return `${base} (${roles.join(" & ")})`;
     };
@@ -165,12 +168,12 @@ const ParticipantsTab: React.FC = () => {
         <div className="space-y-8">
             {/* Pie chart: Active vs Inactive participants */}
             <GraphBlock
-                title={getFilteredTitle("Global Participation", selectedRolesParticipation)}
+                title={getFilteredTitle(t("chart.global_participation"), selectedRolesParticipation, t)}
                 chartType="pie"
                 data={pieData}
             >
                 <RoleFilter
-                    title="Filter by role:"
+                    title={t("filter.by_role")}
                     roles={availableRoles}
                     selectedRoles={selectedRolesParticipation}
                     onToggle={handleRoleChangeParticipation}
@@ -181,12 +184,13 @@ const ParticipantsTab: React.FC = () => {
 
             {/* Line chart: Last access distribution */}
             <GraphBlock
-                title={getFilteredTitle("Last Access Distribution", selectedRolesAccess)}
+                title={getFilteredTitle(t("chart.last_access_distribution"), selectedRolesAccess, t)}
+
                 chartType="line"
                 data={accessData}
             >
                 <RoleFilter
-                    title="Filter by role:"
+                    title={t("filter.by_role")}
                     roles={availableRoles}
                     selectedRoles={selectedRolesAccess}
                     onToggle={handleRoleChangeAccess}

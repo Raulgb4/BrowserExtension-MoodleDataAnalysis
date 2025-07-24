@@ -27,12 +27,36 @@
   "chart": {
     "total_visits": "Visitas totales por tipo de actividad",
     "avg_views_per_user": "Media de visualizaciones por usuario",
-    "avg_days_since_last_access": "Días desde el último acceso por tipo de actividad"
+    "avg_days_since_last_access": "Días desde el último acceso por tipo de actividad",
+    "global_participation": "Participación Global",
+    "last_access_distribution": "Distribución del último Acceso"
   },
+
+  "access": {
+    "last_7_days": "Últimos 7 días",
+    "days_8_30": "8-30 días",
+    "days_31_90": "31-90 días",
+    "more_than_90": "> 90 días",
+    "never_accessed": "Nunca accedido"
+  },
+
+
   "legend": {
     "visits": "Visitas",
-    "views": "Visualizaciones"
+    "views": "Visualizaciones",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "participants": "Participantes"
   },
+
+  "filter": {
+    "by_role": "Filtrar por rol:"
+  },
+
+  "roles": {
+    "none_selected": "Ningún rol seleccionado"
+  },
+
   "activity": {
     "choices": "Encuestas",
     "quizzes": "Cuestionarios",
