@@ -23,5 +23,22 @@
   "tab_choices": "Choices",
   "tab_quizzes": "Quizzes",
   "tab_forums": "Forums",
-  "tab_other_activities": "Other Activities"
+  "tab_other_activities": "Other Activities",
+  "chart": {
+    "total_visits": "Total Visits by Activity Type",
+    "avg_views_per_user": "Average Views per User",
+    "avg_days_since_last_access": "Average Days Since Last Access by Activity Type"
+  },
+  "legend": {
+    "visits": "Visits",
+    "views": "Views"
+  },
+  "activity": {
+    "choices": "Choices",
+    "quizzes": "Quizzes",
+    "forums": "Forums",
+    "urlResources": "URL Resources",
+    "resources": "Resources",
+    "workshops": "Workshops"
+  }
 }

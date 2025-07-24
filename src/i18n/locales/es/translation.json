@@ -23,5 +23,22 @@
   "tab_choices": "Encuestas",
   "tab_quizzes": "Cuestionarios",
   "tab_forums": "Foros",
-  "tab_other_activities": "Otras Actividades"
+  "tab_other_activities": "Otras Actividades",
+  "chart": {
+    "total_visits": "Visitas totales por tipo de actividad",
+    "avg_views_per_user": "Media de visualizaciones por usuario",
+    "avg_days_since_last_access": "Días desde el último acceso por tipo de actividad"
+  },
+  "legend": {
+    "visits": "Visitas",
+    "views": "Visualizaciones"
+  },
+  "activity": {
+    "choices": "Encuestas",
+    "quizzes": "Cuestionarios",
+    "forums": "Foros",
+    "urlResources": "Enlaces",
+    "resources": "Archivos",
+    "workshops": "Talleres"
+  }
 }

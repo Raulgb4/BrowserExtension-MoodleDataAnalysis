@@ -24,6 +24,7 @@ import {
 } from "@heroicons/react/24/outline";
 import {useAnalysisContext} from "../context/AnalysisContext";
 import {formatDateForExport} from "../utils/exportUtils";
+import {useTranslation} from "react-i18next";
 
 type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea";
 
@@ -61,6 +62,9 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    options,
                                                    children,
                                                }) => {
+
+    const {t} = useTranslation();
+
     const chartRef = useRef<ChartJS>(null);
 
 
@@ -167,7 +171,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
                     bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full break-words text-left"
                 >
-                    {title}
+                    {t(title)}
                 </p>
 
                 <div className="flex gap-2 flex-wrap justify-end">

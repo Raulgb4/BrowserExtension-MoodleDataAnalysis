@@ -21,6 +21,7 @@ import {
 } from "../../utils/chartDataUtils";
 import "../../chartConfig";
 import {ChartData} from "chart.js";
+import { useTranslation } from "react-i18next";
 
 type ActivityTypeKey =
     | "choices"
@@ -48,13 +49,16 @@ interface AggregatedData {
 }
 
 // Aggregates view/user/access stats for each activity type
-function aggregateActivityData(course: Record<string, any[]>): AggregatedData {
+function aggregateActivityData(
+    course: Record<string, any[]>,
+    t: (key: string) => string
+): AggregatedData {
     const views: number[] = [];
     const users: number[] = [];
     const avgAccessAgeMs: number[] = [];
     const labels: string[] = [];
 
-    for (const {key, label} of activityTypes) {
+    for (const { key } of activityTypes) {
         const activities = course[key] || [];
 
         const totalViews = activities.reduce(
@@ -79,17 +83,20 @@ function aggregateActivityData(course: Record<string, any[]>): AggregatedData {
         avgAccessAgeMs.push(avgDaysAgo);
         views.push(totalViews);
         users.push(totalUsers);
-        labels.push(label);
+        labels.push(t(`activity.${key}`));
     }
 
-    return {views, users, avgAccessAgeMs, labels};
+    return { views, users, avgAccessAgeMs, labels };
 }
+
 
 const GlobalTab: React.FC = () => {
     const [numViews, setNumViews] = useState<number[]>([]);
     const [numUsers, setNumUsers] = useState<number[]>([]);
     const [lastAccess, setLastAccess] = useState<number[]>([]);
     const [activityLabels, setActivityLabels] = useState<string[]>([]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
@@ -100,14 +107,14 @@ const GlobalTab: React.FC = () => {
             if (!courseKey) return;
 
             const course = result[courseKey];
-            const {views, users, avgAccessAgeMs, labels} = aggregateActivityData(course);
+            const {views, users, avgAccessAgeMs, labels} = aggregateActivityData(course, t);
 
             setNumViews(views);
             setNumUsers(users);
             setLastAccess(avgAccessAgeMs);
             setActivityLabels(labels);
         });
-    }, []);
+    }, [t]);
 
     // Derived metrics
     const avgViewsPerUser = calculateAvgViews(numViews, numUsers);
@@ -116,18 +123,19 @@ const GlobalTab: React.FC = () => {
     // Chart data for each metric
     const totalViewsData = createChartData(
         activityLabels,
-        "Visits",
+        t("legend.visits"),
         numViews,
         {bg: "rgba(249, 128, 18, 0.6)", border: "rgba(249, 128, 18, 1)"}
     );
 
     const avgViewsData = createChartData(
         activityLabels,
-        "Views",
+        t("legend.views"),
         avgViewsPerUser,
         {bg: "rgba(100, 181, 246, 0.6)", border: "rgba(100, 181, 246, 1)"},
         {fill: false, tension: 0.3}
     );
+
 
     const generateColors = (count: number, opacity = 0.6): string[] => {
         const palette = [
@@ -169,17 +177,17 @@ const GlobalTab: React.FC = () => {
     // Array of chart configurations to render
     const chartBlocks = [
         {
-            title: "Total Visits by Activity Type",
+            title: "chart.total_visits",
             chartType: "bar" as const,
             data: totalViewsData,
         },
         {
-            title: "Average Views per User",
+            title: "chart.avg_views_per_user",
             chartType: "line" as const,
             data: avgViewsData,
         },
         {
-            title: "Average Days Since Last Access by Activity Type",
+            title: "chart.avg_days_since_last_access",
             chartType: "polarArea" as const,
             data: lastAccessData,
         }
