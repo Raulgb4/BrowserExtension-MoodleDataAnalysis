@@ -158,7 +158,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     const imageFormats: ("png" | "jpeg")[] = ["png", "jpeg"];
 
     const formattedDate = lastAnalyzedAt ? formatDateForExport(lastAnalyzedAt) : "unknown";
-    const baseFileName = `${title}__${formattedDate}`;
+    const translatedTitle = t(title);
+    const baseFileName = `${translatedTitle}__${formattedDate}`;
 
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
 
@@ -171,7 +172,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
                     bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full break-words text-left"
                 >
-                    {t(title)}
+                    {translatedTitle}
                 </p>
 
                 <div className="flex gap-2 flex-wrap justify-end">
