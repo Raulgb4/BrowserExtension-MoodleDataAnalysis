@@ -33,7 +33,9 @@
     "choice_results": "Resultados de encuesta",
     "choice_activity_results": "Resultados de \"{{name}}\"",
     "quiz_avg_score_evolution": "Evolución de la nota media",
-    "quiz_top_n": "{{name}} - Top {{count}} estudiantes"
+    "quiz_top_n": "{{name}} - Top {{count}} estudiantes",
+    "subscriptions_per_forum": "Suscripciones por foro",
+    "forum_top_n": "{{name}} - Top {{count}} participantes"
   },
 
   "access": {
@@ -53,7 +55,9 @@
     "participants": "Participantes",
     "responses": "Respuestas",
     "normalized_score": "Nota normalizada",
-    "average_score": "Nota media"
+    "average_score": "Nota media",
+    "participation_percentage": "Participación (%)",
+    "subscriptions": "Suscripciones"
   },
 
   "filter": {
@@ -76,6 +80,7 @@
   "category": "Categoría",
   "value": "Valor",
   "label": {
-    "students": "estudiantes"
+    "students": "estudiantes",
+    "participants": "participantes"
   }
 }

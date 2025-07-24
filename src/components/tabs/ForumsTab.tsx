@@ -15,10 +15,13 @@ import "../../chartConfig";
 import {Forum, ForumParticipantData} from "../../models/Forum";
 import {ChartData} from "chart.js";
 import {getTopByMetric} from "../../utils/chartDataUtils";
+import { useTranslation } from "react-i18next";
 
 const ForumsTab: React.FC = () => {
     const [forums, setForums] = useState<Forum[]>([]);
     const [topNs, setTopNs] = useState<Record<number, number>>({}); // Tracks top-N participants per forum
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Load forums from local storage
@@ -64,7 +67,7 @@ const ForumsTab: React.FC = () => {
         labels: forumLabels,
         datasets: [
             {
-                label: "Subscriptions",
+                label: t("legend.subscriptions"),
                 data: forumSubscriptions,
                 backgroundColor: "rgba(249, 128, 18, 0.6)",
                 borderColor: "rgba(249, 128, 18, 1)",
@@ -97,7 +100,7 @@ const ForumsTab: React.FC = () => {
         <div>
             {/* Bar chart for forum subscriptions */}
             <GraphBlock
-                title="Subscriptions per Forum"
+                title={t("chart.subscriptions_per_forum")}
                 chartType="bar"
                 data={subsData}
             />
@@ -124,7 +127,7 @@ const ForumsTab: React.FC = () => {
                     labels,
                     datasets: [
                         {
-                            label: "Participation (%)",
+                            label: t("legend.participation_percentage"),
                             data: values,
                             fill: false,
                             borderColor: "rgba(100, 181, 246, 1)",
@@ -138,14 +141,14 @@ const ForumsTab: React.FC = () => {
                     <div key={forum.id}>
                         {/* Line chart for forum activity distribution */}
                         <GraphBlock
-                            title={`${forum.activityName} - Top ${topN} participants`}
+                            title={t("chart.forum_top_n", { name: forum.activityName, count: topN })}
                             chartType="line"
                             data={data}
                         >
                             {/* Top-N input control */}
                             <div className="flex justify-center mb-4 text-sm text-gray-700">
                                 <label className="flex items-center gap-2">
-                                    Show top
+                                    {t("filter.show_top")}
                                     <input
                                         type="number"
                                         min={1}
@@ -161,7 +164,7 @@ const ForumsTab: React.FC = () => {
                                         }}
                                         className="w-16 border border-gray-300 rounded px-2 py-1 text-center"
                                     />
-                                    participants
+                                    {t("label.participants")}
                                 </label>
                             </div>
                         </GraphBlock>
