@@ -69,29 +69,29 @@ Internacionalizar portada, índice y metadatos
 - [ ] Nombre del archivo exportado basado en el nombre del curso y la fecha
 
 
+2. [Alta] JSDOC, Refactorización y limpieza de código
 
-
-2. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
+3. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
 concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante, se podría poner su nombre,
 calificación final, todas aquellas actividades que han sido evaluadas junto con la calificación obtenida, y la
 interacción que ha tenido en cada actividad.
 
 ------------------------------------------------------------------------------------------------------------------------
 
-3. [Alta] Adaptación al entorno oficial de producción: En cuanto tengas esto hecho, te daré acceso a un curso oficial
+4. [Alta] Adaptación al entorno oficial de producción: En cuanto tengas esto hecho, te daré acceso a un curso oficial
 de la UMA para adaptar la extensión a dicho entorno. Esta funcionalidad es mejor dejarla para el finalAdaptar la
 extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga, comprobando compatibilidad
 y posibles diferencias con el entorno de desarrollo actual.
 
-4. [Alta] Verificación de consistencia de datos: Testeo completo para verificar que los datos mostrados coinciden
+5. [Alta] Verificación de consistencia de datos: Testeo completo para verificar que los datos mostrados coinciden
 con los que aparecen en Moodle.
 
-5. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
+6. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
 ese curso. Lo que se quiere es modificar esta lógica para que los análisis anteriores NO se eliminen, sino que
 se acumulen o conserven, permitiendo mantener múltiples versiones del análisis o un histórico por
 curso, si se considera útil.
 
-6. [Baja] Análisis de discrepancias en fechas Analizar discrepancias detectadas en datos de fechas entre
+7. [Baja] Análisis de discrepancias en fechas Analizar discrepancias detectadas en datos de fechas entre
 la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
  - Posible causa: desajustes relacionados con la zona horaria.

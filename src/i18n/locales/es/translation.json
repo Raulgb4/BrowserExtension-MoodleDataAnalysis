@@ -95,5 +95,15 @@
     "students": "estudiantes",
     "participants": "participantes",
     "activities": "actividades"
+  },
+
+  "pdf": {
+    "analysis_date": "Fecha de análisis",
+    "author": "Autor"
+  },
+
+  "course": {
+    "unknown": "Curso desconocido",
+    "unnamed": "Curso sin nombre"
   }
 }

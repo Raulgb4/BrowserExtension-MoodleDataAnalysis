@@ -37,6 +37,7 @@ import RestartButton from "./components/RestartButton";
 import {Trans, useTranslation} from "react-i18next";
 import {useRelativeTime} from "./hooks/useRelativeTime";
 import ExportAllSelector from "./components/ExportAllSelector";
+import {ExportProvider} from "./context/ExportContext";
 
 /**
  * @function App
@@ -288,53 +289,54 @@ export function App() {
     }, [isValidCoursePage, currentCourseId]);
 
     return (
-        <AnalysisContext.Provider value={{lastAnalyzedAt}}>
-            <div
-                className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
+        <ExportProvider>
+            <AnalysisContext.Provider value={{lastAnalyzedAt}}>
+                <div
+                    className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
             ${outputMessage && !isError ? "min-w-[310px] max-w-[740px]" : "min-w-[310px] max-w-[600px]"}`}
-            >
-                <div className="absolute top-3 right-3">
-                    <LanguageSelector/>
-                </div>
+                >
+                    <div className="absolute top-3 right-3">
+                        <LanguageSelector/>
+                    </div>
 
-                <div className="flex flex-col items-center justify-center gap-2 mb-4 animate-fade-in text-center">
-                    <img
-                        src="/icons/icon48.png"
-                        alt="Extension Logo"
-                        className="w-6 h-6 drop-shadow-sm"
-                    />
-                    <h1
-                        className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm
+                    <div className="flex flex-col items-center justify-center gap-2 mb-4 animate-fade-in text-center">
+                        <img
+                            src="/icons/icon48.png"
+                            alt="Extension Logo"
+                            className="w-6 h-6 drop-shadow-sm"
+                        />
+                        <h1
+                            className="text-2xl xs:text-xl font-black text-orange-600 tracking-wide drop-shadow-sm
                     border-b-2 border-orange-200 pb-1 whitespace-nowrap"
-                    >
-                        Moodle Data Analyzer
-                    </h1>
+                        >
+                            Moodle Data Analyzer
+                        </h1>
 
-                    {!isLoading && !isError && (
-                        <>
-                            <div className="mt-4">{button}</div>
-                        </>
-                    )}
-                </div>
-
-                {isLoading && <Loader/>}
-
-                {!isLoading && (
-                    <>
-                        {outputMessage && (
-                            <InfoCard message={t(outputMessage)} isError={isError}/>
-                        )}
-
-                        {lastAnalyzedAt && !isError && (
+                        {!isLoading && !isError && (
                             <>
-                                <div className="mt-4 flex justify-center">
-                                    <div
-                                        className="inline-flex flex-wrap justify-center items-center gap-2 text-sm
+                                <div className="mt-4">{button}</div>
+                            </>
+                        )}
+                    </div>
+
+                    {isLoading && <Loader/>}
+
+                    {!isLoading && (
+                        <>
+                            {outputMessage && (
+                                <InfoCard message={t(outputMessage)} isError={isError}/>
+                            )}
+
+                            {lastAnalyzedAt && !isError && (
+                                <>
+                                    <div className="mt-4 flex justify-center">
+                                        <div
+                                            className="inline-flex flex-wrap justify-center items-center gap-2 text-sm
                                     text-gray-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded
                                     shadow-sm animate-fade-in"
-                                    >
-                                        <ClockIcon className="w-4 h-4 text-orange-500"/>
-                                        <span className="text-center">
+                                        >
+                                            <ClockIcon className="w-4 h-4 text-orange-500"/>
+                                            <span className="text-center">
                                         <Trans
                                             i18nKey="last_analysis"
                                             values={{time: relativeTime}}
@@ -343,34 +345,35 @@ export function App() {
                                             }}
                                         />
                                     </span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {courseName && (
-                                    <div
-                                        className="mt-4 border border-orange-300 rounded-md px-3 py-2 text-center text-sm text-gray-800 font-semibold animate-fade-in"
-                                    >
-                                        <Trans
-                                            i18nKey="course_name_display"
-                                            values={{name: courseName}}
-                                            components={{
-                                                orange: <span className="text-orange-600 font-bold"/>,
-                                            }}
-                                        />
+                                    {courseName && (
+                                        <div
+                                            className="mt-4 border border-orange-300 rounded-md px-3 py-2 text-center text-sm text-gray-800 font-semibold animate-fade-in"
+                                        >
+                                            <Trans
+                                                i18nKey="course_name_display"
+                                                values={{name: courseName}}
+                                                components={{
+                                                    orange: <span className="text-orange-600 font-bold"/>,
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+
+                                    <div className="mt-4 flex justify-center animate-fade-in">
+                                        <ExportAllSelector/>
                                     </div>
-                                )}
 
-                                <div className="mt-4 flex justify-center animate-fade-in">
-                                    <ExportAllSelector />
-                                </div>
+                                </>
+                            )}
 
-                            </>
-                        )}
-
-                        {outputMessage && !isError && <TabSection/>}
-                    </>
-                )}
-            </div>
-        </AnalysisContext.Provider>
+                            {outputMessage && !isError && <TabSection/>}
+                        </>
+                    )}
+                </div>
+            </AnalysisContext.Provider>
+        </ExportProvider>
     );
 }

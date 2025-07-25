@@ -13,7 +13,7 @@
  * @date 2025
  */
 
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useMemo, useRef} from "react";
 import {Pie, Bar, Line, Radar, PolarArea} from "react-chartjs-2";
 import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
 import {exportToCSV, exportToPDF, exportToImage, exportToDOCX} from "../utils/exportUtils";
@@ -26,6 +26,7 @@ import {useAnalysisContext} from "../context/AnalysisContext";
 import {formatDateForExport} from "../utils/exportUtils";
 import {useTranslation} from "react-i18next";
 import {DocumentTextIcon} from "@heroicons/react/16/solid";
+import {useExportContext} from "../context/ExportContext";
 
 type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea";
 
@@ -106,6 +107,20 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             : [];
 
     const maxLabelLength = 15;
+
+    const { register, unregister } = useExportContext();
+
+    const exportable = useMemo(() => ({
+        chartRef,
+        title,
+        labels: exportLabels,
+        values: exportValues,
+    }), [chartRef, title, exportLabels, exportValues]);
+
+    useEffect(() => {
+        register(exportable);
+        return () => unregister(chartRef);
+    }, [exportable, register, unregister, chartRef]);
 
     const defaultOptions: ChartOptions = {
         plugins: {
@@ -210,7 +225,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
                         hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <DocumentTextIcon className="w-4 h-4" />
+                        <DocumentTextIcon className="w-4 h-4"/>
                         DOCX
                     </button>
 

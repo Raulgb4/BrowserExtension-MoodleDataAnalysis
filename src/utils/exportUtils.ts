@@ -16,8 +16,21 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {Chart as ChartJS} from "chart.js";
 import React, {RefObject} from "react";
-import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, WidthType, ImageRun } from "docx";
-import { saveAs } from "file-saver";
+import {
+    Document,
+    Packer,
+    Paragraph,
+    TextRun,
+    Table,
+    TableRow,
+    TableCell,
+    AlignmentType,
+    WidthType,
+    ImageRun
+} from "docx";
+import {saveAs} from "file-saver";
+import type {Exportable} from "../context/ExportContext";
+
 
 /**
  * @function formatDateForExport
@@ -281,7 +294,7 @@ export async function exportToDOCX(
             fill: "fff7ed",
         },
         children: [
-            new TextRun({ text: "\n" }), // simulate top padding
+            new TextRun({text: "\n"}), // simulate top padding
             new TextRun({
                 text: filename.replace(/\.[^/.]+$/, ""),
                 bold: true,
@@ -289,14 +302,14 @@ export async function exportToDOCX(
                 font: "Helvetica",
                 color: "f98012",
             }),
-            new TextRun({ text: "\n" }), // simulate bottom padding
+            new TextRun({text: "\n"}), // simulate bottom padding
         ],
     });
 
     // Chart image
     const image = new Paragraph({
         alignment: AlignmentType.CENTER,
-        spacing: { after: 300 },
+        spacing: {after: 300},
         children: [
             new ImageRun({
                 data: byteArray,
@@ -314,8 +327,8 @@ export async function exportToDOCX(
         tableHeader: true,
         children: headers.map(header =>
             new TableCell({
-                width: { size: 50, type: WidthType.PERCENTAGE },
-                shading: { fill: "f98012" },
+                width: {size: 50, type: WidthType.PERCENTAGE},
+                shading: {fill: "f98012"},
                 children: [
                     new Paragraph({
                         alignment: AlignmentType.LEFT,
@@ -338,7 +351,7 @@ export async function exportToDOCX(
         new TableRow({
             children: [
                 new TableCell({
-                    shading: i % 2 === 0 ? { fill: "f9fafb" } : undefined,
+                    shading: i % 2 === 0 ? {fill: "f9fafb"} : undefined,
                     children: [
                         new Paragraph({
                             alignment: AlignmentType.LEFT,
@@ -352,7 +365,7 @@ export async function exportToDOCX(
                     ],
                 }),
                 new TableCell({
-                    shading: i % 2 === 0 ? { fill: "f9fafb" } : undefined,
+                    shading: i % 2 === 0 ? {fill: "f9fafb"} : undefined,
                     children: [
                         new Paragraph({
                             alignment: AlignmentType.LEFT,
@@ -371,7 +384,7 @@ export async function exportToDOCX(
 
     const table = new Table({
         rows: [tableHeaderRow, ...dataRows],
-        width: { size: 100, type: WidthType.PERCENTAGE },
+        width: {size: 100, type: WidthType.PERCENTAGE},
         alignment: AlignmentType.CENTER,
     });
 
@@ -387,4 +400,108 @@ export async function exportToDOCX(
     const blob = await Packer.toBlob(doc);
     saveAs(blob, filename);
 }
+
+export async function exportAllToPDF(
+    exportables: Exportable[],
+    t: (key: string) => string // Pass translation function from useTranslation
+) {
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const now = new Date();
+    const formattedDate = formatDateForExport(now);
+
+    // === Load course name dynamically from storage ===
+    const courseName: string = await new Promise((resolve) => {
+        chrome.storage.local.get(["lastAnalyzedCourseId"], (res) => {
+            const courseId = res.lastAnalyzedCourseId;
+            if (!courseId) return resolve(t("course.unknown"));
+
+            chrome.storage.local.get([`course_${courseId}`], (data) => {
+                const course = data[`course_${courseId}`];
+                const name = course?.courseName || t("course.unnamed");
+                resolve(name);
+            });
+        });
+    });
+
+    const author = "Raúl García Balongo";
+
+    // ===== 1. Cover page =====
+    doc.setFillColor(255, 247, 237); // Light orange background
+    doc.rect(0, 0, pageWidth, pageHeight, 'F'); // Full-page background
+
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(249, 128, 18);
+
+    const titleLines = doc.splitTextToSize(courseName, pageWidth - 40);
+    const titleStartY = 60;
+    const lineHeight = 8;
+    const titleBlockHeight = titleLines.length * lineHeight;
+
+    doc.text(titleLines, pageWidth / 2, titleStartY, { align: "center" });
+
+    const nextBlockY = titleStartY + titleBlockHeight + 10;
+
+    doc.setFontSize(12);
+    doc.setTextColor(100);
+    doc.text(`${t("pdf.analysis_date")}: ${formattedDate}`, pageWidth / 2, nextBlockY, { align: "center" });
+    doc.text(`${t("pdf.author")}: ${author}`, pageWidth / 2, nextBlockY + 10, { align: "center" });
+
+    const logoY = nextBlockY + 25;
+    const logo = new Image();
+    logo.src = "/icons/icon128.png";
+
+    await new Promise<void>((resolve) => {
+        logo.onload = () => {
+            doc.addImage(logo, "PNG", pageWidth / 2 - 32, logoY, 64, 64);
+            resolve();
+        };
+    });
+
+    doc.addPage();
+
+    // ===== 2. Charts =====
+    for (let i = 0; i < exportables.length; i++) {
+        const { chartRef, title, labels, values } = exportables[i];
+        const chart = chartRef.current;
+        if (!chart) continue;
+
+        const base64Image = chart.toBase64Image();
+        const imgProps = (doc as any).getImageProperties?.(base64Image);
+        const pdfWidth = 180;
+        const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
+        const pdfHeight = pdfWidth * aspectRatio;
+
+        const translatedTitle = t(title); // Translate chart title
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(249, 128, 18);
+        doc.setDrawColor(249, 128, 18);
+        doc.setFillColor(255, 247, 237);
+        doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, 'F');
+        doc.text(translatedTitle, pageWidth / 2, 18, { align: "center" });
+
+        doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
+
+        const tableStartY = 25 + pdfHeight + 10;
+        const tableData = labels.map((label, i) => [label, values[i]]);
+        autoTable(doc, {
+            startY: tableStartY,
+            head: [[t("category"), t("value")]],
+            body: tableData,
+            styles: { fontSize: 10 },
+            headStyles: { fillColor: [249, 128, 18] },
+        });
+
+        if (i < exportables.length - 1) doc.addPage();
+    }
+
+    const filename = `Moodle_Report_${formattedDate}.pdf`;
+    doc.save(filename);
+}
+
+
 

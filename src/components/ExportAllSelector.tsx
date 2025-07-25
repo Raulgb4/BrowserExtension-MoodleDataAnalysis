@@ -11,21 +11,37 @@
  * @date 2025
  */
 
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+
+import {useExportContext} from "../context/ExportContext";
+import {exportAllToPDF} from "../utils/exportUtils";
+//import { exportAllToDOCX } from "../utils/exportAllToDOCX";
 
 const ExportAllSelector: React.FC = () => {
     const { t } = useTranslation();
     const [format, setFormat] = useState<'pdf' | 'docx'>('pdf');
     const [isExporting, setIsExporting] = useState(false);
 
+    const { getAll } = useExportContext();
+
     const handleExport = async () => {
         setIsExporting(true);
-        console.log(`Exporting all charts as ${format.toUpperCase()}`);
-        // Simulate export logic
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setIsExporting(false);
+        const exportables = getAll();
+
+        try {
+            if (format === "pdf") {
+                await exportAllToPDF(exportables, t);
+            } else {
+                // await exportAllToDOCX(exportables, t);
+            }
+        } catch (error) {
+            console.error("Error during export:", error);
+        } finally {
+            setIsExporting(false);
+        }
     };
+
 
     return (
         <div className="flex flex-col items-center gap-2 text-xs mt-2 w-full">
@@ -52,8 +68,10 @@ const ExportAllSelector: React.FC = () => {
             {isExporting && (
                 <div className="flex items-center justify-center mt-2">
                     <div className="relative w-6 h-6">
-                        <div className="absolute inset-0 rounded-full border-2 border-t-transparent border-orange-400 animate-spin"></div>
-                        <div className="absolute inset-1 rounded-full bg-orange-100 opacity-60 animate-pulse shadow-inner"></div>
+                        <div
+                            className="absolute inset-0 rounded-full border-2 border-t-transparent border-orange-400 animate-spin"></div>
+                        <div
+                            className="absolute inset-1 rounded-full bg-orange-100 opacity-60 animate-pulse shadow-inner"></div>
                     </div>
                 </div>
             )}
