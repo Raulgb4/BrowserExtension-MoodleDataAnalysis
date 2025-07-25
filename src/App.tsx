@@ -64,7 +64,7 @@ export function App() {
     const [button, setButton] = useState<ReactElement | null>(null); // Start or restart a button element
 
     const [lastAnalyzedAt, setLastAnalyzedAt] = useState<Date | null>(null);
-    const [isRestored, setIsRestored] = useState(false); // Indicates if data has been restored from storage
+    const setIsRestored = useState(false)[1];  // Indicates if data has been restored from storage
 
     const [courseName, setCourseName] = useState<string | null>(null);
 
@@ -193,10 +193,7 @@ export function App() {
         } else {
             setIsValidCoursePage(false);
             setCurrentCourseId(null);
-
-            if (currentCourseId !== null) {
-                setTranslatedError('error_not_course_page');
-            }
+            setIsRestored(false);
         }
     }
 
@@ -278,7 +275,7 @@ export function App() {
                 setCourseName(course.courseName ?? null);
                 setButton(<RestartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                 setIsRestored(true);
-                setOutputMessage("Previous analysis restored.");
+                setOutputMessage("info_restored_analysis");
                 setIsError(false);
 
                 if (timestamp) {
@@ -323,7 +320,7 @@ export function App() {
 
                 {!isLoading && (
                     <>
-                        {!isRestored && outputMessage && (
+                        {outputMessage && (
                             <InfoCard message={t(outputMessage)} isError={isError}/>
                         )}
 
@@ -354,9 +351,9 @@ export function App() {
                                     >
                                         <Trans
                                             i18nKey="course_name_display"
-                                            values={{ name: courseName }}
+                                            values={{name: courseName}}
                                             components={{
-                                                orange: <span className="text-orange-600 font-bold" />,
+                                                orange: <span className="text-orange-600 font-bold"/>,
                                             }}
                                         />
                                     </div>

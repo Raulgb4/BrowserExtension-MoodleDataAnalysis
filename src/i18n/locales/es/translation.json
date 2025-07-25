@@ -4,6 +4,7 @@
   "scrape": "Analizar Curso",
   "last_scraped": "Último análisis hace {{time}}",
   "start": "Empezar",
+  "info_restored_analysis": "Análisis anterior restaurado.",
   "status": {
     "analyzing": "Analizando los datos de Moodle..."
   },

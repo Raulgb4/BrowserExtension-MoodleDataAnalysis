@@ -3,6 +3,7 @@
   "title": "Moodle Data Analyzer",
   "scrape": "Analyze Course",
   "last_scraped": "Last analyzed {{time}} ago",
+  "info_restored_analysis": "Previous analysis restored.",
   "start": "Start",
   "status": {
     "analyzing": "Analyzing Moodle data..."
