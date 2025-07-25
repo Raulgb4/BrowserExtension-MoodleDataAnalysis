@@ -69,7 +69,7 @@ const TabSection: React.FC = () => {
                 }}
             >
                 <nav
-                    className="flex px-4 gap-4 sm:gap-6 w-max pb-3"
+                    className="flex justify-center px-4 gap-4 sm:gap-6 w-full pb-3"
                     aria-label="Tabs"
                 >
                     {tabs.map(({key, icon: Icon}) => {
@@ -84,7 +84,7 @@ const TabSection: React.FC = () => {
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
-                                <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+                                <Icon className="w-4 h-4" aria-hidden="true"/>
                                 <span>{t(key)}</span>
                             </button>
                         );

@@ -374,9 +374,6 @@
   .h-full {
     height: 100%;
   }
-  .w-3\.5 {
-    width: calc(var(--spacing) * 3.5);
-  }
   .w-3\/4 {
     width: calc(3/4 * 100%);
   }
@@ -409,9 +406,6 @@
   }
   .w-full {
     width: 100%;
-  }
-  .w-max {
-    width: max-content;
   }
   .max-w-4xl {
     max-width: var(--container-4xl);
