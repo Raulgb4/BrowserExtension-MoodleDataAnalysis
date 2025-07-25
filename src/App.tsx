@@ -36,6 +36,7 @@ import StartButton from "./components/StartButton";
 import RestartButton from "./components/RestartButton";
 import {Trans, useTranslation} from "react-i18next";
 import {useRelativeTime} from "./hooks/useRelativeTime";
+import ExportAllSelector from "./components/ExportAllSelector";
 
 /**
  * @function App
@@ -358,6 +359,11 @@ export function App() {
                                         />
                                     </div>
                                 )}
+
+                                <div className="mt-4 flex justify-center animate-fade-in">
+                                    <ExportAllSelector />
+                                </div>
+
                             </>
                         )}
 

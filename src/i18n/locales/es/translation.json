@@ -8,6 +8,7 @@
   "status": {
     "analyzing": "Analizando los datos de Moodle..."
   },
+  "export_all": "Exportar todo",
   "reanalyze": "Reanalizar",
   "error_invalid_url": "No se encontró una pestaña activa o la URL no es válida.",
   "error_not_course_page": "Esta página no se reconoce como parte de un curso de Moodle.",

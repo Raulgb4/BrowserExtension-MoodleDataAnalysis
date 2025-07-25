@@ -9,6 +9,72 @@ que además se pueda exportar en formato DOCX) tipo memoria con todas las gráfi
 documento con portada en la que aparezca el nombre del curso, un índice (opcional), y todas las gráficas que
 es generado.
 
+OBJETIVO DE LA TAREA
+
+Permitir al usuario exportar un documento completo (PDF y/o DOCX) que recoja todas las gráficas generadas
+por la extensión, en un solo archivo tipo memoria que incluya:
+
+1. Portada con el nombre del curso (y opcionalmente fecha, autor, logo...).
+2. Índice (opcional, pero útil si hay muchas gráficas o secciones).
+3. Gráficas con título, imagen, tabla de datos asociada (como ya haces en cada export individual).
+4. Esto de forma automática, sin que el usuario tenga que exportar una a una.
+
+ENFOQUE GENERAL DE IMPLEMENTACIÓN
+
+1. Estructura del documento exportado
+
+a. Portada
+- Nombre del curso (lo tienes en el modelo).
+- Fecha de análisis (también la tienes).
+- Logo de la extensión o de Moodle.
+
+b. Índice (opcional)
+- Lista de secciones o gráficas con su número de página (en PDF) o título (en DOCX).
+- Para PDF: puedes usar autoTable con saltos de página.
+- Para DOCX: usa un listado con enlaces internos o simplemente párrafos con estilos de encabezado.
+
+c. Cuerpo del documento
+Por cada gráfica:
+- Título traducido.
+- Imagen de la gráfica (ya generas base64).
+- Tabla con los datos (etiquetas + valores).
+- Puedes agrupar por sección: "Quizzes", "Choices", etc., como en la interfaz.
+
+d. Estilo visual
+- Fondo blanco o muy claro.
+- Colores coherentes con la interfaz de la extensión.
+- Espaciado generoso para que quede legible.
+- Tipografías sencillas y modernas.
+
+IDEAS DE IMPLEMENTACIÓN
+
+Recoger las gráficas
+- Aprovecha que GraphBlock ya encapsula: podrías almacenar referencias a todos los chartRef en una
+estructura global o contexto.
+- Otra opción es que cada GraphBlock se registre automáticamente en un array cuando se monta.
+- Guarda además: título traducido, labels, values, chartRef.
+
+Reutiliza tus funciones actuales
+- Puedes reutilizar las funciones exportToPDF y exportToDOCX, pero adaptadas para documento acumulativo
+(en lugar de doc.save() tras cada gráfica, acumular secciones y luego guardar al final).
+- Modulariza: una función que genere la "página" de cada gráfica a partir de los datos recopilados.
+
+Flujo de exportación
+1. El usuario pulsa "Exportar"
+2. Se recogen todas las gráficas visibles (o también ocultas si quieres).
+3. Se genera el documento (PDF o DOCX) siguiendo el esquema anterior.
+4. Se descarga automáticamente.
+
+SUGERENCIAS EXTRA
+
+- Internacionalización: Usa useTranslation para que el título del documento, portada e índices estén traducidos.
+- Tamaño de página: ajusta el tamaño de imagen según orientación (horizontal para barras, vertical para pies).
+- Testeo: asegúrate de que se exportan correctamente distintas combinaciones de gráficos (inactivos, sin datos, etc.).
+
+
+
+
+
 2. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
 concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante, se podría poner su nombre,
 calificación final, todas aquellas actividades que han sido evaluadas junto con la calificación obtenida, y la
@@ -33,8 +99,3 @@ curso, si se considera útil.
 la extensión y Moodle.
  - Especial atención a `earliest` y `most recent post` de los foros.
  - Posible causa: desajustes relacionados con la zona horaria.
-
-7. [Baja] Optimización del tamaño del bundle Evaluar nuevas formas de reducir el tamaño final del bundle para
-intentar eliminar la necesidad de suprimir los warnings de tamaño. Actualmente se ha aplicado una solución provisional:
-desactivar los avisos de tamaño configurando la propiedad `performance` en `webpack.config.js`.
-El exceso de tamaño (popup.js > 244 KB) se debe principalmente al uso de Chart.js y los iconos de heroicons.

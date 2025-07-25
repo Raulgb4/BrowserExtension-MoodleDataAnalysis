@@ -8,6 +8,7 @@
   "status": {
     "analyzing": "Analyzing Moodle data..."
   },
+  "export_all": "Export all",
   "reanalyze": "Reanalyze",
   "error_invalid_url": "No active tab found or the URL is not valid.",
   "error_not_course_page": "This page is not recognized as part of a Moodle course.",
