@@ -69,6 +69,7 @@ export function App() {
     const setIsRestored = useState(false)[1];  // Indicates if data has been restored from storage
 
     const [courseName, setCourseName] = useState<string | null>(null);
+    const [isRestoredDataAvailable, setIsRestoredDataAvailable] = useState(false);
 
     // HOOK
     const relativeTime = useRelativeTime(lastAnalyzedAt);
@@ -277,7 +278,7 @@ export function App() {
                 setCourseName(course.courseName ?? null);
                 setButton(<RestartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                 setIsRestored(true);
-                setOutputMessage("info_restored_analysis");
+                setIsRestoredDataAvailable(true);
                 setIsError(false);
 
                 if (timestamp) {
@@ -293,7 +294,7 @@ export function App() {
             <AnalysisContext.Provider value={{lastAnalyzedAt}}>
                 <div
                     className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
-            ${outputMessage && !isError ? "min-w-[310px] max-w-[740px]" : "min-w-[310px] max-w-[600px]"}`}
+            ${(outputMessage || isRestoredDataAvailable) && !isError ? "min-w-[310px] max-w-[740px]" : "min-w-[310px] max-w-[600px]"}`}
                 >
                     <div className="absolute top-3 right-3">
                         <LanguageSelector/>
@@ -369,7 +370,7 @@ export function App() {
                                 </>
                             )}
 
-                            {outputMessage && !isError && <TabSection/>}
+                            {(outputMessage || isRestoredDataAvailable) && !isError && <TabSection />}
                         </>
                     )}
                 </div>

@@ -13,14 +13,23 @@
  */
 
 import {useTranslation} from 'react-i18next';
-import React from "react";
+import React, {useEffect} from "react";
 
 const LanguageSelector: React.FC = () => {
-    const {i18n} = useTranslation();
+    const { i18n } = useTranslation();
+
+    useEffect(() => {
+        chrome.storage.local.get("preferredLanguage", ({ preferredLanguage }) => {
+            if (preferredLanguage && preferredLanguage !== i18n.language) {
+                i18n.changeLanguage(preferredLanguage);
+            }
+        });
+    }, []);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedLang = event.target.value as 'en' | 'es';
         i18n.changeLanguage(selectedLang).then(() => {
+            chrome.storage.local.set({ preferredLanguage: selectedLang });
             console.log(`Language changed to ${selectedLang}`);
         });
     };
@@ -49,3 +58,4 @@ const LanguageSelector: React.FC = () => {
 };
 
 export default LanguageSelector;
+
