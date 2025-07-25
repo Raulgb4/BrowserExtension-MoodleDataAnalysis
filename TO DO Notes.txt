@@ -9,68 +9,64 @@ que además se pueda exportar en formato DOCX) tipo memoria con todas las gráfi
 documento con portada en la que aparezca el nombre del curso, un índice (opcional), y todas las gráficas que
 es generado.
 
-OBJETIVO DE LA TAREA
+Crear el tipo Exportable y el ExportContext
+-------------------------------------------
 
-Permitir al usuario exportar un documento completo (PDF y/o DOCX) que recoja todas las gráficas generadas
-por la extensión, en un solo archivo tipo memoria que incluya:
+- [ ] Definir una interfaz Exportable con:
+    - chartRef: RefObject<ChartJS | null>
+    - title: string (clave traducible)
+    - labels: string[]
+    - values: number[]
+- [ ] Crear ExportContext con métodos:
+    - register(exportable: Exportable)
+    - unregister(chartRef)
+    - getAll(): Exportable[]
+- [ ] Crear el ExportProvider para envolver la app.
 
-1. Portada con el nombre del curso (y opcionalmente fecha, autor, logo...).
-2. Índice (opcional, pero útil si hay muchas gráficas o secciones).
-3. Gráficas con título, imagen, tabla de datos asociada (como ya haces en cada export individual).
-4. Esto de forma automática, sin que el usuario tenga que exportar una a una.
 
-ENFOQUE GENERAL DE IMPLEMENTACIÓN
+Registrar gráficas automáticamente desde GraphBlock
+---------------------------------------------------
 
-1. Estructura del documento exportado
+- [ ] Modificar GraphBlock para usar useEffect() y registrar su exportación en el contexto.
+- [ ] Registrar al montar, desregistrar al desmontar.
+- [ ] Asegurarse de que el título sea la clave traducible (no el texto ya traducido).
+- [ ] Añadir useTranslation y lastAnalyzedAt como parte del Exportable si se requiere.
 
-a. Portada
-- Nombre del curso (lo tienes en el modelo).
-- Fecha de análisis (también la tienes).
-- Logo de la extensión o de Moodle.
+Crear botón de "Exportar" en la interfaz
+----------------------------------------
+- [ ] Añadir un botón accesible desde la interfaz (por ejemplo en la Sidebar o en App.tsx).
+- [ ] Mostrar un modal o menú con opciones: PDF, DOCX, o ambos.
+- [ ] Al hacer clic, llamar a exportAllToPDF(exportables) o exportAllToDOCX(exportables).
 
-b. Índice (opcional)
-- Lista de secciones o gráficas con su número de página (en PDF) o título (en DOCX).
-- Para PDF: puedes usar autoTable con saltos de página.
-- Para DOCX: usa un listado con enlaces internos o simplemente párrafos con estilos de encabezado.
 
-c. Cuerpo del documento
-Por cada gráfica:
-- Título traducido.
-- Imagen de la gráfica (ya generas base64).
-- Tabla con los datos (etiquetas + valores).
-- Puedes agrupar por sección: "Quizzes", "Choices", etc., como en la interfaz.
+Implementar exportAllToPDF(exportables[])
+-----------------------------------------
+- [ ] Crear una portada con:
+    - Nombre del curso
+    - Fecha del análisis
+    - Nombre del autor
+    - Logo de la extensión
+- [ ] Generar una sección por gráfica:
+    - Título traducido centrado
+    - Imagen desde chartRef
+    - Tabla con labels y values
+- [ ] Añadir salto de página entre gráficas
+- [ ] (Opcional) Añadir índice con los títulos
 
-d. Estilo visual
-- Fondo blanco o muy claro.
-- Colores coherentes con la interfaz de la extensión.
-- Espaciado generoso para que quede legible.
-- Tipografías sencillas y modernas.
 
-IDEAS DE IMPLEMENTACIÓN
+Implementar exportAllToDOCX(exportables[])
+------------------------------------------
+- [ ] Igual que el PDF, pero usando docx
+- [ ] Portada: título, fecha, autor, logo centrado
+- [ ] Tabla: cabeceras traducidas, alternando color
+- [ ] Imagen del gráfico en medio (base64)
+- [ ] (Opcional) Índice como primer bloque tras la portada
 
-Recoger las gráficas
-- Aprovecha que GraphBlock ya encapsula: podrías almacenar referencias a todos los chartRef en una
-estructura global o contexto.
-- Otra opción es que cada GraphBlock se registre automáticamente en un array cuando se monta.
-- Guarda además: título traducido, labels, values, chartRef.
 
-Reutiliza tus funciones actuales
-- Puedes reutilizar las funciones exportToPDF y exportToDOCX, pero adaptadas para documento acumulativo
-(en lugar de doc.save() tras cada gráfica, acumular secciones y luego guardar al final).
-- Modulariza: una función que genere la "página" de cada gráfica a partir de los datos recopilados.
-
-Flujo de exportación
-1. El usuario pulsa "Exportar"
-2. Se recogen todas las gráficas visibles (o también ocultas si quieres).
-3. Se genera el documento (PDF o DOCX) siguiendo el esquema anterior.
-4. Se descarga automáticamente.
-
-SUGERENCIAS EXTRA
-
-- Internacionalización: Usa useTranslation para que el título del documento, portada e índices estén traducidos.
-- Tamaño de página: ajusta el tamaño de imagen según orientación (horizontal para barras, vertical para pies).
-- Testeo: asegúrate de que se exportan correctamente distintas combinaciones de gráficos (inactivos, sin datos, etc.).
-
+Internacionalizar portada, índice y metadatos
+---------------------------------------------
+- [ ] Traducción de: "Course", "Author", "Date", "Index", etc.
+- [ ] Nombre del archivo exportado basado en el nombre del curso y la fecha
 
 
 
