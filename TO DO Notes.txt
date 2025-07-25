@@ -4,10 +4,10 @@
 
 [Prioridad]
 
-1. [Alta] Exportación completa en PDF o DOCX: Crea un botón que sea exportar un documento PDF (también sería deseable
-que además se pueda exportar en formato DOCX) tipo memoria con todas las gráficas que se han generado, es decir, un
-documento con portada en la que aparezca el nombre del curso, un índice (opcional), y todas las gráficas que
-es generado.
+1. [Alta] [Limitación técnica REACT] Exportación completa en PDF o DOCX: Crea un botón que sea exportar
+un documento PDF (también sería deseable que además se pueda exportar en formato DOCX) tipo memoria con todas las
+gráficas que se han generado, es decir, un documento con portada en la que aparezca el nombre
+del curso, un índice (opcional), y todas las gráficas que es generado.
 
 2. [Alta] JSDOC, Refactorización y limpieza de código
 
