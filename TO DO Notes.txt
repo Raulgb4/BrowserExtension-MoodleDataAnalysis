@@ -9,66 +9,6 @@ que además se pueda exportar en formato DOCX) tipo memoria con todas las gráfi
 documento con portada en la que aparezca el nombre del curso, un índice (opcional), y todas las gráficas que
 es generado.
 
-Crear el tipo Exportable y el ExportContext
--------------------------------------------
-
-- [ ] Definir una interfaz Exportable con:
-    - chartRef: RefObject<ChartJS | null>
-    - title: string (clave traducible)
-    - labels: string[]
-    - values: number[]
-- [ ] Crear ExportContext con métodos:
-    - register(exportable: Exportable)
-    - unregister(chartRef)
-    - getAll(): Exportable[]
-- [ ] Crear el ExportProvider para envolver la app.
-
-
-Registrar gráficas automáticamente desde GraphBlock
----------------------------------------------------
-
-- [ ] Modificar GraphBlock para usar useEffect() y registrar su exportación en el contexto.
-- [ ] Registrar al montar, desregistrar al desmontar.
-- [ ] Asegurarse de que el título sea la clave traducible (no el texto ya traducido).
-- [ ] Añadir useTranslation y lastAnalyzedAt como parte del Exportable si se requiere.
-
-Crear botón de "Exportar" en la interfaz
-----------------------------------------
-- [ ] Añadir un botón accesible desde la interfaz (por ejemplo en la Sidebar o en App.tsx).
-- [ ] Mostrar un modal o menú con opciones: PDF, DOCX, o ambos.
-- [ ] Al hacer clic, llamar a exportAllToPDF(exportables) o exportAllToDOCX(exportables).
-
-
-Implementar exportAllToPDF(exportables[])
------------------------------------------
-- [ ] Crear una portada con:
-    - Nombre del curso
-    - Fecha del análisis
-    - Nombre del autor
-    - Logo de la extensión
-- [ ] Generar una sección por gráfica:
-    - Título traducido centrado
-    - Imagen desde chartRef
-    - Tabla con labels y values
-- [ ] Añadir salto de página entre gráficas
-- [ ] (Opcional) Añadir índice con los títulos
-
-
-Implementar exportAllToDOCX(exportables[])
-------------------------------------------
-- [ ] Igual que el PDF, pero usando docx
-- [ ] Portada: título, fecha, autor, logo centrado
-- [ ] Tabla: cabeceras traducidas, alternando color
-- [ ] Imagen del gráfico en medio (base64)
-- [ ] (Opcional) Índice como primer bloque tras la portada
-
-
-Internacionalizar portada, índice y metadatos
----------------------------------------------
-- [ ] Traducción de: "Course", "Author", "Date", "Index", etc.
-- [ ] Nombre del archivo exportado basado en el nombre del curso y la fecha
-
-
 2. [Alta] JSDOC, Refactorización y limpieza de código
 
 3. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
