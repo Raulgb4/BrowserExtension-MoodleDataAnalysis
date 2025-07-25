@@ -4,6 +4,8 @@ const path = require('path');
 // Import plugin to copy static files from "public" to the output directory
 const CopyPlugin = require('copy-webpack-plugin');
 
+const webpack = require("webpack");
+
 // Export Webpack configuration
 module.exports = {
     // Set build mode to production for optimizations (minification, etc.)
@@ -23,7 +25,10 @@ module.exports = {
 
     // Resolve file extensions when importing modules
     resolve: {
-        extensions: [".ts", ".js", ".tsx", ".jsx"]
+        extensions: [".ts", ".js", ".tsx", ".jsx"],
+        fallback: {
+            buffer: require.resolve("buffer/"),
+        },
     },
 
     // Define how to process different types of modules
@@ -50,11 +55,14 @@ module.exports = {
                 // Copy all files from 'public/' directly into the output folder
                 { from: "public", to: "." }
             ]
-        })
+        }),
+        new webpack.ProvidePlugin({
+            Buffer: ["buffer", "Buffer"],
+        }),
     ],
 
     performance: {
-        maxAssetSize: 2000000,
-        maxEntrypointSize: 2000000,
+        maxAssetSize: 3000000,
+        maxEntrypointSize: 3000000,
     },
 }

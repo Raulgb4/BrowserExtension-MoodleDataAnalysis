@@ -13,7 +13,13 @@
  * @example
  * <Loader />
  */
+
+import {useTranslation} from "react-i18next";
+
 export default function Loader() {
+
+    const {t} = useTranslation();
+
     return (
         <div className="flex flex-col items-center justify-center gap-3 h-full animate-fade-in">
             <div className="relative w-14 h-14">
@@ -24,7 +30,7 @@ export default function Loader() {
             </div>
 
             <span className="text-sm font-semibold text-orange-600 animate-pulse-slow tracking-wide">
-                Analyzing Moodle data...
+                {t("status.analyzing")}
             </span>
         </div>
     );

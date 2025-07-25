@@ -16,7 +16,7 @@
 import React, {useEffect, useRef} from "react";
 import {Pie, Bar, Line, Radar, PolarArea} from "react-chartjs-2";
 import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
-import {exportToCSV, exportToPDF, exportToImage} from "../utils/exportUtils";
+import {exportToCSV, exportToPDF, exportToImage, exportToDOCX} from "../utils/exportUtils";
 import {
     DocumentArrowDownIcon,
     ArrowDownTrayIcon,
@@ -25,6 +25,7 @@ import {
 import {useAnalysisContext} from "../context/AnalysisContext";
 import {formatDateForExport} from "../utils/exportUtils";
 import {useTranslation} from "react-i18next";
+import {DocumentTextIcon} from "@heroicons/react/16/solid";
 
 type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea";
 
@@ -198,6 +199,19 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     >
                         <ArrowDownTrayIcon className="w-4 h-4"/>
                         PDF
+                    </button>
+
+                    <button
+                        onClick={() =>
+                            exportToDOCX(chartRef, exportLabels, exportValues, `${baseFileName}.docx`, headerLabels)
+                        }
+                        title="Download DOCX"
+                        aria-label="Export chart as DOCX"
+                        className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
+                        hover:bg-orange-100 transition text-orange-600 text-xs"
+                    >
+                        <DocumentTextIcon className="w-4 h-4" />
+                        DOCX
                     </button>
 
                     {imageFormats.map((format) => (

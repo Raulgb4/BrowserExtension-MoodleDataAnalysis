@@ -16,6 +16,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import {Chart as ChartJS} from "chart.js";
 import React, {RefObject} from "react";
+import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, WidthType, ImageRun } from "docx";
+import { saveAs } from "file-saver";
 
 /**
  * @function formatDateForExport
@@ -216,7 +218,7 @@ export function exportToPDF(
     doc.setFont("helvetica", "bold");
     doc.setTextColor(249, 128, 18); // text-orange-600 (#f98012)
     doc.setDrawColor(249, 128, 18); // Border color similar
-    doc.setFillColor(255, 247, 237); // bg-orange-100 aprox (#fff7ed)
+    doc.setFillColor(255, 247, 237); // bg-orange-100 (#fff7ed)
     const pageWidth = doc.internal.pageSize.getWidth();
     doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, 'F'); // background box
     doc.text(title, pageWidth / 2, 18, {align: "center"}); // centered text
@@ -244,3 +246,145 @@ export function exportToPDF(
 
     doc.save(filename);
 }
+
+
+export async function exportToDOCX(
+    chartRef: RefObject<ChartJS | null>,
+    labels: string[],
+    values: number[],
+    filename = "chart.docx",
+    headers: [string, string] = ["Category", "Value"]
+): Promise<void> {
+    const chart = chartRef.current;
+    if (!chart) {
+        console.warn("Chart reference is not available for DOCX export.");
+        return;
+    }
+
+    // Convert chart image to byte array
+    const imageBase64 = chart.toBase64Image();
+    const byteString = atob(imageBase64.split(",")[1]);
+    const byteArray = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+        byteArray[i] = byteString.charCodeAt(i);
+    }
+
+    // Title block (more space, centered inside the box)
+    const title = new Paragraph({
+        alignment: AlignmentType.CENTER,
+        spacing: {
+            before: 200,
+            after: 300,
+            line: 360,
+        },
+        shading: {
+            fill: "fff7ed",
+        },
+        children: [
+            new TextRun({ text: "\n" }), // simulate top padding
+            new TextRun({
+                text: filename.replace(/\.[^/.]+$/, ""),
+                bold: true,
+                size: 22, // reduced font size
+                font: "Helvetica",
+                color: "f98012",
+            }),
+            new TextRun({ text: "\n" }), // simulate bottom padding
+        ],
+    });
+
+    // Chart image
+    const image = new Paragraph({
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 300 },
+        children: [
+            new ImageRun({
+                data: byteArray,
+                transformation: {
+                    width: 480,
+                    height: 270,
+                },
+                type: "png",
+            }),
+        ],
+    });
+
+    // Table header row (left aligned)
+    const tableHeaderRow = new TableRow({
+        tableHeader: true,
+        children: headers.map(header =>
+            new TableCell({
+                width: { size: 50, type: WidthType.PERCENTAGE },
+                shading: { fill: "f98012" },
+                children: [
+                    new Paragraph({
+                        alignment: AlignmentType.LEFT,
+                        children: [
+                            new TextRun({
+                                text: header,
+                                bold: true,
+                                color: "ffffff",
+                                font: "Helvetica",
+                            }),
+                        ],
+                    }),
+                ],
+            })
+        ),
+    });
+
+    // Table data rows (left aligned, alternating shading)
+    const dataRows = labels.map((label, i) =>
+        new TableRow({
+            children: [
+                new TableCell({
+                    shading: i % 2 === 0 ? { fill: "f9fafb" } : undefined,
+                    children: [
+                        new Paragraph({
+                            alignment: AlignmentType.LEFT,
+                            children: [
+                                new TextRun({
+                                    text: label,
+                                    font: "Helvetica",
+                                }),
+                            ],
+                        }),
+                    ],
+                }),
+                new TableCell({
+                    shading: i % 2 === 0 ? { fill: "f9fafb" } : undefined,
+                    children: [
+                        new Paragraph({
+                            alignment: AlignmentType.LEFT,
+                            children: [
+                                new TextRun({
+                                    text: values[i].toString(),
+                                    font: "Helvetica",
+                                }),
+                            ],
+                        }),
+                    ],
+                }),
+            ],
+        })
+    );
+
+    const table = new Table({
+        rows: [tableHeaderRow, ...dataRows],
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        alignment: AlignmentType.CENTER,
+    });
+
+    const doc = new Document({
+        sections: [
+            {
+                properties: {},
+                children: [title, image, table],
+            },
+        ],
+    });
+
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, filename);
+}
+

@@ -84,8 +84,8 @@ const TabSection: React.FC = () => {
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
-                                <Icon className="w-4 h-4" aria-hidden="true"/>
-                                <span>{t(key)}</span> {/* Traducción aquí */}
+                                <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+                                <span>{t(key)}</span>
                             </button>
                         );
                     })}

@@ -4,6 +4,9 @@
   "scrape": "Analyze Course",
   "last_scraped": "Last analyzed {{time}} ago",
   "start": "Start",
+  "status": {
+    "analyzing": "Analyzing Moodle data..."
+  },
   "reanalyze": "Reanalyze",
   "error_invalid_url": "No active tab found or the URL is not valid.",
   "error_not_course_page": "This page is not recognized as part of a Moodle course.",

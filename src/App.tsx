@@ -260,14 +260,14 @@ export function App() {
 
                 if (lastId && lastId !== currentCourseId) {
                     // Don't restore if a user switched courses
-                    setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
+                    setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseDataWithCleanup}/>);
                     return;
                 }
 
                 if (!course) {
                     // No data available for the current course
                     if (!lastId) {
-                        setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseDataWithCleanup}/>);
+                        setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                     }
                     return;
                 }
@@ -293,7 +293,7 @@ export function App() {
         <AnalysisContext.Provider value={{lastAnalyzedAt}}>
             <div
                 className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
-            ${outputMessage && !isError ? "min-w-[310px] max-w-[700px]" : "min-w-[310px] max-w-[600px]"}`}
+            ${outputMessage && !isError ? "min-w-[310px] max-w-[740px]" : "min-w-[310px] max-w-[600px]"}`}
             >
                 <div className="absolute top-3 right-3">
                     <LanguageSelector/>
