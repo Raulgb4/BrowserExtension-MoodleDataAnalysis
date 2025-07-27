@@ -261,6 +261,23 @@ export function exportToPDF(
 }
 
 
+/**
+ * Exports a Chart.js chart as a DOCX file with its image and corresponding data table.
+ *
+ * The function captures the chart using `ChartJS.toBase64Image()`, converts the image to a byte array,
+ * and embeds it into a Microsoft Word document using `docx`. It also creates a styled table containing
+ * the chart's data (labels and values), with alternating row shading and a colored header.
+ *
+ * This export format provides a more editable and presentation-friendly alternative to PDF.
+ *
+ * @param chartRef - Reference to the Chart.js instance to be exported.
+ * @param labels - Array of labels corresponding to chart data categories.
+ * @param values - Array of values associated with each label.
+ * @param filename - Desired filename for the exported DOCX (default: "chart.docx").
+ * @param headers - Tuple specifying the column headers for the table (default: ["Category", "Value"]).
+ *
+ * @returns A Promise that resolves when the file has been generated and saved.
+ */
 export async function exportToDOCX(
     chartRef: RefObject<ChartJS | null>,
     labels: string[],
@@ -401,6 +418,22 @@ export async function exportToDOCX(
     saveAs(blob, filename);
 }
 
+/**
+ * Generates a comprehensive PDF report containing all registered Chart.js graphs.
+ *
+ * This function dynamically fetches the course name from Chrome storage to create a
+ * customized cover page. It then iterates through all exportable charts registered via
+ * context and renders each chart along with its translated title and associated data table.
+ *
+ * Internally uses `ChartJS.toBase64Image()` to capture each chart as an image,
+ * and `jspdf-autotable` to render a structured table of corresponding labels and values.
+ *
+ * @param exportables - Array of chart export objects, each containing a Chart reference,
+ *                      a title (used as the section header), and associated labels and values.
+ * @param t - Translation function provided by `useTranslation` to support multilingual titles and headers.
+ *
+ * @returns A Promise that resolves once the full PDF document has been created and downloaded.
+ */
 export async function exportAllToPDF(
     exportables: Exportable[],
     t: (key: string) => string // Pass translation function from useTranslation

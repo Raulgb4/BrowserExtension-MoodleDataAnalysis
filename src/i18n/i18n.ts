@@ -45,5 +45,3 @@ getInitialLanguage().then((initialLang) => {
             console.log(`i18n initialized with language: ${initialLang}`);
         });
 });
-
-export default i18n;

@@ -1,4 +1,24 @@
-// src/context/ExportContext.tsx
+/**
+ * @file ExportContext.tsx
+ * @description
+ * Defines the React context `ExportContext`, which provides an infrastructure to dynamically register
+ * exportable charts from various parts of the application.
+ *
+ * Each registered chart includes its reference (`chartRef`), a descriptive title, labels, and values
+ * that are later used in export functions (PDF, DOCX, CSV, etc.).
+ *
+ * The context exposes three main methods:
+ * - `register`: adds a new exportable chart, preventing duplicates.
+ * - `unregister`: removes a previously registered chart.
+ * - `getAll`: retrieves all currently registered exportables.
+ *
+ * This architecture enables a centralized collection of all active charts in the UI without prop drilling,
+ * facilitating automatic generation of global reports.
+ *
+ * @author Raúl García Balongo
+ * @date 2025
+ */
+
 
 import {
     createContext,

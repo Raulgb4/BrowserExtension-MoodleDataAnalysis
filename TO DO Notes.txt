@@ -11,10 +11,10 @@ del curso, un índice (opcional), y todas las gráficas que es generado.
 
 2. [Alta] JSDOC, Refactorización y limpieza de código
 
-3. [Alta] Informe individual por usuario: Sería interesante generar un informe tipo PDF filtrando por una persona
-concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante, se podría poner su nombre,
-calificación final, todas aquellas actividades que han sido evaluadas junto con la calificación obtenida, y la
-interacción que ha tenido en cada actividad.
+3. [Alta] [Limitación técnica REACT] Informe individual por usuario: Sería interesante generar un informe tipo
+PDF filtrando por una persona concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante,
+se podría poner su nombre, calificación final, todas aquellas actividades que han sido evaluadas junto con la
+calificación obtenida, y la interacción que ha tenido en cada actividad.
 
 ------------------------------------------------------------------------------------------------------------------------
 

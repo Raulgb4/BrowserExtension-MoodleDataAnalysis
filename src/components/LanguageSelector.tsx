@@ -21,7 +21,11 @@ const LanguageSelector: React.FC = () => {
     useEffect(() => {
         chrome.storage.local.get("preferredLanguage", ({ preferredLanguage }) => {
             if (preferredLanguage && preferredLanguage !== i18n.language) {
-                i18n.changeLanguage(preferredLanguage);
+                i18n.changeLanguage(preferredLanguage).then(() => {
+                    console.log(`Idioma cargado desde almacenamiento: ${preferredLanguage}`);
+                }).catch((err) => {
+                    console.error("Error al cambiar el idioma:", err);
+                });
             }
         });
     }, []);
@@ -29,10 +33,20 @@ const LanguageSelector: React.FC = () => {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedLang = event.target.value as 'en' | 'es';
         i18n.changeLanguage(selectedLang).then(() => {
-            chrome.storage.local.set({ preferredLanguage: selectedLang });
+            chrome.storage.local.set({ preferredLanguage: selectedLang })
+                .then(() => {
+                    console.log(`Idioma preferido guardado: ${selectedLang}`);
+                })
+                .catch((err) => {
+                    console.error("Error al guardar el idioma preferido:", err);
+                });
+
             console.log(`Language changed to ${selectedLang}`);
+        }).catch((err) => {
+            console.error("Error al cambiar el idioma:", err);
         });
     };
+
 
     const flagSrc = i18n.language === 'es'
         ? '/icons/flags/es.png'
