@@ -410,14 +410,17 @@
   .w-full {
     width: 100%;
   }
+  .w-max {
+    width: max-content;
+  }
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
   .max-w-\[600px\] {
     max-width: 600px;
   }
-  .max-w-\[740px\] {
-    max-width: 740px;
+  .max-w-\[749px\] {
+    max-width: 749px;
   }
   .max-w-full {
     max-width: 100%;

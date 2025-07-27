@@ -69,10 +69,10 @@ const TabSection: React.FC = () => {
                 }}
             >
                 <nav
-                    className="flex justify-center px-4 gap-4 sm:gap-6 w-full pb-3"
+                    className="flex w-max gap-4 sm:gap-6 pb-3 px-4"
                     aria-label="Tabs"
                 >
-                    {tabs.map(({key, icon: Icon}) => {
+                    {tabs.map(({ key, icon: Icon }) => {
                         const isActive = activeTab === key;
                         return (
                             <button
@@ -84,7 +84,7 @@ const TabSection: React.FC = () => {
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
-                                <Icon className="w-4 h-4" aria-hidden="true"/>
+                                <Icon className="w-4 h-4" aria-hidden="true" />
                                 <span>{t(key)}</span>
                             </button>
                         );
@@ -94,10 +94,11 @@ const TabSection: React.FC = () => {
 
             {/* Dynamic content based on a selected tab */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab}/>
+                <TabContent tab={activeTab} />
             </div>
         </div>
     );
+
 };
 
 export default TabSection;

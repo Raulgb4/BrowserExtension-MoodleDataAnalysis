@@ -293,8 +293,9 @@ export function App() {
         <ExportProvider>
             <AnalysisContext.Provider value={{lastAnalyzedAt}}>
                 <div
-                    className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full mx-auto
-            ${(outputMessage || isRestoredDataAvailable) && !isError ? "min-w-[310px] max-w-[740px]" : "min-w-[310px] max-w-[600px]"}`}
+                    className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full
+                     mx-auto
+            ${(outputMessage || isRestoredDataAvailable) && !isError ? "min-w-[310px] max-w-[749px]" : "min-w-[310px] max-w-[600px]"}`}
                 >
                     <div className="absolute top-3 right-3">
                         <LanguageSelector/>
