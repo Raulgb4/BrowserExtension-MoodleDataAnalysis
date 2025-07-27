@@ -170,13 +170,13 @@ export function getRelativeTime(date: Date, t: (key: string, options?: any) => s
     const diffDays = Math.floor(diffHrs / 24);
 
     if (diffDays > 0) {
-        return t("relative.days", { count: diffDays });
+        return t("relative.days", {count: diffDays});
     }
     if (diffHrs > 0) {
-        return t("relative.hours", { count: diffHrs });
+        return t("relative.hours", {count: diffHrs});
     }
     if (diffMin > 0) {
-        return t("relative.minutes", { count: diffMin });
+        return t("relative.minutes", {count: diffMin});
     }
     return t("relative.seconds");
 }

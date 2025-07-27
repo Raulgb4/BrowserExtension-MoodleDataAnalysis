@@ -14,12 +14,12 @@
 import React, {useEffect, useState} from "react";
 import TabContent from "./TabContent";
 import {
-    GlobeAltIcon,
-    UsersIcon,
     AdjustmentsHorizontalIcon,
-    QuestionMarkCircleIcon,
     ChatBubbleLeftRightIcon,
-    Squares2X2Icon
+    GlobeAltIcon,
+    QuestionMarkCircleIcon,
+    Squares2X2Icon,
+    UsersIcon
 } from "@heroicons/react/24/solid";
 import {useTranslation} from "react-i18next";
 
@@ -72,7 +72,7 @@ const TabSection: React.FC = () => {
                     className="flex w-max gap-4 sm:gap-6 pb-3 px-4"
                     aria-label="Tabs"
                 >
-                    {tabs.map(({ key, icon: Icon }) => {
+                    {tabs.map(({key, icon: Icon}) => {
                         const isActive = activeTab === key;
                         return (
                             <button
@@ -84,7 +84,7 @@ const TabSection: React.FC = () => {
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
                                 }`}
                             >
-                                <Icon className="w-4 h-4" aria-hidden="true" />
+                                <Icon className="w-4 h-4" aria-hidden="true"/>
                                 <span>{t(key)}</span>
                             </button>
                         );
@@ -94,7 +94,7 @@ const TabSection: React.FC = () => {
 
             {/* Dynamic content based on a selected tab */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab} />
+                <TabContent tab={activeTab}/>
             </div>
         </div>
     );

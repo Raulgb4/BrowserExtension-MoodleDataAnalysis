@@ -16,13 +16,13 @@ import {Course} from '../models/Course';
 
 // Data processing utilities
 import {
-    normalizeTimeToMillis,
     normalizeGradeTo10,
-    parseRoles,
+    normalizeTimeToMillis,
+    parseCellToInt,
     parseGroups,
     parseLastAccess,
+    parseRoles,
     parseStatus,
-    parseCellToInt,
     parseViewsAndUsers
 } from './dataProcessor';
 

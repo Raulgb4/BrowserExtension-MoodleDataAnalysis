@@ -15,10 +15,7 @@
 
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
-import {
-    calculateAvgViews,
-    createChartData,
-} from "../../utils/chartDataUtils";
+import {calculateAvgViews, createChartData,} from "../../utils/chartDataUtils";
 import "../../chartConfig";
 import {ChartData} from "chart.js";
 import {useTranslation} from "react-i18next";

@@ -17,13 +17,13 @@ import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {
+    computeAccessRanges,
+    computeActiveInactive,
     extractUniqueRoles,
     filterByRoles,
-    computeActiveInactive,
-    computeAccessRanges,
 } from "../../utils/chartDataUtils";
 import {Participant} from "../../models/Participant";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import {TFunction} from "i18next";
 
 const ParticipantsTab: React.FC = () => {
@@ -41,7 +41,7 @@ const ParticipantsTab: React.FC = () => {
 
     const [participants, setParticipants] = useState<Participant[]>([]);
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         // Load participants and roles from local storage

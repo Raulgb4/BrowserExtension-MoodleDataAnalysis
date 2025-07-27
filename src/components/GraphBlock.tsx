@@ -14,16 +14,11 @@
  */
 
 import React, {useEffect, useMemo, useRef} from "react";
-import {Pie, Bar, Line, Radar, PolarArea} from "react-chartjs-2";
+import {Bar, Line, Pie, PolarArea, Radar} from "react-chartjs-2";
 import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
-import {exportToCSV, exportToPDF, exportToImage, exportToDOCX} from "../utils/exportUtils";
-import {
-    DocumentArrowDownIcon,
-    ArrowDownTrayIcon,
-    PhotoIcon,
-} from "@heroicons/react/24/outline";
+import {exportToCSV, exportToDOCX, exportToImage, exportToPDF, formatDateForExport} from "../utils/exportUtils";
+import {ArrowDownTrayIcon, DocumentArrowDownIcon, PhotoIcon,} from "@heroicons/react/24/outline";
 import {useAnalysisContext} from "../context/AnalysisContext";
-import {formatDateForExport} from "../utils/exportUtils";
 import {useTranslation} from "react-i18next";
 import {DocumentTextIcon} from "@heroicons/react/16/solid";
 import {useExportContext} from "../context/ExportContext";
@@ -108,7 +103,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
     const maxLabelLength = 15;
 
-    const { register, unregister } = useExportContext();
+    const {register, unregister} = useExportContext();
 
     const exportable = useMemo(() => ({
         chartRef,

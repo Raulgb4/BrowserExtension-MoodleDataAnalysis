@@ -13,13 +13,13 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {Quiz} from "../../models/Quiz";
 import {calculateAvgNormalizedScores, getTopByMetric} from "../../utils/chartDataUtils";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 const QuizzesTab: React.FC = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [topNByQuiz, setTopNByQuiz] = useState<number[]>([]); // Track top N per quiz for charts
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         // Retrieve quizzes from local storage
@@ -126,7 +126,7 @@ const QuizzesTab: React.FC = () => {
                 return (
                     <div key={quiz.id}>
                         <GraphBlock
-                            title={t("chart.quiz_top_n", { name: quiz.activityName, count: topN })}
+                            title={t("chart.quiz_top_n", {name: quiz.activityName, count: topN})}
                             chartType="bar"
                             data={data}
                             options={options}

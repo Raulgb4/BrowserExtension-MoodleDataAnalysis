@@ -17,16 +17,16 @@ import autoTable from "jspdf-autotable";
 import {Chart as ChartJS} from "chart.js";
 import React, {RefObject} from "react";
 import {
+    AlignmentType,
     Document,
+    ImageRun,
     Packer,
     Paragraph,
-    TextRun,
     Table,
-    TableRow,
     TableCell,
-    AlignmentType,
-    WidthType,
-    ImageRun
+    TableRow,
+    TextRun,
+    WidthType
 } from "docx";
 import {saveAs} from "file-saver";
 import type {Exportable} from "../context/ExportContext";
@@ -473,14 +473,14 @@ export async function exportAllToPDF(
     const lineHeight = 8;
     const titleBlockHeight = titleLines.length * lineHeight;
 
-    doc.text(titleLines, pageWidth / 2, titleStartY, { align: "center" });
+    doc.text(titleLines, pageWidth / 2, titleStartY, {align: "center"});
 
     const nextBlockY = titleStartY + titleBlockHeight + 10;
 
     doc.setFontSize(12);
     doc.setTextColor(100);
-    doc.text(`${t("pdf.analysis_date")}: ${formattedDate}`, pageWidth / 2, nextBlockY, { align: "center" });
-    doc.text(`${t("pdf.author")}: ${author}`, pageWidth / 2, nextBlockY + 10, { align: "center" });
+    doc.text(`${t("pdf.analysis_date")}: ${formattedDate}`, pageWidth / 2, nextBlockY, {align: "center"});
+    doc.text(`${t("pdf.author")}: ${author}`, pageWidth / 2, nextBlockY + 10, {align: "center"});
 
     const logoY = nextBlockY + 25;
     const logo = new Image();
@@ -497,7 +497,7 @@ export async function exportAllToPDF(
 
     // ===== 2. Charts =====
     for (let i = 0; i < exportables.length; i++) {
-        const { chartRef, title, labels, values } = exportables[i];
+        const {chartRef, title, labels, values} = exportables[i];
         const chart = chartRef.current;
         if (!chart) continue;
 
@@ -515,7 +515,7 @@ export async function exportAllToPDF(
         doc.setDrawColor(249, 128, 18);
         doc.setFillColor(255, 247, 237);
         doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, 'F');
-        doc.text(translatedTitle, pageWidth / 2, 18, { align: "center" });
+        doc.text(translatedTitle, pageWidth / 2, 18, {align: "center"});
 
         doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
 
@@ -525,8 +525,8 @@ export async function exportAllToPDF(
             startY: tableStartY,
             head: [[t("category"), t("value")]],
             body: tableData,
-            styles: { fontSize: 10 },
-            headStyles: { fillColor: [249, 128, 18] },
+            styles: {fontSize: 10},
+            headStyles: {fillColor: [249, 128, 18]},
         });
 
         if (i < exportables.length - 1) doc.addPage();

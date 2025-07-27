@@ -10,18 +10,18 @@
  * @date 2025
  */
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
     ArcElement,
-    RadialLinearScale,
+    BarElement,
+    CategoryScale,
+    Chart as ChartJS,
+    Filler,
+    Legend,
+    LinearScale,
     LineElement,
     PointElement,
+    RadialLinearScale,
     Title,
-    Tooltip,
-    Legend,
-    Filler
+    Tooltip
 } from "chart.js";
 
 ChartJS.register(

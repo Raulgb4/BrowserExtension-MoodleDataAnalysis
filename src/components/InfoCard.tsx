@@ -13,8 +13,8 @@
 
 import {CheckCircleIcon, ExclamationTriangleIcon} from "@heroicons/react/24/solid";
 import {XMarkIcon} from "@heroicons/react/16/solid";
-import {useState, useEffect} from "react";
-import { useTranslation } from 'react-i18next';
+import {useEffect, useState} from "react";
+import {useTranslation} from 'react-i18next';
 
 interface InfoCardProps {
     message: string;
@@ -25,7 +25,7 @@ interface InfoCardProps {
 export default function InfoCard({message, isError = false}: InfoCardProps) {
     const [visible, setVisible] = useState(true);
     const [fadingOut, setFadingOut] = useState(false);
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (!isError) {
@@ -58,16 +58,16 @@ export default function InfoCard({message, isError = false}: InfoCardProps) {
         >
             <div className="flex items-center gap-3">
                 {isError ? (
-                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500" />
+                    <ExclamationTriangleIcon className="h-6 w-6 text-red-500"/>
                 ) : (
-                    <CheckCircleIcon className="h-6 w-6 text-green-500" />
+                    <CheckCircleIcon className="h-6 w-6 text-green-500"/>
                 )}
                 <span className="font-medium break-words">{t(message)}</span>
             </div>
 
             {!isError && (
                 <button onClick={() => setFadingOut(true)} aria-label="Close">
-                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800" />
+                    <XMarkIcon className="h-5 w-5 text-green-600 hover:text-green-800"/>
                 </button>
             )}
         </div>

@@ -11,7 +11,7 @@
  * @date 2025
  */
 
-import {URLResource, Workshop, Resource} from './ActivityBase';
+import {Resource, URLResource, Workshop} from './ActivityBase';
 import {Quiz} from './Quiz';
 import {Forum} from './Forum';
 import {Choice} from './Choice';

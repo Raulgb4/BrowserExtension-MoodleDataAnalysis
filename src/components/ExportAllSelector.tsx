@@ -19,11 +19,11 @@ import {exportAllToPDF} from "../utils/exportUtils";
 //import { exportAllToDOCX } from "../utils/exportAllToDOCX";
 
 const ExportAllSelector: React.FC = () => {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
     const [format, setFormat] = useState<'pdf' | 'docx'>('pdf');
     const [isExporting, setIsExporting] = useState(false);
 
-    const { getAll } = useExportContext();
+    const {getAll} = useExportContext();
 
     const handleExport = async () => {
         setIsExporting(true);

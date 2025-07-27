@@ -22,8 +22,9 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {
     extractMoodleCourseId,
+    getScrapeUrlActivityReport,
+    getScrapeUrlCourseMain,
     getScrapeUrlParticipants,
-    getScrapeUrlActivityReport, getScrapeUrlCourseMain,
 } from "./utils/urlBuilder";
 import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
 import Loader from "./components/Loader";
@@ -371,7 +372,7 @@ export function App() {
                                 </>
                             )}
 
-                            {(outputMessage || isRestoredDataAvailable) && !isError && <TabSection />}
+                            {(outputMessage || isRestoredDataAvailable) && !isError && <TabSection/>}
                         </>
                     )}
                 </div>

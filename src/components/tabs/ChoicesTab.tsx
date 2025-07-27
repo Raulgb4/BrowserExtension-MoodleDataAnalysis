@@ -13,13 +13,13 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {ChartData} from "chart.js";
 import {Choice} from "../../models/Choice";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 
 const ChoicesTab: React.FC = () => {
     const [choices, setChoices] = useState<Choice[]>([]);
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         // Load course data from local storage
@@ -88,7 +88,7 @@ const ChoicesTab: React.FC = () => {
                 return (
                     <React.Fragment key={choice.id}>
                         <GraphBlock
-                            title={t("chart.choice_activity_results", { name: choice.activityName })}
+                            title={t("chart.choice_activity_results", {name: choice.activityName})}
                             chartType="bar"
                             data={data}
                         />

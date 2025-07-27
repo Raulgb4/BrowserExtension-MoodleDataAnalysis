@@ -15,7 +15,7 @@ import "../../chartConfig";
 import {ActivityBase, Resource, URLResource, Workshop} from "../../models/ActivityBase";
 import {ChartData} from "chart.js";
 import {getTopByMetric} from "../../utils/chartDataUtils";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 type GraphKey = "url" | "file" | "workshop";
 
@@ -41,7 +41,7 @@ const OtherActivitiesTab: React.FC = () => {
         workshop: 3,
     });
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         // Load activity data from local storage
@@ -99,7 +99,7 @@ const OtherActivitiesTab: React.FC = () => {
         return (
             <div key={key}>
                 <GraphBlock
-                    title={t("chart.other_top_n", { name: t(titleKey), count })}
+                    title={t("chart.other_top_n", {name: t(titleKey), count})}
                     chartType="bar"
                     data={chartData}
                 >
@@ -130,7 +130,7 @@ const OtherActivitiesTab: React.FC = () => {
 
                 {/* Divider between charts */}
                 {showDivider && (
-                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                    <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                 )}
             </div>
         );

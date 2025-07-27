@@ -94,8 +94,10 @@ export const filterByRoles = (participants: any[], selectedRoles: string[]): any
  * @param participants - Array of participants with an optional `lastAccessToCourse` timestamp.
  * @returns An object containing counts of `active` (last access ≤ 7 days) and `inactive` participants.
  */
-export const computeActiveInactive = (participants: any[]): { active: number;
-    inactive: number } => {
+export const computeActiveInactive = (participants: any[]): {
+    active: number;
+    inactive: number
+} => {
     const MS_PER_DAY = 1000 * 60 * 60 * 24;
     let active = 0;
     let inactive = 0;

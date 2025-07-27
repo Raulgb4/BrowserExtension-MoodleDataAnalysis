@@ -20,15 +20,8 @@
  */
 
 
-import {
-    createContext,
-    useContext,
-    useRef,
-    RefObject,
-    ReactNode,
-    FC
-} from "react";
-import type { Chart } from "chart.js";
+import {createContext, FC, ReactNode, RefObject, useContext, useRef} from "react";
+import type {Chart} from "chart.js";
 
 export interface Exportable {
     chartRef: RefObject<Chart | null>;
@@ -45,7 +38,7 @@ interface ExportContextType {
 
 const ExportContext = createContext<ExportContextType | undefined>(undefined);
 
-export const ExportProvider: FC<{ children: ReactNode }> = ({ children }) => {
+export const ExportProvider: FC<{ children: ReactNode }> = ({children}) => {
     const exportablesRef = useRef<Exportable[]>([]);
 
     const register = (exportable: Exportable) => {
@@ -66,7 +59,7 @@ export const ExportProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const getAll = () => exportablesRef.current;
 
     return (
-        <ExportContext.Provider value={{ register, unregister, getAll }}>
+        <ExportContext.Provider value={{register, unregister, getAll}}>
             {children}
         </ExportContext.Provider>
     );

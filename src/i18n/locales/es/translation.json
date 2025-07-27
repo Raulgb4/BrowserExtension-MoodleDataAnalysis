@@ -49,7 +49,6 @@
     "top_activities": "Actividades principales",
     "other_top_n": "{{name}} - Top {{count}} actividades"
   },
-
   "access": {
     "last_7_days": "Últimos 7 días",
     "days_8_30": "8-30 días",
@@ -57,8 +56,6 @@
     "more_than_90": "> 90 días",
     "never_accessed": "Nunca accedido"
   },
-
-
   "legend": {
     "visits": "Visitas",
     "views": "Visualizaciones",
@@ -71,16 +68,13 @@
     "participation_percentage": "Participación (%)",
     "subscriptions": "Suscripciones"
   },
-
   "filter": {
     "by_role": "Filtrar por rol:",
     "show_top": "Mostrar top"
   },
-
   "roles": {
     "none_selected": "Ningún rol seleccionado"
   },
-
   "activity": {
     "choices": "Encuestas",
     "quizzes": "Cuestionarios",
@@ -96,12 +90,10 @@
     "participants": "participantes",
     "activities": "actividades"
   },
-
   "pdf": {
     "analysis_date": "Fecha de análisis",
     "author": "Autor"
   },
-
   "course": {
     "unknown": "Curso desconocido",
     "unnamed": "Curso sin nombre"

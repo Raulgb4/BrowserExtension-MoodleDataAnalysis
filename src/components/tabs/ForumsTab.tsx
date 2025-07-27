@@ -15,13 +15,13 @@ import "../../chartConfig";
 import {Forum, ForumParticipantData} from "../../models/Forum";
 import {ChartData} from "chart.js";
 import {getTopByMetric} from "../../utils/chartDataUtils";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 const ForumsTab: React.FC = () => {
     const [forums, setForums] = useState<Forum[]>([]);
     const [topNs, setTopNs] = useState<Record<number, number>>({}); // Tracks top-N participants per forum
 
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     useEffect(() => {
         // Load forums from local storage
@@ -141,7 +141,7 @@ const ForumsTab: React.FC = () => {
                     <div key={forum.id}>
                         {/* Line chart for forum activity distribution */}
                         <GraphBlock
-                            title={t("chart.forum_top_n", { name: forum.activityName, count: topN })}
+                            title={t("chart.forum_top_n", {name: forum.activityName, count: topN})}
                             chartType="line"
                             data={data}
                         >

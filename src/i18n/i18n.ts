@@ -17,7 +17,7 @@ import es from './locales/es/translation.json';
 
 function getInitialLanguage(): Promise<'en' | 'es'> {
     return new Promise((resolve) => {
-        chrome.storage?.local.get("preferredLanguage", ({ preferredLanguage }) => {
+        chrome.storage?.local.get("preferredLanguage", ({preferredLanguage}) => {
             if (preferredLanguage === 'en' || preferredLanguage === 'es') {
                 resolve(preferredLanguage);
             } else {
@@ -32,8 +32,8 @@ getInitialLanguage().then((initialLang) => {
         .use(initReactI18next)
         .init({
             resources: {
-                en: { translation: en },
-                es: { translation: es },
+                en: {translation: en},
+                es: {translation: es},
             },
             lng: initialLang,
             fallbackLng: 'en',

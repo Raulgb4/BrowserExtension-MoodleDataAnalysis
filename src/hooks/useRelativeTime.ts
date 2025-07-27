@@ -19,10 +19,10 @@
 
 import {useEffect, useState} from "react";
 import {getRelativeTime} from "../services/dataProcessor";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 
 export function useRelativeTime(date: Date | null, intervalMs = 60_000): string | null {
-    const { t } = useTranslation();
+    const {t} = useTranslation();
 
     const [relative, setRelative] = useState<string | null>(() =>
         date ? getRelativeTime(date, t) : null

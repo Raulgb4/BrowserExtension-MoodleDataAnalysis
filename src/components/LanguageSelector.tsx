@@ -16,10 +16,10 @@ import {useTranslation} from 'react-i18next';
 import React, {useEffect} from "react";
 
 const LanguageSelector: React.FC = () => {
-    const { i18n } = useTranslation();
+    const {i18n} = useTranslation();
 
     useEffect(() => {
-        chrome.storage.local.get("preferredLanguage", ({ preferredLanguage }) => {
+        chrome.storage.local.get("preferredLanguage", ({preferredLanguage}) => {
             if (preferredLanguage && preferredLanguage !== i18n.language) {
                 i18n.changeLanguage(preferredLanguage).then(() => {
                     console.log(`Idioma cargado desde almacenamiento: ${preferredLanguage}`);
@@ -33,7 +33,7 @@ const LanguageSelector: React.FC = () => {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedLang = event.target.value as 'en' | 'es';
         i18n.changeLanguage(selectedLang).then(() => {
-            chrome.storage.local.set({ preferredLanguage: selectedLang })
+            chrome.storage.local.set({preferredLanguage: selectedLang})
                 .then(() => {
                     console.log(`Idioma preferido guardado: ${selectedLang}`);
                 })
