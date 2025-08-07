@@ -55,8 +55,16 @@ const ParticipantsTab: React.FC = () => {
 
             setParticipants(allParticipants);
             setAvailableRoles(roleArray);
-            setSelectedRolesParticipation(roleArray); // Default: all roles selected
-            setSelectedRolesAccess(roleArray);
+
+            const storedParticipation = result.filters_participants_roles_participation;
+            const storedAccess = result.filters_participants_roles_access;
+
+            setSelectedRolesParticipation(
+                Array.isArray(storedParticipation) ? storedParticipation : roleArray
+            );
+            setSelectedRolesAccess(
+                Array.isArray(storedAccess) ? storedAccess : roleArray
+            );
         });
     }, []);
 
@@ -76,18 +84,38 @@ const ParticipantsTab: React.FC = () => {
     }, [participants, selectedRolesAccess]);
 
     const handleRoleChangeParticipation = (role: string) => {
-        // Toggle role selection for the participation chart
-        setSelectedRolesParticipation(prev =>
-            prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]
-        );
+        setSelectedRolesParticipation((prev) => {
+            const updated = prev.includes(role)
+                ? prev.filter(r => r !== role)
+                : [...prev, role];
+
+            chrome.storage.local.set({
+                filters_participants_roles_participation: updated,
+            }).then(() => {
+                console.log("Saved participation filters immediately.");
+            });
+
+            return updated;
+        });
     };
 
+
     const handleRoleChangeAccess = (role: string) => {
-        // Toggle role selection for access chart
-        setSelectedRolesAccess(prev =>
-            prev.includes(role) ? prev.filter(r => r !== role) : [...prev, role]
-        );
+        setSelectedRolesAccess((prev) => {
+            const updated = prev.includes(role)
+                ? prev.filter(r => r !== role)
+                : [...prev, role];
+
+            chrome.storage.local.set({
+                filters_participants_roles_access: updated,
+            }).then(() => {
+                console.log("Saved access filters immediately.");
+            });
+
+            return updated;
+        });
     };
+
 
     const pieData = {
         labels: [t("legend.active"), t("legend.inactive")],
@@ -201,5 +229,3 @@ const ParticipantsTab: React.FC = () => {
 };
 
 export default ParticipantsTab;
-
-

@@ -41,7 +41,12 @@ const QuizzesTab: React.FC = () => {
             );
 
             setQuizzes(filtered);
-            setTopNByQuiz(filtered.map(() => 5)); // Initialize all top-N with 5
+            const savedTopN = result["filters_quizzes_top_n"];
+            if (Array.isArray(savedTopN) && savedTopN.length === filtered.length) {
+                setTopNByQuiz(savedTopN);
+            } else {
+                setTopNByQuiz(filtered.map(() => 5));
+            }
         });
     }, []);
 
@@ -50,9 +55,17 @@ const QuizzesTab: React.FC = () => {
         setTopNByQuiz((prev) => {
             const updated = [...prev];
             updated[index] = sanitizeTopN(value);
+
+            chrome.storage.local.set({
+                filters_quizzes_top_n: updated
+            }).then(() => {
+                console.log("Saved top-N filters for quizzes (immediate).");
+            });
+
             return updated;
         });
     };
+
 
     // Prevent zero or negative top-N
     const sanitizeTopN = (value: number) => Math.max(1, value);

@@ -55,6 +55,17 @@ const OtherActivitiesTab: React.FC = () => {
             setUrlResources(course.urlResources || []);
             setResources(course.resources || []);
             setWorkshops(course.workshops || []);
+
+            const savedCounts = result["filters_other_activities_top_counts"];
+            if (
+                savedCounts &&
+                typeof savedCounts === "object" &&
+                ["url", "file", "workshop"].every((key) =>
+                    typeof savedCounts[key] === "number"
+                )
+            ) {
+                setTopCounts(savedCounts);
+            }
         });
     }, []);
 
@@ -90,10 +101,22 @@ const OtherActivitiesTab: React.FC = () => {
         };
 
         const handleChange = (value: number) => {
-            setTopCounts((prev) => ({
-                ...prev,
-                [key]: Math.max(1, value), // Enforce a minimum of 1
-            }));
+            const sanitizedValue = Math.max(1, value); // Enforce minimum of 1
+
+            setTopCounts((prev) => {
+                const updated = {
+                    ...prev,
+                    [key]: sanitizedValue,
+                };
+
+                chrome.storage.local.set({
+                    filters_other_activities_top_counts: updated
+                }).then(() => {
+                    console.log("Saved top counts for other activities (immediate).");
+                });
+
+                return updated;
+            });
         };
 
         return (

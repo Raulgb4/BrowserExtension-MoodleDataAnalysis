@@ -43,7 +43,12 @@ const ForumsTab: React.FC = () => {
             );
 
             setForums(validForums);
-            setTopNs(getInitialTopNs(validForums.length, 5)); // Initialize top-N values
+            const savedTopNs = result["filters_forums_top_n"];
+            if (savedTopNs && typeof savedTopNs === "object") {
+                setTopNs(savedTopNs);
+            } else {
+                setTopNs(getInitialTopNs(validForums.length, 10));
+            }
         });
     }, []);
 
@@ -90,11 +95,22 @@ const ForumsTab: React.FC = () => {
     };
 
     const handleTopNChange = (forumId: number, value: number) => {
-        setTopNs((prev) => ({
-            ...prev,
-            [forumId]: value,
-        }));
+        setTopNs((prev) => {
+            const updated = {
+                ...prev,
+                [forumId]: value,
+            };
+
+            chrome.storage.local.set({
+                filters_forums_top_n: updated
+            }).then(() => {
+                console.log("Saved top-N filters for forums (immediate).");
+            });
+
+            return updated;
+        });
     };
+
 
     return (
         <div>
