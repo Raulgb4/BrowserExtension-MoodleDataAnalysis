@@ -4,12 +4,10 @@
 
 [Prioridad]
 
-1. [Alta] Exportación completa en PDF o DOCX: Crea un botón que sea exportar
-un documento PDF (también sería deseable que además se pueda exportar en formato DOCX) tipo memoria con todas las
-gráficas que se han generado, es decir, un documento con portada en la que aparezca el nombre
-del curso, un índice (opcional), y todas las gráficas que es generado.
-SOLUCIÓN LIMITACIÓN TÉCNICA: En cuanto a la duda que planteas, renderiza todas las gráficas aunque no se muestren
-únicamente cuando el usuario ha pulsado el botón de exportar todo_.
+1. [Alta] Persistencia de filtros aplicados entre pestañas y acciones del usuario
+Asegurarse de que los filtros aplicados a una gráfica (por ejemplo, filtros por roles o top-N participantes)
+se mantengan aunque el usuario cambie de pestaña, minimice la extensión o realice cualquier otra acción que
+normalmente reiniciaría el estado.
 
 2. [Alta] Adaptación al entorno oficial de producción: En cuanto tengas esto hecho, te daré acceso a un curso oficial
 de la UMA para adaptar la extensión a dicho entorno. Esta funcionalidad es mejor dejarla para el final, Adaptar la

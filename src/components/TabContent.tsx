@@ -16,13 +16,15 @@ import ForumsTab from "./tabs/ForumsTab";
 import QuizzesTab from "./tabs/QuizzesTab";
 import OtherActivitiesTab from "./tabs/OtherActivitiesTab";
 import GlobalTab from "./tabs/GlobalTab";
+import {useExportContext} from "../context/ExportContext";
 
 
 interface TabContentProps {
     tab: string;
 }
 
-const tabComponents: Record<string, React.FC> = {
+// Map tab keys to components
+const tabComponents: Record<string, React.FC<{ activeTab: string }>> = {
     tab_global: GlobalTab,
     tab_participants: ParticipantsTab,
     tab_choices: ChoicesTab,
@@ -31,11 +33,28 @@ const tabComponents: Record<string, React.FC> = {
     tab_other_activities: OtherActivitiesTab,
 };
 
+const TabContent: React.FC<TabContentProps> = ({ tab }) => {
+    const { forceRenderTabs } = useExportContext();
 
-const TabContent: React.FC<TabContentProps> = ({tab}) => {
-    const Component = tabComponents[tab];
+    // Combine current tab and forced ones, without duplicates
+    const allTabsToRender = Array.from(new Set([tab, ...forceRenderTabs]));
 
-    return Component ? <Component/> : <p>Selecciona una pestaña para ver el contenido.</p>;
+    return (
+        <>
+            {allTabsToRender.map((key) => {
+                const Component = tabComponents[key];
+                if (!Component) return null;
+
+                const isVisible = key === tab;
+
+                return (
+                    <div key={key} className={isVisible ? "" : "hidden"}>
+                        <Component activeTab={tab} />
+                    </div>
+                );
+            })}
+        </>
+    );
 };
 
 export default TabContent;

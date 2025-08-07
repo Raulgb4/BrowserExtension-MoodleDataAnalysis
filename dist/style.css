@@ -203,6 +203,9 @@
   }
 }
 @layer utilities {
+  .pointer-events-none {
+    pointer-events: none;
+  }
   .collapse {
     visibility: collapse;
   }
@@ -356,6 +359,9 @@
   .table-row-group {
     display: table-row-group;
   }
+  .h-0 {
+    height: calc(var(--spacing) * 0);
+  }
   .h-3\.5 {
     height: calc(var(--spacing) * 3.5);
   }
@@ -487,6 +493,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .overflow-hidden {
+    overflow: hidden;
   }
   .overflow-x-auto {
     overflow-x: auto;

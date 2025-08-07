@@ -22,6 +22,7 @@ import {
     UsersIcon
 } from "@heroicons/react/24/solid";
 import {useTranslation} from "react-i18next";
+import HiddenTabsRenderer from "./HiddenTabsRenderer";
 
 
 // Define available tabs with corresponding icons
@@ -94,7 +95,8 @@ const TabSection: React.FC = () => {
 
             {/* Dynamic content based on a selected tab */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab}/>
+                <TabContent tab={activeTab} />
+                <HiddenTabsRenderer activeTab={activeTab} />
             </div>
         </div>
     );

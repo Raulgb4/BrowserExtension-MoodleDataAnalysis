@@ -260,7 +260,6 @@ export function exportToPDF(
     doc.save(filename);
 }
 
-
 /**
  * Exports a Chart.js chart as a DOCX file with its image and corresponding data table.
  *
@@ -291,7 +290,7 @@ export async function exportToDOCX(
         return;
     }
 
-    // Convert chart image to byte array
+    // Convert the chart image to a byte array
     const imageBase64 = chart.toBase64Image();
     const byteString = atob(imageBase64.split(",")[1]);
     const byteArray = new Uint8Array(byteString.length);
@@ -363,7 +362,7 @@ export async function exportToDOCX(
         ),
     });
 
-    // Table data rows (left aligned, alternating shading)
+    // Table data rows (left-aligned, alternating shading)
     const dataRows = labels.map((label, i) =>
         new TableRow({
             children: [
@@ -441,8 +440,24 @@ export async function exportAllToPDF(
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
-    const now = new Date();
-    const formattedDate = formatDateForExport(now);
+
+    const {formattedDate} = await new Promise<{ formattedDate: string, analysisDate: Date }>((resolve) => {
+        chrome.storage.local.get("lastAnalyzedAt", (res) => {
+            const timestamp = res.lastAnalyzedAt;
+            if (!timestamp) {
+                const fallback = new Date();
+                return resolve({
+                    formattedDate: formatDateForExport(fallback),
+                    analysisDate: fallback,
+                });
+            }
+            const date = new Date(timestamp);
+            resolve({
+                formattedDate: formatDateForExport(date),
+                analysisDate: date,
+            });
+        });
+    });
 
     // === Load course name dynamically from storage ===
     const courseName: string = await new Promise((resolve) => {
@@ -501,24 +516,43 @@ export async function exportAllToPDF(
         const chart = chartRef.current;
         if (!chart) continue;
 
+        // Get the base64 image representation of the chart
         const base64Image = chart.toBase64Image();
+
+        // Validate the base64 image string:
+        // Proceed only if the image starts with 'data:image/png' or 'data:image/jpeg'
+        // This prevents errors when the image data is invalid or empty
+        if (
+            !base64Image.startsWith("data:image/png") &&
+            !base64Image.startsWith("data:image/jpeg")
+        ) {
+            //console.warn(`Invalid base64 image at index ${i}. Skipping...`, base64Image);
+            continue; // Skip this chart if the image is invalid
+        }
+
+        // Get image properties for aspect ratio calculation
         const imgProps = (doc as any).getImageProperties?.(base64Image);
         const pdfWidth = 180;
+        // Calculate height maintaining an aspect ratio, fallback to 0.5 if unavailable
         const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
         const pdfHeight = pdfWidth * aspectRatio;
 
-        const translatedTitle = t(title); // Translate chart title
+        // Translate the chart title using i18n
+        const translatedTitle = t(title);
 
+        // Draw a styled title block for the chart
         doc.setFontSize(12);
         doc.setFont("helvetica", "bold");
         doc.setTextColor(249, 128, 18);
         doc.setDrawColor(249, 128, 18);
         doc.setFillColor(255, 247, 237);
-        doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, 'F');
+        doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, "F");
         doc.text(translatedTitle, pageWidth / 2, 18, {align: "center"});
 
+        // Add the chart image to the PDF at a specified position and size
         doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
 
+        // Prepare a data table starting just below the image
         const tableStartY = 25 + pdfHeight + 10;
         const tableData = labels.map((label, i) => [label, values[i]]);
         autoTable(doc, {
@@ -529,6 +563,7 @@ export async function exportAllToPDF(
             headStyles: {fillColor: [249, 128, 18]},
         });
 
+        // Add a new page if this is not the last chart
         if (i < exportables.length - 1) doc.addPage();
     }
 
@@ -536,5 +571,252 @@ export async function exportAllToPDF(
     doc.save(filename);
 }
 
+/**
+ * Generates a comprehensive DOCX report containing all registered Chart.js graphs.
+ *
+ * This function dynamically fetches the course name and the date of the last analysis from
+ * Chrome's local storage to generate a customized cover page. Each chart is then rendered
+ * on its own page along with a translated title and an associated data table.
+ *
+ * Internally, this function converts each chart to a base64 image using `ChartJS.toBase64Image()`
+ * and embeds it into the DOCX document using `docx.ImageRun`. It also renders a styled table
+ * below each chart with the corresponding labels and values.
+ *
+ * The exported document includes:
+ * - A cover page with the course name, analysis date, author name, and extension logo.
+ * - One section per chart, each including a title block, chart image, and data table.
+ *
+ * @param exportables - Array of exportable chart objects, each containing a chart reference,
+ *                      a title (used for the chart section heading), and corresponding labels and values.
+ * @param t - Translation function from `useTranslation` to localize titles, headers, and chart labels.
+ *
+ * @returns A Promise that resolves once the DOCX document has been created and downloaded.
+ */
+export async function exportAllToDOCX(
+    exportables: Exportable[],
+    t: (key: string) => string
+): Promise<void> {
+    // Use the analysis date from storage instead of the current export time
+    const {formattedDate} = await new Promise<{ formattedDate: string, analysisDate: Date }>((resolve) => {
+        chrome.storage.local.get("lastAnalyzedAt", (res) => {
+            const timestamp = res.lastAnalyzedAt;
+            if (!timestamp) {
+                const fallback = new Date();
+                return resolve({
+                    formattedDate: formatDateForExport(fallback),
+                    analysisDate: fallback,
+                });
+            }
+            const date = new Date(timestamp);
+            resolve({
+                formattedDate: formatDateForExport(date),
+                analysisDate: date,
+            });
+        });
+    });
 
+// Dynamically retrieve the course name from Chrome's local storage
+    const courseName: string = await new Promise((resolve) => {
+        chrome.storage.local.get(["lastAnalyzedCourseId"], (res) => {
+            const courseId = res.lastAnalyzedCourseId;
+            if (!courseId) return resolve(t("course.unknown"));
+
+            chrome.storage.local.get([`course_${courseId}`], (data) => {
+                const course = data[`course_${courseId}`];
+                const name = course?.courseName || t("course.unnamed");
+                resolve(name);
+            });
+        });
+    });
+
+// Author name to display on the cover page
+    const author = "Raúl García Balongo";
+
+// Load the logo image as a byte array to embed it as an <ImageRun>
+    const logoBytes: Uint8Array = await fetch(chrome.runtime.getURL("icons/icon128.png"))
+        .then((res) => res.arrayBuffer())
+        .then((buffer) => new Uint8Array(buffer));
+
+// Initialize an array of sections; each section represents one page
+    const docSections: { properties: {}; children: (Paragraph | Table)[] }[] = [];
+
+// Create the cover page section
+    docSections.push({
+        properties: {},
+        children: [
+            // Course title: centered, bold, orange and large font, with a light orange background
+            new Paragraph({
+                alignment: AlignmentType.CENTER,
+                spacing: {after: 300},
+                shading: {fill: "fff7ed"},
+                children: [
+                    new TextRun({
+                        text: courseName,
+                        bold: true,
+                        size: 28,
+                        font: "Helvetica",
+                        color: "f98012",
+                    }),
+                ],
+            }),
+
+            // Date: separate line, gray, small font, light orange background
+            new Paragraph({
+                alignment: AlignmentType.CENTER,
+                spacing: {after: 100},
+                shading: {fill: "fff7ed"},
+                children: [
+                    new TextRun({
+                        text: `${t("pdf.analysis_date")}: ${formattedDate}`,
+                        size: 20,
+                        color: "888888",
+                        font: "Helvetica",
+                    }),
+                ],
+            }),
+
+            // Author: separate line, gray, small font, light orange background
+            new Paragraph({
+                alignment: AlignmentType.CENTER,
+                spacing: {after: 200},
+                shading: {fill: "fff7ed"},
+                children: [
+                    new TextRun({
+                        text: `${t("pdf.author")}: ${author}`,
+                        size: 20,
+                        color: "888888",
+                        font: "Helvetica",
+                    }),
+                ],
+            }),
+
+            // Logo: centered, larger size, light orange background
+            new Paragraph({
+                alignment: AlignmentType.CENTER,
+                shading: {fill: "fff7ed"},
+                children: [
+                    new ImageRun({
+                        data: logoBytes,
+                        transformation: {
+                            width: 160,
+                            height: 160,
+                        },
+                        type: "png",
+                    }),
+                ],
+            }),
+        ],
+    });
+
+    for (const {chartRef, title, labels, values} of exportables) {
+        const chart = chartRef.current;
+        if (!chart) continue;
+
+        const base64Image = chart.toBase64Image();
+        if (
+            !base64Image.startsWith("data:image/png") &&
+            !base64Image.startsWith("data:image/jpeg")
+        ) continue;
+
+        const byteString = atob(base64Image.split(",")[1]);
+        const byteArray = new Uint8Array(byteString.length);
+        for (let i = 0; i < byteString.length; i++) {
+            byteArray[i] = byteString.charCodeAt(i);
+        }
+
+        const translatedTitle = t(title);
+
+        const titleBlock = new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: {before: 200, after: 300},
+            shading: {fill: "fff7ed"},
+            children: [
+                new TextRun({text: "\n"}),
+                new TextRun({
+                    text: translatedTitle,
+                    bold: true,
+                    size: 22,
+                    font: "Helvetica",
+                    color: "f98012",
+                }),
+                new TextRun({text: "\n"}),
+            ],
+        });
+
+        const imageBlock = new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: {after: 300},
+            children: [
+                new ImageRun({
+                    data: byteArray,
+                    transformation: {width: 480, height: 270},
+                    type: "png",
+                }),
+            ],
+        });
+
+        const tableHeaderRow = new TableRow({
+            tableHeader: true,
+            children: [t("category"), t("value")].map((header) =>
+                new TableCell({
+                    width: {size: 50, type: WidthType.PERCENTAGE},
+                    shading: {fill: "f98012"},
+                    children: [
+                        new Paragraph({
+                            alignment: AlignmentType.LEFT,
+                            children: [
+                                new TextRun({
+                                    text: header,
+                                    bold: true,
+                                    color: "ffffff",
+                                    font: "Helvetica",
+                                }),
+                            ],
+                        }),
+                    ],
+                })
+            ),
+        });
+
+        const dataRows = labels.map((label, i) =>
+            new TableRow({
+                children: [
+                    new TableCell({
+                        shading: i % 2 === 0 ? {fill: "f9fafb"} : undefined,
+                        children: [
+                            new Paragraph({
+                                alignment: AlignmentType.LEFT,
+                                children: [new TextRun({text: label, font: "Helvetica"})],
+                            }),
+                        ],
+                    }),
+                    new TableCell({
+                        shading: i % 2 === 0 ? {fill: "f9fafb"} : undefined,
+                        children: [
+                            new Paragraph({
+                                alignment: AlignmentType.LEFT,
+                                children: [new TextRun({text: values[i].toString(), font: "Helvetica"})],
+                            }),
+                        ],
+                    }),
+                ],
+            })
+        );
+
+        const table = new Table({
+            rows: [tableHeaderRow, ...dataRows],
+            width: {size: 100, type: WidthType.PERCENTAGE},
+            alignment: AlignmentType.CENTER,
+        });
+
+        docSections.push({
+            properties: {},
+            children: [titleBlock, imageBlock, table],
+        });
+    }
+
+    const doc = new Document({sections: docSections});
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, `Moodle_Report_${formattedDate}.docx`);
+}
 

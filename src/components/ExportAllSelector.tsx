@@ -11,37 +11,70 @@
  * @date 2025
  */
 
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-
+import React, {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 import {useExportContext} from "../context/ExportContext";
-import {exportAllToPDF} from "../utils/exportUtils";
-//import { exportAllToDOCX } from "../utils/exportAllToDOCX";
+import {exportAllToDOCX, exportAllToPDF} from "../utils/exportUtils";
+// import { exportAllToDOCX } from "../utils/exportutils"; // Uncomment when implemented
 
 const ExportAllSelector: React.FC = () => {
     const {t} = useTranslation();
     const [format, setFormat] = useState<'pdf' | 'docx'>('pdf');
     const [isExporting, setIsExporting] = useState(false);
+    const [, setActiveTab] = useState<string | null>(null);
 
-    const {getAll} = useExportContext();
+    const {getAll, triggerExportAll} = useExportContext();
 
-    const handleExport = async () => {
-        setIsExporting(true);
-        const exportables = getAll();
-
-        try {
-            if (format === "pdf") {
-                await exportAllToPDF(exportables, t);
-            } else {
-                // await exportAllToDOCX(exportables, t);
+    // Load the currently active tab from local storage
+    useEffect(() => {
+        chrome.storage.local.get("activeTab", ({activeTab}) => {
+            if (activeTab) {
+                setActiveTab(activeTab);
             }
-        } catch (error) {
-            console.error("Error during export:", error);
-        } finally {
-            setIsExporting(false);
-        }
-    };
+        });
+    }, []);
 
+    // Listen for export trigger event and execute export
+    useEffect(() => {
+        const handleTriggerExport = async (event: Event) => {
+            const e = event as CustomEvent; // Convert Event to CustomEvent
+
+            const exportables = getAll();
+
+            try {
+                if (e.detail.format === "pdf") {
+                    await exportAllToPDF(exportables, t);
+                } else {
+                    await exportAllToDOCX(exportables, t);
+                }
+            } catch (error) {
+                console.error("Export error:", error);
+            } finally {
+                setIsExporting(false);
+            }
+        };
+
+        window.addEventListener("trigger-export-all", handleTriggerExport);
+
+        return () => {
+            window.removeEventListener("trigger-export-all", handleTriggerExport);
+        };
+    }, [getAll, t]);
+
+
+    // Trigger the export process
+    const handleExport = () => {
+        setIsExporting(true);
+        chrome.storage.local.get("activeTab", ({activeTab}) => {
+            if (!activeTab) {
+                console.warn("No activeTab found on export");
+                setIsExporting(false);
+                return;
+            }
+            setActiveTab(activeTab);
+            triggerExportAll(activeTab, format);
+        });
+    };
 
     return (
         <div className="flex flex-col items-center gap-2 text-xs mt-2 w-full">
