@@ -67,9 +67,4 @@ export interface Course {
      * Total number of participants in the course.
      */
     numParticipantsTotal: number;
-
-    /**
-     * Number of participants considered active based on criteria such as recent access or quiz attempts.
-     */
-    numParticipantsActive: number;
 }

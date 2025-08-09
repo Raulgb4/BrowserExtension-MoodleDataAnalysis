@@ -14,8 +14,8 @@
  */
 
 /** Base URLs for different Moodle environments */
-export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
-//export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
+//export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
+export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 
 /**
  * Base URL currently in use.
@@ -23,7 +23,7 @@ export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
  * NOTE: You can switch between local and production by updating this variable.
  * In the future, this could be made dynamic or configurable via chrome.storage.
  */
-const BASE = MOODLE_BASE_URL_LOCAL;
+const BASE = MOODLE_BASE_URL_PROD;
 
 /**
  * Checks if a given URL belongs to a Moodle course-related section

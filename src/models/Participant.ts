@@ -44,7 +44,7 @@ export interface Participant {
     lastAccessToCourse?: number;
 
     /**
-     * Status of the participant (e.g., "Active", "Not current").
+     * Registration of the participant (e.g., "Movilidad", "Manual enrolments").
      */
-    status?: string;
+    registration?: string;
 }

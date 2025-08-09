@@ -10,6 +10,18 @@ extensión al entorno de producción real del Campus Virtual de la Universidad d
 y posibles diferencias con el entorno de desarrollo actual.
 Curso oficial: https://informatica.cv.uma.es/course/view.php?id=5121
 
+Anotaciones asociadas a esta tarea:
+- Ramas ¿seguimos develop para adaptar a entorno oficial?
+- Versiones de la extensión manifest?????
+- En el apartado de encuestas, como este curso no presenta ninguna encuesta se observa una tabla
+vacía.
+- En el apartado de cuestionarios, no aparece ninguno porque no hay datos de entregas.
+- Hay un nuevo tipo de actividad que hay que agregar en Other Activities -> Assigns
+
+
+- Si la tab no tiene datos para qué mostrarla
+
+
 2. [Alta] JSDOC, Refactorización y limpieza de código
 
 3. [Alta] Verificación de consistencia de datos: Testeo completo para verificar que los datos mostrados coinciden

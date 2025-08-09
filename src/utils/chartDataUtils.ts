@@ -94,22 +94,30 @@ export const filterByRoles = (participants: any[], selectedRoles: string[]): any
  * @param participants - Array of participants with an optional `lastAccessToCourse` timestamp.
  * @returns An object containing counts of `active` (last access ≤ 7 days) and `inactive` participants.
  */
-export const computeActiveInactive = (participants: any[]): {
-    active: number;
-    inactive: number
-} => {
-    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+type HasLastAccess = { lastAccessToCourse?: number | null };
+
+export const computeActiveInactive = (
+    participants: HasLastAccess[],
+    thresholdDays = 14
+): { active: number; inactive: number } => {
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const THRESHOLD_MS = thresholdDays * MS_PER_DAY;
+
     let active = 0;
     let inactive = 0;
 
     for (const p of participants) {
-        const lastAccess = p.lastAccessToCourse;
-        const daysAgo = lastAccess !== undefined ? Math.floor(lastAccess / MS_PER_DAY) : null;
-        if (daysAgo === null || daysAgo > 7) inactive++;
-        else active++;
+        const ms = p.lastAccessToCourse;
+
+        // Inactive if missing, non-finite, <= 0, or beyond threshold
+        if (ms == null || !Number.isFinite(ms) || ms <= 0 || ms > THRESHOLD_MS) {
+            inactive++;
+        } else {
+            active++;
+        }
     }
 
-    return {active, inactive};
+    return { active, inactive };
 };
 
 /**

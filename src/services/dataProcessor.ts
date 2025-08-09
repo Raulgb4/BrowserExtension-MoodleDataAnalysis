@@ -96,15 +96,42 @@ export function parseGroups(raw: string | undefined): string[] | undefined {
 }
 
 /**
- * Parses a raw "last access" string (e.g., "5 mins 30 secs") into milliseconds.
- * Returns undefined if the input is "Never", "-", or empty.
+ * Parses the Moodle "last access" cell into a relative duration in milliseconds.
  *
- * @param raw - The raw last access string from Moodle.
- * @returns The duration in milliseconds, or undefined if the input is not a valid time.
+ * Expected inputs include UMA-style two-line cells (e.g. first line: "1 year 230 d",
+ * second line: "22/12/23 19:32"). This function:
+ *   1) Keeps only the first line (the relative fragment).
+ *   2) Normalizes abbreviations to what `normalizeTimeToMillis` expects:
+ *      - `d`  -> `days`
+ *      - `h`  -> `hours`
+ *      - `min`-> `mins`
+ *      - `s` / `sec` -> `secs`
+ *   3) Returns `undefined` for "never", "-", or empty input.
+ *
+ * Note: If the first line were an absolute date string, `normalizeTimeToMillis`
+ * can parse it via `Date.parse`, but UMA typically puts an absolute date on the
+ * second line which is intentionally ignored here.
+ *
+ * @param raw Raw "last access" text from the table cell (may contain line breaks).
+ * @returns Relative duration in milliseconds, or `undefined` when not applicable.
  */
 export function parseLastAccess(raw: string | undefined): number | undefined {
-    if (!raw || raw.toLowerCase() === 'never' || raw === '-') return undefined;
-    return normalizeTimeToMillis(raw.trim());
+    if (!raw) return undefined;
+
+    // Keep only the relative chunk (UMA shows two lines)
+    const firstLine = raw.split("\n")[0].trim();
+    if (!firstLine) return undefined;
+
+    // Map UMA abbreviations to the tokens normalizeTimeToMillis expects
+    const normalized = firstLine
+        .replace(/(\d+)\s*d\b/gi, "$1 days")
+        .replace(/(\d+)\s*h\b/gi, "$1 hours")
+        .replace(/(\d+)\s*min\b/gi, "$1 mins")
+        .replace(/(\d+)\s*s(ec)?\b/gi, "$1 secs");
+
+    if (normalized.toLowerCase() === "never" || normalized === "-") return undefined;
+
+    return normalizeTimeToMillis(normalized);
 }
 
 /**
