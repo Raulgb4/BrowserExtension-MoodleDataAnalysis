@@ -4,30 +4,9 @@
 
 [Prioridad]
 
-1. [Alta] Adaptación al entorno oficial de producción: En cuanto tengas esto hecho, te daré acceso a un curso oficial
-de la UMA para adaptar la extensión a dicho entorno. Esta funcionalidad es mejor dejarla para el final, Adaptar la
-extensión al entorno de producción real del Campus Virtual de la Universidad de Málaga, comprobando compatibilidad
-y posibles diferencias con el entorno de desarrollo actual.
-Curso oficial: https://informatica.cv.uma.es/course/view.php?id=5121
+1. [Alta] Arreglar la scrollbar. Aparece cuando no es necesario.
 
-- Hay un nuevo tipo de actividad que hay que agregar en Other Activities -> Assigns
-
-Duda:
-
-- En la copia del curso que se me proporcionó inicialmente para el desarrollo de la extensión había datos
-  de cuestionarios (quizzes), y no había actividades del tipo assign (tareas).
-  He desarrollado parte de la extensión en base a esos datos, lo que ha permitido implementar
-  las secciones relacionadas con quizzes. Sin embargo, al trabajar ahora con el curso oficial en el que se realizará la
-  defensa, me he encontrado con que no hay datos de quizzes, pero sí hay un número considerable
-  de actividades tipo assign. Esto implica que algunas secciones que implementé no mostrarán datos durante la defensa,
-  y por otro lado hay tipos de actividades presentes en el curso oficial que no están contempladas
-  actualmente en la extensión. Quisiera confirmar con vosotros si debo adaptar el desarrollo para priorizar y
-  mostrar las actividades y datos que realmente estén presentes en el curso oficial de la defensa, incluso si eso
-  supone dejar de lado funcionalidades que estaban previstas inicialmente para otros tipos de actividades
-  que no aparecerán en ese curso.
-
-
-2. [Alta] JSDOC, Refactorización y limpieza de código
+2. [Alta] JSDOC, Refactorización y limpieza de código.
 
 3. [Alta] Verificación de consistencia de datos: Testeo completo para verificar que los datos mostrados coinciden
 con los que aparecen en Moodle.
@@ -39,21 +18,36 @@ la extensión y Moodle.
 
 5. [Alta] Completar la memoria.
 
+6. [Media] [25 agosto] Duda en adaptación al entorno oficial de producción
+Curso oficial: https://informatica.cv.uma.es/course/view.php?id=5121
+Hay un nuevo tipo de actividad que hay que agregar en Other Activities -> Assigns -> Problema: tabla paginada
+En la copia del curso que se me proporcionó inicialmente para el desarrollo de la extensión había datos
+de cuestionarios (quizzes), y no había actividades del tipo assign (tareas).
+He desarrollado parte de la extensión en base a esos datos, lo que ha permitido implementar
+las secciones relacionadas con quizzes. Sin embargo, al trabajar ahora con el curso oficial en el que se realizará la
+defensa, me he encontrado con que no hay datos de quizzes, pero sí hay un número considerable
+de actividades tipo assign. Esto implica que algunas secciones que implementé no mostrarán datos durante la defensa,
+y, por otro lado, hay tipos de actividades presentes en el curso oficial que no están contempladas
+actualmente en la extensión. Quisiera confirmar con vosotros si debo adaptar el desarrollo para priorizar y
+mostrar las actividades y datos que realmente estén presentes en el curso oficial de la defensa, incluso si eso
+supone dejar de lado funcionalidades que estaban previstas inicialmente para otros tipos de actividades
+que no aparecerán en ese curso.
+
 ------------------------------------------------------------------------------------------------------------------------
 
-6. [Baja] Informe individual por usuario: Sería interesante generar un informe tipo
+7. [Baja] Informe individual por usuario: Sería interesante generar un informe tipo
 PDF filtrando por una persona concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante,
 se podría poner su nombre, calificación final, todas aquellas actividades que han sido evaluadas junto con la
 calificación obtenida, y la interacción que ha tenido en cada actividad.
 
-7. [Baja] El desarrollo de funcionalidades basadas en análisis predictivo o minería de datos, como la
+8. [Baja] El desarrollo de funcionalidades basadas en análisis predictivo o minería de datos, como la
 identificación de correlaciones entre participación y calificación, o la predicción del rendimiento académico.
 Se pueden añadir otras funcionalidades no incluidas y bien diferenciadas de las señaladas en el anteproyecto,
 y el tribunal lo valorará positivamente. Por ejemplo, se podría incluir un análisis de cómo la participación del
 alumnado en el foro impacta en la calificación obtenida, predecir la calificación de un estudiante a
 partir de su actividad, etc.
 
-8. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
+9. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
 ese curso. Lo que se quiere es modificar esta lógica para que los análisis anteriores NO se eliminen, sino que
 se acumulen o conserven, permitiendo mantener múltiples versiones del análisis o un histórico por
 curso, si se considera útil.

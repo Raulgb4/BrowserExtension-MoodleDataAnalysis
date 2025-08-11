@@ -110,6 +110,16 @@ export const URLS = {
         `/mod/quiz/report.php?id=${id}&mode=overview&pagesize=${pageSize ?? 1000}`,
 
     /**
+     * Returns the path to the assign results overview page.
+     * @param id Assign ID
+     */
+    /*
+    ASSIGN_RESULTS: (id: string | number) =>
+        `/mod/assign/view.php?id=${id}&action=grading`,
+
+
+    */
+    /**
      * Returns the path to a forum participation summary report.
      * @param id main forum ID
      */
@@ -202,6 +212,23 @@ export function getScrapeUrlQuiz(id: string | number, totalParticipants?: number
         quizResults: `${BASE}${URLS.QUIZ_RESULTS(id, totalParticipants)}`,
     };
 }
+
+/**
+ * Generates the URL used to access the assign results page for a specific assign activity.
+ *
+ * This is used to scrape individual student assign data, such as names,
+ * durations, and grades.
+ *
+ * @param id - The ID of the assign activity.
+ * @returns An object with a `assignResults` key mapping to the full assign results URL.
+ */
+/*
+export function getScrapeUrlAssign(id: string | number): Record<string, string> {
+    return {
+        assignResults: `${BASE}${URLS.ASSIGN_RESULTS(id)}`,
+    };
+}
+*/
 
 /**
  * Generates the URL used to access the main page of a specific forum.

@@ -416,23 +416,23 @@
   .w-full {
     width: 100%;
   }
+  .w-max {
+    width: max-content;
+  }
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
-  .max-w-\[592px\] {
-    max-width: 592px;
+  .max-w-\[600px\] {
+    max-width: 600px;
   }
-  .max-w-\[748px\] {
-    max-width: 748px;
+  .max-w-\[749px\] {
+    max-width: 749px;
   }
   .max-w-full {
     max-width: 100%;
   }
-  .min-w-\[312px\] {
-    min-width: 312px;
-  }
-  .shrink-0 {
-    flex-shrink: 0;
+  .min-w-\[310px\] {
+    min-width: 310px;
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
@@ -642,9 +642,6 @@
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
-  }
-  .pr-px {
-    padding-right: 1px;
   }
   .pb-1 {
     padding-bottom: calc(var(--spacing) * 1);

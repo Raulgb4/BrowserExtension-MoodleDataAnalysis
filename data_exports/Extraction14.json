@@ -4,338 +4,8 @@
   "numParticipantsTotal": 36,
   "participants": [
     {
-      "id": 18699,
-      "participantName": "García Balongo Raúl",
-      "email": "raulgarciabalongoes@gmail.com",
-      "roles": [
-        "Profesor"
-      ],
-      "lastAccessToCourse": 17000,
-      "registration": "Manual enrolments"
-    },
-    {
-      "id": 15023,
-      "participantName": "Estébanez Yepes Antonio Samuel",
-      "email": "aeyepes1999@gmail.com",
-      "roles": [
-        "Profesor"
-      ],
-      "lastAccessToCourse": 345600000,
-      "registration": "Manual enrolments"
-    },
-    {
-      "id": 2541,
-      "participantName": "Molina Cabello Miguel Angel",
-      "email": "miguelangel@lcc.uma.es",
-      "roles": [
-        "Profesor"
-      ],
-      "lastAccessToCourse": 604800000,
-      "registration": "Manual enrolments"
-    },
-    {
-      "id": 18502,
-      "participantName": "Bermúdez Gámez Pablo",
-      "email": "pablobermudezgamez@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 1036800000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 22484,
-      "participantName": "Bojar Dorota",
-      "email": "01178622@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 12528000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 19133,
-      "participantName": "Perales Díaz Mario",
-      "email": "mapedi2002@gmail.com",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 17625600000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 23018,
-      "participantName": "Herwerth Jonathan",
-      "email": "jonathan.herwerth@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 21600000000,
-      "registration": "Manual enrolments"
-    },
-    {
-      "id": 2975,
-      "participantName": "Benítez Rochel Rafaela",
-      "email": "benitez@lcc.uma.es",
-      "roles": [
-        "Profesor"
-      ],
-      "lastAccessToCourse": 23068800000,
-      "registration": "LDAP enrolments"
-    },
-    {
-      "id": 17197,
-      "participantName": "Vida Montañez María",
-      "email": "mariavida262001@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 23846400000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 17292,
-      "participantName": "Mendez Parrilla Javier",
-      "email": "javiimendeezz@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 25920000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 16043,
-      "participantName": "Martín Vera Sergio",
-      "email": "smv762e@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 17323,
-      "participantName": "Martín Serrano Nerea",
-      "email": "nmartins@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 22955,
-      "participantName": "Bachl Katharina",
-      "email": "katharina.bachl@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Movilidad"
-    },
-    {
-      "id": 23016,
-      "participantName": "Dar Yunus Emre",
-      "email": "yunusdar@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 23040,
-      "participantName": "Yahsi Yahsi Emre",
-      "email": "emryah@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 13924,
-      "participantName": "Barakat Nieto Yussef",
-      "email": "rafida1441@gmail.com",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 17629,
-      "participantName": "Valderrama Palacios María del Rocío",
-      "email": "marvalpal@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 18474,
-      "participantName": "Madrid Espinosa Carlos",
-      "email": "carlosmadrid@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 17295,
-      "participantName": "Vergara Ruz Juan Carlos",
-      "email": "juancavergara6@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 18471,
-      "participantName": "Castro Valderas Raúl Angel",
-      "email": "raulc0606@gmail.com",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 18475,
-      "participantName": "Moralejo Palma Matías",
-      "email": "matiasmoralejopalma@gmail.com",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 22842,
-      "participantName": "Gabrielle Gaucher",
-      "email": "gabrielle.gaucher@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 23106,
-      "participantName": "Koehler Cedric",
-      "email": "cedric.koehler@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 17288,
-      "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
-      "email": "0619981615@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 17317,
-      "participantName": "Beltran López Carlos",
-      "email": "0610699132@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 17554,
-      "participantName": "Cubillos del Toro David",
-      "email": "d.cubillosdeltoro@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "Matrícula dejó de recibirse"
-    },
-    {
-      "id": 22490,
-      "participantName": "Taudul Mikolaj",
-      "email": "mikolaj.taudul@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 18511,
-      "participantName": "Ruiz Villarrazo Miguel Angel",
-      "email": "mruizvillarrazo@gmail.com",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 22901,
-      "participantName": "Wilde Lea Rebecca",
-      "email": "0611329976@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 18503,
-      "participantName": "Obrero Berlanga Raúl",
-      "email": "raulobreroberlanga@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 19114,
-      "participantName": "Guirado Osorio Víctor",
-      "email": "victorgo99@hotmail.com",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 18749,
-      "participantName": "Fernández Giaccomassi Susana Rocío",
-      "email": "susanafernandez@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
-      "id": 23000,
-      "participantName": "Günzel Fabián",
-      "email": "fabian.guenzel@uma.es",
-      "roles": [
-        "Estudiante"
-      ],
-      "lastAccessToCourse": 31536000000,
-      "registration": "5157-23-0920-A"
-    },
-    {
       "id": 17172,
-      "participantName": "Babusca Voicu Florin",
+      "participantName": "Babusca Voicu, Florin",
       "email": "0619967847@uma.es",
       "roles": [
         "Estudiante"
@@ -344,8 +14,267 @@
       "registration": "5157-23-0920-A"
     },
     {
+      "id": 22955,
+      "participantName": "Bachl, Katharina",
+      "email": "katharina.bachl@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Movilidad"
+    },
+    {
+      "id": 13924,
+      "participantName": "Barakat Nieto, Yussef",
+      "email": "rafida1441@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
+      "id": 17317,
+      "participantName": "Beltran López, Carlos",
+      "email": "0610699132@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
+      "id": 2975,
+      "participantName": "Benítez Rochel, Rafaela",
+      "email": "benitez@lcc.uma.es",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 23241600000,
+      "registration": "LDAP enrolments"
+    },
+    {
+      "id": 18502,
+      "participantName": "Bermúdez Gámez, Pablo",
+      "email": "pablobermudezgamez@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 1209600000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 22484,
+      "participantName": "Bojar, Dorota",
+      "email": "01178622@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 12700800000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 18471,
+      "participantName": "Castro Valderas, Raúl Angel",
+      "email": "raulc0606@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
+      "id": 17554,
+      "participantName": "Cubillos del Toro, David",
+      "email": "d.cubillosdeltoro@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
+      "id": 23016,
+      "participantName": "Dar, Yunus Emre",
+      "email": "yunusdar@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 15023,
+      "participantName": "Estébanez Yepes, Antonio Samuel",
+      "email": "aeyepes1999@gmail.com",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 518400000,
+      "registration": "Manual enrolments"
+    },
+    {
+      "id": 18749,
+      "participantName": "Fernández Giaccomassi, Susana Rocío",
+      "email": "susanafernandez@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 22842,
+      "participantName": "Gabrielle, Gaucher",
+      "email": "gabrielle.gaucher@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 18699,
+      "participantName": "García Balongo, Raúl",
+      "email": "raulgarciabalongoes@gmail.com",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 4000,
+      "registration": "Manual enrolments"
+    },
+    {
+      "id": 19114,
+      "participantName": "Guirado Osorio, Víctor",
+      "email": "victorgo99@hotmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 23000,
+      "participantName": "Günzel, Fabián",
+      "email": "fabian.guenzel@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 23018,
+      "participantName": "Herwerth, Jonathan",
+      "email": "jonathan.herwerth@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 21772800000,
+      "registration": "Manual enrolments"
+    },
+    {
+      "id": 23111,
+      "participantName": "Herwerth, Jonathan Gabriel",
+      "email": "j.herwerth@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 23106,
+      "participantName": "Koehler, Cedric",
+      "email": "cedric.koehler@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 18474,
+      "participantName": "Madrid Espinosa, Carlos",
+      "email": "carlosmadrid@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 17323,
+      "participantName": "Martín Serrano, Nerea",
+      "email": "nmartins@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 16043,
+      "participantName": "Martín Vera, Sergio",
+      "email": "smv762e@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
+      "id": 17292,
+      "participantName": "Mendez Parrilla, Javier",
+      "email": "javiimendeezz@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 26092800000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 2541,
+      "participantName": "Molina Cabello, Miguel Angel",
+      "email": "miguelangel@lcc.uma.es",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 777600000,
+      "registration": "Manual enrolments"
+    },
+    {
+      "id": 18475,
+      "participantName": "Moralejo Palma, Matías",
+      "email": "matiasmoralejopalma@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
+      "id": 18503,
+      "participantName": "Obrero Berlanga, Raúl",
+      "email": "raulobreroberlanga@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 19133,
+      "participantName": "Perales Díaz, Mario",
+      "email": "mapedi2002@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 17798400000,
+      "registration": "Matrícula dejó de recibirse"
+    },
+    {
       "id": 16155,
-      "participantName": "Rey Blanes Álvaro Rafael",
+      "participantName": "Rey Blanes, Álvaro Rafael",
       "email": "alvaroreyb@uma.es",
       "roles": [
         "Estudiante"
@@ -354,12 +283,83 @@
       "registration": "Matrícula dejó de recibirse"
     },
     {
-      "id": 23111,
-      "participantName": "Herwerth Jonathan Gabriel",
-      "email": "j.herwerth@gmail.com",
+      "id": 17288,
+      "participantName": "Rodríguez-cordoba Lucena, Francisco Jesús",
+      "email": "0619981615@uma.es",
       "roles": [
         "Estudiante"
       ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 18511,
+      "participantName": "Ruiz Villarrazo, Miguel Angel",
+      "email": "mruizvillarrazo@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 22490,
+      "participantName": "Taudul, Mikolaj",
+      "email": "mikolaj.taudul@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 17629,
+      "participantName": "Valderrama Palacios, María del Rocío",
+      "email": "marvalpal@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 17295,
+      "participantName": "Vergara Ruz, Juan Carlos",
+      "email": "juancavergara6@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 17197,
+      "participantName": "Vida Montañez, María",
+      "email": "mariavida262001@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 24019200000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 22901,
+      "participantName": "Wilde, Lea Rebecca",
+      "email": "0611329976@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A"
+    },
+    {
+      "id": 23040,
+      "participantName": "Yahsi Yahsi, Emre",
+      "email": "emryah@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 31536000000,
       "registration": "5157-23-0920-A"
     }
   ],
@@ -368,31 +368,31 @@
       "activityName": "k-means algorithm demo",
       "numViews": 23,
       "numUsers": 14,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Competitive learning",
       "numViews": 25,
       "numUsers": 17,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "SOM",
       "numViews": 14,
       "numUsers": 11,
-      "lastAccess": 47520000000
+      "lastAccess": 47692800000
     },
     {
       "activityName": "Genetic Algorithm (video)",
       "numViews": 18,
       "numUsers": 15,
-      "lastAccess": 47865600000
+      "lastAccess": 48038400000
     },
     {
       "activityName": "Playing with neural networks",
       "numViews": 16,
       "numUsers": 12,
-      "lastAccess": 47865600000
+      "lastAccess": 48038400000
     }
   ],
   "resources": [
@@ -400,193 +400,193 @@
       "activityName": "Presentation",
       "numViews": 252,
       "numUsers": 34,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "tempAC2324 4 - NEW!!!",
       "numViews": 37,
       "numUsers": 21,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "tempAC2324 3 - NEW!!!",
       "numViews": 26,
       "numUsers": 9,
-      "lastAccess": 52963200000
+      "lastAccess": 53136000000
     },
     {
       "activityName": "tempAC2324 2 - NEW!!!",
       "numViews": 127,
       "numUsers": 30,
-      "lastAccess": 54086400000
+      "lastAccess": 54259200000
     },
     {
       "activityName": "Presentation",
       "numViews": 4,
       "numUsers": 1,
-      "lastAccess": 60134400000
+      "lastAccess": 60307200000
     },
     {
       "activityName": "clustering (introduccion)",
       "numViews": 5,
       "numUsers": 1,
-      "lastAccess": 60134400000
+      "lastAccess": 60307200000
     },
     {
       "activityName": "Introduction to Clustering",
       "numViews": 95,
       "numUsers": 33,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Clustering",
       "numViews": 203,
       "numUsers": 35,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Exercise 3 Clustering (clase)",
       "numViews": 71,
       "numUsers": 27,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Cluster Validation",
       "numViews": 91,
       "numUsers": 29,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Sillhouettes: a graphical aid to interpretation and validation of cluster analysis",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 58320000000
+      "lastAccess": 58492800000
     },
     {
       "activityName": "Sillhouettes: a graphical aid to interpretation and validation of cluster analysis",
       "numViews": 7,
       "numUsers": 3,
-      "lastAccess": 58320000000
+      "lastAccess": 58492800000
     },
     {
       "activityName": "Sillhouettes Analysis  in K-means Clustering",
       "numViews": 94,
       "numUsers": 27,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Neural Networks (introduction)",
       "numViews": 71,
       "numUsers": 27,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Neural Networks for clustering",
       "numViews": 103,
       "numUsers": 30,
-      "lastAccess": 936000000
+      "lastAccess": 1108800000
     },
     {
       "activityName": "Competitive example",
       "numViews": 61,
       "numUsers": 23,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Genetic Algorithms",
       "numViews": 102,
       "numUsers": 31,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Genetic Algorithms",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 54345600000
+      "lastAccess": 54518400000
     },
     {
       "activityName": "A simple example",
       "numViews": 35,
       "numUsers": 22,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Feature Selection",
       "numViews": 89,
       "numUsers": 30,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "FEATURE SELECTION WITH GENETIC ALGORITHMS",
       "numViews": 68,
       "numUsers": 28,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "solo para ejemplo",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 54172800000
+      "lastAccess": 54345600000
     },
     {
       "activityName": "Gradient descent",
       "numViews": 80,
       "numUsers": 27,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Neural Networks",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 57110400000
+      "lastAccess": 57283200000
     },
     {
       "activityName": "Single perceptron",
       "numViews": 4,
       "numUsers": 1,
-      "lastAccess": 55987200000
+      "lastAccess": 56160000000
     },
     {
       "activityName": "Perceptron y Adaline",
       "numViews": 81,
       "numUsers": 28,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Neural Networks (BP and more)",
       "numViews": 98,
       "numUsers": 31,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "How Backpropagation Works?",
       "numViews": 83,
       "numUsers": 27,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "NEural NEtworks (presentación)",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 55296000000
+      "lastAccess": 55468800000
     },
     {
       "activityName": "Survival Analysis",
       "numViews": 93,
       "numUsers": 29,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Survival Analysis (presentacion)",
       "numViews": 6,
       "numUsers": 1,
-      "lastAccess": 54691200000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Cox regression",
       "numViews": 84,
       "numUsers": 27,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "1 - Basic microarray analysis: grouping ...",
@@ -597,19 +597,19 @@
       "activityName": "pract 0 presentation",
       "numViews": 144,
       "numUsers": 35,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "paper Microarray analysis",
       "numViews": 135,
       "numUsers": 35,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "lncs LATEX template",
       "numViews": 94,
       "numUsers": 32,
-      "lastAccess": 47865600000
+      "lastAccess": 48038400000
     },
     {
       "activityName": "L0a - Lab classes introduction",
@@ -635,49 +635,49 @@
       "activityName": "pract 1 clustering",
       "numViews": 213,
       "numUsers": 32,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "clustering",
       "numViews": 146,
       "numUsers": 32,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "sporulation-filtered data set",
       "numViews": 139,
       "numUsers": 31,
-      "lastAccess": 47606400000
+      "lastAccess": 47779200000
     },
     {
       "activityName": "[Ref. 1] The Transcriptional Program of Sporulation in Budding Yeast",
       "numViews": 106,
       "numUsers": 26,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "[Ref. 2] Comparison of clustering methods",
       "numViews": 131,
       "numUsers": 29,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "[Ref. 3] Yeast reproduction",
       "numViews": 64,
       "numUsers": 23,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "[Ref. 4] Advanced clustering analysis on sporulation data I",
       "numViews": 54,
       "numUsers": 22,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "[Ref. 5] Advanced clustering analysis on sporulation data II",
       "numViews": 33,
       "numUsers": 17,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "Kohonen R-package",
@@ -698,7 +698,7 @@
       "activityName": "pract 2 classification",
       "numViews": 176,
       "numUsers": 30,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "pract 2 classification DL",
@@ -709,7 +709,7 @@
       "activityName": "deep learning and applications",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 55728000000
+      "lastAccess": 55900800000
     },
     {
       "activityName": "classificationDL",
@@ -720,13 +720,13 @@
       "activityName": "DL - Class slides",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 55728000000
+      "lastAccess": 55900800000
     },
     {
       "activityName": "pract 3 project",
       "numViews": 203,
       "numUsers": 30,
-      "lastAccess": 21650400000
+      "lastAccess": 21826800000
     },
     {
       "activityName": "pract 3 project",
@@ -869,65 +869,3754 @@
       "numUsers": 0
     }
   ],
-  "choices": [],
+  "choices": [
+    {
+      "id": 606281,
+      "activityName": "rhtrh",
+      "numViews": 2,
+      "numUsers": 1,
+      "lastAccess": 121000,
+      "responseCounts": {
+        "rthrth": 0,
+        "trhrt": 0,
+        "trhtrh": 0
+      }
+    }
+  ],
   "workshops": [
     {
       "activityName": "Lab 0",
       "numViews": 620,
       "numUsers": 35,
-      "lastAccess": 954000000
+      "lastAccess": 1130400000
     },
     {
       "activityName": "Lab 1",
       "numViews": 952,
       "numUsers": 33,
-      "lastAccess": 428400000
+      "lastAccess": 601200000
     },
     {
       "activityName": "Lab 2 - Task A",
       "numViews": 400,
       "numUsers": 30,
-      "lastAccess": 957600000
+      "lastAccess": 1130400000
     },
     {
       "activityName": "Lab 2 - Task B",
       "numViews": 339,
       "numUsers": 30,
-      "lastAccess": 680400000
+      "lastAccess": 853200000
     },
     {
       "activityName": "Lab 3",
       "numViews": 1595,
       "numUsers": 30,
-      "lastAccess": 428400000
+      "lastAccess": 601200000
     }
   ],
   "quizzes": [
     {
       "activityName": "Cuestionario sobre estilos de aprendizaje",
-      "numViews": 8,
+      "numViews": 42,
       "numUsers": 1,
-      "lastAccess": 5000,
+      "lastAccess": 123000,
       "id": 513511,
       "maxGrade": 1,
       "participantStats": []
     },
     {
       "activityName": "TEST",
-      "numViews": 8,
+      "numViews": 41,
       "numUsers": 1,
-      "lastAccess": 5000,
+      "lastAccess": 10200000,
       "id": 513547,
       "maxGrade": 1,
       "participantStats": []
     }
   ],
+  "assigns": [
+    {
+      "id": 517756,
+      "activityName": "Late submission of laboratory exercises",
+      "numViews": 461,
+      "numUsers": 26,
+      "lastAccess": 122000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "Submitted for grading4 days 22 hours late",
+          "lastModified": 1707686220000
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "Submitted for grading",
+          "lastModified": 1707259680000
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "Submitted for grading"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 186 days"
+        }
+      ]
+    },
+    {
+      "id": 525891,
+      "activityName": "Laboratory exercises call",
+      "numViews": 92,
+      "numUsers": 10,
+      "lastAccess": 121000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "Submitted for grading28 days 15 hours late"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 222 days"
+        }
+      ]
+    },
+    {
+      "id": 513520,
+      "activityName": "Exercise1 Clustering",
+      "numViews": 672,
+      "numUsers": 34,
+      "lastAccess": 4320000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696355820000
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695634020000
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695630420000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696326000000
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696274820000
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696285020000
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696094520000
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696238580000
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696009800000
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696363380000
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695243120000
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696088220000
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696247400000
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695482640000
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695573000000
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695380220000
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695391680000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696063260000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696247280000
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696368840000
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695224400000
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696333800000
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696261260000
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696284540000
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695915420000
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696267260000
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        }
+      ]
+    },
+    {
+      "id": 513521,
+      "activityName": "Exercise2 Clustering",
+      "numViews": 595,
+      "numUsers": 31,
+      "lastAccess": 26164800000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696357140000
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695811080000
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695629160000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696326000000
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696274040000
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695745500000
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696152360000
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696241640000
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696324140000
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695249480000
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695631200000
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696247700000
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695482640000
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695571620000
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695380160000
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695493140000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696066320000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696249680000
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695227580000
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696352040000
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696267140000
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696286280000
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695994500000
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696271220000
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        }
+      ]
+    },
+    {
+      "id": 513523,
+      "activityName": "Hierarchical clustering with agglomerative algorithm",
+      "numViews": 8,
+      "numUsers": 1,
+      "lastAccess": 59184000000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        }
+      ]
+    },
+    {
+      "id": 513524,
+      "activityName": "Hierarchical Clustering (dendrogram)",
+      "numViews": 573,
+      "numUsers": 32,
+      "lastAccess": 26164800000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695911460000
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696087440000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695813060000
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696276020000
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696351680000
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696154580000
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696322760000
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696331400000
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696364460000
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696188600000
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696320540000
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696073460000
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696071420000
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695892500000
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696270980000
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695969300000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696059780000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696363320000
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1695909180000
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696349760000
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696347720000
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696348140000
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696271520000
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 312 days"
+        }
+      ]
+    },
+    {
+      "id": 513526,
+      "activityName": "Sillhouettes Analysis  in K-means Clustering",
+      "numViews": 609,
+      "numUsers": 31,
+      "lastAccess": 26164800000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697021220000
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697015820000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697365980000
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697371260000
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "Submitted for grading29 days 14 hours lateGraded",
+          "lastModified": 1699954920000
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697358420000
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697359800000
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697360520000
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696422000000
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697049240000
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697281320000
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697105940000
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697393160000
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697278620000
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696884060000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697099760000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697037120000
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697387880000
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697327640000
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697023920000
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1696863360000
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1697206020000
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        }
+      ]
+    },
+    {
+      "id": 513534,
+      "activityName": "Competitive Learning (Exercise)",
+      "numViews": 500,
+      "numUsers": 31,
+      "lastAccess": 1133000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for grading342 days 9 hours lateGraded",
+          "lastModified": 1698135660000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for grading1 year 18 days lateGraded"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for grading342 days 10 hours lateGraded",
+          "lastModified": 1698140880000
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for grading340 days 16 hours lateGraded",
+          "lastModified": 1697989260000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for grading346 days 9 hours lateGraded",
+          "lastModified": 1698482220000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for grading347 days 20 hours lateGraded",
+          "lastModified": 1698608040000
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "Submitted for grading342 days 15 hours lateGraded",
+          "lastModified": 1698158760000
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 2 years 269 days"
+        }
+      ]
+    },
+    {
+      "id": 513533,
+      "activityName": "Competitive learning (class exercise)",
+      "numViews": 12,
+      "numUsers": 1,
+      "lastAccess": 57369600000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 279 days"
+        }
+      ]
+    },
+    {
+      "id": 513538,
+      "activityName": "GA (Numerical example from article read in class)",
+      "numViews": 335,
+      "numUsers": 27,
+      "lastAccess": 26164800000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1701163560000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700930400000
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1701034920000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1701334980000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for gradingGraded"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1701186840000
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        }
+      ]
+    },
+    {
+      "id": 513541,
+      "activityName": "TEST",
+      "numViews": 2,
+      "numUsers": 1,
+      "lastAccess": 1108800000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 244 days"
+        }
+      ]
+    },
+    {
+      "id": 513543,
+      "activityName": "Genetic Algorithms Example",
+      "numViews": 6,
+      "numUsers": 2,
+      "lastAccess": 176400000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 208 days"
+        }
+      ]
+    },
+    {
+      "id": 513556,
+      "activityName": "Backpropagation Example",
+      "numViews": 532,
+      "numUsers": 31,
+      "lastAccess": 4200000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1699875000000
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1699866660000
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700212380000
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700656260000
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1699990560000
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700679300000
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700648760000
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700501820000
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700667180000
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700683500000
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700655060000
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700592960000
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1699781100000
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700052240000
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700319000000
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1699987200000
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700588640000
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700666460000
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700673540000
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700588820000
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "Submitted for gradingGraded",
+          "lastModified": 1700588820000
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "Submitted for grading3 days 21 hours lateGraded",
+          "lastModified": 1701021660000
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "Submitted for grading10 mins 49 secs lateGraded",
+          "lastModified": 1700685060000
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 262 days"
+        }
+      ]
+    },
+    {
+      "id": 513516,
+      "activityName": "Lab exercise 0",
+      "numViews": 12,
+      "numUsers": 5,
+      "lastAccess": 60307200000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 314 days"
+        }
+      ]
+    },
+    {
+      "id": 513560,
+      "activityName": "Task 0a: Paper description",
+      "numViews": 11,
+      "numUsers": 1,
+      "lastAccess": 176400000,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 308 days"
+        }
+      ]
+    },
+    {
+      "id": 513574,
+      "activityName": "Lab exercise 1 Clustering",
+      "numViews": 0,
+      "numUsers": 0,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 300 days"
+        }
+      ]
+    },
+    {
+      "id": 513579,
+      "activityName": "Lab exercise 2 Classification",
+      "numViews": 0,
+      "numUsers": 0,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 264 days"
+        }
+      ]
+    },
+    {
+      "id": 513581,
+      "activityName": "Lab exercise 3 Project",
+      "numViews": 0,
+      "numUsers": 0,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        }
+      ]
+    },
+    {
+      "id": 513582,
+      "activityName": "Lab exercise 3a Project - PROPOSAL",
+      "numViews": 0,
+      "numUsers": 0,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 258 days"
+        }
+      ]
+    },
+    {
+      "id": 513611,
+      "activityName": "Upload your Golub's paper summary",
+      "numViews": 0,
+      "numUsers": 0,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        }
+      ]
+    },
+    {
+      "id": 513612,
+      "activityName": "Unit 2 assignement",
+      "numViews": 0,
+      "numUsers": 0,
+      "participantStats": [
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 16155,
+          "participantName": "Rey Blanes Álvaro Rafael",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        },
+        {
+          "participantId": 23111,
+          "participantName": "Herwerth Jonathan Gabriel",
+          "status": "No submissionAssignment is overdue by: 1 year 225 days"
+        }
+      ]
+    }
+  ],
   "forums": [
     {
       "activityName": "Novedades y anuncios",
-      "numViews": 108,
+      "numViews": 168,
       "numUsers": 27,
-      "lastAccess": 10000,
+      "lastAccess": 127000,
       "id": 513505,
       "forumId": 20553,
       "subscriptions": 36,
@@ -935,9 +4624,9 @@
     },
     {
       "activityName": "Novedades y anuncios",
-      "numViews": 18,
+      "numViews": 78,
       "numUsers": 1,
-      "lastAccess": 8000,
+      "lastAccess": 126000,
       "id": 513506,
       "forumId": 20554,
       "subscriptions": 4,
@@ -945,9 +4634,9 @@
     },
     {
       "activityName": "News forum",
-      "numViews": 570,
+      "numViews": 633,
       "numUsers": 37,
-      "lastAccess": 7000,
+      "lastAccess": 125000,
       "id": 513507,
       "forumId": 20555,
       "subscriptions": 36,
@@ -1113,6 +4802,14 @@
           "wordCount": 0
         },
         {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 1,
+          "wordCount": 0
+        },
+        {
           "participantId": 2541,
           "participantName": "Molina Cabello Miguel Angel",
           "discussionsPosted": 13,
@@ -1121,14 +4818,6 @@
           "wordCount": 1101,
           "earliestPost": 1694801700000,
           "mostRecentPost": 0
-        },
-        {
-          "participantId": 18511,
-          "participantName": "Ruiz Villarrazo Miguel Angel",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 1,
-          "wordCount": 0
         },
         {
           "participantId": 22490,
@@ -1165,19 +4854,19 @@
           "mostRecentPost": 0
         },
         {
+          "participantId": 18699,
+          "participantName": "García Balongo Raúl",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 86,
+          "wordCount": 0
+        },
+        {
           "participantId": 18503,
           "participantName": "Obrero Berlanga Raúl",
           "discussionsPosted": 0,
           "repliesPosted": 0,
           "views": 4,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18699,
-          "participantName": "García Balongo Raúl",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 23,
           "wordCount": 0
         },
         {
@@ -1232,13 +4921,322 @@
     },
     {
       "activityName": "Issues related to laboratory exercises",
-      "numViews": 1510,
+      "numViews": 1569,
       "numUsers": 35,
-      "lastAccess": 6000,
+      "lastAccess": 124000,
       "id": 513508,
       "forumId": 20556,
       "subscriptions": 2,
-      "participantsStats": []
+      "participantsStats": [
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 58,
+          "wordCount": 104,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 17317,
+          "participantName": "Beltran López Carlos",
+          "discussionsPosted": 1,
+          "repliesPosted": 1,
+          "views": 63,
+          "wordCount": 95,
+          "earliestPost": 1699951560000,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 23106,
+          "participantName": "Koehler Cedric",
+          "discussionsPosted": 1,
+          "repliesPosted": 4,
+          "views": 57,
+          "wordCount": 160,
+          "earliestPost": 1700486640000,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 17554,
+          "participantName": "Cubillos del Toro David",
+          "discussionsPosted": 0,
+          "repliesPosted": 2,
+          "views": 43,
+          "wordCount": 73,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 22484,
+          "participantName": "Bojar Dorota",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 55,
+          "wordCount": 0
+        },
+        {
+          "participantId": 23040,
+          "participantName": "Yahsi Yahsi Emre",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 66,
+          "wordCount": 0
+        },
+        {
+          "participantId": 23000,
+          "participantName": "Günzel Fabián",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 61,
+          "wordCount": 49,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 17172,
+          "participantName": "Babusca Voicu Florin",
+          "discussionsPosted": 2,
+          "repliesPosted": 1,
+          "views": 65,
+          "wordCount": 333,
+          "earliestPost": 1696579620000,
+          "mostRecentPost": 1700580180000
+        },
+        {
+          "participantId": 17288,
+          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 26,
+          "wordCount": 17,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 22842,
+          "participantName": "Gabrielle Gaucher",
+          "discussionsPosted": 0,
+          "repliesPosted": 2,
+          "views": 40,
+          "wordCount": 76,
+          "earliestPost": 1699557180000,
+          "mostRecentPost": 1700230920000
+        },
+        {
+          "participantId": 17292,
+          "participantName": "Mendez Parrilla Javier",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 3,
+          "wordCount": 0
+        },
+        {
+          "participantId": 23018,
+          "participantName": "Herwerth Jonathan",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 90,
+          "wordCount": 40,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 17295,
+          "participantName": "Vergara Ruz Juan Carlos",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 58,
+          "wordCount": 49,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 22955,
+          "participantName": "Bachl Katharina",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 2,
+          "wordCount": 0
+        },
+        {
+          "participantId": 22901,
+          "participantName": "Wilde Lea Rebecca",
+          "discussionsPosted": 0,
+          "repliesPosted": 2,
+          "views": 63,
+          "wordCount": 42,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 17197,
+          "participantName": "Vida Montañez María",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 37,
+          "wordCount": 50,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 17629,
+          "participantName": "Valderrama Palacios María del Rocío",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 15,
+          "wordCount": 0
+        },
+        {
+          "participantId": 19133,
+          "participantName": "Perales Díaz Mario",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 31,
+          "wordCount": 57,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 18475,
+          "participantName": "Moralejo Palma Matías",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 61,
+          "wordCount": 56,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 2541,
+          "participantName": "Molina Cabello Miguel Angel",
+          "discussionsPosted": 1,
+          "repliesPosted": 35,
+          "views": 167,
+          "wordCount": 1116,
+          "earliestPost": 1697112420000,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 18511,
+          "participantName": "Ruiz Villarrazo Miguel Angel",
+          "discussionsPosted": 0,
+          "repliesPosted": 2,
+          "views": 19,
+          "wordCount": 50,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 22490,
+          "participantName": "Taudul Mikolaj",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 41,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17323,
+          "participantName": "Martín Serrano Nerea",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 78,
+          "wordCount": 59,
+          "earliestPost": 0,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 18502,
+          "participantName": "Bermúdez Gámez Pablo",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 105,
+          "wordCount": 88,
+          "earliestPost": 1700822400000,
+          "mostRecentPost": 1700822400000
+        },
+        {
+          "participantId": 2975,
+          "participantName": "Benítez Rochel Rafaela",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 7,
+          "wordCount": 0
+        },
+        {
+          "participantId": 18699,
+          "participantName": "García Balongo Raúl",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 85,
+          "wordCount": 0
+        },
+        {
+          "participantId": 18503,
+          "participantName": "Obrero Berlanga Raúl",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 31,
+          "wordCount": 38,
+          "earliestPost": 1700939520000,
+          "mostRecentPost": 1700939520000
+        },
+        {
+          "participantId": 18471,
+          "participantName": "Castro Valderas Raúl Angel",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 21,
+          "wordCount": 0
+        },
+        {
+          "participantId": 16043,
+          "participantName": "Martín Vera Sergio",
+          "discussionsPosted": 1,
+          "repliesPosted": 1,
+          "views": 72,
+          "wordCount": 109,
+          "earliestPost": 1696846620000,
+          "mostRecentPost": 1700653440000
+        },
+        {
+          "participantId": 18749,
+          "participantName": "Fernández Giaccomassi Susana Rocío",
+          "discussionsPosted": 1,
+          "repliesPosted": 1,
+          "views": 88,
+          "wordCount": 106,
+          "earliestPost": 1700941740000,
+          "mostRecentPost": 0
+        },
+        {
+          "participantId": 19114,
+          "participantName": "Guirado Osorio Víctor",
+          "discussionsPosted": 0,
+          "repliesPosted": 2,
+          "views": 89,
+          "wordCount": 46,
+          "earliestPost": 1700225820000,
+          "mostRecentPost": 1701086820000
+        },
+        {
+          "participantId": 23016,
+          "participantName": "Dar Yunus Emre",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 15,
+          "wordCount": 0
+        },
+        {
+          "participantId": 13924,
+          "participantName": "Barakat Nieto Yussef",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 3,
+          "wordCount": 0
+        }
+      ]
     }
   ]
 }

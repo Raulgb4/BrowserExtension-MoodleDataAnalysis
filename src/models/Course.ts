@@ -54,6 +54,11 @@ export interface Course {
     quizzes: Quiz[];
 
     /**
+     * List of assign activities (modtype_assign), including detailed student performance.
+     */
+    //assigns: Assign[];
+
+    /**
      * List of forum activities (modtype_forum), including detailed student participation data.
      */
     forums: Forum[];
