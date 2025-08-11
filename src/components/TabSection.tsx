@@ -11,7 +11,7 @@
  *
  * It uses React state to track the active tab and applies conditional styling for visual feedback.
  */
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import TabContent from "./TabContent";
 import {
     AdjustmentsHorizontalIcon,
@@ -54,6 +54,30 @@ const TabSection: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>("tab_global");
     // Tabs that should be shown given current course data
     const [visibleTabs, setVisibleTabs] = useState<Tab[]>(["tab_global"]);
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [canScroll, setCanScroll] = useState(false);
+
+    useLayoutEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+
+        const update = () => {
+            // margen de 1px para evitar scroll por redondeos
+            setCanScroll(el.scrollWidth > el.clientWidth + 1);
+        };
+
+        update();
+
+        const ro = new ResizeObserver(update);
+        ro.observe(el);
+        window.addEventListener("resize", update);
+        return () => {
+            ro.disconnect();
+            window.removeEventListener("resize", update);
+        };
+    }, [visibleTabs.length]);
+
 
     /**
      * Loads the last selected tab from storage (if any) on mount.
@@ -127,8 +151,13 @@ const TabSection: React.FC = () => {
     return (
         <div className="mt-6">
             {/* Tab buttons */}
-            <div className="border-b border-gray-200 overflow-x-auto" style={{scrollbarWidth: "thin"}}>
-                <nav className="flex w-max gap-4 sm:gap-6 pb-3 px-4" aria-label="Tabs">
+            <div
+                ref={scrollRef}
+                className={`border-b border-gray-200 ${canScroll ? "overflow-x-auto" : "overflow-x-hidden"}`}
+                style={{scrollbarWidth: "thin", scrollbarGutter: "stable both-edges"}}
+            >
+                {/* Cambios clave: inline-flex + min-w-max y menos padding */}
+                <nav className="inline-flex min-w-max gap-4 sm:gap-6 pb-3 px-2" aria-label="Tabs">
                     {visibleTabs.map((key) => {
                         const Icon = iconByKey.get(key)!;
                         const isActive = activeTab === key;
@@ -150,7 +179,7 @@ const TabSection: React.FC = () => {
                 </nav>
             </div>
 
-            {/* Dynamic content based on selected tab */}
+            {/* Dynamic content */}
             <div className="mt-4 text-sm text-gray-700">
                 <TabContent tab={activeTab}/>
                 <HiddenTabsRenderer activeTab={activeTab}/>

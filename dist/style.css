@@ -416,9 +416,6 @@
   .w-full {
     width: 100%;
   }
-  .w-max {
-    width: max-content;
-  }
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
@@ -433,6 +430,9 @@
   }
   .min-w-\[310px\] {
     min-width: 310px;
+  }
+  .min-w-max {
+    min-width: max-content;
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
@@ -499,6 +499,9 @@
   }
   .overflow-x-auto {
     overflow-x: auto;
+  }
+  .overflow-x-hidden {
+    overflow-x: hidden;
   }
   .rounded {
     border-radius: 0.25rem;
