@@ -1,7 +1,7 @@
 /**
  * @file App.tsx
  * @description
- * Main entry point for the Moodle Data Analyzer extension's popup interface.
+ * The main entry point for the Moodle Data Analyzer extension's popup interface.
  * This component coordinates the initialization, data scraping, UI rendering,
  * and state management of the extension. It handles:
  *
@@ -67,7 +67,9 @@ export function App() {
     const [button, setButton] = useState<ReactElement | null>(null); // Start or restart a button element
 
     const [lastAnalyzedAt, setLastAnalyzedAt] = useState<Date | null>(null);
-    const setIsRestored = useState(false)[1];  // Indicates if data has been restored from storage
+
+    // Indicates if data has been restored from storage
+    const setIsRestored = useState(false)[1];
 
     const [courseName, setCourseName] = useState<string | null>(null);
     const [isRestoredDataAvailable, setIsRestoredDataAvailable] = useState(false);
@@ -76,7 +78,8 @@ export function App() {
     const relativeTime = useRelativeTime(lastAnalyzedAt);
 
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
-        const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId); // Get initial participant URL (no limit)
+        // Get initial participant URL (no limit)
+        const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
         const total = await scrapeNumParticipants(preliminaryUrl); // Fetch the total participant count
 
         if (total === null) {
@@ -89,10 +92,12 @@ export function App() {
     async function fetchAndStoreCourseData(courseId: string, totalParticipants: number) {
         const {courseMain} = getScrapeUrlCourseMain(courseId); // URL to get the course name
         const {activityReport} = getScrapeUrlActivityReport(courseId); // URL to get an activity report
-        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
+        // Paginated URL for all participants
+        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
 
         // Main scraping function
-        const course = await scrapeCourse(courseId, courseMain, activityReport, participants, totalParticipants);
+        const course = await scrapeCourse(courseId, courseMain, activityReport, participants,
+            totalParticipants);
         console.log("Course data:", course);
 
         const storageData = {
@@ -216,7 +221,8 @@ export function App() {
 
     // When a tab is updated or activated, re-extract the course ID (for side panel support)
     useEffect(() => {
-        const handleTabUpdate = (_tabId: number, changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+        const handleTabUpdate = (_tabId: number,
+                                 changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
             if (changeInfo.status === "complete" && tab.active) {
                 extractAndSetCourseId(tab.url);
             }
@@ -296,7 +302,8 @@ export function App() {
                 <div
                     className={`relative bg-white rounded-xl shadow-xl p-4 px-4 sm:px-6 w-full
                      mx-auto
-            ${(outputMessage || isRestoredDataAvailable) && !isError ? "min-w-[310px] max-w-[749px]" : "min-w-[310px] max-w-[600px]"}`}
+            ${(outputMessage || isRestoredDataAvailable) && !isError ? "min-w-[310px] max-w-[749px]"
+                        : "min-w-[310px] max-w-[600px]"}`}
                 >
                     <div className="absolute top-3 right-3">
                         <LanguageSelector/>
@@ -353,7 +360,8 @@ export function App() {
 
                                     {courseName && (
                                         <div
-                                            className="mt-4 border border-orange-300 rounded-md px-3 py-2 text-center text-sm text-gray-800 font-semibold animate-fade-in"
+                                            className="mt-4 border border-orange-300 rounded-md px-3 py-2 text-center
+                                            text-sm text-gray-800 font-semibold animate-fade-in"
                                         >
                                             <Trans
                                                 i18nKey="course_name_display"

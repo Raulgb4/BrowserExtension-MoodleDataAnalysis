@@ -33,8 +33,8 @@ const tabComponents: Record<string, React.FC<{ activeTab: string }>> = {
     tab_other_activities: OtherActivitiesTab,
 };
 
-const TabContent: React.FC<TabContentProps> = ({ tab }) => {
-    const { forceRenderTabs } = useExportContext();
+const TabContent: React.FC<TabContentProps> = ({tab}) => {
+    const {forceRenderTabs} = useExportContext();
 
     // Combine current tab and forced ones, without duplicates
     const allTabsToRender = Array.from(new Set([tab, ...forceRenderTabs]));
@@ -49,7 +49,7 @@ const TabContent: React.FC<TabContentProps> = ({ tab }) => {
 
                 return (
                     <div key={key} className={isVisible ? "" : "hidden"}>
-                        <Component activeTab={tab} />
+                        <Component activeTab={tab}/>
                     </div>
                 );
             })}

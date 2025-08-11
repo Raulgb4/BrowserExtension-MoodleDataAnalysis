@@ -32,7 +32,7 @@ interface HiddenTabsRendererProps {
     activeTab: string;
 }
 
-const HiddenTabsRenderer: React.FC<HiddenTabsRendererProps> = ({ activeTab }) => {
+const HiddenTabsRenderer: React.FC<HiddenTabsRendererProps> = ({activeTab}) => {
     return (
         <div
             className="absolute opacity-0 pointer-events-none h-0 overflow-hidden"
@@ -41,7 +41,7 @@ const HiddenTabsRenderer: React.FC<HiddenTabsRendererProps> = ({ activeTab }) =>
             {allTabs
                 .filter((tab) => tab !== activeTab)
                 .map((tab) => (
-                    <TabContent key={tab} tab={tab} />
+                    <TabContent key={tab} tab={tab}/>
                 ))}
         </div>
     );

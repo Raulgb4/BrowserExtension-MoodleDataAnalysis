@@ -222,6 +222,7 @@ export function getScrapeUrlQuiz(id: string | number, totalParticipants?: number
  * @param id - The ID of the assign activity.
  * @returns An object with a `assignResults` key mapping to the full assign results URL.
  */
+
 /*
 export function getScrapeUrlAssign(id: string | number): Record<string, string> {
     return {

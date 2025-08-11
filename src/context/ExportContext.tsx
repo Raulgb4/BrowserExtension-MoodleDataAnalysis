@@ -19,15 +19,7 @@
  * @date 2025
  */
 
-import {
-    createContext,
-    FC,
-    ReactNode,
-    RefObject,
-    useContext,
-    useRef,
-    useState,
-} from "react";
+import {createContext, FC, ReactNode, RefObject, useContext, useRef, useState,} from "react";
 import type {Chart} from "chart.js";
 
 // Chart data registered by each GraphBlock
@@ -49,7 +41,8 @@ interface ExportContextType {
 }
 
 // Create context
-const ExportContext = createContext<ExportContextType | undefined>(undefined);
+const ExportContext = createContext<ExportContextType |
+    undefined>(undefined);
 
 // Provider implementation
 export const ExportProvider: FC<{ children: ReactNode }> = ({children}) => {

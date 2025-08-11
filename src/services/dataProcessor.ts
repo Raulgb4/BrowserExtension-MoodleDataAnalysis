@@ -90,20 +90,23 @@ export function parseRoles(raw: string | undefined): string[] | undefined {
  * @param raw - The raw string containing group names, typically comma-separated.
  * @returns An array of trimmed group names, or undefined if the input is invalid or empty.
  */
+
+/*
 export function parseGroups(raw: string | undefined): string[] | undefined {
     if (!raw || raw.trim() === '-' || raw.toLowerCase().includes('no groups')) return undefined;
     return raw.split(',').map(g => g.trim());
 }
+ */
 
 /**
  * Parses the Moodle "last access" cell into a relative duration in milliseconds.
  *
- * Expected inputs include UMA-style two-line cells (e.g. first line: "1 year 230 d",
+ * Expected inputs include UMA-style two-line cells (e.g., first line: "1 year 230 d",
  * second line: "22/12/23 19:32"). This function:
  *   1) Keeps only the first line (the relative fragment).
  *   2) Normalizes abbreviations to what `normalizeTimeToMillis` expects:
- *      - `d`  -> `days`
- *      - `h`  -> `hours`
+ *      - `d` -> `days`
+ *      - `h` -> `hours`
  *      - `min`-> `mins`
  *      - `s` / `sec` -> `secs`
  *   3) Returns `undefined` for "never", "-", or empty input.
@@ -141,6 +144,8 @@ export function parseLastAccess(raw: string | undefined): number | undefined {
  * @param raw - The raw status string extracted from the DOM (e.g., "Enrolled student", "Active").
  * @returns The cleaned status as a single word, or undefined if the input is empty or invalid.
  */
+
+/*
 export function parseStatus(raw: string | undefined): string | undefined {
     if (!raw || raw.trim() === '-') return undefined;
 
@@ -152,6 +157,7 @@ export function parseStatus(raw: string | undefined): string | undefined {
     const filtered = parts.filter(part => part !== "Not" && part !== "current");
     return filtered.join(' ') || "Not current";
 }
+*/
 
 /**
  * Safely parses the numeric value of a table cell's text content.

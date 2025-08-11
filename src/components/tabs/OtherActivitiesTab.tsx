@@ -101,7 +101,7 @@ const OtherActivitiesTab: React.FC = () => {
         };
 
         const handleChange = (value: number) => {
-            const sanitizedValue = Math.max(1, value); // Enforce minimum of 1
+            const sanitizedValue = Math.max(1, value); // Enforce a minimum of 1
 
             setTopCounts((prev) => {
                 const updated = {

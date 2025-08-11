@@ -19,10 +19,8 @@ import {
     normalizeGradeTo10,
     normalizeTimeToMillis,
     parseCellToInt,
-    parseGroups,
     parseLastAccess,
     parseRoles,
-    parseStatus,
     parseViewsAndUsers
 } from './dataProcessor';
 
@@ -67,7 +65,7 @@ export async function scrapeNumParticipants(participantsUrl: string): Promise<nu
     try {
         const doc = await fetchAndParse(participantsUrl);
 
-        // Target the counter text: e.g., "Showed 36 of 36"
+        // Target the counter-text: e.g., "Showed 36 of 36"
         const text =
             doc.querySelector(".participantes_mostrados span")?.textContent?.trim() ?? "";
 
@@ -85,7 +83,7 @@ export async function scrapeNumParticipants(participantsUrl: string): Promise<nu
 
 
 /**
- * Scrapes the participants list from a Moodle course page (#participants table).
+ * Scrapes the participant list from a Moodle course page (#participant table).
  *
  * The function fetches and parses the HTML document, iterates over table rows,
  * and extracts:
@@ -96,7 +94,7 @@ export async function scrapeNumParticipants(participantsUrl: string): Promise<nu
  *  - lastAccessToCourse (via parseLastAccess; handles UMA “1 year 230 d” style)
  *  - registration (raw text from td.cell.c5)
  *
- * Rows lacking a valid profile link, id or name are skipped.
+ * Rows lacking a valid profile link, id, or name are skipped.
  * If the table is not present or an error occurs, an empty array is returned.
  *
  * @param participantsUrl Full URL of the Moodle participants page to scrape.
@@ -114,14 +112,15 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
             const nameCell = row.querySelector<HTMLElement>("th.cell.c2");
             if (!nameCell) continue;
 
-            const profileLink = nameCell.querySelector<HTMLAnchorElement>('a[href*="/user/view.php"]');
+            const profileLink =
+                nameCell.querySelector<HTMLAnchorElement>('a[href*="/user/view.php"]');
             if (!profileLink) continue;
 
             const participantName = profileLink.textContent?.trim() ?? "";
             if (!participantName) continue;
 
             const href = profileLink.getAttribute("href") ?? "";
-            const idMatch = href.match(/(?:\?|&)id=(\d+)/);
+            const idMatch = href.match(/[?&]id=(\d+)/);
             if (!idMatch) continue;
             const id = parseInt(idMatch[1], 10);
             if (Number.isNaN(id)) continue;
@@ -134,11 +133,13 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
             const roles = parseRoles(rolesRaw);
 
             // Last access: td.cell.c4 (adapt to helper format)
-            const lastAccessRaw = row.querySelector<HTMLElement>("td.cell.c4")?.innerText?.trim();
+            const lastAccessRaw =
+                row.querySelector<HTMLElement>("td.cell.c4")?.innerText?.trim();
             const lastAccessToCourse = parseLastAccess(lastAccessRaw);
 
             // Registration column td.cell.c5 -> keep as status (raw string)
-            const registrationRaw = row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim() ?? "";
+            const registrationRaw =
+                row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim() ?? "";
             const registration = registrationRaw || undefined;
 
             const participant: Participant = {
@@ -306,7 +307,8 @@ export async function scrapeQuizzes(
             const nameAnchor = nameCell?.querySelector('a');
             const participantName = nameAnchor?.textContent?.trim() ?? '';
 
-            const idMatch = nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
+            const idMatch =
+                nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
             if (!idMatch) {
                 console.warn("User ID not found for participant:", participantName);
                 continue;
@@ -400,7 +402,7 @@ export async function scrapeForums(
         const withCount = h2s.find(h =>
             /\(\s*\d+\s*\)/.test(h.textContent ?? '')
         );
-        let subscriptions = 0;
+        let subscriptions: number;
 
         if (withCount) {
             const m = (withCount.textContent ?? '').match(/\(\s*(\d+)\s*\)/);
@@ -423,10 +425,12 @@ export async function scrapeForums(
             const anchor = nameCell?.querySelector('a');
             if (!anchor) continue;
 
-            const nameNode = Array.from(anchor.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+            const nameNode = Array.from(anchor.childNodes).find(n =>
+                n.nodeType === Node.TEXT_NODE);
             const participantName = nameNode?.textContent?.trim() ?? '';
 
-            const idMatch = anchor.getAttribute('href')?.match(/id=(\d+)/);
+            const idMatch =
+                anchor.getAttribute('href')?.match(/id=(\d+)/);
             if (!idMatch) {
                 console.warn("User ID not found for participant:", participantName);
                 continue;
@@ -559,12 +563,14 @@ export async function scrapeCourse(
                 break;
             }
             case href.includes('/mod/quiz/'): {
-                const quizResults = await scrapeQuizzes(id, activityName, numViews, numUsers, lastAccess, totalParticipants);
+                const quizResults = await scrapeQuizzes(id, activityName, numViews, numUsers, lastAccess,
+                    totalParticipants);
                 quizzes.push(...quizResults);
                 break;
             }
             case href.includes('/mod/forum/'): {
-                const forumResults = await scrapeForums(id, activityName, numViews, numUsers, lastAccess, totalParticipants, courseId);
+                const forumResults = await scrapeForums(id, activityName, numViews, numUsers, lastAccess,
+                    totalParticipants, courseId);
                 forums.push(...forumResults);
                 break;
             }

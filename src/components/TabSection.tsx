@@ -26,12 +26,12 @@ import HiddenTabsRenderer from "./HiddenTabsRenderer";
 
 import {
     getCurrentCourse,
-    hasDataGlobal,
-    hasDataParticipants,
     hasDataChoices,
-    hasDataQuizzes,
     hasDataForums,
+    hasDataGlobal,
     hasDataOtherActivities,
+    hasDataParticipants,
+    hasDataQuizzes,
 } from "../utils/tabDataGuards";
 
 // Static definition of all available tabs (key + icon + guard)
@@ -102,7 +102,7 @@ const TabSection: React.FC = () => {
 
     /**
      * Computes which tabs have data for the current course and should be visible.
-     * Ensures there is always at least "tab_global", and keeps activeTab valid.
+     * Ensures there is always at least "tab_global" and keeps activeTab valid.
      */
     const recomputeVisibleTabs = useCallback(async () => {
         const course = await getCurrentCourse();
@@ -115,8 +115,9 @@ const TabSection: React.FC = () => {
         const finalTabs = computed.length ? computed : (["tab_global"] as Tab[]);
         setVisibleTabs(finalTabs);
 
-        // If current active tab is no longer visible, switch to the first visible
-        setActiveTab((prev) => (finalTabs.includes(prev) ? prev : finalTabs[0]));
+        // If the current active tab is no longer visible, switch to the first visible
+        setActiveTab((prev) =>
+            (finalTabs.includes(prev) ? prev : finalTabs[0]));
     }, []);
 
     /**
@@ -131,11 +132,13 @@ const TabSection: React.FC = () => {
      * We listen to changes in chrome.storage.local and react if any key starts with "course_".
      */
     useEffect(() => {
-        const listener: Parameters<typeof chrome.storage.onChanged.addListener>[0] = (changes, areaName) => {
-            if (areaName !== "local") return;
-            const touchesCourse = Object.keys(changes).some((k) => k.startsWith("course_"));
-            if (touchesCourse) void recomputeVisibleTabs();
-        };
+        const listener: Parameters<typeof chrome.storage.onChanged.addListener>[0] =
+            (changes, areaName) => {
+                if (areaName !== "local") return;
+                const touchesCourse = Object.keys(changes).some((k) =>
+                    k.startsWith("course_"));
+                if (touchesCourse) void recomputeVisibleTabs();
+            };
 
         chrome.storage.onChanged.addListener(listener);
         return () => chrome.storage.onChanged.removeListener(listener);
@@ -144,7 +147,8 @@ const TabSection: React.FC = () => {
     // Convenience map from key to icon (for render)
     const iconByKey = useMemo(() => {
         const map = new Map<string, React.ComponentType<any>>();
-        ALL_TABS.forEach(({key, icon}) => map.set(key, icon));
+        ALL_TABS.forEach(({key, icon}) =>
+            map.set(key, icon));
         return map;
     }, []);
 
@@ -165,7 +169,8 @@ const TabSection: React.FC = () => {
                             <button
                                 key={key}
                                 onClick={() => setActiveTab(key)}
-                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium whitespace-nowrap transition-all ${
+                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium whitespace-nowrap 
+                                transition-all ${
                                     isActive
                                         ? "text-orange-600 border-b-2 border-orange-600"
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
