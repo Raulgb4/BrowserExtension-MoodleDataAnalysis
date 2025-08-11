@@ -11,7 +11,7 @@
  *
  * It uses React state to track the active tab and applies conditional styling for visual feedback.
  */
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import TabContent from "./TabContent";
 import {
     AdjustmentsHorizontalIcon,
@@ -24,56 +24,113 @@ import {
 import {useTranslation} from "react-i18next";
 import HiddenTabsRenderer from "./HiddenTabsRenderer";
 
+import {
+    getCurrentCourse,
+    hasDataGlobal,
+    hasDataParticipants,
+    hasDataChoices,
+    hasDataQuizzes,
+    hasDataForums,
+    hasDataOtherActivities,
+} from "../utils/tabDataGuards";
 
-// Define available tabs with corresponding icons
-const tabs = [
-    {key: "tab_global", icon: GlobeAltIcon},
-    {key: "tab_participants", icon: UsersIcon},
-    {key: "tab_choices", icon: AdjustmentsHorizontalIcon},
-    {key: "tab_quizzes", icon: QuestionMarkCircleIcon},
-    {key: "tab_forums", icon: ChatBubbleLeftRightIcon},
-    {key: "tab_other_activities", icon: Squares2X2Icon},
+// Static definition of all available tabs (key + icon + guard)
+const ALL_TABS = [
+    {key: "tab_global", icon: GlobeAltIcon, guard: hasDataGlobal},
+    {key: "tab_participants", icon: UsersIcon, guard: hasDataParticipants},
+    {key: "tab_choices", icon: AdjustmentsHorizontalIcon, guard: hasDataChoices},
+    {key: "tab_quizzes", icon: QuestionMarkCircleIcon, guard: hasDataQuizzes},
+    {key: "tab_forums", icon: ChatBubbleLeftRightIcon, guard: hasDataForums},
+    {key: "tab_other_activities", icon: Squares2X2Icon, guard: hasDataOtherActivities},
 ] as const;
 
-// Extract valid tab names as a type
-type Tab = (typeof tabs)[number]["key"];
+// Extract valid tab names as a union type
+export type Tab = (typeof ALL_TABS)[number]["key"];
 
 const TabSection: React.FC = () => {
-
     const {t} = useTranslation();
 
+    // Currently selected tab
     const [activeTab, setActiveTab] = useState<Tab>("tab_global");
+    // Tabs that should be shown given current course data
+    const [visibleTabs, setVisibleTabs] = useState<Tab[]>(["tab_global"]);
 
-    // Load the last selected tab from chrome storage (if available)
+    /**
+     * Loads the last selected tab from storage (if any) on mount.
+     * Only applies it if the key is part of ALL_TABS.
+     */
     useEffect(() => {
         chrome.storage.local.get("activeTab", ({activeTab}) => {
-            if (tabs.find(tab => tab.key === activeTab)) {
+            if (ALL_TABS.find((tab) => tab.key === activeTab)) {
                 setActiveTab(activeTab as Tab);
             }
         });
     }, []);
 
-    // Persist current tab selection to chrome storage
+    /**
+     * Persists the currently selected tab so it is restored next time.
+     */
     useEffect(() => {
         chrome.storage.local
             .set({activeTab})
             .catch((err) => console.error("Error saving activeTab:", err));
     }, [activeTab]);
 
+    /**
+     * Computes which tabs have data for the current course and should be visible.
+     * Ensures there is always at least "tab_global", and keeps activeTab valid.
+     */
+    const recomputeVisibleTabs = useCallback(async () => {
+        const course = await getCurrentCourse();
+
+        // Keep Global always, add other tabs only if their guard passes.
+        const computed = ALL_TABS
+            .filter((t) => t.key === "tab_global" || (course && t.guard(course)))
+            .map((t) => t.key as Tab);
+
+        const finalTabs = computed.length ? computed : (["tab_global"] as Tab[]);
+        setVisibleTabs(finalTabs);
+
+        // If current active tab is no longer visible, switch to the first visible
+        setActiveTab((prev) => (finalTabs.includes(prev) ? prev : finalTabs[0]));
+    }, []);
+
+    /**
+     * Initial computation on mount.
+     */
+    useEffect(() => {
+        void recomputeVisibleTabs();
+    }, [recomputeVisibleTabs]);
+
+    /**
+     * Re-compute visibility whenever course-related storage keys change.
+     * We listen to changes in chrome.storage.local and react if any key starts with "course_".
+     */
+    useEffect(() => {
+        const listener: Parameters<typeof chrome.storage.onChanged.addListener>[0] = (changes, areaName) => {
+            if (areaName !== "local") return;
+            const touchesCourse = Object.keys(changes).some((k) => k.startsWith("course_"));
+            if (touchesCourse) void recomputeVisibleTabs();
+        };
+
+        chrome.storage.onChanged.addListener(listener);
+        return () => chrome.storage.onChanged.removeListener(listener);
+    }, [recomputeVisibleTabs]);
+
+    // Convenience map from key to icon (for render)
+    const iconByKey = useMemo(() => {
+        const map = new Map<string, React.ComponentType<any>>();
+        ALL_TABS.forEach(({key, icon}) => map.set(key, icon));
+        return map;
+    }, []);
+
     return (
         <div className="mt-6">
             {/* Tab buttons */}
-            <div
-                className="border-b border-gray-200 overflow-x-auto"
-                style={{
-                    scrollbarWidth: "thin",
-                }}
-            >
-                <nav
-                    className="flex w-max gap-4 sm:gap-6 pb-3 px-4"
-                    aria-label="Tabs"
-                >
-                    {tabs.map(({key, icon: Icon}) => {
+            <div className="border-b border-gray-200 overflow-x-auto" style={{scrollbarWidth: "thin"}}>
+                <nav className="flex w-max gap-4 sm:gap-6 pb-3 px-4" aria-label="Tabs">
+                    {visibleTabs.map((key) => {
+                        const Icon = iconByKey.get(key)!;
                         const isActive = activeTab === key;
                         return (
                             <button
@@ -93,14 +150,13 @@ const TabSection: React.FC = () => {
                 </nav>
             </div>
 
-            {/* Dynamic content based on a selected tab */}
+            {/* Dynamic content based on selected tab */}
             <div className="mt-4 text-sm text-gray-700">
-                <TabContent tab={activeTab} />
-                <HiddenTabsRenderer activeTab={activeTab} />
+                <TabContent tab={activeTab}/>
+                <HiddenTabsRenderer activeTab={activeTab}/>
             </div>
         </div>
     );
-
 };
 
 export default TabSection;

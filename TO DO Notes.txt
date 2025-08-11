@@ -10,16 +10,21 @@ extensión al entorno de producción real del Campus Virtual de la Universidad d
 y posibles diferencias con el entorno de desarrollo actual.
 Curso oficial: https://informatica.cv.uma.es/course/view.php?id=5121
 
-Anotaciones asociadas a esta tarea:
-- Ramas ¿seguimos develop para adaptar a entorno oficial?
-- Versiones de la extensión manifest?????
-- En el apartado de encuestas, como este curso no presenta ninguna encuesta se observa una tabla
-vacía.
-- En el apartado de cuestionarios, no aparece ninguno porque no hay datos de entregas.
 - Hay un nuevo tipo de actividad que hay que agregar en Other Activities -> Assigns
 
+Duda:
 
-- Si la tab no tiene datos para qué mostrarla
+- En la copia del curso que se me proporcionó inicialmente para el desarrollo de la extensión había datos
+  de cuestionarios (quizzes), y no había actividades del tipo assign (tareas).
+  He desarrollado parte de la extensión en base a esos datos, lo que ha permitido implementar
+  las secciones relacionadas con quizzes. Sin embargo, al trabajar ahora con el curso oficial en el que se realizará la
+  defensa, me he encontrado con que no hay datos de quizzes, pero sí hay un número considerable
+  de actividades tipo assign. Esto implica que algunas secciones que implementé no mostrarán datos durante la defensa,
+  y por otro lado hay tipos de actividades presentes en el curso oficial que no están contempladas
+  actualmente en la extensión. Quisiera confirmar con vosotros si debo adaptar el desarrollo para priorizar y
+  mostrar las actividades y datos que realmente estén presentes en el curso oficial de la defensa, incluso si eso
+  supone dejar de lado funcionalidades que estaban previstas inicialmente para otros tipos de actividades
+  que no aparecerán en ese curso.
 
 
 2. [Alta] JSDOC, Refactorización y limpieza de código
