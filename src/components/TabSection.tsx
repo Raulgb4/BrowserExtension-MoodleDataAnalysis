@@ -11,7 +11,7 @@
  *
  * It uses React state to track the active tab and applies conditional styling for visual feedback.
  */
-import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import TabContent from "./TabContent";
 import {
     AdjustmentsHorizontalIcon,
@@ -34,7 +34,8 @@ import {
     hasDataQuizzes,
 } from "../utils/tabDataGuards";
 
-// Static definition of all available tabs (key + icon + guard)
+// Static definition of all available tabs (key + icon + guard).
+// Each guard decides if the tab has meaningful data for the current course.
 const ALL_TABS = [
     {key: "tab_global", icon: GlobeAltIcon, guard: hasDataGlobal},
     {key: "tab_participants", icon: UsersIcon, guard: hasDataParticipants},
@@ -44,106 +45,59 @@ const ALL_TABS = [
     {key: "tab_other_activities", icon: Squares2X2Icon, guard: hasDataOtherActivities},
 ] as const;
 
-// Extract valid tab names as a union type
+// Union type of tab keys inferred from ALL_TABS.
 export type Tab = (typeof ALL_TABS)[number]["key"];
+
+// Fixed width used ONLY for the very first paint to avoid a “narrow-to-wide” flicker.
+const TABBAR_PIXEL_WIDTH = 520;
 
 const TabSection: React.FC = () => {
     const {t} = useTranslation();
 
-    // Currently selected tab
+    // Selected tab and the set of tabs that actually have data.
     const [activeTab, setActiveTab] = useState<Tab>("tab_global");
-    // Tabs that should be shown given current course data
-    const [visibleTabs, setVisibleTabs] = useState<Tab[]>(["tab_global"]);
+    const [visibleTabs, setVisibleTabs] = useState<Tab[]>([]); // empty until guards resolve
 
+    // We keep a ref in case you later want to measure, but we can simplify scrolling logic.
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [canScroll, setCanScroll] = useState(false);
 
-    useLayoutEffect(() => {
-        const el = scrollRef.current;
-        if (!el) return;
-
-        const update = () => {
-            setCanScroll(el.scrollWidth > el.clientWidth + 1);
-        };
-
-        update();
-
-        const ro = new ResizeObserver(update);
-        ro.observe(el);
-        window.addEventListener("resize", update);
-        return () => {
-            ro.disconnect();
-            window.removeEventListener("resize", update);
-        };
-    }, [visibleTabs.length]);
-
-
-    /**
-     * Loads the last selected tab from storage (if any) on mount.
-     * Only applies it if the key is part of ALL_TABS.
-     */
+    // Restore the last-selected tab (if it still exists in ALL_TABS).
     useEffect(() => {
         chrome.storage.local.get("activeTab", ({activeTab}) => {
-            if (ALL_TABS.find((tab) => tab.key === activeTab)) {
+            if (ALL_TABS.some(tab => tab.key === activeTab)) {
                 setActiveTab(activeTab as Tab);
             }
         });
     }, []);
 
-    /**
-     * Persists the currently selected tab so it is restored next time.
-     */
+    // Persist the current tab on change.
     useEffect(() => {
-        chrome.storage.local
-            .set({activeTab})
-            .catch((err) => console.error("Error saving activeTab:", err));
+        chrome.storage.local.set({activeTab}).catch(err => console.error("Error saving activeTab:", err));
     }, [activeTab]);
 
-    /**
-     * Computes which tabs have data for the current course and should be visible.
-     * Ensures there is always at least "tab_global" and keeps activeTab valid.
-     */
-    const recomputeVisibleTabs = useCallback(async () => {
-        const course = await getCurrentCourse();
+    // Compute the real list of visible tabs once on mount.
+    // We render nothing until this finishes to prevent layout jumps.
+    useEffect(() => {
+        (async () => {
+            const course = await getCurrentCourse();
+            if (!course) {
+                setVisibleTabs(["tab_global"]);
+                return;
+            }
 
-        // Keep Global always, add other tabs only if their guard passes.
-        const computed = ALL_TABS
-            .filter((t) => t.key === "tab_global" || (course && t.guard(course)))
-            .map((t) => t.key as Tab);
+            const computed = ALL_TABS
+                .filter(t => t.key === "tab_global" || t.guard(course))
+                .map(t => t.key as Tab);
 
-        const finalTabs = computed.length ? computed : (["tab_global"] as Tab[]);
-        setVisibleTabs(finalTabs);
+            const finalTabs = computed.length ? computed : (["tab_global"] as Tab[]);
+            setVisibleTabs(finalTabs);
 
-        // If the current active tab is no longer visible, switch to the first visible
-        setActiveTab((prev) =>
-            (finalTabs.includes(prev) ? prev : finalTabs[0]));
+            // Keep the restored active tab if still valid; otherwise select the first visible one.
+            setActiveTab(prev => (finalTabs.includes(prev) ? prev : finalTabs[0]));
+        })();
     }, []);
 
-    /**
-     * Initial computation on mount.
-     */
-    useEffect(() => {
-        void recomputeVisibleTabs();
-    }, [recomputeVisibleTabs]);
-
-    /**
-     * Re-compute visibility whenever course-related storage keys change.
-     * We listen to changes in chrome.storage.local and react if any key starts with "course_".
-     */
-    useEffect(() => {
-        const listener: Parameters<typeof chrome.storage.onChanged.addListener>[0] =
-            (changes, areaName) => {
-                if (areaName !== "local") return;
-                const touchesCourse = Object.keys(changes).some((k) =>
-                    k.startsWith("course_"));
-                if (touchesCourse) void recomputeVisibleTabs();
-            };
-
-        chrome.storage.onChanged.addListener(listener);
-        return () => chrome.storage.onChanged.removeListener(listener);
-    }, [recomputeVisibleTabs]);
-
-    // Convenience map from key to icon (for render)
+    // Map tab key -> icon component (memoized).
     const iconByKey = useMemo(() => {
         const map = new Map<string, React.ComponentType<any>>();
         ALL_TABS.forEach(({key, icon}) =>
@@ -151,16 +105,35 @@ const TabSection: React.FC = () => {
         return map;
     }, []);
 
+    // Apply a fixed width ONLY while visibleTabs is empty to avoid the initial flicker.
+    const initialBarWidthStyle =
+        visibleTabs.length === 0
+            ? {
+                width: `${TABBAR_PIXEL_WIDTH}px`,
+                minWidth: `${TABBAR_PIXEL_WIDTH}px`,
+                maxWidth: `${TABBAR_PIXEL_WIDTH}px`,
+            }
+            : undefined;
+
     return (
         <div className="mt-6">
-            {/* Tab buttons */}
+            {/* Tabs bar */}
             <div
                 ref={scrollRef}
-                className={`border-b border-gray-200 ${canScroll ? "overflow-x-auto" : "overflow-x-hidden"}`}
-                style={{scrollbarWidth: "thin", scrollbarGutter: "stable both-edges"}}
+                // Always allow horizontal scroll; this removes the need to track canScroll via observers.
+                className="border-b border-gray-200 overflow-x-auto"
+                style={{
+                    scrollbarWidth: "thin",
+                    scrollbarGutter: "stable both-edges",
+                    ...initialBarWidthStyle, // fixed width on first paint only
+                }}
             >
-                {/* Cambios clave: inline-flex + min-w-max y menos padding */}
-                <nav className="inline-flex min-w-max gap-4 sm:gap-6 pb-3 px-2" aria-label="Tabs">
+                <nav
+                    // inline-flex and min-w-max ensures tabs don’t shrink and keeps a stable row height.
+                    // min-h avoids vertical jump
+                    className="inline-flex min-w-max gap-4 sm:gap-6 pb-3 px-2 min-h-[40px]"
+                    aria-label="Tabs"
+                >
                     {visibleTabs.map((key) => {
                         const Icon = iconByKey.get(key)!;
                         const isActive = activeTab === key;
@@ -168,8 +141,8 @@ const TabSection: React.FC = () => {
                             <button
                                 key={key}
                                 onClick={() => setActiveTab(key)}
-                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium whitespace-nowrap 
-                                transition-all ${
+                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium whitespace-nowrap
+                            transition-all ${
                                     isActive
                                         ? "text-orange-600 border-b-2 border-orange-600"
                                         : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
