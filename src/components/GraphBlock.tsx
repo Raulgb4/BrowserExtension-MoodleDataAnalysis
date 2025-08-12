@@ -42,15 +42,15 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
 };
 
 const chartSizes: Record<ChartType, string> = {
-    pie: "w-64",
-    bar: "w-full max-w-4xl",
-    line: "w-full max-w-4xl",
+    pie: "w-64 h-64",
+    bar:  "w-full max-w-6xl h-[380px]",
+    line: "w-full max-w-6xl h-[380px]",
     radar: "w-96",
-    polarArea: "w-96",
+    polarArea: "w-96 h-96",
 };
 
-const truncate = (label: string, maxLength = 15): string =>
-    label.length > maxLength ? label.slice(0, maxLength) + "…" : label;
+//const truncate = (label: string, maxLength = 15): string =>
+//    label.length > maxLength ? label.slice(0, maxLength) + "…" : label;
 
 const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    title,
@@ -59,37 +59,32 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    options,
                                                    children,
                                                }) => {
-
     const {t} = useTranslation();
-
     const chartRef = useRef<ChartJS>(null);
-
-
     const containerRef = useRef<HTMLDivElement>(null);
+    const {lastAnalyzedAt} = useAnalysisContext();
+    const {register, unregister} = useExportContext();
 
+    /** Truncate helper for axis labels */
+    const truncateText = (text: string, max = 15) =>
+        text.length > max ? `${text.slice(0, max - 1)}…` : text;
+
+    /** Observe container size and trigger chart resize after the layout settles */
     useEffect(() => {
         const observer = new ResizeObserver(() => {
-            if (chartRef.current) {
-                setTimeout(() => {
-                    chartRef.current?.resize();
-                }, 100);
-            }
+            if (!chartRef.current) return;
+            setTimeout(() => chartRef.current?.resize(), 100);
         });
-
-        if (containerRef.current) {
-            observer.observe(containerRef.current);
-        }
-
-        return () => {
-            observer.disconnect();
-        };
+        const el = containerRef.current;
+        if (el) observer.observe(el);
+        return () => observer.disconnect();
     }, []);
 
-    const {lastAnalyzedAt} = useAnalysisContext();
-
+    /** Resolve chart component and width class */
     const ChartComponent = chartComponents[chartType];
     const chartWidthClass = chartSizes[chartType] || "w-[300px]";
 
+    /** Safe export payload (labels and first dataset values only) */
     const exportLabels =
         Array.isArray(data.labels) && data.labels.every((l) => typeof l === "string")
             ? (data.labels as string[])
@@ -97,65 +92,136 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
     const exportValues =
         Array.isArray(data.datasets?.[0]?.data) &&
-        data.datasets[0].data.every((v) => typeof v === "number")
+        data.datasets[0].data.every((v: unknown) => typeof v === "number")
             ? (data.datasets[0].data as number[])
             : [];
 
-    const maxLabelLength = 15;
-
-    const {register, unregister} = useExportContext();
-
-    const exportable = useMemo(() => ({
-        chartRef,
-        title,
-        labels: exportLabels,
-        values: exportValues,
-    }), [chartRef, title, exportLabels, exportValues]);
+    /** Register this chart for "Export All" on mount; unregister on unmounting */
+    const exportable = useMemo(
+        () => ({chartRef, title, labels: exportLabels, values: exportValues}),
+        [title, exportLabels, exportValues]
+    );
 
     useEffect(() => {
         register(exportable);
         return () => unregister(chartRef);
-    }, [exportable, register, unregister, chartRef]);
+    }, [exportable, register, unregister]);
 
-    const defaultOptions: ChartOptions = {
-        plugins: {
-            legend: {
-                display: true,
-                position: "top",
-                labels: {
-                    boxWidth: 12,
-                    boxHeight: 12,
-                    padding: 8,
-                    usePointStyle: true,
-                    textAlign: "center",
-                },
-            },
+    /** ---- Y‑axis limits helpers (bar/line only) ---- */
+
+    // Collect numeric values from all datasets
+    function flattenNumbers(datasets?: { data?: unknown[] }[]): number[] {
+        if (!datasets) return [];
+        const out: number[] = [];
+        for (const ds of datasets) {
+            for (const v of (ds.data ?? []) as (number | null | undefined)[]) {
+                if (typeof v === "number" && Number.isFinite(v)) out.push(v);
+            }
+        }
+        return out;
+    }
+
+    // Compute min/max with 5% padding; clamp min to 0
+    function computeAxisLimits(values: number[]) {
+        if (values.length === 0) return {suggestedMin: 0, suggestedMax: 1};
+
+        const min = Math.min(...values);
+        const max = Math.max(...values);
+
+        if (min === max) {
+            // Keep axis readable even with a flat line; never below zero
+            return {suggestedMin: Math.max(0, min - 1), suggestedMax: max + 1};
+        }
+
+        const range = max - min;
+        const pad = range * 0.05;
+        return {
+            suggestedMin: Math.max(0, min - pad),
+            suggestedMax: max + pad,
+        };
+    }
+
+    function computeStepSize(max: number, targetTicks = 8) {
+        return Math.max(1, Math.ceil(max / targetTicks));
+    }
+
+    const numericValues = flattenNumbers(data.datasets as { data?: unknown[] }[]);
+    const {suggestedMin, suggestedMax} = computeAxisLimits(numericValues);
+
+    /** ---- Default chart options (merged with incoming `options`) ---- */
+    const baseLegend = {
+        display: true,
+        position: "top" as const,
+        labels: {
+            boxWidth: 12,
+            boxHeight: 12,
+            padding: 8,
+            usePointStyle: true,
+            textAlign: "center" as const,
         },
-        scales:
-            chartType === "bar" || chartType === "line"
-                ? {
+    };
+
+    const defaultOptions: ChartOptions = (() => {
+        // Cartesian charts: bar / line
+        if (chartType === "bar" || chartType === "line") {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {legend: baseLegend},
+                scales: {
                     y: {
+                        beginAtZero: true,
+                        suggestedMin,
+                        suggestedMax,
+                        bounds: "ticks",
+                        grace: "10%",
                         ticks: {
-                            callback: function (_, index) {
-                                const label = this.getLabelForValue(index);
-                                return truncate(label, maxLabelLength); // For vertical bar charts
-                            },
+                            stepSize: computeStepSize(suggestedMax),
+                            maxTicksLimit: 10,
                         },
                     },
                     x: {
                         ticks: {
-                            callback: function (_, index) {
-                                const label = this.getLabelForValue(index);
-                                return truncate(label, maxLabelLength); // For horizontal bar charts
+                            // Use index to read the original label and truncate it
+                            callback: (val: unknown) => {
+                                const idx =
+                                    typeof val === "number"
+                                        ? val
+                                        : Number(val); // category scale passes the index
+                                const raw =
+                                    Array.isArray(data.labels) && typeof data.labels[idx] === "string"
+                                        ? (data.labels[idx] as string)
+                                        : String(val);
+                                return truncateText(raw, 15);
                             },
                             maxRotation: 30,
                             minRotation: 0,
-                        },
+                            autoSkip: true,
+                        } as any,
                     },
-                }
-                : {},
+                },
+            };
+        }
 
-    };
+        // Radar (radial). We keep defaults; tune r.suggestedMin/Max if needed.
+        if (chartType === "radar") {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {legend: baseLegend},
+            };
+        }
+
+        // Pie / polarArea (no Y axis) — keep an aspect ratio so they stay large and round
+        return {
+            responsive: true,
+            maintainAspectRatio: true,  // was false -> could shrink with container height
+            aspectRatio: 1,             // square canvas to match w-*/h-* above
+            plugins: {legend: baseLegend},
+        };
+    })();
+
+    // Merge defaults with per‑chart overrides while preserving scales
     const mergedOptions: ChartOptions = {
         ...defaultOptions,
         ...options,
@@ -165,14 +231,15 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
         },
     };
 
+    /** ---- Export metadata ---- */
     const sanitizedId = `chart-title-${title.replace(/\s+/g, "-").toLowerCase()}`;
     const imageFormats: ("png" | "jpeg")[] = ["png", "jpeg"];
-
     const formattedDate = lastAnalyzedAt ? formatDateForExport(lastAnalyzedAt) : "unknown";
     const translatedTitle = t(title);
     const baseFileName = `${translatedTitle}__${formattedDate}`;
     const headerLabels: [string, string] = [t("category"), t("value")];
 
+    // Chart components are already forward‑ref capable in the map
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
 
     return (
@@ -200,8 +267,10 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     </button>
 
                     <button
-                        onClick={() => exportToPDF(chartRef, exportLabels, exportValues,
-                            `${baseFileName}.pdf`, headerLabels)}
+                        onClick={() =>
+                            exportToPDF(chartRef, exportLabels, exportValues, `${baseFileName}.pdf`,
+                                headerLabels)
+                        }
                         title="Download PDF"
                         aria-label="Export chart as PDF"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
@@ -213,7 +282,8 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
                     <button
                         onClick={() =>
-                            exportToDOCX(chartRef, exportLabels, exportValues, `${baseFileName}.docx`, headerLabels)
+                            exportToDOCX(chartRef, exportLabels, exportValues, `${baseFileName}.docx`,
+                                headerLabels)
                         }
                         title="Download DOCX"
                         aria-label="Export chart as DOCX"

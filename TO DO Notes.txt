@@ -4,9 +4,9 @@
 
 [Prioridad]
 
-1. [Alta] ARREGLAR EJE Y DE LAS GRÁFICAS.
+1. [Alta] Completar la memoria.
 
-2. [Alta] Completar la memoria.
+2. [Si sobra tiempo] JSDOC, refactoring y limpieza de código.
 
 3. [Media] [25 agosto] Duda en adaptación al entorno oficial de producción
 Curso oficial: https://informatica.cv.uma.es/course/view.php?id=5121
