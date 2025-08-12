@@ -417,158 +417,140 @@ export async function exportToDOCX(
     saveAs(blob, filename);
 }
 
-/**
- * Generates a comprehensive PDF report containing all registered Chart.js graphs.
- *
- * This function dynamically fetches the course name from Chrome storage to create a
- * customized cover page. It then iterates through all exportable charts registered via
- * context and renders each chart along with its translated title and associated data table.
- *
- * Internally uses `ChartJS.toBase64Image()` to capture each chart as an image,
- * and `jspdf-autotable` to render a structured table of corresponding labels and values.
- *
- * @param exportables - Array of chart export objects, each containing a Chart reference,
- *                      a title (used as the section header), and associated labels and values.
- * @param t - Translation function provided by `useTranslation` to support multilingual titles and headers.
- *
- * @returns A Promise that resolves once the full PDF document has been created and downloaded.
- */
-export async function exportAllToPDF(
-    exportables: Exportable[],
-    t: (key: string) => string // Pass translation function from useTranslation
-) {
-    const doc = new jsPDF();
+
+/* ----------------------- Small helpers ----------------------- */
+
+// Promise wrapper for chrome.storage.local.get
+const storageGet = <T = any>(keys: string | string[]): Promise<T> =>
+    new Promise((resolve) => chrome.storage.local.get(keys, (res) => resolve(res as T)));
+
+const formatAnalysisDateFrom = async () => {
+    const {lastAnalyzedAt} = await storageGet<{ lastAnalyzedAt?: number }>("lastAnalyzedAt");
+    const date = lastAnalyzedAt ? new Date(lastAnalyzedAt) : new Date();
+    return {formattedDate: formatDateForExport(date), analysisDate: date};
+};
+
+const getCourseNameFromStorage = async (t: (k: string) => string) => {
+    const {lastAnalyzedCourseId} = await storageGet<{ lastAnalyzedCourseId?: string }>(["lastAnalyzedCourseId"]);
+    if (!lastAnalyzedCourseId) return t("course.unknown");
+
+    const data = await storageGet<Record<string, any>>([`course_${lastAnalyzedCourseId}`]);
+    return data?.[`course_${lastAnalyzedCourseId}`]?.courseName ?? t("course.unnamed");
+};
+
+const isValidImageDataUrl = (dataUrl: string) =>
+    dataUrl.startsWith("data:image/png") || dataUrl.startsWith("data:image/jpeg");
+
+const loadImage = (src: string) =>
+    new Promise<HTMLImageElement>((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+    });
+
+/* ----------------------- PDF building helpers ----------------------- */
+
+const addCoverPagePDF = async (
+    doc: jsPDF,
+    {courseName, formattedDate, author, t}: {
+        courseName: string;
+        formattedDate: string;
+        author: string;
+        t: (k: string) => string
+    }
+) => {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    const {formattedDate} = await new Promise<{ formattedDate: string, analysisDate: Date }>((resolve) => {
-        chrome.storage.local.get("lastAnalyzedAt", (res) => {
-            const timestamp = res.lastAnalyzedAt;
-            if (!timestamp) {
-                const fallback = new Date();
-                return resolve({
-                    formattedDate: formatDateForExport(fallback),
-                    analysisDate: fallback,
-                });
-            }
-            const date = new Date(timestamp);
-            resolve({
-                formattedDate: formatDateForExport(date),
-                analysisDate: date,
-            });
-        });
-    });
+    // Background
+    doc.setFillColor(255, 247, 237);
+    doc.rect(0, 0, pageWidth, pageHeight, "F");
 
-    // === Load course name dynamically from storage ===
-    const courseName: string = await new Promise((resolve) => {
-        chrome.storage.local.get(["lastAnalyzedCourseId"], (res) => {
-            const courseId = res.lastAnalyzedCourseId;
-            if (!courseId) return resolve(t("course.unknown"));
-
-            chrome.storage.local.get([`course_${courseId}`], (data) => {
-                const course = data[`course_${courseId}`];
-                const name = course?.courseName || t("course.unnamed");
-                resolve(name);
-            });
-        });
-    });
-
-    const author = "Raúl García Balongo";
-
-    // ===== 1. Cover page =====
-    doc.setFillColor(255, 247, 237); // Light orange background
-    doc.rect(0, 0, pageWidth, pageHeight, 'F'); // Full-page background
-
+    // Title
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(249, 128, 18);
-
     const titleLines = doc.splitTextToSize(courseName, pageWidth - 40);
-    const titleStartY = 60;
-    const lineHeight = 8;
-    const titleBlockHeight = titleLines.length * lineHeight;
+    doc.text(titleLines, pageWidth / 2, 60, {align: "center"});
 
-    doc.text(titleLines, pageWidth / 2, titleStartY, {align: "center"});
-
-    const nextBlockY = titleStartY + titleBlockHeight + 10;
-
+    // Meta
     doc.setFontSize(12);
     doc.setTextColor(100);
-    doc.text(`${t("pdf.analysis_date")}: ${formattedDate}`, pageWidth / 2, nextBlockY, {align: "center"});
-    doc.text(`${t("pdf.author")}: ${author}`, pageWidth / 2, nextBlockY + 10, {align: "center"});
+    doc.text(`${t("pdf.analysis_date")}: ${formattedDate}`, pageWidth / 2, 60 + titleLines.length * 8 + 10, {align: "center"});
+    doc.text(`${t("pdf.author")}: ${author}`, pageWidth / 2, 60 + titleLines.length * 8 + 20, {align: "center"});
 
-    const logoY = nextBlockY + 25;
-    const logo = new Image();
-    logo.src = "/icons/icon128.png";
-
-    await new Promise<void>((resolve) => {
-        logo.onload = () => {
-            doc.addImage(logo, "PNG", pageWidth / 2 - 32, logoY, 64, 64);
-            resolve();
-        };
-    });
+    // Logo
+    const logo = await loadImage("/icons/icon128.png");
+    doc.addImage(logo, "PNG", pageWidth / 2 - 32, 60 + titleLines.length * 8 + 35, 64, 64);
 
     doc.addPage();
+};
 
-    // ===== 2. Charts =====
-    for (let i = 0; i < exportables.length; i++) {
-        const {chartRef, title, labels, values} = exportables[i];
-        const chart = chartRef.current;
-        if (!chart) continue;
+const addChartSectionPDF = (
+    doc: jsPDF,
+    t: (k: string) => string,
+    {chartRef, title, labels, values}: Exportable
+) => {
+    const chart = chartRef.current;
+    if (!chart) return false;
 
-        // Get the base64 image representation of the chart
-        const base64Image = chart.toBase64Image();
+    const base64Image = chart.toBase64Image();
+    if (!isValidImageDataUrl(base64Image)) return false;
 
-        // Validate the base64 image string:
-        // Proceed only if the image starts with 'data:image/png' or 'data:image/jpeg'
-        // This prevents errors when the image data is invalid or empty
-        if (
-            !base64Image.startsWith("data:image/png") &&
-            !base64Image.startsWith("data:image/jpeg")
-        ) {
-            //console.warn(`Invalid base64 image at index ${i}. Skipping...`, base64Image);
-            continue; // Skip this chart if the image is invalid
-        }
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-        // Get image properties for aspect ratio calculation
-        const imgProps = (doc as any).getImageProperties?.(base64Image);
-        const pdfWidth = 180;
-        // Calculate height maintaining an aspect ratio, fallback to 0.5 if unavailable
-        const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
-        const pdfHeight = pdfWidth * aspectRatio;
+    // Try to preserve an aspect ratio (fallback=0.5)
+    const imgProps = (doc as any).getImageProperties?.(base64Image);
+    const pdfWidth = Math.min(180, pageWidth - 30);
+    const aspectRatio = imgProps ? imgProps.height / imgProps.width : 0.5;
+    const pdfHeight = pdfWidth * aspectRatio;
 
-        // Translate the chart title using i18n
-        const translatedTitle = t(title);
+    // Title block
+    const translatedTitle = t(title);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(249, 128, 18);
+    doc.setDrawColor(249, 128, 18);
+    doc.setFillColor(255, 247, 237);
+    doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, "F");
+    doc.text(translatedTitle, pageWidth / 2, 18, {align: "center"});
 
-        // Draw a styled title block for the chart
-        doc.setFontSize(12);
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(249, 128, 18);
-        doc.setDrawColor(249, 128, 18);
-        doc.setFillColor(255, 247, 237);
-        doc.roundedRect(15, 10, pageWidth - 30, 12, 2, 2, "F");
-        doc.text(translatedTitle, pageWidth / 2, 18, {align: "center"});
+    // Chart image
+    doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
 
-        // Add the chart image to the PDF at a specified position and size
-        doc.addImage(base64Image, "PNG", 15, 25, pdfWidth, pdfHeight);
+    // Data table
+    const tableStartY = 25 + pdfHeight + 10;
+    const body = labels.map((label, i) => [label, values[i]]);
+    autoTable(doc, {
+        startY: tableStartY,
+        head: [[t("category"), t("value")]],
+        body,
+        styles: {fontSize: 10},
+        headStyles: {fillColor: [249, 128, 18]},
+    });
 
-        // Prepare a data table starting just below the image
-        const tableStartY = 25 + pdfHeight + 10;
-        const tableData = labels.map((label, i) => [label, values[i]]);
-        autoTable(doc, {
-            startY: tableStartY,
-            head: [[t("category"), t("value")]],
-            body: tableData,
-            styles: {fontSize: 10},
-            headStyles: {fillColor: [249, 128, 18]},
-        });
+    return true;
+};
 
-        // Add a new page if this is not the last chart
-        if (i < exportables.length - 1) doc.addPage();
-    }
+/* ----------------------- Public API ----------------------- */
 
-    const filename = `Moodle_Report_${formattedDate}.pdf`;
-    doc.save(filename);
+export async function exportAllToPDF(exportables: Exportable[], t: (key: string) => string) {
+    const doc = new jsPDF();
+    const {formattedDate} = await formatAnalysisDateFrom();
+    const courseName = await getCourseNameFromStorage(t);
+    const author = "Raúl García Balongo";
+
+    // 1) Cover
+    await addCoverPagePDF(doc, {courseName, formattedDate, author, t});
+
+    // 2) Charts
+    exportables.forEach((exp, idx) => {
+        const drawn = addChartSectionPDF(doc, t, exp);
+        if (drawn && idx < exportables.length - 1) doc.addPage();
+    });
+
+    // 3) Save
+    doc.save(`Moodle_Report_${formattedDate}.pdf`);
 }
 
 /**
@@ -615,7 +597,7 @@ export async function exportAllToDOCX(
         });
     });
 
-// Dynamically retrieve the course name from Chrome's local storage
+    // Dynamically retrieve the course name from Chrome's local storage
     const courseName: string = await new Promise((resolve) => {
         chrome.storage.local.get(["lastAnalyzedCourseId"], (res) => {
             const courseId = res.lastAnalyzedCourseId;
@@ -629,18 +611,18 @@ export async function exportAllToDOCX(
         });
     });
 
-// Author name to display on the cover page
+    // Author name to display on the cover page
     const author = "Raúl García Balongo";
 
-// Load the logo image as a byte array to embed it as an <ImageRun>
+    // Load the logo image as a byte array to embed it as an <ImageRun>
     const logoBytes: Uint8Array = await fetch(chrome.runtime.getURL("icons/icon128.png"))
         .then((res) => res.arrayBuffer())
         .then((buffer) => new Uint8Array(buffer));
 
-// Initialize an array of sections; each section represents one page
+    // Initialize an array of sections; each section represents one page
     const docSections: { properties: {}; children: (Paragraph | Table)[] }[] = [];
 
-// Create the cover page section
+    // Create the cover page section
     docSections.push({
         properties: {},
         children: [

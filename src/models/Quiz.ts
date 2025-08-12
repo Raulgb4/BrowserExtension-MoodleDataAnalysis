@@ -1,5 +1,5 @@
 /**
- * @file QuizStudentData.ts
+ * @file Quiz.ts
  * @description Defines the structure of data representing an individual student's performance in a Moodle quiz.
  *
  * This interface is used to store quiz-specific statistics for each student, including their name,

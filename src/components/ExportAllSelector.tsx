@@ -82,7 +82,8 @@ const ExportAllSelector: React.FC = () => {
                 <button
                     onClick={handleExport}
                     disabled={isExporting}
-                    className="px-2 py-1 rounded bg-orange-500 hover:bg-orange-600 text-white font-medium shadow disabled:opacity-60"
+                    className="px-2 py-1 rounded bg-orange-500 hover:bg-orange-600 text-white font-medium
+                    shadow disabled:opacity-60"
                 >
                     {t('export_all')}
                 </button>
@@ -91,7 +92,8 @@ const ExportAllSelector: React.FC = () => {
                     value={format}
                     onChange={(e) => setFormat(e.target.value as 'pdf' | 'docx')}
                     disabled={isExporting}
-                    className="px-1.5 py-0.5 rounded border border-gray-300 shadow-sm bg-white text-gray-700 focus:outline-none disabled:opacity-60"
+                    className="px-1.5 py-0.5 rounded border border-gray-300 shadow-sm bg-white text-gray-700
+                    focus:outline-none disabled:opacity-60"
                 >
                     <option value="pdf">PDF</option>
                     <option value="docx">DOCX</option>
@@ -102,9 +104,11 @@ const ExportAllSelector: React.FC = () => {
                 <div className="flex items-center justify-center mt-2">
                     <div className="relative w-6 h-6">
                         <div
-                            className="absolute inset-0 rounded-full border-2 border-t-transparent border-orange-400 animate-spin"></div>
+                            className="absolute inset-0 rounded-full border-2 border-t-transparent border-orange-400
+                            animate-spin"></div>
                         <div
-                            className="absolute inset-1 rounded-full bg-orange-100 opacity-60 animate-pulse shadow-inner"></div>
+                            className="absolute inset-1 rounded-full bg-orange-100 opacity-60 animate-pulse
+                            shadow-inner"></div>
                     </div>
                 </div>
             )}

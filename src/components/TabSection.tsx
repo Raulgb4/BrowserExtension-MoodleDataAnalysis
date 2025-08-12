@@ -63,7 +63,6 @@ const TabSection: React.FC = () => {
         if (!el) return;
 
         const update = () => {
-            // margen de 1px para evitar scroll por redondeos
             setCanScroll(el.scrollWidth > el.clientWidth + 1);
         };
 

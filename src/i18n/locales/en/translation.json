@@ -58,7 +58,7 @@
   },
   "legend": {
     "visits": "Visits",
-    "views": "Views",
+    "avg_views_short": "Avg. views/user",
     "active": "Active",
     "inactive": "Inactive",
     "participants": "Participants",
@@ -97,5 +97,10 @@
   "course": {
     "unknown": "Unknown course",
     "unnamed": "Unnamed course"
+  },
+  "note": {
+    "participation_definition": "Sum of posts, replies, and views relative to the most active participant.",
+    "avg_views_definition": "Average views per user = total views ÷ number of users (per activity).",
+    "active_participant_definition": "Considered active if they accessed the course within the last {{days}} days."
   }
 }

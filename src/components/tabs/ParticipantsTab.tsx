@@ -18,7 +18,7 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {
     computeAccessRanges,
-    computeActiveInactive,
+    computeActiveInactive, DEFAULT_ACTIVE_THRESHOLD_DAYS,
     extractUniqueRoles,
     filterByRoles,
 } from "../../utils/chartDataUtils";
@@ -42,6 +42,8 @@ const ParticipantsTab: React.FC = () => {
     const [participants, setParticipants] = useState<Participant[]>([]);
 
     const {t} = useTranslation();
+
+    const ACTIVE_THRESHOLD_DAYS = DEFAULT_ACTIVE_THRESHOLD_DAYS;
 
     useEffect(() => {
         // Load participants and roles from local storage
@@ -71,7 +73,7 @@ const ParticipantsTab: React.FC = () => {
     useEffect(() => {
         // Update active/inactive count based on selected roles
         const filtered = filterByRoles(participants, selectedRolesParticipation);
-        const {active, inactive} = computeActiveInactive(filtered);
+        const {active, inactive} = computeActiveInactive(filtered, ACTIVE_THRESHOLD_DAYS);
         setActiveCount(active);
         setInactiveCount(inactive);
     }, [participants, selectedRolesParticipation]);
@@ -206,6 +208,13 @@ const ParticipantsTab: React.FC = () => {
                     selectedRoles={selectedRolesParticipation}
                     onToggle={handleRoleChangeParticipation}
                 />
+                <p
+                    role="note"
+                    className="mt-2 text-center text-xs sm:text-sm text-gray-600 leading-snug max-w-prose mx-auto px-4 break-words"
+                >
+                    <span className="font-medium">{t("legend.active")}:</span>{" "}
+                    {t("note.active_participant_definition", {days: ACTIVE_THRESHOLD_DAYS})}
+                </p>
             </GraphBlock>
 
             <hr className="border-t border-gray-300 w-3/4 mx-auto"/>

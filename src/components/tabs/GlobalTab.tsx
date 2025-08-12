@@ -127,7 +127,7 @@ const GlobalTab: React.FC = () => {
 
     const avgViewsData = createChartData(
         activityLabels,
-        t("legend.views"),
+        t("legend.avg_views_short"),
         avgViewsPerUser,
         {bg: "rgba(100, 181, 246, 0.6)", border: "rgba(100, 181, 246, 1)"},
         {fill: false, tension: 0.3}
@@ -182,6 +182,7 @@ const GlobalTab: React.FC = () => {
             title: "chart.avg_views_per_user",
             chartType: "line" as const,
             data: avgViewsData,
+            noteKey: "note.avg_views_definition",
         },
         {
             title: "chart.avg_days_since_last_access",
@@ -192,11 +193,22 @@ const GlobalTab: React.FC = () => {
 
     return (
         <>
-            {chartBlocks.map(({title, chartType, data}, index) => (
+            {chartBlocks.map(({ title, chartType, data, noteKey }, index) => (
                 <React.Fragment key={title}>
-                    <GraphBlock title={title} chartType={chartType} data={data}/>
+                    <GraphBlock title={title} chartType={chartType} data={data} />
+
+                    {noteKey && (
+                        <p
+                            role="note"
+                            className="mt-2 text-center text-xs sm:text-sm text-gray-600 leading-snug max-w-prose mx-auto px-4 break-words"
+                        >
+                            <span className="font-medium">{t("legend.avg_views_short")}:</span>{" "}
+                            {t(noteKey)}
+                        </p>
+                    )}
+
                     {index < chartBlocks.length - 1 && (
-                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
+                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
                     )}
                 </React.Fragment>
             ))}

@@ -88,17 +88,26 @@ export const filterByRoles = (participants: any[], selectedRoles: string[]): any
         p.roles?.some((r: string) => selectedRoles.includes(r))
     );
 
-/**
- * Computes the number of active and inactive participants based on their last access date.
- *
- * @param participants - Array of participants with an optional `lastAccessToCourse` timestamp.
- * @returns An object containing counts of `active` (last access ≤ 7 days) and `inactive` participants.
- */
-type HasLastAccess = { lastAccessToCourse?: number | null };
+// Default threshold (used if no custom value is provided)
+export const DEFAULT_ACTIVE_THRESHOLD_DAYS = 14;
 
+/**
+ * Minimal shape: only requires lastAccessToCourse in ms.
+ * Export it si lo necesitas fuera.
+ */
+export type HasLastAccess = { lastAccessToCourse?: number | null };
+
+/**
+ * Computes the number of active vs inactive participants based on their last access time.
+ *
+ * @param participants Array with `lastAccessToCourse` (ms since last access).
+ * @param thresholdDays Participant is ACTIVE if last access is within `thresholdDays`.
+ *                      Defaults to DEFAULT_ACTIVE_THRESHOLD_DAYS.
+ * @returns { active, inactive }
+ */
 export const computeActiveInactive = (
     participants: HasLastAccess[],
-    thresholdDays = 14
+    thresholdDays: number = DEFAULT_ACTIVE_THRESHOLD_DAYS
 ): { active: number; inactive: number } => {
     const MS_PER_DAY = 24 * 60 * 60 * 1000;
     const THRESHOLD_MS = thresholdDays * MS_PER_DAY;
@@ -109,7 +118,7 @@ export const computeActiveInactive = (
     for (const p of participants) {
         const ms = p.lastAccessToCourse;
 
-        // Inactive if missing, non-finite, <= 0, or beyond threshold
+        // Inactive if missing, invalid, <= 0, or beyond threshold
         if (ms == null || !Number.isFinite(ms) || ms <= 0 || ms > THRESHOLD_MS) {
             inactive++;
         } else {
@@ -117,8 +126,9 @@ export const computeActiveInactive = (
         }
     }
 
-    return {active, inactive};
+    return { active, inactive };
 };
+
 
 /**
  * Categorizes participants into time-based ranges according to their last access date.

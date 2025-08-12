@@ -183,6 +183,15 @@ const ForumsTab: React.FC = () => {
                                     {t("label.participants")}
                                 </label>
                             </div>
+                            {/* Responsive note under the chart explaining participation */}
+                            <p
+                                role="note"
+                                className="mt-1 text-center text-xs sm:text-sm text-gray-600 leading-snug max-w-prose
+                                mx-auto px-4 break-words"
+                            >
+                                <span className="font-medium">{t("legend.participation_percentage")}:</span>{" "}
+                                {t("note.participation_definition")}
+                            </p>
                         </GraphBlock>
 
                         {/* Divider between forums */}
