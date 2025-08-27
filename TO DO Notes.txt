@@ -4,31 +4,40 @@
 
 [Prioridad]
 
-X. [Alta] Compatibilidad simultánea oficial/local.
+1. [Alta] Incidencia Karl (Error: “Fail to determine participant count” en un entorno oficial).
+En local no se reproduce; en un curso oficial distinto de "Aprendizaje Computacional" sin rol de profesor sí aparece.
+Se obtiene el ID de curso, pero falla la extracción del recuento de participantes (primer dato para evitar paginación).
+No puedo reproducir el fallo porque solo tengo acceso a un solo curso oficial.
+Pista: Puede ser útil incorporar la creación de un fichero log con todos los pasos que va dando la herramienta para
+recopilar la información y saber dónde ha fallado exactamente.
+Deadline: 8 de septiembre máximo.
+
+2. [Alta] Compatibilidad simultánea oficial/local.
 Motivación: Esta tarea surge porque la defensa del proyecto se va a realizar desde el entorno local (Moodle Docker)
 (hay más datos que mostrar y están anonimizados) y solamente hay que comentar que sería compatible con el
 entorno oficial (Campus Virtual de la UMA).
 Objetivo: que la extensión funcione de forma automática y transparente tanto en el Campus Virtual oficial como en
-el Moodle local (Docker), sin conmutación manual. Pendiente de respuesta del nuevo correo para aclaraciones.
+el Moodle local (Docker), sin conmutación manual.
+Pista: Lo más simple es inspeccionar la url y meter un if-elseif directamente en el código.
+Deadline: 8 de septiembre máximo.
 
-X. [Alta] Incidencia Karl (Error: “Fail to determine participant count” en un entorno oficial).
-En local no se reproduce; en un curso oficial distinto de "Aprendizaje Computacional" sin rol de profesor sí aparece.
-Se obtiene el ID de curso, pero falla la extracción del recuento de participantes (primer dato para evitar paginación).
-No puedo reproducir el fallo porque solo tengo acceso a un solo curso oficial. Pendiente de respuesta del nuevo correo
-para aclaraciones.
-
-X. [Alta] [Opcional] Análisis predictivo y minería de datos.
+3. [Alta] [Opcional] Análisis predictivo y minería de datos.
 - Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).
 - Dataset: X (participación en foro: mensajes/visitas), Y (calificación de una tarea).
 - UI: nueva sección con gráfico de dispersión + recta de regresión + breve interpretación.
-Pendiente de respuesta del nuevo correo para aclaraciones.
+Pista: Aunque no dé tiempo a incorporarlo en la entrega de la memoria y el código, sí podrías mostrarlo al tribunal
+en tu defensa como un objetivo adicional cumplido ;)
+Deadline: 22 de septiembre máximo.
 
-X. [Alta] Cierre de la memoria.
+4. [Alta] Cierre de la memoria.
+Incluir en la conclusión: "se ha desarrollado una herramienta que funciona correctamente con dos versiones diferentes
+de Moodle: una versión muy reciente como es la XXX y la versión usada por el CV de la UMA".
+Revisar espacios en blanco y que no aparezca en las capturas ningún nombre de estudiante (página 51 y más).
 Ajustes menores o cambios por implementar la línea futura de análisis y minería de datos.
-Pendiente de respuesta del nuevo correo para aclaraciones.
+Deadline: 8 de septiembre máximo.
 
-X. [Alta] Actualizar el README.MD del proyecto.
+5. [Alta] Actualizar el README.MD del proyecto.
 
-X. [Media] JSDOC, refactoring y limpieza de código.
+6. [Media] JSDOC, refactoring y limpieza de código.
 
-X. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
+7. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
