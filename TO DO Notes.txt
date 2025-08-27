@@ -4,40 +4,31 @@
 
 [Prioridad]
 
-1. [Alta] Completar la memoria.
+X. [Alta] Compatibilidad simultánea oficial/local.
+Motivación: Esta tarea surge porque la defensa del proyecto se va a realizar desde el entorno local (Moodle Docker)
+(hay más datos que mostrar y están anonimizados) y solamente hay que comentar que sería compatible con el
+entorno oficial (Campus Virtual de la UMA).
+Objetivo: que la extensión funcione de forma automática y transparente tanto en el Campus Virtual oficial como en
+el Moodle local (Docker), sin conmutación manual. Pendiente de respuesta del nuevo correo para aclaraciones.
 
-2. [Si sobra tiempo] JSDOC, refactoring y limpieza de código.
+X. [Alta] Incidencia Karl (Error: “Fail to determine participant count” en un entorno oficial).
+En local no se reproduce; en un curso oficial distinto de "Aprendizaje Computacional" sin rol de profesor sí aparece.
+Se obtiene el ID de curso, pero falla la extracción del recuento de participantes (primer dato para evitar paginación).
+No puedo reproducir el fallo porque solo tengo acceso a un solo curso oficial. Pendiente de respuesta del nuevo correo
+para aclaraciones.
 
-3. [Media] [25 agosto] Duda en adaptación al entorno oficial de producción
-Curso oficial: https://informatica.cv.uma.es/course/view.php?id=5121
-Hay un nuevo tipo de actividad que hay que agregar en Other Activities -> Assigns -> Problema: tabla paginada
-En la copia del curso que se me proporcionó inicialmente para el desarrollo de la extensión había datos
-de cuestionarios (quizzes), y no había actividades del tipo assign (tareas).
-He desarrollado parte de la extensión en base a esos datos, lo que ha permitido implementar
-las secciones relacionadas con quizzes. Sin embargo, al trabajar ahora con el curso oficial en el que se realizará la
-defensa, me he encontrado con que no hay datos de quizzes, pero sí hay un número considerable
-de actividades tipo assign. Esto implica que algunas secciones que implementé no mostrarán datos durante la defensa,
-y, por otro lado, hay tipos de actividades presentes en el curso oficial que no están contempladas
-actualmente en la extensión. Quisiera confirmar con vosotros si debo adaptar el desarrollo para priorizar y
-mostrar las actividades y datos que realmente estén presentes en el curso oficial de la defensa, incluso si eso
-supone dejar de lado funcionalidades que estaban previstas inicialmente para otros tipos de actividades
-que no aparecerán en ese curso.
+X. [Alta] [Opcional] Análisis predictivo y minería de datos.
+- Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).
+- Dataset: X (participación en foro: mensajes/visitas), Y (calificación de una tarea).
+- UI: nueva sección con gráfico de dispersión + recta de regresión + breve interpretación.
+Pendiente de respuesta del nuevo correo para aclaraciones.
 
-------------------------------------------------------------------------------------------------------------------------
+X. [Alta] Cierre de la memoria.
+Ajustes menores o cambios por implementar la línea futura de análisis y minería de datos.
+Pendiente de respuesta del nuevo correo para aclaraciones.
 
-4. [Baja] Informe individual por usuario: Sería interesante generar un informe tipo
-PDF filtrando por una persona concreta, docentes, por un lado, y estudiantes por otro. Por ejemplo, para estudiante,
-se podría poner su nombre, calificación final, todas aquellas actividades que han sido evaluadas junto con la
-calificación obtenida, y la interacción que ha tenido en cada actividad.
+X. [Alta] Actualizar el README.MD del proyecto.
 
-5. [Baja] El desarrollo de funcionalidades basadas en análisis predictivo o minería de datos, como la
-identificación de correlaciones entre participación y calificación, o la predicción del rendimiento académico.
-Se pueden añadir otras funcionalidades no incluidas y bien diferenciadas de las señaladas en el anteproyecto,
-y el tribunal lo valorará positivamente. Por ejemplo, se podría incluir un análisis de cómo la participación del
-alumnado en el foro impacta en la calificación obtenida, predecir la calificación de un estudiante a
-partir de su actividad, etc.
+X. [Media] JSDOC, refactoring y limpieza de código.
 
-6. [Baja] Actualmente, al analizar un curso nuevo, el análisis anterior se sobreescribe si se vuelve a analizar
-ese curso. Lo que se quiere es modificar esta lógica para que los análisis anteriores NO se eliminen, sino que
-se acumulen o conserven, permitiendo mantener múltiples versiones del análisis o un histórico por
-curso, si se considera útil.
+X. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
