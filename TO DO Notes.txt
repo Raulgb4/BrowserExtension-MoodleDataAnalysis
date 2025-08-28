@@ -10,6 +10,14 @@ Se obtiene el ID de curso, pero falla la extracción del recuento de participant
 No puedo reproducir el fallo porque solo tengo acceso a un solo curso oficial.
 Pista: Puede ser útil incorporar la creación de un fichero log con todos los pasos que va dando la herramienta para
 recopilar la información y saber dónde ha fallado exactamente.
+Me da la sensación por tu función que solo se busca "Showed X of Y", pero no la versión en español,
+no sé si puede ser ese el problema. También he probado a llamar a la URL a la que haces scrapping
+(la que tiene &perpage...) y se abre correctamente esta misma, así que tiene que ser cosa de la función, que no
+ las palabras.
+Como te ha dicho Miguel, si no das con la tecla, puedes incluir un log para que al ejecutar yo la extensión pueda
+descargar ese log y pasártelo.
+Para facilitarte la depuración del código, te he dado de alta como Profesor en el siguiente curso oficial en español:
+https://informatica.cv.uma.es/course/view.php?id=4852
 Deadline: 8 de septiembre máximo.
 
 2. [Alta] Compatibilidad simultánea oficial/local.
@@ -30,9 +38,6 @@ en tu defensa como un objetivo adicional cumplido ;)
 Deadline: 22 de septiembre máximo.
 
 4. [Alta] Cierre de la memoria.
-Incluir en la conclusión: "se ha desarrollado una herramienta que funciona correctamente con dos versiones diferentes
-de Moodle: una versión muy reciente como es la XXX y la versión usada por el CV de la UMA".
-Revisar espacios en blanco y que no aparezca en las capturas ningún nombre de estudiante (página 51 y más).
 Ajustes menores o cambios por implementar la línea futura de análisis y minería de datos.
 Deadline: 8 de septiembre máximo.
 
