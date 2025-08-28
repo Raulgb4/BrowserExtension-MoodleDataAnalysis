@@ -5,19 +5,13 @@
 [Prioridad]
 
 1. [Alta] Incidencia Karl (Error: “Fail to determine participant count” en un entorno oficial).
-En local no se reproduce; en un curso oficial distinto de "Aprendizaje Computacional" sin rol de profesor sí aparece.
 Se obtiene el ID de curso, pero falla la extracción del recuento de participantes (primer dato para evitar paginación).
-No puedo reproducir el fallo porque solo tengo acceso a un solo curso oficial.
-Pista: Puede ser útil incorporar la creación de un fichero log con todos los pasos que va dando la herramienta para
-recopilar la información y saber dónde ha fallado exactamente.
-Me da la sensación por tu función que solo se busca "Showed X of Y", pero no la versión en español,
+Pista: Me da la sensación por tu función que solo se busca "Showed X of Y", pero no la versión en español,
 no sé si puede ser ese el problema. También he probado a llamar a la URL a la que haces scrapping
 (la que tiene &perpage...) y se abre correctamente esta misma, así que tiene que ser cosa de la función, que no
- las palabras.
-Como te ha dicho Miguel, si no das con la tecla, puedes incluir un log para que al ejecutar yo la extensión pueda
-descargar ese log y pasártelo.
-Para facilitarte la depuración del código, te he dado de alta como Profesor en el siguiente curso oficial en español:
-https://informatica.cv.uma.es/course/view.php?id=4852
+las palabras. Tengo que revisar el resto de expresiones regulares para que no dependan del idioma.
+Para facilitarte la depuración del código, te he dado de alta como Profesor en el siguiente curso oficial
+en español: https://informatica.cv.uma.es/course/view.php?id=4852
 Deadline: 8 de septiembre máximo.
 
 2. [Alta] Compatibilidad simultánea oficial/local.

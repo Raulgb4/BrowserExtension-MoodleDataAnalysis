@@ -14,6 +14,7 @@ import {initReactI18next} from 'react-i18next';
 
 import en from './locales/en/translation.json';
 import es from './locales/es/translation.json';
+import {devlog} from "../utils/devlog";
 
 function getInitialLanguage(): Promise<'en' | 'es'> {
     return new Promise((resolve) => {
@@ -42,6 +43,6 @@ getInitialLanguage().then((initialLang) => {
             },
         })
         .then(() => {
-            console.log(`i18n initialized with language: ${initialLang}`);
+            devlog.info("i18n", "initialized with language:", initialLang);
         });
 });

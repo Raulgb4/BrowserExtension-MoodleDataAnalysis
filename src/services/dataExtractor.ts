@@ -32,6 +32,7 @@ import {
     getScrapeUrlForumSubscriptions,
     getScrapeUrlQuiz
 } from '../utils/urlBuilder';
+import {devlog} from "../utils/devlog";
 
 /**
  * Fetches the content of a given URL and parses it into a DOM Document.
@@ -62,21 +63,36 @@ async function fetchAndParse(url: string): Promise<Document> {
  * @returns The total number of participants as a number, or null if not found, or an error occurs.
  */
 export async function scrapeNumParticipants(participantsUrl: string): Promise<number | null> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeNumParticipants:start", {participantsUrl});
+
     try {
         const doc = await fetchAndParse(participantsUrl);
 
         // Target the counter-text: e.g., "Showed 36 of 36"
-        const text =
-            doc.querySelector(".participantes_mostrados span")?.textContent?.trim() ?? "";
+        const text = doc.querySelector(".participantes_mostrados span")?.textContent?.trim() ?? "";
 
         // Capture the number AFTER "of"
-        const match = text.match(/Showed\s+\d+\s+of\s+(\d+)/i);
-        if (!match) return null;
+        const pattern = /Showed\s+\d+\s+of\s+(\d+)/i;
+        const match = text.match(pattern);
+        if (!match) {
+            devlog.error("dataExtractor", "scrapeNumParticipants:no match for pattern",
+                {pattern: String(pattern)});
+            return null;
+        }
 
         const total = parseInt(match[1], 10);
-        return Number.isNaN(total) ? null : total;
+        const ms = Math.round(performance.now() - t0);
+
+        if (Number.isNaN(total)) {
+            return null;
+        }
+
+        devlog.info("dataExtractor", "scrapeNumParticipants:success", {total, durationMs: ms});
+        return total;
     } catch (error) {
-        console.error("Error scraping total participants:", error);
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeNumParticipants:error", {error: String(error), durationMs: ms});
         return null;
     }
 }
@@ -101,11 +117,22 @@ export async function scrapeNumParticipants(participantsUrl: string): Promise<nu
  * @returns Promise resolving to an array of Participant items (or [] on failure).
  */
 export async function scrapeParticipants(participantsUrl: string): Promise<Participant[]> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeParticipants:start", {participantsUrl});
+
     try {
         const doc = await fetchAndParse(participantsUrl);
 
         const table = doc.querySelector<HTMLTableElement>("#participants");
-        const rows = Array.from(table?.querySelectorAll("tbody tr") ?? []);
+        if (!table) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeParticipants:participants table not found",
+                {durationMs: ms});
+            return [];
+        }
+
+        const rows = Array.from(table.querySelectorAll("tbody tr") ?? []);
+
         const participants: Participant[] = [];
 
         for (const row of rows) {
@@ -125,19 +152,20 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
             const id = parseInt(idMatch[1], 10);
             if (Number.isNaN(id)) continue;
 
-            const email = nameCell.querySelector<HTMLAnchorElement>("a.correo_lista_participantes")
-                ?.textContent?.trim() ?? "";
+            const email =
+                nameCell.querySelector<HTMLAnchorElement>
+                ("a.correo_lista_participantes")?.textContent?.trim() ?? "";
 
             // Roles: td.cell.c3
             const rolesRaw = row.querySelector<HTMLElement>("td.cell.c3")?.innerText?.trim();
             const roles = parseRoles(rolesRaw);
 
-            // Last access: td.cell.c4 (adapt to helper format)
+            // Last access: td.cell.c4
             const lastAccessRaw =
                 row.querySelector<HTMLElement>("td.cell.c4")?.innerText?.trim();
             const lastAccessToCourse = parseLastAccess(lastAccessRaw);
 
-            // Registration column td.cell.c5 -> keep as status (raw string)
+            // Registration: td.cell.c5
             const registrationRaw =
                 row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim() ?? "";
             const registration = registrationRaw || undefined;
@@ -154,9 +182,17 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
             participants.push(participant);
         }
 
+        const ms = Math.round(performance.now() - t0);
+        devlog.info("dataExtractor", "scrapeParticipants:done", {
+            rows: rows.length,
+            collected: participants.length,
+            durationMs: ms,
+        });
+
         return participants;
     } catch (error) {
-        console.error("Error scraping participants:", error);
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeParticipants:error", {error: String(error), durationMs: ms});
         return [];
     }
 }
@@ -172,27 +208,33 @@ export async function scrapeParticipants(participantsUrl: string): Promise<Parti
  * @returns A promise that resolves to the course name as a string.
  */
 export async function scrapeCourseMain(courseMainUrl: string): Promise<string> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeCourseMain:start", {courseMainUrl});
+
     try {
         const doc = await fetchAndParse(courseMainUrl);
 
-        const titleNode = doc
-            .querySelector(".page-context-header h1");
-
+        const selector = ".page-context-header h1";
+        const titleNode = doc.querySelector(selector);
         const courseName = titleNode?.textContent?.trim();
 
         if (!courseName) {
-            console.warn("Course name not found on the main course page.");
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeCourseMain:course name not found",
+                {selector, durationMs: ms});
             return "";
         }
 
+        const ms = Math.round(performance.now() - t0);
+        devlog.info("dataExtractor", "scrapeCourseMain:success", {courseName, durationMs: ms});
         return courseName;
 
     } catch (error) {
-        console.error("Error scraping course name from main page:", error);
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeCourseMain:error", {error: String(error), durationMs: ms});
         return "";
     }
 }
-
 
 /**
  * Scrapes the response data from a specific Choice activity in Moodle.
@@ -215,10 +257,14 @@ export async function scrapeChoices(
     numUsers: number,
     lastAccess: number | undefined,
 ): Promise<Choice[]> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeChoices:start", {id, activityName, numViews, numUsers, lastAccess});
+
     try {
         const choices: Choice[] = [];
 
         const url = getScrapeUrlChoice(id);
+
         const doc = await fetchAndParse(url.choiceResults);
 
         const responseCounts: Record<string, number> = {};
@@ -230,11 +276,12 @@ export async function scrapeChoices(
             .filter((label): label is string => !!label); // filter out undefined/null
 
         const responseCells = doc.querySelectorAll('table.results.names tbody tr td');
+
         responseCells.forEach((cell, i) => {
             const label = labelCells[i];
             if (!label) return;
 
-            const value = parseInt(cell.textContent?.trim() ?? '0');
+            const value = parseInt(cell.textContent?.trim() ?? '0', 10);
             responseCounts[label] = isNaN(value) ? 0 : value;
         });
 
@@ -248,10 +295,15 @@ export async function scrapeChoices(
         };
 
         choices.push(choice);
+
+        const ms = Math.round(performance.now() - t0);
+        devlog.info("dataExtractor", "scrapeChoices:success", {id, activityName, durationMs: ms}, choice);
+
         return choices;
 
     } catch (error) {
-        console.error("Error scraping Choices:", error);
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeChoices:error", {error: String(error), durationMs: ms});
         return [];
     }
 }
@@ -280,45 +332,82 @@ export async function scrapeQuizzes(
     lastAccess: number | undefined,
     totalParticipants: number
 ): Promise<Quiz[]> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeQuizzes:start", {
+        id, activityName, numViews, numUsers, lastAccess, totalParticipants
+    });
+
     try {
         const quizzes: Quiz[] = [];
 
         const url = getScrapeUrlQuiz(id, totalParticipants);
+
         const doc = await fetchAndParse(url.quizResults);
 
+        // Max grade
         const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
-        const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
+        const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? "";
         const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
-        const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1');
+        const maxGrade = parseFloat(maxGradeMatch?.[1] ?? "1");
 
-        const tableResultsQuiz = doc.querySelector('table#attempts');
-        const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
+
+        // Result table
+        const tableResultsQuiz = doc.querySelector<HTMLTableElement>("table#attempts");
+        if (!tableResultsQuiz) {
+            const msNF = Math.round(performance.now() - t0);
+            devlog.warn("dataExtractor", "scrapeQuizzes:results table not found", { durationMs: msNF });
+            return [];
+        }
+
+        const rowsResultsQuiz = Array.from(tableResultsQuiz.querySelectorAll("tbody tr") ?? []);
+
         const participantStats: QuizParticipantData[] = [];
 
+        // Contadores de descartes (sin PII)
+        let skipEmptyRow = 0;
+        let skipNoNameCell = 0;
+        let skipOverallAvg = 0;
+        let skipNoId = 0;
+        let skipNaNId = 0;
+
         for (const rowQuiz of rowsResultsQuiz) {
-
             const rowClass = rowQuiz.className.trim().toLowerCase();
-            if (rowClass.includes('emptyrow') || rowClass.includes('empty row')) continue;
-
-            const nameCell = rowQuiz.querySelector('td.cell.c2');
-            const nameText = nameCell?.textContent?.trim().toLowerCase() ?? '';
-            if (!nameText || nameText.includes('overall average')) continue;
-
-            const nameAnchor = nameCell?.querySelector('a');
-            const participantName = nameAnchor?.textContent?.trim() ?? '';
-
-            const idMatch =
-                nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
-            if (!idMatch) {
-                console.warn("User ID not found for participant:", participantName);
+            if (rowClass.includes("emptyrow") || rowClass.includes("empty row")) {
+                skipEmptyRow++;
                 continue;
             }
-            const participantId = parseInt(idMatch[1]);
 
-            const rawDuration = rowQuiz.querySelector('td.cell.c7')?.textContent?.trim() ?? '';
+            const nameCell = rowQuiz.querySelector<HTMLElement>("td.cell.c2");
+            if (!nameCell) {
+                skipNoNameCell++;
+                continue;
+            }
+
+            const nameText = nameCell.textContent?.trim().toLowerCase() ?? "";
+            if (!nameText || nameText.includes("overall average")) {
+                skipOverallAvg++;
+                continue;
+            }
+
+            const nameAnchor = nameCell.querySelector<HTMLAnchorElement>("a");
+            const participantName = nameAnchor?.textContent?.trim() ?? "";
+
+            const idMatch =
+                nameAnchor?.getAttribute("href")?.match(/id=(\d+)/);
+            if (!idMatch) {
+                skipNoId++;
+                continue;
+            }
+            const participantId = parseInt(idMatch[1], 10);
+            if (Number.isNaN(participantId)) {
+                skipNaNId++;
+                continue;
+            }
+
+            const rawDuration = rowQuiz.querySelector("td.cell.c7")?.textContent?.trim() ?? "";
             const duration = normalizeTimeToMillis(rawDuration);
 
-            const gradeText = rowQuiz.querySelector('td.cell.c8 a')?.textContent?.trim() ?? '';
+            const gradeText = rowQuiz.querySelector("td.cell.c8 a")?.textContent?.trim() ?? "";
             const grade = parseFloat(gradeText);
             const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
 
@@ -327,7 +416,7 @@ export async function scrapeQuizzes(
                 participantName,
                 duration,
                 grade,
-                normalizedGrade
+                normalizedGrade,
             };
 
             participantStats.push(participantData);
@@ -340,15 +429,32 @@ export async function scrapeQuizzes(
             lastAccess,
             id,
             maxGrade,
-            participantStats
+            participantStats,
         };
 
         quizzes.push(quiz);
 
+        const ms = Math.round(performance.now() - t0);
+        devlog.info("dataExtractor", "scrapeQuizzes:success", {
+            id,
+            activityName,
+            maxGrade,
+            participantsParsed: participantStats.length,
+            skipped: {
+                emptyRow:     skipEmptyRow,
+                noNameCell:   skipNoNameCell,
+                overallAvg:   skipOverallAvg,
+                noId:         skipNoId,
+                nanId:        skipNaNId,
+            },
+            durationMs: ms,
+        }, quiz); // ← opcional: objeto completo para inspección
+
         return quizzes;
 
     } catch (error) {
-        console.error("Error scraping Quizzes:", error);
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeQuizzes:error", { error: String(error), durationMs: ms });
         return [];
     }
 }
@@ -383,72 +489,85 @@ export async function scrapeForums(
     totalParticipants: number,
     courseId: string
 ): Promise<Forum[]> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeForums:start", {
+        id, activityName, numViews, numUsers, lastAccess, totalParticipants, courseId
+    });
+
     try {
-        const forums: Forum[] = [];
 
         const urlForumMain = getScrapeUrlForumMain(id);
         let doc = await fetchAndParse(urlForumMain.forumMain);
 
         const reportLink = doc.querySelector('a[href*="forumid="]');
-        const reportHref = reportLink?.getAttribute('href') ?? '';
+        const reportHref = reportLink?.getAttribute("href") ?? "";
         const forumIdMatch = reportHref.match(/forumid=(\d+)/);
-        const forumId = parseInt(forumIdMatch?.[1] ?? '0');
+        const forumId = parseInt(forumIdMatch?.[1] ?? "0", 10);
 
         const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
 
         doc = await fetchAndParse(urlForumSubscriptions.forumSubscriptions);
 
-        const h2s = Array.from(doc.querySelectorAll('h2'));
-        const withCount = h2s.find(h =>
-            /\(\s*\d+\s*\)/.test(h.textContent ?? '')
-        );
+        const h2s = Array.from(doc.querySelectorAll("h2"));
+        const withCount =
+            h2s.find((h) => /\(\s*\d+\s*\)/.test(h.textContent ?? ""));
         let subscriptions: number;
 
         if (withCount) {
-            const m = (withCount.textContent ?? '').match(/\(\s*(\d+)\s*\)/);
+            const m = (withCount.textContent ?? "").match(/\(\s*(\d+)\s*\)/);
             subscriptions = m ? parseInt(m[1], 10) : 0;
         } else {
-            const rows = doc.querySelectorAll('table.generaltable tbody tr');
+            const rows = doc.querySelectorAll("table.generaltable tbody tr");
             subscriptions = rows.length;
         }
 
         const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
         doc = await fetchAndParse(urlForumReports.forumReports);
 
-        const tableReportForum = doc.querySelector('table#forumreport_summary_table');
-        const rowsReportForum = Array.from(tableReportForum?.querySelectorAll('tbody tr') ?? []);
+        const tableReportForum =
+            doc.querySelector<HTMLTableElement>("table#forumreport_summary_table");
+        if (!tableReportForum) {
+            const msNF = Math.round(performance.now() - t0);
+            devlog.warn("dataExtractor", "scrapeForums:summary table not found", { durationMs: msNF });
+            return [];
+        }
+
+        const rowsReportForum = Array.from(tableReportForum.querySelectorAll("tbody tr") ?? []);
+
         const participantsStats: ForumParticipantData[] = [];
 
         for (const rowForum of rowsReportForum) {
-
-            const nameCell = rowForum.querySelector('td.cell.c1');
-            const anchor = nameCell?.querySelector('a');
-            if (!anchor) continue;
-
-            const nameNode = Array.from(anchor.childNodes).find(n =>
-                n.nodeType === Node.TEXT_NODE);
-            const participantName = nameNode?.textContent?.trim() ?? '';
-
-            const idMatch =
-                anchor.getAttribute('href')?.match(/id=(\d+)/);
-            if (!idMatch) {
-                console.warn("User ID not found for participant:", participantName);
+            const nameCell = rowForum.querySelector<HTMLElement>("td.cell.c1");
+            const anchor = nameCell?.querySelector<HTMLAnchorElement>("a");
+            if (!anchor) {
                 continue;
             }
-            const participantId = parseInt(idMatch[1]);
 
-            const discussionsPosted = parseCellToInt(rowForum.querySelector('td.cell.c2'));
-            const repliesPosted = parseCellToInt(rowForum.querySelector('td.cell.c3'));
-            const views = parseCellToInt(rowForum.querySelector('td.cell.c5'));
-            const wordCount = parseCellToInt(rowForum.querySelector('td.cell.c6'));
+            const nameNode =
+                Array.from(anchor.childNodes).find((n) => n.nodeType === Node.TEXT_NODE);
+            const participantName = nameNode?.textContent?.trim() ?? "";
 
-            const earliestRaw = rowForum.querySelector('td.cell.c8')?.textContent?.trim() ?? '';
-            const mostRecentRaw = rowForum.querySelector('td.cell.c9')?.textContent?.trim() ?? '';
+            const idMatch =
+                anchor.getAttribute("href")?.match(/id=(\d+)/);
+            if (!idMatch) {
+                continue;
+            }
+            const participantId = parseInt(idMatch[1], 10);
+
+            const discussionsPosted = parseCellToInt(rowForum.querySelector("td.cell.c2"));
+            const repliesPosted = parseCellToInt(rowForum.querySelector("td.cell.c3"));
+            const views = parseCellToInt(rowForum.querySelector("td.cell.c5"));
+            const wordCount = parseCellToInt(rowForum.querySelector("td.cell.c6"));
+
+            const earliestRaw = rowForum.querySelector("td.cell.c8")?.textContent?.trim() ?? "";
+            const mostRecentRaw = rowForum.querySelector("td.cell.c9")?.textContent?.trim() ?? "";
 
             const earliestPost = normalizeTimeToMillis(earliestRaw);
             const mostRecentPost = normalizeTimeToMillis(mostRecentRaw);
 
-            if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) continue;
+            if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
+                continue;
+            }
 
             const participantData: ForumParticipantData = {
                 participantId,
@@ -458,7 +577,7 @@ export async function scrapeForums(
                 views,
                 wordCount,
                 earliestPost,
-                mostRecentPost
+                mostRecentPost,
             };
 
             participantsStats.push(participantData);
@@ -472,16 +591,28 @@ export async function scrapeForums(
             id,
             forumId,
             subscriptions,
-            participantsStats
+            participantsStats,
         };
 
-        forums.push(forum);
+        const forums: Forum[] = [forum];
 
+        const ms = Math.round(performance.now() - t0);
+        devlog.info(
+            "dataExtractor",
+            "scrapeForums:success",
+            {
+                id,
+                forumId,
+                subscriptions,
+                participantsParsed: participantsStats.length,
+                durationMs: ms,
+            },
+        );
 
         return forums;
-
     } catch (error) {
-        console.error("Error scraping Forums:", error);
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeForums:error", { error: String(error), durationMs: ms });
         return [];
     }
 }
@@ -510,84 +641,155 @@ export async function scrapeCourse(
     participantsUrl: string,
     totalParticipants: number
 ): Promise<Course> {
+    const t0 = performance.now();
+    devlog.info("dataExtractor", "scrapeCourse:start", {
+        courseId,
+        totalParticipants,
+        urls: { courseMainUrl, activityReportUrl, participantsUrl },
+    });
 
-    const participants = await scrapeParticipants(participantsUrl);
-    const numParticipantsTotal = participants.length;
-    const courseName = await scrapeCourseMain(courseMainUrl);
+    try {
+        const participants = await scrapeParticipants(participantsUrl);
+        const numParticipantsTotal = participants.length;
 
-    const doc = await fetchAndParse(activityReportUrl);
+        const courseName = await scrapeCourseMain(courseMainUrl);
+        const doc = await fetchAndParse(activityReportUrl);
+        const table = doc.querySelector("table#outlinetable");
+        const rows = Array.from(table?.querySelectorAll("tbody tr") ?? []);
 
-    const table = doc.querySelector('table#outlinetable');
-    const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+        const urlResources: URLResource[] = [];
+        const choices: Choice[] = [];
+        const workshops: Workshop[] = [];
+        const resources: Resource[] = [];
+        let quizzes: Quiz[] = [];
+        let forums: Forum[] = [];
 
-    const urlResources: URLResource[] = [];
-    const choices: Choice[] = [];
-    const workshops: Workshop[] = [];
-    const resources: Resource[] = [];
-    let quizzes: Quiz[] = [];
-    let forums: Forum[] = [];
+        const typeCounts = {
+            url: 0,
+            workshop: 0,
+            resource: 0,
+            choice: 0,
+            quiz: 0,
+            forum: 0,
+        };
 
-    for (const row of rows) {
-        const activityLink = row.querySelector<HTMLAnchorElement>('td.activity a[href]');
-        if (!activityLink) continue;
-
-        const viewsCell = row.querySelector('td.numviews');
-        const lastAccessCell = row.querySelector('td.lastaccess');
-
-        const href = activityLink.getAttribute('href') ?? '';
-        const activityName = activityLink.textContent?.trim() ?? '';
-
-        const {numViews, numUsers} = parseViewsAndUsers(viewsCell?.textContent?.trim() ?? '');
-
-        const durationMatch = lastAccessCell?.textContent?.match(/\(([^)]+)\)/);
-        const relativeDuration = durationMatch?.[1]?.trim();
-        const lastAccess = parseLastAccess(relativeDuration);
-
-        const idMatch = href.match(/id=(\d+)/);
-        if (!idMatch) continue;
-        const id = parseInt(idMatch[1], 10);
-
-        switch (true) {
-            case href.includes('/mod/url/'):
-                urlResources.push({activityName, numViews, numUsers, lastAccess});
-                break;
-            case href.includes('/mod/workshop/'):
-                workshops.push({activityName, numViews, numUsers, lastAccess});
-                break;
-            case href.includes('/mod/resource/'):
-                resources.push({activityName, numViews, numUsers, lastAccess});
-                break;
-            case href.includes('/mod/choice/'): {
-                const choiceResults = await scrapeChoices(id, activityName, numViews, numUsers, lastAccess);
-                choices.push(...choiceResults);
-                break;
+        for (const row of rows) {
+            const activityLink = row.querySelector<HTMLAnchorElement>('td.activity a[href]');
+            if (!activityLink) {
+                continue;
             }
-            case href.includes('/mod/quiz/'): {
-                const quizResults = await scrapeQuizzes(id, activityName, numViews, numUsers, lastAccess,
-                    totalParticipants);
-                quizzes.push(...quizResults);
-                break;
+
+            const viewsCell = row.querySelector("td.numviews");
+            const lastAccessCell = row.querySelector("td.lastaccess");
+
+            const href = activityLink.getAttribute("href") ?? "";
+            const activityName = activityLink.textContent?.trim() ?? "";
+
+            const { numViews, numUsers } = parseViewsAndUsers(viewsCell?.textContent?.trim() ?? "");
+
+            const durationMatch = lastAccessCell?.textContent?.match(/\(([^)]+)\)/);
+            const relativeDuration = durationMatch?.[1]?.trim();
+            const lastAccess = parseLastAccess(relativeDuration);
+
+            const idMatch = href.match(/id=(\d+)/);
+            if (!idMatch) {
+                continue;
             }
-            case href.includes('/mod/forum/'): {
-                const forumResults = await scrapeForums(id, activityName, numViews, numUsers, lastAccess,
-                    totalParticipants, courseId);
-                forums.push(...forumResults);
-                break;
+            const id = parseInt(idMatch[1], 10);
+
+            switch (true) {
+                case href.includes("/mod/url/"):
+                    urlResources.push({ activityName, numViews, numUsers, lastAccess });
+                    typeCounts.url++;
+                    break;
+
+                case href.includes("/mod/workshop/"):
+                    workshops.push({ activityName, numViews, numUsers, lastAccess });
+                    typeCounts.workshop++;
+                    break;
+
+                case href.includes("/mod/resource/"):
+                    resources.push({ activityName, numViews, numUsers, lastAccess });
+                    typeCounts.resource++;
+                    break;
+
+                case href.includes("/mod/choice/"): {
+                    const choiceResults = await scrapeChoices(id, activityName, numViews, numUsers, lastAccess);
+                    choices.push(...choiceResults);
+                    typeCounts.choice += choiceResults.length;
+                    break;
+                }
+
+                case href.includes("/mod/quiz/"): {
+                    const quizResults = await scrapeQuizzes(
+                        id,
+                        activityName,
+                        numViews,
+                        numUsers,
+                        lastAccess,
+                        totalParticipants
+                    );
+                    quizzes.push(...quizResults);
+                    typeCounts.quiz += quizResults.length;
+                    break;
+                }
+
+                case href.includes("/mod/forum/"): {
+                    const forumResults = await scrapeForums(
+                        id,
+                        activityName,
+                        numViews,
+                        numUsers,
+                        lastAccess,
+                        totalParticipants,
+                        courseId
+                    );
+                    forums.push(...forumResults);
+                    typeCounts.forum += forumResults.length;
+                    break;
+                }
             }
         }
-    }
 
-    return {
-        id: parseInt(courseId, 10),
-        courseName,
-        numParticipantsTotal,
-        participants,
-        urlResources,
-        resources,
-        choices,
-        workshops,
-        quizzes,
-        forums
-    };
+        const course: Course = {
+            id: parseInt(courseId, 10),
+            courseName,
+            numParticipantsTotal,
+            participants,
+            urlResources,
+            resources,
+            choices,
+            workshops,
+            quizzes,
+            forums,
+        };
+
+        const ms = Math.round(performance.now() - t0);
+        devlog.info(
+            "dataExtractor",
+            "scrapeCourse:success. SCRAPING FINISHED",
+            {
+                courseId,
+                courseName,
+                numParticipantsTotal,
+                durationMs: ms,
+                totals: {
+                    urlResources: urlResources.length,
+                    resources: resources.length,
+                    choices: choices.length,
+                    workshops: workshops.length,
+                    quizzes: quizzes.length,
+                    forums: forums.length,
+                },
+            },
+            course
+        );
+
+        return course;
+    } catch (error) {
+        const ms = Math.round(performance.now() - t0);
+        devlog.error("dataExtractor", "scrapeCourse:error", { error: String(error), durationMs: ms });
+        throw error;
+    }
 }
 

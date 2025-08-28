@@ -39,6 +39,7 @@ import {Trans, useTranslation} from "react-i18next";
 import {useRelativeTime} from "./hooks/useRelativeTime";
 import ExportAllSelector from "./components/ExportAllSelector";
 import {ExportProvider} from "./context/ExportContext";
+import {devlog} from "./utils/devlog";
 
 /**
  * @function App
@@ -78,28 +79,35 @@ export function App() {
     const relativeTime = useRelativeTime(lastAnalyzedAt);
 
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
-        // Get initial participant URL (no limit)
         const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
+        devlog.info("app", "fetchTotalParticipants:start", {courseId, preliminaryUrl});
+
+        const t0 = performance.now();
         const total = await scrapeNumParticipants(preliminaryUrl); // Fetch the total participant count
+        const ms = Math.round(performance.now() - t0);
 
         if (total === null) {
-            console.warn("Unable to extract total participant count.");
+            devlog.error("app", "fetchTotalParticipants:total is null (unable to extract)", {courseId, ms});
+        } else {
+            devlog.info("app", "fetchTotalParticipants:ok", {courseId, total, ms});
         }
 
         return total;
     }
 
     async function fetchAndStoreCourseData(courseId: string, totalParticipants: number) {
-        const {courseMain} = getScrapeUrlCourseMain(courseId); // URL to get the course name
-        const {activityReport} = getScrapeUrlActivityReport(courseId); // URL to get an activity report
-        // Paginated URL for all participants
-        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
+        const {courseMain} = getScrapeUrlCourseMain(courseId);           // URL to get the course name
+        const {activityReport} = getScrapeUrlActivityReport(courseId);   // URL to get an activity report
+        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
+
+        devlog.info("app", "fetchAndStoreCourseData:urls prepared", {
+            courseId, totalParticipants, courseMain, activityReport, participants
+        });
 
         // Main scraping function
-        const course = await scrapeCourse(courseId, courseMain, activityReport, participants,
-            totalParticipants);
-        console.log("Course data:", course);
-
+        const t0 = performance.now();
+        const course = await scrapeCourse(courseId, courseMain, activityReport, participants, totalParticipants);
+        Math.round(performance.now() - t0);
         const storageData = {
             [`course_${courseId}`]: course,
             lastAnalyzedCourseId: courseId,
@@ -108,10 +116,11 @@ export function App() {
 
         // Save course data and analysis metadata to local storage
         chrome.storage.local.set(storageData, () => {
-            if (chrome.runtime.lastError) {
-                console.error("Error saving course data:", chrome.runtime.lastError);
+            const err = chrome.runtime.lastError;
+            if (err) {
+                devlog.error("app", "fetchAndStoreCourseData:storage error", {message: err.message});
             } else {
-                console.log(`Course data saved successfully under key "course_${courseId}"`);
+                devlog.info("app", "fetchAndStoreCourseData:storage ok", {key: `course_${courseId}`});
             }
         });
 
@@ -119,32 +128,46 @@ export function App() {
     }
 
     async function analyzeCourseData(courseId: string) {
-        setIsLoading(true); // Show loading state
-        setButton(null); // Remove the existing button while analyzing
-        setIsRestored(false); // Clear restored flag
-        setOutputMessage(""); // Reset message
+        const t0 = performance.now();
+        devlog.info("app", "analyze:start", {courseId});
+
+        setIsLoading(true);           // Show loading state
+        setButton(null);              // Remove the existing button while analyzing
+        setIsRestored(false);         // Clear restored flag
+        setOutputMessage("");         // Reset message
+        devlog.info("app", "analyze:UI reset done");
 
         try {
             // Get the total number of participants
+            devlog.info("app", "analyze:fetchTotalParticipants");
             const totalParticipants = await fetchTotalParticipants(courseId);
+            devlog.info("app", "analyze:totalParticipants", {totalParticipants});
 
             if (totalParticipants === null) {
+                devlog.error("app", "analyze:participants null → show restart button");
                 setOutputMessage("Failed to determine participant count."); // Error if count not retrieved
                 setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
                 return;
             }
 
+            devlog.info("app", "analyze:scrape & store course data");
             const course = await fetchAndStoreCourseData(courseId, totalParticipants);
+
             setCourseName(course.courseName ?? null);
 
             setIsError(false);
             setOutputMessage("success_analysis_completed");
             setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
             const now = new Date();
-
             setLastAnalyzedAt(now);
+
+            devlog.info("app", "analyze:success", {
+                courseId,
+                analyzedAt: now.toISOString(),
+                durationMs: Math.round(performance.now() - t0),
+            });
         } catch (error) {
-            console.error("Error during analysis:", error);
+            devlog.error("app", "analyze:error", {error: String(error)});
             setOutputMessage("An error occurred while analyzing the course."); // Catch unexpected errors
         } finally {
             setIsLoading(false); // End loading state
@@ -152,18 +175,25 @@ export function App() {
     }
 
     async function analyzeCourseDataWithCleanup(courseId: string) {
+        devlog.info("app", "cleanup:check", {targetCourseId: courseId});
+
         chrome.storage.local.get("lastAnalyzedCourseId", (res) => {
             const lastId = res.lastAnalyzedCourseId;
+            devlog.info("app", "cleanup:lastAnalyzedCourseId", {lastId});
+
             if (lastId && lastId !== courseId) {
+                devlog.info("app", "cleanup:removing previous course data", {lastId});
+
                 chrome.storage.local.remove(
                     [`course_${lastId}`, "lastAnalyzedCourseId", "lastAnalyzedAt"],
                     () => {
-                        if (chrome.runtime.lastError) {
-                            console.error("Error removing old course data:", chrome.runtime.lastError);
+                        const err = chrome.runtime.lastError;
+                        if (err) {
+                            devlog.error("app", "cleanup:remove error", {error: err.message});
                         } else {
-                            console.log(`Previous course data (${lastId}) removed.`);
-                            analyzeCourseData(courseId);
+                            devlog.info("app", "cleanup:removed ok", {lastId});
                         }
+                        analyzeCourseData(courseId);
                     }
                 );
             } else {
@@ -173,20 +203,25 @@ export function App() {
     }
 
     function validateAndExtractCourseId(url?: string): string | null {
+
         if (!url || !url.startsWith("http")) {
-            setTranslatedError('error_invalid_url');
+            devlog.warn("app", "invalid_url", {url});
+            setTranslatedError("error_invalid_url");
             return null;
         }
 
         const {isCoursePage, courseId} = extractMoodleCourseId(url);
+        devlog.info("app", "extractMoodleCourseId result", {isCoursePage, courseId});
 
         if (!isCoursePage) {
-            setTranslatedError('error_not_course_page');
+            devlog.warn("app", "not_course_page", {url});
+            setTranslatedError("error_not_course_page");
             return null;
         }
 
         if (!courseId) {
-            setTranslatedError('error_missing_course_id');
+            devlog.warn("app", "missing_course_id", {url});
+            setTranslatedError("error_missing_course_id");
             return null;
         }
 
@@ -194,12 +229,14 @@ export function App() {
     }
 
     function extractAndSetCourseId(url?: string | null) {
+
         const courseId = validateAndExtractCourseId(url ?? undefined);
 
         if (courseId) {
             setIsValidCoursePage(true);
             setCurrentCourseId(courseId);
         } else {
+            devlog.warn("app", "invalid course page → reset state");
             setIsValidCoursePage(false);
             setCurrentCourseId(null);
             setIsRestored(false);
@@ -211,18 +248,23 @@ export function App() {
         setIsError(true);
     };
 
-
     // On mount: check the current active tab to extract the course ID
     useEffect(() => {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-            extractAndSetCourseId(tabs?.[0]?.url);
+            const url = tabs?.[0]?.url;
+            devlog.info("app", "active tab url", url);
+            extractAndSetCourseId(url);
         });
     }, []);
 
     // When a tab is updated or activated, re-extract the course ID (for side panel support)
     useEffect(() => {
-        const handleTabUpdate = (_tabId: number,
-                                 changeInfo: chrome.tabs.TabChangeInfo, tab: chrome.tabs.Tab) => {
+
+        const handleTabUpdate = (
+            _tabId: number,
+            changeInfo: chrome.tabs.TabChangeInfo,
+            tab: chrome.tabs.Tab
+        ) => {
             if (changeInfo.status === "complete" && tab.active) {
                 extractAndSetCourseId(tab.url);
             }
@@ -273,6 +315,10 @@ export function App() {
 
                 if (!course) {
                     // No data available for the current course
+                    devlog.warn("app", "restore: no course data", {
+                        currentCourseId,
+                        lastId,
+                    });
                     if (!lastId) {
                         setButton(<StartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                     }
@@ -280,8 +326,10 @@ export function App() {
                 }
 
                 // Restore existing course data
-                console.log("Restoring previous course data:", course);
-                //console.log("Course name:", course.courseName);
+                devlog.info("app", "restore: apply course data", {
+                    course
+                });
+
                 setCourseName(course.courseName ?? null);
                 setButton(<RestartButton courseId={currentCourseId} onClick={analyzeCourseData}/>);
                 setIsRestored(true);

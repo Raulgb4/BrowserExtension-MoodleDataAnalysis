@@ -13,6 +13,8 @@
  * @date 2025
  */
 
+import {devlog} from "./devlog";
+
 /** Base URLs for different Moodle environments */
 //export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
 export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
@@ -54,12 +56,16 @@ export function extractMoodleCourseId(url: string): {
             "/backup/view.php"
         ];
 
-        const isCoursePage = validPaths.includes(parsed.pathname);
+        const pathname = parsed.pathname;
+        const isCoursePage = validPaths.includes(pathname);
         const courseId = parsed.searchParams.get("id") || parsed.searchParams.get("courseid");
 
         return {isCoursePage, courseId};
-    } catch {
-        console.warn("Invalid URL:", url);
+    } catch (e) {
+        devlog.warn("urlBuilder", "extractMoodleCourseId: invalid URL", {
+            url,
+            error: String(e),
+        });
         return {isCoursePage: false, courseId: null};
     }
 }
