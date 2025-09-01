@@ -24,38 +24,52 @@
 export function normalizeTimeToMillis(input: string): number | undefined {
     if (!input) return undefined;
 
-    const trimmed = input.trim().toLowerCase();
-    if (trimmed === 'never' || trimmed === '-') return undefined;
+    const s = input.replace(/\u00A0/g, " ").trim().toLowerCase();
+    if (!s || s === "-" || /^(never|nunca)$/.test(s)) return undefined;
+    if (/^(now|ahora)$/.test(s)) return 0;
 
-    // Try to parse the full date string (e.g., "Tuesday, 18 October 2022, 6:49 PM")
-    const parsedDate = Date.parse(trimmed);
-    if (!isNaN(parsedDate)) return parsedDate;
+    // ¿Contiene una fecha dd/mm/yy(yy)? Si sí, NO interpretamos "13:27" como duración.
+    const hasDateLike = /\b\d{1,2}[\/-]\d{1,2}[\/-]\d{2,4}\b/.test(s);
 
-    // Parse as duration
-    const daysMatch = trimmed.match(/(\d+)\s*days?/);
-    const hoursMatch = trimmed.match(/(\d+)\s*hours?/);
-    const minsMatch = trimmed.match(/(\d+)\s*mins?/);
-    const secsMatch = trimmed.match(/(\d+)\s*secs?/);
-    const oneDayMatch = trimmed.match(/1\s*day/);
-    const oneHourMatch = trimmed.match(/1\s*hour/);
-    const oneMinMatch = trimmed.match(/1\s*min/);
-    const oneSecMatch = trimmed.match(/1\s*sec/);
-    const yearsMatch = trimmed.match(/(\d+)\s*years?/);
-    const oneYearMatch = trimmed.match(/1\s*year/);
+    // 1) Sumar tokens con unidades ES/EN (agnóstico al orden y mezclas)
+    //    years/años, days/días/d, hours/horas/h, minutes/minutos/min/m, seconds/segundos/seg/s
+    let years = 0, days = 0, hours = 0, mins = 0, secs = 0;
 
-    const days = daysMatch ? parseInt(daysMatch[1]) : (oneDayMatch ? 1 : 0);
-    const hours = hoursMatch ? parseInt(hoursMatch[1]) : (oneHourMatch ? 1 : 0);
-    const mins = minsMatch ? parseInt(minsMatch[1]) : (oneMinMatch ? 1 : 0);
-    const secs = secsMatch ? parseInt(secsMatch[1]) : (oneSecMatch ? 1 : 0);
-    const years = yearsMatch ? parseInt(yearsMatch[1]) : (oneYearMatch ? 1 : 0);
+    const add = (re: RegExp, target: (n: number) => void) => {
+        const g = s.matchAll(re);
+        for (const m of g) {
+            const n = parseInt(m[1], 10);
+            if (Number.isFinite(n)) target(n);
+        }
+    };
 
-    return (
-        years * 365 * 24 * 60 * 60 * 1000 +
-        days * 24 * 60 * 60 * 1000 +
-        hours * 60 * 60 * 1000 +
-        mins * 60 * 1000 +
-        secs * 1000
-    );
+    add(/(\d+)\s*(?:years?|a\u00f1os?)/g, n => years += n);
+    add(/(\d+)\s*(?:d(?:\u00edas?)?|days?|d\b)/g, n => days += n);
+    add(/(\d+)\s*(?:h(?:oras?)?|hours?|hrs?)/g, n => hours += n);
+    add(/(\d+)\s*(?:m(?:in(?:utos?)?)?|minutes?|mins?|\bm\b)/g, n => mins += n);
+    add(/(\d+)\s*(?:s(?:eg(?:undos?)?)?|seconds?|secs?|\bs\b)/g, n => secs += n);
+
+    const hasUnitTokens = (years + days + hours + mins + secs) > 0;
+
+    if (hasUnitTokens) {
+        return ((((years * 365 + days) * 24 + hours) * 60 + mins) * 60 + secs) * 1000;
+    }
+
+    // 2) Formato con dos puntos (HH:MM:SS o MM:SS) solo si NO parece fecha
+    if (!hasDateLike) {
+        const colon = s.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+        if (colon) {
+            const hasH = colon[3] !== undefined;
+            const h = hasH ? parseInt(colon[1], 10) : 0;
+            const m = hasH ? parseInt(colon[2], 10) : parseInt(colon[1], 10);
+            const sec = hasH ? parseInt(colon[3]!, 10) : parseInt(colon[2], 10);
+            return ((h * 3600) + (m * 60) + sec) * 1000;
+        }
+    }
+
+    // 3) Último recurso: si la cadena es SOLO fecha/hora y el runtime la entiende, devolvemos ms absoluto
+    const ts = Date.parse(s);
+    return Number.isFinite(ts) ? ts : undefined;
 }
 
 /**
@@ -120,22 +134,20 @@ export function parseGroups(raw: string | undefined): string[] | undefined {
  */
 export function parseLastAccess(raw: string | undefined): number | undefined {
     if (!raw) return undefined;
+    const cleaned = raw.replace(/\u00A0/g, " ").trim();
+    if (!cleaned) return undefined;
 
-    // Keep only the relative chunk (UMA shows two lines)
-    const firstLine = raw.split("\n")[0].trim();
-    if (!firstLine) return undefined;
+    // Prioriza lo que hay entre paréntesis si existe
+    const paren = cleaned.match(/\(([^)]+)\)/);
+    const chunk = (paren ? paren[1] : cleaned).split("\n")[0].trim();
 
-    // Map UMA abbreviations to the tokens normalizeTimeToMillis expects
-    const normalized = firstLine
-        .replace(/(\d+)\s*d\b/gi, "$1 days")
-        .replace(/(\d+)\s*h\b/gi, "$1 hours")
-        .replace(/(\d+)\s*min\b/gi, "$1 mins")
-        .replace(/(\d+)\s*s(ec)?\b/gi, "$1 secs");
+    if (!chunk) return undefined;
+    if (/^(?:never|nunca|-)\s*$/i.test(chunk)) return undefined;
+    if (/^(?:now|ahora)\s*$/i.test(chunk)) return 0;
 
-    if (normalized.toLowerCase() === "never" || normalized === "-") return undefined;
-
-    return normalizeTimeToMillis(normalized);
+    return normalizeTimeToMillis(chunk);
 }
+
 
 /**
  * Extracts the user status from a raw string like "Enrolled student" or "Active".
@@ -165,11 +177,13 @@ export function parseStatus(raw: string | undefined): string | undefined {
  * @param cell - The HTML element representing the cell (typically a <td> or <th>).
  * @returns The integer value parsed from the cell, or 0 if the content is invalid or not a number.
  */
+/*
 export function parseCellToInt(cell: Element | null): number {
     const text = cell?.textContent?.trim() ?? '';
     const value = parseInt(text);
     return isNaN(value) ? 0 : value;
 }
+ */
 
 /**
  * Parses a string like "180 views by 86 users" into numeric values.
@@ -178,10 +192,31 @@ export function parseCellToInt(cell: Element | null): number {
  * @returns An object with `numViews` and `numUsers`, both defaulting to 0 if not found.
  */
 export function parseViewsAndUsers(raw: string): { numViews: number; numUsers: number } {
-    const match = raw.match(/(\d+)\s+views?\s+by\s+(\d+)\s+users?/);
+    const text = (raw ?? "").replace(/\u00A0/g, " ").trim();
+
+    // Non-capturing group to avoid confusion; returns an array of full matches.
+    const NUM_TOKEN_RE = /\d{1,3}(?:[.,\s]\d{3})*|\d+/g;
+
+    // matches: string[] | null
+    const matches = text.match(NUM_TOKEN_RE);
+    const nums: string[] = matches ?? [];
+
+    const toInt = (s: string): number => {
+        const n = parseInt(s.replace(/[.,\s]/g, ""), 10);
+        return Number.isFinite(n) ? n : 0;
+    };
+
+    if (nums.length === 0) {
+        return {numViews: 0, numUsers: 0};
+    }
+
+    // Ensure we always pass a string to toInt (satisfies TS)
+    const first = toInt(nums[0] ?? "0");
+    const second = toInt(nums[1] ?? "0");
+
     return {
-        numViews: match ? parseInt(match[1]) : 0,
-        numUsers: match ? parseInt(match[2]) : 0,
+        numViews: first,
+        numUsers: nums.length > 1 ? second : 0,
     };
 }
 

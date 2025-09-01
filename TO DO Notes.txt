@@ -4,26 +4,17 @@
 
 [Prioridad]
 
-1. [Alta] Incidencia Karl (Error: “Fail to determine participant count” en un entorno oficial).
-Se obtiene el ID de curso, pero falla la extracción del recuento de participantes (primer dato para evitar paginación).
-Pista: Me da la sensación por tu función que solo se busca "Showed X of Y", pero no la versión en español,
-no sé si puede ser ese el problema. También he probado a llamar a la URL a la que haces scrapping
-(la que tiene &perpage...) y se abre correctamente esta misma, así que tiene que ser cosa de la función, que no
-las palabras. Tengo que revisar el resto de expresiones regulares para que no dependan del idioma.
-Para facilitarte la depuración del código, te he dado de alta como Profesor en el siguiente curso oficial
-en español: https://informatica.cv.uma.es/course/view.php?id=4852
-Deadline: 8 de septiembre máximo.
-
-2. [Alta] Compatibilidad simultánea oficial/local.
+1. [Alta] Compatibilidad simultánea oficial/local.
 Motivación: Esta tarea surge porque la defensa del proyecto se va a realizar desde el entorno local (Moodle Docker)
 (hay más datos que mostrar y están anonimizados) y solamente hay que comentar que sería compatible con el
 entorno oficial (Campus Virtual de la UMA).
 Objetivo: que la extensión funcione de forma automática y transparente tanto en el Campus Virtual oficial como en
 el Moodle local (Docker), sin conmutación manual.
-Pista: Lo más simple es inspeccionar la url y meter un if-elseif directamente en el código.
+Pista: Lo más simple es inspeccionar la url y meter un if-elseif directamente en el código. VEO MEJOR USAR
+INTERFACES.
 Deadline: 8 de septiembre máximo.
 
-3. [Alta] [Opcional] Análisis predictivo y minería de datos.
+2. [Alta] [Opcional] Análisis predictivo y minería de datos.
 - Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).
 - Dataset: X (participación en foro: mensajes/visitas), Y (calificación de una tarea).
 - UI: nueva sección con gráfico de dispersión + recta de regresión + breve interpretación.
@@ -31,12 +22,12 @@ Pista: Aunque no dé tiempo a incorporarlo en la entrega de la memoria y el cód
 en tu defensa como un objetivo adicional cumplido ;)
 Deadline: 22 de septiembre máximo.
 
-4. [Alta] Cierre de la memoria.
+3. [Alta] Cierre de la memoria.
 Ajustes menores o cambios por implementar la línea futura de análisis y minería de datos.
 Deadline: 8 de septiembre máximo.
 
-5. [Alta] Actualizar el README.MD del proyecto.
+4. [Alta] Actualizar el README.MD del proyecto.
 
-6. [Media] JSDOC, refactoring y limpieza de código.
+5. [Media] JSDOC, refactoring y limpieza de código.
 
-7. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
+6. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.

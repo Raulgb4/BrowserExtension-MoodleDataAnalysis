@@ -1,0 +1,733 @@
+{
+  "id": 4852,
+  "courseName": "Planificación de Proyectos y Análisis de Riesgos (2022-23,  Todos los grupos)",
+  "numParticipantsTotal": 19,
+  "participants": [
+    {
+      "id": 18699,
+      "participantName": "García Balongo Raúl",
+      "email": "raulgarciabalongoes@gmail.com",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 1000,
+      "registration": "Manual"
+    },
+    {
+      "id": 2541,
+      "participantName": "Molina Cabello Miguel Angel",
+      "email": "miguelangel@lcc.uma.es",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 345600000,
+      "registration": "Inscripción automática"
+    },
+    {
+      "id": 5595,
+      "participantName": "Triviño Salas Gracián",
+      "email": "gracian@lcc.uma.es",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 23389200000,
+      "registration": "Manual"
+    },
+    {
+      "id": 12198,
+      "participantName": "Jiménez Partinen Paula Ariadna",
+      "email": "ariadna@uma.es",
+      "roles": [
+        "Profesor"
+      ],
+      "lastAccessToCourse": 28850400000,
+      "registration": "Manual"
+    },
+    {
+      "id": 17410,
+      "participantName": "Jiménez Segura Salvador",
+      "email": "0619968646@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 48384000000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17563,
+      "participantName": "González Cáceres Adrián",
+      "email": "0610699992@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 54777600000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17182,
+      "participantName": "Jiménez Montes Francisco Javier",
+      "email": "0619978160@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 54864000000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 16274,
+      "participantName": "Bejarano Rodríguez Alberto",
+      "email": "albertobejaranor@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 54950400000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17373,
+      "participantName": "López Campos José Francisco",
+      "email": "franlopezcampo@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 62035200000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17166,
+      "participantName": "Moreno Polo Pablo Jesús",
+      "email": "pablojmp@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 62121600000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 15158,
+      "participantName": "Gutiérrez Poyato José María",
+      "email": "0619691163@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 69292800000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17401,
+      "participantName": "Angel Ruiz Juan Antonio",
+      "email": "061997005x@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 72489600000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17404,
+      "participantName": "Carvajal Cortés María",
+      "email": "0619980146@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 73440000000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17372,
+      "participantName": "Boutoil Et Tamimi Oussama",
+      "email": "oussamabeuma@gmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 73958400000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17400,
+      "participantName": "Ruiz Palacios Juan Román",
+      "email": "0619967284@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 76896000000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17459,
+      "participantName": "Marqués Garrido Juan",
+      "email": "0610693962@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 77241600000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 17376,
+      "participantName": "García Acedo José Carlos",
+      "email": "0619986908@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 79056000000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 15020,
+      "participantName": "Zamorano Martín Andrés",
+      "email": "andreszm_1999@hotmail.com",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 81561600000,
+      "registration": "5102-22-0432-A"
+    },
+    {
+      "id": 16129,
+      "participantName": "Zamorano Ortiz Javier",
+      "email": "jzamoranoo02@uma.es",
+      "roles": [
+        "Estudiante"
+      ],
+      "lastAccessToCourse": 86918400000,
+      "registration": "5102-22-0432-A"
+    }
+  ],
+  "urlResources": [
+    {
+      "activityName": "PHPSimplex",
+      "numViews": 44,
+      "numUsers": 12,
+      "lastAccess": 89510400000
+    },
+    {
+      "activityName": "Programación por metas",
+      "numViews": 3,
+      "numUsers": 1,
+      "lastAccess": 89251200000
+    },
+    {
+      "activityName": "reliability analysis in  r",
+      "numViews": 0,
+      "numUsers": 0
+    }
+  ],
+  "resources": [
+    {
+      "activityName": "IntroPPAR",
+      "numViews": 94,
+      "numUsers": 18,
+      "lastAccess": 60998400000
+    },
+    {
+      "activityName": "tempPPAR2223",
+      "numViews": 207,
+      "numUsers": 17,
+      "lastAccess": 59788800000
+    },
+    {
+      "activityName": "Trabajo informacion",
+      "numViews": 324,
+      "numUsers": 16,
+      "lastAccess": 70675200000
+    },
+    {
+      "activityName": "lncs LATEX template",
+      "numViews": 26,
+      "numUsers": 13,
+      "lastAccess": 84931200000
+    },
+    {
+      "activityName": "lista trabajos",
+      "numViews": 1,
+      "numUsers": 1,
+      "lastAccess": 93571200000
+    },
+    {
+      "activityName": "TEMA1",
+      "numViews": 137,
+      "numUsers": 16,
+      "lastAccess": 83808000000
+    },
+    {
+      "activityName": "tema 1 - sesion 1 - ejercicio 1",
+      "numViews": 43,
+      "numUsers": 14,
+      "lastAccess": 90288000000
+    },
+    {
+      "activityName": "Simplex",
+      "numViews": 104,
+      "numUsers": 15,
+      "lastAccess": 83808000000
+    },
+    {
+      "activityName": "Relacion1",
+      "numViews": 176,
+      "numUsers": 16,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Practica 1",
+      "numViews": 109,
+      "numUsers": 16,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Problema 1 Linprog",
+      "numViews": 0,
+      "numUsers": 0
+    },
+    {
+      "activityName": "Problema 2 Linprog",
+      "numViews": 6,
+      "numUsers": 4,
+      "lastAccess": 91670400000
+    },
+    {
+      "activityName": "Problema 3 Solve",
+      "numViews": 0,
+      "numUsers": 0
+    },
+    {
+      "activityName": "TEMA2",
+      "numViews": 60,
+      "numUsers": 16,
+      "lastAccess": 84931200000
+    },
+    {
+      "activityName": "Relacion2",
+      "numViews": 124,
+      "numUsers": 16,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Practica 2",
+      "numViews": 73,
+      "numUsers": 16,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Resolucion Practica 2",
+      "numViews": 6,
+      "numUsers": 1,
+      "lastAccess": 89856000000
+    },
+    {
+      "activityName": "Solucion Practica 2",
+      "numViews": 6,
+      "numUsers": 1,
+      "lastAccess": 89856000000
+    },
+    {
+      "activityName": "TEMA3",
+      "numViews": 112,
+      "numUsers": 16,
+      "lastAccess": 83548800000
+    },
+    {
+      "activityName": "Relacion3",
+      "numViews": 130,
+      "numUsers": 16,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Relacion3 - Ejercicio extra",
+      "numViews": 38,
+      "numUsers": 17,
+      "lastAccess": 60739200000
+    },
+    {
+      "activityName": "Practica 3",
+      "numViews": 77,
+      "numUsers": 17,
+      "lastAccess": 54950400000
+    },
+    {
+      "activityName": "Crear Dataset en R",
+      "numViews": 25,
+      "numUsers": 13,
+      "lastAccess": 83721600000
+    },
+    {
+      "activityName": "criticalpath",
+      "numViews": 29,
+      "numUsers": 13,
+      "lastAccess": 57974400000
+    },
+    {
+      "activityName": "TEMA4",
+      "numViews": 83,
+      "numUsers": 16,
+      "lastAccess": 83376000000
+    },
+    {
+      "activityName": "tema 4 esquema",
+      "numViews": 72,
+      "numUsers": 15,
+      "lastAccess": 84931200000
+    },
+    {
+      "activityName": "TEMA4 - enunciado Goferbroke",
+      "numViews": 25,
+      "numUsers": 14,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Relacion4",
+      "numViews": 140,
+      "numUsers": 15,
+      "lastAccess": 83376000000
+    },
+    {
+      "activityName": "Árbol de decisión Ejercicio 3 Relación Tema 4",
+      "numViews": 45,
+      "numUsers": 14,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "Practica 4",
+      "numViews": 56,
+      "numUsers": 15,
+      "lastAccess": 56764800000
+    },
+    {
+      "activityName": "Ejemplo de Cadenas de Markov",
+      "numViews": 13,
+      "numUsers": 7,
+      "lastAccess": 83462400000
+    },
+    {
+      "activityName": "TEMA5",
+      "numViews": 47,
+      "numUsers": 15,
+      "lastAccess": 83376000000
+    },
+    {
+      "activityName": "Relacion5",
+      "numViews": 95,
+      "numUsers": 15,
+      "lastAccess": 83376000000
+    },
+    {
+      "activityName": "Practica 5",
+      "numViews": 87,
+      "numUsers": 16,
+      "lastAccess": 56764800000
+    },
+    {
+      "activityName": "TEMA6",
+      "numViews": 92,
+      "numUsers": 16,
+      "lastAccess": 83376000000
+    },
+    {
+      "activityName": "Relacion6",
+      "numViews": 129,
+      "numUsers": 16,
+      "lastAccess": 83462400000
+    }
+  ],
+  "choices": [],
+  "workshops": [
+    {
+      "activityName": "Trabajo: problemas primer parcial",
+      "numViews": 849,
+      "numUsers": 17,
+      "lastAccess": 8362800000
+    },
+    {
+      "activityName": "Trabajo: problemas segundo parcial",
+      "numViews": 453,
+      "numUsers": 16,
+      "lastAccess": 8888400000
+    },
+    {
+      "activityName": "Trabajo: investigación",
+      "numViews": 636,
+      "numUsers": 16,
+      "lastAccess": 8985600000
+    },
+    {
+      "activityName": "Evaluación de los trabajos de investigación",
+      "numViews": 0,
+      "numUsers": 0
+    }
+  ],
+  "quizzes": [
+    {
+      "activityName": "Cuestionario sobre estilos de aprendizaje",
+      "numViews": 258,
+      "numUsers": 14,
+      "lastAccess": 1828000,
+      "id": 460989,
+      "maxGrade": 10,
+      "participantStats": []
+    }
+  ],
+  "forums": [
+    {
+      "activityName": "Novedades y anuncios",
+      "numViews": 366,
+      "numUsers": 17,
+      "lastAccess": 1833000,
+      "id": 460964,
+      "forumId": 19214,
+      "subscriptions": 19,
+      "participantsStats": [
+        {
+          "participantId": 17563,
+          "participantName": "González Cáceres Adrián",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 24,
+          "wordCount": 0
+        },
+        {
+          "participantId": 16274,
+          "participantName": "Bejarano Rodríguez Alberto",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 27,
+          "wordCount": 0
+        },
+        {
+          "participantId": 15020,
+          "participantName": "Zamorano Martín Andrés",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 12,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17182,
+          "participantName": "Jiménez Montes Francisco Javier",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 13,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17376,
+          "participantName": "García Acedo José Carlos",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 8,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17373,
+          "participantName": "López Campos José Francisco",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 16,
+          "wordCount": 0
+        },
+        {
+          "participantId": 15158,
+          "participantName": "Gutiérrez Poyato José María",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 29,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17459,
+          "participantName": "Marqués Garrido Juan",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 36,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17401,
+          "participantName": "Angel Ruiz Juan Antonio",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 6,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17400,
+          "participantName": "Ruiz Palacios Juan Román",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 15,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17404,
+          "participantName": "Carvajal Cortés María",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 6,
+          "wordCount": 0
+        },
+        {
+          "participantId": 2541,
+          "participantName": "Molina Cabello Miguel Angel",
+          "discussionsPosted": 13,
+          "repliesPosted": 3,
+          "views": 105,
+          "wordCount": 1357
+        },
+        {
+          "participantId": 17372,
+          "participantName": "Boutoil Et Tamimi Oussama",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 20,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17166,
+          "participantName": "Moreno Polo Pablo Jesús",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 39,
+          "wordCount": 0
+        },
+        {
+          "participantId": 17410,
+          "participantName": "Jiménez Segura Salvador",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 3,
+          "wordCount": 0
+        }
+      ]
+    },
+    {
+      "activityName": "Dudas sobre ejercicios y trabajo de investigación",
+      "numViews": 176,
+      "numUsers": 1,
+      "lastAccess": 1831000,
+      "id": 465320,
+      "forumId": 19348,
+      "subscriptions": 19,
+      "participantsStats": [
+        {
+          "participantId": 17563,
+          "participantName": "González Cáceres Adrián",
+          "discussionsPosted": 0,
+          "repliesPosted": 3,
+          "views": 111,
+          "wordCount": 161
+        },
+        {
+          "participantId": 16274,
+          "participantName": "Bejarano Rodríguez Alberto",
+          "discussionsPosted": 14,
+          "repliesPosted": 15,
+          "views": 291,
+          "wordCount": 1182
+        },
+        {
+          "participantId": 15020,
+          "participantName": "Zamorano Martín Andrés",
+          "discussionsPosted": 3,
+          "repliesPosted": 5,
+          "views": 122,
+          "wordCount": 622
+        },
+        {
+          "participantId": 17182,
+          "participantName": "Jiménez Montes Francisco Javier",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 40,
+          "wordCount": 11
+        },
+        {
+          "participantId": 17376,
+          "participantName": "García Acedo José Carlos",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 39,
+          "wordCount": 10
+        },
+        {
+          "participantId": 17373,
+          "participantName": "López Campos José Francisco",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 58,
+          "wordCount": 0
+        },
+        {
+          "participantId": 15158,
+          "participantName": "Gutiérrez Poyato José María",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 232,
+          "wordCount": 79
+        },
+        {
+          "participantId": 17459,
+          "participantName": "Marqués Garrido Juan",
+          "discussionsPosted": 2,
+          "repliesPosted": 1,
+          "views": 88,
+          "wordCount": 418
+        },
+        {
+          "participantId": 17401,
+          "participantName": "Angel Ruiz Juan Antonio",
+          "discussionsPosted": 3,
+          "repliesPosted": 2,
+          "views": 126,
+          "wordCount": 394
+        },
+        {
+          "participantId": 17400,
+          "participantName": "Ruiz Palacios Juan Román",
+          "discussionsPosted": 0,
+          "repliesPosted": 3,
+          "views": 86,
+          "wordCount": 77
+        },
+        {
+          "participantId": 17404,
+          "participantName": "Carvajal Cortés María",
+          "discussionsPosted": 0,
+          "repliesPosted": 1,
+          "views": 122,
+          "wordCount": 11
+        },
+        {
+          "participantId": 2541,
+          "participantName": "Molina Cabello Miguel Angel",
+          "discussionsPosted": 3,
+          "repliesPosted": 18,
+          "views": 159,
+          "wordCount": 1146
+        },
+        {
+          "participantId": 17372,
+          "participantName": "Boutoil Et Tamimi Oussama",
+          "discussionsPosted": 4,
+          "repliesPosted": 12,
+          "views": 233,
+          "wordCount": 1303
+        },
+        {
+          "participantId": 17166,
+          "participantName": "Moreno Polo Pablo Jesús",
+          "discussionsPosted": 3,
+          "repliesPosted": 7,
+          "views": 291,
+          "wordCount": 641
+        },
+        {
+          "participantId": 17410,
+          "participantName": "Jiménez Segura Salvador",
+          "discussionsPosted": 0,
+          "repliesPosted": 4,
+          "views": 60,
+          "wordCount": 108
+        }
+      ]
+    }
+  ]
+}
