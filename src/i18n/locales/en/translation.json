@@ -111,7 +111,7 @@
     "unnamed": "Unnamed course"
   },
   "note": {
-    "participation_definition": "Sum of posts, replies, and views relative to the most active participant.",
+    "participation_definition": "Sum of posts, replies, and views relative to the forum total.",
     "avg_views_definition": "Average views per user = total views ÷ number of users (per activity).",
     "active_participant_definition": "Considered active if they accessed the course within the last {{days}} days."
   }

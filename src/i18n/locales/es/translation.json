@@ -111,7 +111,7 @@
     "unnamed": "Curso sin nombre"
   },
   "note": {
-    "participation_definition": "Suma de publicaciones, respuestas y visualizaciones en relación con el participante más activo.",
+    "participation_definition": "Suma de publicaciones, respuestas y visualizaciones respecto al total del foro.",
     "avg_views_definition": "Media de visitas por usuario = visitas totales ÷ número de usuarios (por actividad).",
     "active_participant_definition": "Se considera activo si ha accedido al curso en los últimos {{days}} días."
   }

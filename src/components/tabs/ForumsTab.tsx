@@ -13,7 +13,7 @@ import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {Forum, ForumParticipantData} from "../../models/Forum";
-import {ChartData} from "chart.js";
+import {ChartData, ChartOptions} from "chart.js";
 import {getTopByMetric} from "../../utils/chartDataUtils";
 import {useTranslation} from "react-i18next";
 
@@ -85,13 +85,14 @@ const ForumsTab: React.FC = () => {
     const getTotalActivity = (p: ForumParticipantData) =>
         p.discussionsPosted + p.repliesPosted + p.views;
 
-    // Convert raw total to percentage relative to max
+    // Convert raw total to percentage relative to forum TOTAL
     const calculateParticipationPercentage = (
         p: ForumParticipantData,
-        maxTotal: number
+        forumTotal: number
     ): number => {
+        if (forumTotal <= 0) return 0;
         const total = getTotalActivity(p);
-        return parseFloat(((total / maxTotal) * 100).toFixed(2));
+        return parseFloat(((total / forumTotal) * 100).toFixed(2));
     };
 
     const handleTopNChange = (forumId: number, value: number) => {
@@ -127,15 +128,13 @@ const ForumsTab: React.FC = () => {
             {forums.map((forum, index) => {
                 const topN = topNs[forum.id] || 10;
 
-                // Get the highest total activity across participants
-                const maxTotal =
-                    Math.max(...forum.participantsStats.map(getTotalActivity)) || 1;
+                const forumTotal =
+                    forum.participantsStats.reduce((acc, curr) => acc + getTotalActivity(curr), 0) || 0;
 
-                // Get top-N participants by activity %
                 const {labels, values} = getTopByMetric(
                     forum.participantsStats,
                     topN,
-                    (p) => calculateParticipationPercentage(p, maxTotal),
+                    (p) => calculateParticipationPercentage(p, forumTotal),
                     (p) => p.participantName
                 );
 
@@ -153,13 +152,51 @@ const ForumsTab: React.FC = () => {
                     ],
                 };
 
+                const maxPercent = Math.max(0, ...values);
+                const pad = Math.max(1, maxPercent * 0.1);
+                const rawUpper = Math.min(100, maxPercent + pad);
+
+                const roundTo = (n: number, step: number) => Math.ceil(n / step) * step;
+                const upperBound =
+                    rawUpper <= 20 ? roundTo(rawUpper, 2)
+                        : rawUpper <= 50 ? roundTo(rawUpper, 5)
+                            : roundTo(rawUpper, 10);
+
+                const stepSize =
+                    upperBound <= 20 ? 2
+                        : upperBound <= 50 ? 5
+                            : 10;
+
+                const percentAxisOptions: ChartOptions<"line"> = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: upperBound,
+                            ticks: {
+                                stepSize,
+                                callback: (v) => `${v}%`,
+                            },
+                        },
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y}%`,
+                            },
+                        },
+                    },
+                };
+
                 return (
                     <div key={forum.id}>
                         {/* Line chart for forum activity distribution */}
                         <GraphBlock
-                            title={t("chart.forum_top_n", {name: forum.activityName, count: topN})}
+                            title={t("chart.forum_top_n", { name: forum.activityName, count: topN })}
                             chartType="line"
                             data={data}
+                            options={percentAxisOptions}
                         >
                             {/* Top-N input control */}
                             <div className="flex justify-center mb-4 text-sm text-gray-700">
