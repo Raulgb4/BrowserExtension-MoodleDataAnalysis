@@ -816,12 +816,21 @@ export async function scrapeForums(
  * @returns A promise that resolves to a `Course` object containing metadata, participants,
  *          and detailed activity data extracted from the course.
  */
+type AnalysisProgress = {
+    start: (label?: string) => void;
+    setTotal: (n: number) => void;
+    tick: (inc?: number) => void;
+    setLabel: (label: string) => void;
+    complete: () => void;
+};
+
 export async function scrapeCourse(
     courseId: string,
     courseMainUrl: string,
     activityReportUrl: string,
     participantsUrl: string,
-    totalParticipants: number
+    totalParticipants: number,
+    progress?: AnalysisProgress
 ): Promise<Course> {
     const t0 = performance.now();
     devlog.info("dataExtractor", "scrapeCourse:start", {
@@ -831,14 +840,36 @@ export async function scrapeCourse(
     });
 
     try {
-        const participants = await scrapeParticipants(participantsUrl);
-        const numParticipantsTotal = participants.length;
+        // ---- PROGRESS: initialize & pre-scan ----
+        progress?.start("status.initializing");
+        progress?.setLabel("status.fetching_activity_report");
 
-        const courseName = await scrapeCourseMain(courseMainUrl);
         const doc = await fetchAndParse(activityReportUrl);
         const table = doc.querySelector("table#outlinetable");
         const rows = Array.from(table?.querySelectorAll("tbody tr") ?? []);
 
+        // Base steps: parse activity report (1) + scrape participants (1) + scrape course main (1)
+        // + one step per activity row processed
+        const dynamicTotal = 3 + rows.length;
+        progress?.setTotal(dynamicTotal);
+        progress?.tick(1);
+        console.info("progress:tick", "activity_report_parsed", 1, dynamicTotal);
+
+        // ---- PROGRESS: participants ----
+        progress?.setLabel("status.scraping_participants");
+        const participants = await scrapeParticipants(participantsUrl);
+        progress?.tick(1);
+        console.info("progress:tick", "participants_done", 2, dynamicTotal);
+
+        const numParticipantsTotal = participants.length;
+
+        // ---- PROGRESS: course main ----
+        progress?.setLabel("status.scraping_course_main");
+        const courseName = await scrapeCourseMain(courseMainUrl);
+        progress?.tick(1);
+        console.info("progress:tick", "course_main_done", 3, dynamicTotal);
+
+        // ---- Prepare accumulators ----
         const urlResources: URLResource[] = [];
         const choices: Choice[] = [];
         const workshops: Workshop[] = [];
@@ -855,10 +886,12 @@ export async function scrapeCourse(
             forum: 0,
         };
 
+        // ---- Iterate activities (1 tick per row processed) ----
         for (const row of rows) {
             const activityLink =
                 row.querySelector<HTMLAnchorElement>('td.activity a[href]');
             if (!activityLink) {
+                progress?.tick(1);
                 continue;
             }
 
@@ -877,62 +910,86 @@ export async function scrapeCourse(
 
             const idMatch = href.match(/id=(\d+)/);
             if (!idMatch) {
+                progress?.tick(1);
                 continue;
             }
             const id = parseInt(idMatch[1], 10);
 
-            switch (true) {
-                case href.includes("/mod/url/"):
-                    urlResources.push({activityName, numViews, numUsers, lastAccess});
-                    typeCounts.url++;
-                    break;
+            try {
+                switch (true) {
+                    case href.includes("/mod/url/"): {
+                        progress?.setLabel("status.scraping_url");
+                        urlResources.push({activityName, numViews, numUsers, lastAccess});
+                        typeCounts.url++;
+                        break;
+                    }
 
-                case href.includes("/mod/workshop/"):
-                    workshops.push({activityName, numViews, numUsers, lastAccess});
-                    typeCounts.workshop++;
-                    break;
+                    case href.includes("/mod/workshop/"): {
+                        progress?.setLabel("status.scraping_workshop");
+                        workshops.push({activityName, numViews, numUsers, lastAccess});
+                        typeCounts.workshop++;
+                        break;
+                    }
 
-                case href.includes("/mod/resource/"):
-                    resources.push({activityName, numViews, numUsers, lastAccess});
-                    typeCounts.resource++;
-                    break;
+                    case href.includes("/mod/resource/"): {
+                        progress?.setLabel("status.scraping_resource");
+                        resources.push({activityName, numViews, numUsers, lastAccess});
+                        typeCounts.resource++;
+                        break;
+                    }
 
-                case href.includes("/mod/choice/"): {
-                    const choiceResults =
-                        await scrapeChoices(id, activityName, numViews, numUsers, lastAccess);
-                    choices.push(...choiceResults);
-                    typeCounts.choice += choiceResults.length;
-                    break;
+                    case href.includes("/mod/choice/"): {
+                        progress?.setLabel("status.scraping_choice");
+                        const choiceResults = await scrapeChoices(
+                            id,
+                            activityName,
+                            numViews,
+                            numUsers,
+                            lastAccess
+                        );
+                        choices.push(...choiceResults);
+                        typeCounts.choice += choiceResults.length;
+                        break;
+                    }
+
+                    case href.includes("/mod/quiz/"): {
+                        progress?.setLabel("status.scraping_quiz");
+                        const quizResults = await scrapeQuizzes(
+                            id,
+                            activityName,
+                            numViews,
+                            numUsers,
+                            lastAccess,
+                            totalParticipants
+                        );
+                        quizzes.push(...quizResults);
+                        typeCounts.quiz += quizResults.length;
+                        break;
+                    }
+
+                    case href.includes("/mod/forum/"): {
+                        progress?.setLabel("status.scraping_forum");
+                        const forumResults = await scrapeForums(
+                            id,
+                            activityName,
+                            numViews,
+                            numUsers,
+                            lastAccess,
+                            totalParticipants,
+                            courseId
+                        );
+                        forums.push(...forumResults);
+                        typeCounts.forum += forumResults.length;
+                        break;
+                    }
+
+                    default: {
+                        progress?.setLabel("status.scraping_other");
+                        break;
+                    }
                 }
-
-                case href.includes("/mod/quiz/"): {
-                    const quizResults = await scrapeQuizzes(
-                        id,
-                        activityName,
-                        numViews,
-                        numUsers,
-                        lastAccess,
-                        totalParticipants
-                    );
-                    quizzes.push(...quizResults);
-                    typeCounts.quiz += quizResults.length;
-                    break;
-                }
-
-                case href.includes("/mod/forum/"): {
-                    const forumResults = await scrapeForums(
-                        id,
-                        activityName,
-                        numViews,
-                        numUsers,
-                        lastAccess,
-                        totalParticipants,
-                        courseId
-                    );
-                    forums.push(...forumResults);
-                    typeCounts.forum += forumResults.length;
-                    break;
-                }
+            } finally {
+                progress?.tick(1);
             }
         }
 
@@ -969,6 +1026,10 @@ export async function scrapeCourse(
             },
             course
         );
+
+        // ---- PROGRESS: complete ----
+        progress?.setLabel("status.complete");
+        progress?.complete();
 
         return course;
     } catch (error) {

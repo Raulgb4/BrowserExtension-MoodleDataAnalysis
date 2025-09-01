@@ -6,7 +6,19 @@
   "info_restored_analysis": "Previous analysis restored.",
   "start": "Start",
   "status": {
-    "analyzing": "Analyzing Moodle data..."
+    "analyzing": "Analyzing…",
+    "initializing": "Initializing…",
+    "fetching_activity_report": "Loading activity report…",
+    "scraping_participants": "Scraping participants…",
+    "scraping_course_main": "Scraping course data…",
+    "scraping_url": "Scraping links…",
+    "scraping_workshop": "Scraping workshops…",
+    "scraping_resource": "Scraping resources…",
+    "scraping_choice": "Scraping choices…",
+    "scraping_quiz": "Scraping quizzes…",
+    "scraping_forum": "Scraping forums…",
+    "scraping_other": "Scraping other activities…",
+    "complete": "Complete"
   },
   "export_all": "Export all",
   "reanalyze": "Reanalyze",

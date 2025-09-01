@@ -11,11 +11,16 @@ import './i18n/i18n';
 import {createRoot} from "react-dom/client";
 import {App} from "./App";
 import {devlog} from "./utils/devlog";
+import {AnalysisProvider} from "./context/AnalysisProgressContext";
 
 const rootElement = document.getElementById("root");
 
 if (rootElement) {
     const root = createRoot(rootElement);
     devlog.info("popup", "-----*** Moodle Data Analyzer Extension Logs ***-----");
-    root.render(<App/>);
+    root.render(
+        <AnalysisProvider>
+            <App/>
+        </AnalysisProvider>
+    );
 }

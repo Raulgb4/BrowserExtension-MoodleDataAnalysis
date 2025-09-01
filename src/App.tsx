@@ -31,6 +31,7 @@ import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
 import {ClockIcon} from "@heroicons/react/20/solid";
+import {useAnalysisContext} from "./context/AnalysisProgressContext";
 import {AnalysisContext} from "./context/AnalysisContext";
 import LanguageSelector from "./components/LanguageSelector";
 import StartButton from "./components/StartButton";
@@ -78,6 +79,16 @@ export function App() {
     // HOOK
     const relativeTime = useRelativeTime(lastAnalyzedAt);
 
+    type AnalysisProgress = {
+        start: (label?: string) => void;
+        setTotal: (n: number) => void;
+        tick: (inc?: number) => void;
+        setLabel: (label: string) => void;
+        complete: () => void;
+    };
+
+    const {start, setTotal, tick, setLabel, complete, reset} = useAnalysisContext();
+
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
         const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
         devlog.info("app", "fetchTotalParticipants:start", {courseId, preliminaryUrl});
@@ -95,26 +106,38 @@ export function App() {
         return total;
     }
 
-    async function fetchAndStoreCourseData(courseId: string, totalParticipants: number) {
-        const {courseMain} = getScrapeUrlCourseMain(courseId);           // URL to get the course name
-        const {activityReport} = getScrapeUrlActivityReport(courseId);   // URL to get an activity report
-        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants); // Paginated URL for all participants
+    async function fetchAndStoreCourseData(
+        courseId: string,
+        totalParticipants: number,
+        progress?: AnalysisProgress
+    ) {
+        const {courseMain} = getScrapeUrlCourseMain(courseId);
+        const {activityReport} = getScrapeUrlActivityReport(courseId);
+        const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
 
         devlog.info("app", "fetchAndStoreCourseData:urls prepared", {
             courseId, totalParticipants, courseMain, activityReport, participants
         });
 
-        // Main scraping function
         const t0 = performance.now();
-        const course = await scrapeCourse(courseId, courseMain, activityReport, participants, totalParticipants);
+
+        const course = await scrapeCourse(
+            courseId,
+            courseMain,
+            activityReport,
+            participants,
+            totalParticipants,
+            progress
+        );
+
         Math.round(performance.now() - t0);
+
         const storageData = {
             [`course_${courseId}`]: course,
             lastAnalyzedCourseId: courseId,
             lastAnalyzedAt: Date.now(),
         };
 
-        // Save course data and analysis metadata to local storage
         chrome.storage.local.set(storageData, () => {
             const err = chrome.runtime.lastError;
             if (err) {
@@ -131,30 +154,37 @@ export function App() {
         const t0 = performance.now();
         devlog.info("app", "analyze:start", {courseId});
 
-        setIsLoading(true);           // Show loading state
-        setButton(null);              // Remove the existing button while analyzing
-        setIsRestored(false);         // Clear restored flag
-        setOutputMessage("");         // Reset message
+        setIsLoading(true);
+        setButton(null);
+        setIsRestored(false);
+        setOutputMessage("");
         devlog.info("app", "analyze:UI reset done");
 
+
+        reset();
+        start("status.initializing");
+
         try {
-            // Get the total number of participants
             devlog.info("app", "analyze:fetchTotalParticipants");
             const totalParticipants = await fetchTotalParticipants(courseId);
             devlog.info("app", "analyze:totalParticipants", {totalParticipants});
 
             if (totalParticipants === null) {
+                reset();
                 devlog.error("app", "analyze:participants null → show restart button");
-                setOutputMessage("Failed to determine participant count."); // Error if count not retrieved
+                setOutputMessage("Failed to determine participant count.");
                 setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
                 return;
             }
 
             devlog.info("app", "analyze:scrape & store course data");
-            const course = await fetchAndStoreCourseData(courseId, totalParticipants);
+            const course = await fetchAndStoreCourseData(
+                courseId,
+                totalParticipants,
+                {start, setTotal, tick, setLabel, complete}
+            );
 
             setCourseName(course.courseName ?? null);
-
             setIsError(false);
             setOutputMessage("success_analysis_completed");
             setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
@@ -168,9 +198,10 @@ export function App() {
             });
         } catch (error) {
             devlog.error("app", "analyze:error", {error: String(error)});
-            setOutputMessage("An error occurred while analyzing the course."); // Catch unexpected errors
+            setOutputMessage("An error occurred while analyzing the course.");
+            reset();
         } finally {
-            setIsLoading(false); // End loading state
+            setIsLoading(false);
         }
     }
 

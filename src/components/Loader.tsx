@@ -15,23 +15,46 @@
  */
 
 import {useTranslation} from "react-i18next";
+import {useAnalysisContext} from "../context/AnalysisProgressContext";
 
 export default function Loader() {
-
     const {t} = useTranslation();
+    const {progress} = useAnalysisContext();
 
+    const labelKey = progress.label || "status.analyzing";
+    const label = t(labelKey);
+
+    const percent = Number.isFinite(progress.percent)
+        ? Math.max(0, Math.min(100, Math.round(progress.percent)))
+        : 0;
     return (
-        <div className="flex flex-col items-center justify-center gap-3 h-full animate-fade-in">
+        <div
+            className="flex flex-col items-center justify-center gap-3 h-full animate-fade-in"
+            role="status"
+            aria-live="polite"
+            aria-label={label}
+        >
             <div className="relative w-14 h-14">
-                <div className="absolute inset-0 rounded-full border-4 border-t-transparent border-orange-400
-                animate-spin"></div>
-                <div className="absolute inset-1.5 rounded-full bg-orange-100 opacity-60 animate-pulse
-                shadow-inner"></div>
+                {/* Spinner ring */}
+                <div
+                    className="absolute inset-0 rounded-full
+                    border-4 border-t-transparent border-orange-400 animate-spin"></div>
+                {/* Inner glow */}
+                <div className="absolute inset-1.5 rounded-full bg-orange-100 opacity-60 shadow-inner"></div>
+                {/* Percent in a center */}
+                <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-sm font-bold text-orange-700 tabular-nums">
+            {percent}%
+          </span>
+                </div>
             </div>
 
-            <span className="text-sm font-semibold text-orange-600 animate-pulse-slow tracking-wide">
-                {t("status.analyzing")}
-            </span>
+            {/* Label + step/total */}
+            <div className="flex flex-col items-center gap-0.5">
+        <span className="text-sm font-semibold text-orange-600 tracking-wide">
+          {label}
+        </span>
+            </div>
         </div>
     );
 }
