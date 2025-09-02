@@ -24,9 +24,9 @@ import {
     extractMoodleCourseId,
     getScrapeUrlActivityReport,
     getScrapeUrlCourseMain,
-    getScrapeUrlParticipants,
+    getScrapeUrlParticipants, setBaseUrl,
 } from "./utils/urlBuilder";
-import {scrapeCourse, scrapeNumParticipants} from "./services/dataExtractor";
+import {createDataExtractor} from "./services/dataExtractorFactory";
 import Loader from "./components/Loader";
 import InfoCard from "./components/InfoCard";
 import TabSection from "./components/TabSection";
@@ -41,6 +41,7 @@ import {useRelativeTime} from "./hooks/useRelativeTime";
 import ExportAllSelector from "./components/ExportAllSelector";
 import {ExportProvider} from "./context/ExportContext";
 import {devlog} from "./utils/devlog";
+import {IDataExtractor} from "./services/IDataExtractor";
 
 /**
  * @function App
@@ -79,6 +80,8 @@ export function App() {
     // HOOK
     const relativeTime = useRelativeTime(lastAnalyzedAt);
 
+    const [extractor, setExtractor] = useState<IDataExtractor | null>(null);
+
     type AnalysisProgress = {
         start: (label?: string) => void;
         setTotal: (n: number) => void;
@@ -90,11 +93,16 @@ export function App() {
     const {start, setTotal, tick, setLabel, complete, reset} = useAnalysisContext();
 
     async function fetchTotalParticipants(courseId: string): Promise<number | null> {
+        if (!extractor) {
+            devlog.warn("app", "fetchTotalParticipants: extractor not ready");
+            setTranslatedError("status.initializing"); // o tu clave i18n
+            return null;
+        }
         const {participants: preliminaryUrl} = getScrapeUrlParticipants(courseId);
         devlog.info("app", "fetchTotalParticipants:start", {courseId, preliminaryUrl});
 
         const t0 = performance.now();
-        const total = await scrapeNumParticipants(preliminaryUrl); // Fetch the total participant count
+        const total = await extractor.scrapeNumParticipants(preliminaryUrl); // Fetch the total participant count
         const ms = Math.round(performance.now() - t0);
 
         if (total === null) {
@@ -115,13 +123,19 @@ export function App() {
         const {activityReport} = getScrapeUrlActivityReport(courseId);
         const {participants} = getScrapeUrlParticipants(courseId, totalParticipants);
 
+        if (!extractor) {
+            devlog.warn("app", "fetchTotalParticipants: extractor not ready");
+            setTranslatedError("status.initializing"); // o tu clave i18n
+            return null;
+        }
+
         devlog.info("app", "fetchAndStoreCourseData:urls prepared", {
             courseId, totalParticipants, courseMain, activityReport, participants
         });
 
         const t0 = performance.now();
 
-        const course = await scrapeCourse(
+        const course = await extractor.scrapeCourse(
             courseId,
             courseMain,
             activityReport,
@@ -159,8 +173,6 @@ export function App() {
         setIsRestored(false);
         setOutputMessage("");
         devlog.info("app", "analyze:UI reset done");
-
-
         reset();
         start("status.initializing");
 
@@ -183,6 +195,15 @@ export function App() {
                 totalParticipants,
                 {start, setTotal, tick, setLabel, complete}
             );
+
+            if (!course) {
+                reset();
+                devlog.error("app", "analyze: course is null/undefined after fetchAndStoreCourseData");
+                setIsError(true);
+                setOutputMessage("error_fetch_course"); // usa tu clave i18n si tienes
+                setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData} />);
+                return;
+            }
 
             setCourseName(course.courseName ?? null);
             setIsError(false);
@@ -281,12 +302,19 @@ export function App() {
 
     // On mount: check the current active tab to extract the course ID
     useEffect(() => {
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             const url = tabs?.[0]?.url;
             devlog.info("app", "active tab url", url);
-            extractAndSetCourseId(url);
+
+            if (url) {
+                const origin = new URL(url).origin;
+                setBaseUrl(origin);
+                setExtractor(createDataExtractor(url));
+                extractAndSetCourseId(url);
+            }
         });
     }, []);
+
 
     // When a tab is updated or activated, re-extract the course ID (for side panel support)
     useEffect(() => {

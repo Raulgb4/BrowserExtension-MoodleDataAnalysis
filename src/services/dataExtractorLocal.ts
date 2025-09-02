@@ -1,0 +1,855 @@
+/**
+ * @file dataExtractorLocal.ts
+ * @description Local (Docker) implementation of IDataExtractor for Moodle.
+ * Contains scraping logic adapted to the DOM of the Moodle Docker environment.
+ *
+ * @note This class mirrors ProdDataExtractor but with differences in selectors
+ *       or parsing logic that depend on the local DOM structure.
+ *
+ * @author
+ * Raúl García Balongo
+ * @date 2025
+ */
+
+import {AnalysisProgress, IDataExtractor} from "./IDataExtractor";
+
+// Models
+import {Participant} from "../models/Participant";
+import {Quiz, QuizParticipantData} from "../models/Quiz";
+import {Forum, ForumParticipantData} from "../models/Forum";
+import {Choice} from "../models/Choice";
+import {Course} from "../models/Course";
+import {devlog} from "../utils/devlog";
+import {
+    normalizeGradeTo10,
+    normalizeTimeToMillis,
+    parseLastAccess,
+    parseRoles,
+    parseViewsAndUsers
+} from "./dataProcessor";
+import {
+    getScrapeUrlChoice,
+    getScrapeUrlForumMain,
+    getScrapeUrlForumReports,
+    getScrapeUrlForumSubscriptions,
+    getScrapeUrlQuiz
+} from "../utils/urlBuilder";
+import {Resource, URLResource, Workshop} from "../models/ActivityBase";
+
+export class LocalDataExtractor implements IDataExtractor {
+
+    protected async fetchAndParse(url: string): Promise<Document> {
+        const response = await fetch(url);
+        const html = await response.text();
+        return new DOMParser().parseFromString(html, "text/html");
+    }
+
+    /**
+     * Scrapes the total number of participants from the given participants URL.
+     */
+    async scrapeNumParticipants(participantsUrl: string): Promise<number | null> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeNumParticipantsLocal:start", {participantsUrl});
+
+        try {
+            const doc = await this.fetchAndParse(participantsUrl);
+
+            // Helper: get largest integer from a visible text string (tolerates 1.234 / 1,234 / 1234).
+            const extractLargestInteger = (text?: string | null): number | null => {
+                if (!text) return null;
+                const matches = text.match(/(\d{1,3}(?:[.,\s]\d{3})*|\d+)/g);
+                if (!matches) return null;
+
+                const nums = matches
+                    .map(s => parseInt(s.replace(/[.,\s]/g, ""), 10))
+                    .filter(n => Number.isFinite(n));
+
+                return nums.length ? Math.max(...nums) : null;
+            };
+
+            let total: number | null = null;
+
+            // 0) LOCAL-FIRST: Moodle local expone el total en la tabla dinámica.
+            //    <div data-region="core_table/dynamic" data-table-total-rows="123">...</div>
+            const totalRowsAttr = doc
+                .querySelector<HTMLElement>('[data-region="core_table/dynamic"]')
+                ?.getAttribute("data-table-total-rows");
+            if (totalRowsAttr) {
+                const n = parseInt(totalRowsAttr, 10);
+                if (Number.isFinite(n)) total = n;
+            }
+
+            // 1) “Show all N” anchor: aria-label suele venir como "Showall" (no localizado) o data-action agnóstico.
+            if (total === null) {
+                const showAllAnchor =
+                    doc.querySelector<HTMLAnchorElement>("a[aria-label='Showall']") ||
+                    doc.querySelector<HTMLAnchorElement>("a.page-link[data-action='showalllink']");
+                total = extractLargestInteger(showAllAnchor?.textContent?.trim() ?? "");
+            }
+
+            // 2) Fallback: contenedor contador (solo leemos dígitos → independiente de idioma).
+            if (total === null) {
+                const counterEl =
+                    doc.querySelector<HTMLElement>(".participantes_mostrados span") ||
+                    doc.querySelector<HTMLElement>(".participants-count, .participants_counter span");
+                total = extractLargestInteger(counterEl?.textContent?.trim() ?? "");
+            }
+
+            // 3) Fallback: ARIA rowcount en la tabla o grid si el tema lo expone.
+            if (total === null) {
+                const rowcountHost =
+                    doc.querySelector<HTMLElement>("table[aria-rowcount]") ||
+                    doc.querySelector<HTMLElement>("[role='grid'][aria-rowcount]");
+                const rc = rowcountHost?.getAttribute("aria-rowcount");
+                if (rc) {
+                    const n = parseInt(rc, 10);
+                    if (Number.isFinite(n)) total = n;
+                }
+            }
+
+            const ms = Math.round(performance.now() - t0);
+            if (total === null || Number.isNaN(total)) {
+                devlog.error("dataExtractor", "scrapeNumParticipantsLocal:not found", {durationMs: ms});
+                return null;
+            }
+
+            devlog.info("dataExtractor", "scrapeNumParticipantsLocal:success", {total, durationMs: ms});
+            return total;
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeNumParticipantsLocal:error", {
+                error: String(error),
+                durationMs: ms,
+            });
+            return null;
+        }
+    }
+
+    /**
+     * Scrapes the list of participants from the given participants URL.
+     */
+    async scrapeParticipants(participantsUrl: string): Promise<Participant[]> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeParticipants:start", {participantsUrl});
+
+        try {
+            const doc = await this.fetchAndParse(participantsUrl);
+
+
+            const dynamicRegion = doc.querySelector<HTMLElement>('[data-region="core_table/dynamic"]');
+            const table =
+                doc.querySelector<HTMLTableElement>("#participants") ||
+                dynamicRegion?.querySelector("table") ||
+                doc.querySelector<HTMLTableElement>('table[data-region="core_table/dynamic"]');
+
+            if (!table && !dynamicRegion) {
+                const ms = Math.round(performance.now() - t0);
+                devlog.error("dataExtractor", "scrapeParticipants:participants table not found", {durationMs: ms});
+                return [];
+            }
+
+            const rows = Array.from(
+                (table ?? dynamicRegion)?.querySelectorAll("tbody tr") ?? []
+            );
+
+            const participants: Participant[] = [];
+
+            // Safe access to optional parsers; provide fallbacks to avoid TS2304 and keep behavior predictable.
+            const fallbackParseGroups = (raw?: string | null) => {
+                if (!raw) return undefined;
+                const arr = raw.split(/[,;|]/).map(s => s.trim()).filter(Boolean);
+                return arr.length ? arr : undefined;
+            };
+            const fallbackParseStatus = (raw?: string | null) => raw?.trim() || undefined;
+
+            const parseGroupsFn: (s?: string | null) => any =
+                (globalThis as any).parseGroups ?? fallbackParseGroups;
+
+            const parseStatusFn: (s?: string | null) => any =
+                (globalThis as any).parseStatus ?? fallbackParseStatus;
+
+            for (const row of rows) {
+                // --- NAME / PROFILE LINK ---
+                // Try common local cells: th.cell.c1 (local) or th.cell.c2 (alt), then anchor to user profile.
+                const nameCell =
+                    row.querySelector<HTMLElement>("th.cell.c1") ||
+                    row.querySelector<HTMLElement>("th.cell.c2") ||
+                    row.querySelector<HTMLElement>("th[scope='row']");
+
+                const profileLink =
+                    nameCell?.querySelector<HTMLAnchorElement>('a[href*="/user/view.php"]') ||
+                    nameCell?.querySelector<HTMLAnchorElement>("a");
+
+                if (!profileLink) continue;
+
+                // Prefer visible text node; fallback to full textContent.
+                const textNode = Array.from(profileLink.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+                const rawName = (textNode?.textContent ?? profileLink.textContent ?? "").trim();
+                const participantName = rawName.replace(/\s+/g, " ");
+                if (!participantName || participantName === "-") continue;
+
+                // Extract numeric user id from href (?|&)id=123
+                const href = profileLink.getAttribute("href") ?? "";
+                const idMatch = href.match(/[?&]id=(\d+)/);
+                if (!idMatch) continue;
+                const id = parseInt(idMatch[1], 10);
+                if (!Number.isFinite(id)) continue;
+
+                // --- CELLS FAST-PATH (local layouts often map columns predictably) ---
+                const cells = Array.from(row.querySelectorAll<HTMLTableCellElement>("td"));
+
+                // Email:
+                //  - Local table often has it at cells[1], but also try a specific anchor class if present.
+                const emailFromCell = cells[1]?.textContent?.trim() ?? "";
+                const emailFromAnchor =
+                    nameCell?.querySelector<HTMLAnchorElement>("a.correo_lista_participantes")?.textContent?.trim() ?? "";
+                const email = (emailFromAnchor || emailFromCell).replace(/\s+/g, " ");
+
+                // Roles:
+                //  - Try class-based lookup first (td.cell.c3), then fallback to positional cell (cells[2]).
+                const rolesRaw =
+                    row.querySelector<HTMLElement>("td.cell.c3")?.innerText?.trim() ??
+                    cells[2]?.innerText?.trim();
+                const roles = parseRoles(rolesRaw);
+
+                // Groups (local often has it at cells[3]); keep if your Participant type supports it.
+                const groupsRaw =
+                    row.querySelector<HTMLElement>("td.cell.c3.groups, td.groups")?.innerText?.trim() ??
+                    cells[3]?.innerText?.trim();
+                const groups = parseGroupsFn(groupsRaw);
+
+                // Last access:
+                //  - Try class-based (td.cell.c4), then positional (cells[4]).
+                const lastAccessRaw =
+                    row.querySelector<HTMLElement>("td.cell.c4")?.innerText?.trim() ??
+                    cells[4]?.innerText?.trim();
+                const lastAccessToCourse = parseLastAccess(lastAccessRaw);
+
+                // Registration/status (local often at cells[5]); keep if your Participant type supports it.
+                const statusRaw =
+                    row.querySelector<HTMLElement>("td.cell.c5, td.status")?.innerText?.trim() ??
+                    cells[5]?.innerText?.trim();
+                const status = parseStatusFn(statusRaw);
+
+                // Registration (optional, mirrors "official" shape if you use it elsewhere)
+                const registrationRaw =
+                    row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim() ??
+                    statusRaw ??
+                    "";
+                const registration = registrationRaw || undefined;
+
+                const participant: Participant = {
+                    id,
+                    participantName,
+                    email,
+                    roles,
+                    lastAccessToCourse,
+                    // The following fields are included only if your Participant type defines them:
+                    ...(typeof groups !== "undefined" ? {groups} : {}),
+                    ...(typeof status !== "undefined" ? {status} : {}),
+                    ...(registration ? {registration} : {}),
+                };
+
+                participants.push(participant);
+            }
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeParticipants:done", {
+                rows: rows.length,
+                collected: participants.length,
+                durationMs: ms,
+            });
+
+            return participants;
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeParticipants:error", {error: String(error), durationMs: ms});
+            return [];
+        }
+    }
+
+    /**
+     * Scrapes the course main page and retrieves the course name or identifier.
+     */
+    async scrapeCourseMain(courseMainUrl: string): Promise<string> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeCourseMain:start", {courseMainUrl});
+
+        try {
+            const doc = await this.fetchAndParse(courseMainUrl);
+
+            const selector = ".page-context-header h1";
+            const titleNode = doc.querySelector(selector);
+            const courseName = titleNode?.textContent?.trim();
+
+            if (!courseName) {
+                const ms = Math.round(performance.now() - t0);
+                devlog.error("dataExtractor", "scrapeCourseMain:course name not found",
+                    {selector, durationMs: ms});
+                return "";
+            }
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeCourseMain:success", {courseName, durationMs: ms});
+            return courseName;
+
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeCourseMain:error", {error: String(error), durationMs: ms});
+            return "";
+        }
+    }
+
+    /**
+     * Scrapes all Choice activities within a course.
+     */
+    async scrapeChoices(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined
+    ): Promise<Choice[]> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeChoices:start", {id, activityName, numViews, numUsers, lastAccess});
+
+        try {
+            const choices: Choice[] = [];
+
+            const url = getScrapeUrlChoice(id);
+
+            const doc = await this.fetchAndParse(url.choiceResults);
+
+            const responseCounts: Record<string, number> = {};
+
+            const headerCells = doc.querySelectorAll('table.results.names thead tr th');
+            const labelCells = Array.from(headerCells)
+                .slice(1) // skip the first column
+                .map(th => th.querySelector('div.text-center')?.childNodes[0]?.textContent?.trim())
+                .filter((label): label is string => !!label); // filter out undefined/null
+
+            const responseCells = doc.querySelectorAll('table.results.names tbody tr td');
+
+            responseCells.forEach((cell, i) => {
+                const label = labelCells[i];
+                if (!label) return;
+
+                const value = parseInt(cell.textContent?.trim() ?? '0', 10);
+                responseCounts[label] = isNaN(value) ? 0 : value;
+            });
+
+            const choice: Choice = {
+                id,
+                activityName,
+                numViews,
+                numUsers,
+                lastAccess,
+                responseCounts
+            };
+
+            choices.push(choice);
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeChoices:success", {id, activityName, durationMs: ms}, choice);
+
+            return choices;
+
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeChoices:error", {error: String(error), durationMs: ms});
+            return [];
+        }
+    }
+
+    /**
+     * Scrapes all Quiz activities within a course.
+     */
+    async scrapeQuizzes(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined,
+        totalParticipants: number
+    ): Promise<Quiz[]> {
+        try {
+            const quizzes: Quiz[] = [];
+
+            const url = getScrapeUrlQuiz(id, totalParticipants);
+            const doc = await this.fetchAndParse(url.quizResults);
+
+            const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
+            const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
+            const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
+            const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1');
+
+            const tableResultsQuiz = doc.querySelector('table#attempts');
+            const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
+            const participantStats: QuizParticipantData[] = [];
+
+            for (const rowQuiz of rowsResultsQuiz) {
+
+                const rowClass = rowQuiz.className.trim().toLowerCase();
+                if (rowClass.includes('emptyrow') || rowClass.includes('empty row')) continue;
+
+                const nameCell = rowQuiz.querySelector('td.cell.c2');
+                const nameText = nameCell?.textContent?.trim().toLowerCase() ?? '';
+                if (!nameText || nameText.includes('overall average')) continue;
+
+                const nameAnchor = nameCell?.querySelector('a');
+                const participantName = nameAnchor?.textContent?.trim() ?? '';
+
+                const idMatch = nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
+                if (!idMatch) {
+                    console.warn("User ID not found for participant:", participantName);
+                    continue;
+                }
+                const participantId = parseInt(idMatch[1]);
+
+                const rawDuration = rowQuiz.querySelector('td.cell.c7')?.textContent?.trim() ?? '';
+                const duration = normalizeTimeToMillis(rawDuration);
+
+                const gradeText = rowQuiz.querySelector('td.cell.c8 a')?.textContent?.trim() ?? '';
+                const grade = parseFloat(gradeText);
+                const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
+
+                const participantData: QuizParticipantData = {
+                    participantId,
+                    participantName,
+                    duration,
+                    grade,
+                    normalizedGrade
+                };
+
+                participantStats.push(participantData);
+            }
+
+            const quiz: Quiz = {
+                activityName,
+                numViews,
+                numUsers,
+                lastAccess,
+                id,
+                maxGrade,
+                participantStats
+            };
+
+            quizzes.push(quiz);
+
+            return quizzes;
+
+        } catch (error) {
+            console.error("Error scraping Quizzes:", error);
+            return [];
+        }
+    }
+
+    /**
+     * Scrapes all Forum activities within a course.
+     */
+    async scrapeForums(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined,
+        totalParticipants: number,
+        courseId: string
+    ): Promise<Forum[]> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeForums:start", {
+            id, activityName, numViews, numUsers, lastAccess, totalParticipants, courseId
+        });
+
+        try {
+            // --- 1) Forum main → get forumId (language-agnostic via URL param) ---
+            const urlForumMain = getScrapeUrlForumMain(id);
+            let doc = await this.fetchAndParse(urlForumMain.forumMain);
+
+            const reportLink = doc.querySelector<HTMLAnchorElement>('a[href*="forumid="]');
+            const reportHref = reportLink?.getAttribute("href") ?? "";
+            const forumId = parseInt(reportHref.match(/[?&]forumid=(\d+)/)?.[1] ?? "0", 10);
+
+            // --- 2) Subscriptions page: prefer numeric in the heading; fallback = row count ---
+            const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
+            doc = await this.fetchAndParse(urlForumSubscriptions.forumSubscriptions);
+
+            let subscriptions: number;
+            const countInH2 = Array.from(doc.querySelectorAll("h2"))
+                .map(h => (h.textContent ?? "").match(/\(\s*(\d+)\s*\)/)?.[1])
+                .filter(Boolean)
+                .map(n => parseInt(n!, 10))[0];
+
+            if (Number.isFinite(countInH2)) {
+                subscriptions = countInH2!;
+            } else {
+                // Fallback: count users listed in the table (language-agnostic)
+                subscriptions = doc.querySelectorAll("table.generaltable tbody tr").length;
+            }
+
+            // --- 3) Forum summary report table (language-agnostic via IDs and data-sortby) ---
+            const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
+            doc = await this.fetchAndParse(urlForumReports.forumReports);
+
+            const table =
+                doc.querySelector<HTMLTableElement>("table#forumreport_summary_table");
+            if (!table) {
+                const msNF = Math.round(performance.now() - t0);
+                devlog.warn("dataExtractor", "scrapeForums:summary table not found", {durationMs: msNF});
+                return [];
+            }
+
+            // Build a header map: data-sortby -> column index
+            const headerIndex = new Map<string, number>();
+            Array.from(table.querySelectorAll<HTMLTableCellElement>("thead th")).forEach((th,
+                                                                                          idx) => {
+                const a = th.querySelector<HTMLAnchorElement>("a[data-sortby]");
+                const key = a?.getAttribute("data-sortby");
+                if (key) headerIndex.set(key, idx);
+            });
+
+            // Helpers to access cells by the header key
+            const getCellByKey =
+                (row: HTMLTableRowElement, key: string): HTMLTableCellElement | null => {
+                    const idx = headerIndex.get(key);
+                    if (idx == null) return null;
+                    const tds = row.querySelectorAll<HTMLTableCellElement>("td");
+                    return tds[idx] ?? null;
+                };
+
+            // Parse a cell containing a date/time in a language-agnostic way.
+            const parseTimestampFromCell = (cell: Element | null): number | undefined => {
+                if (!cell) return undefined;
+
+                // 1) <time datetime="..."> (ISO 8601)
+                const timeEl = cell.querySelector<HTMLTimeElement>("time[datetime]");
+                const iso = timeEl?.getAttribute("datetime");
+                if (iso) {
+                    const t = Date.parse(iso);
+                    if (Number.isFinite(t)) return t;
+                }
+
+                // 2) data-* timestamps (seconds or millis)
+                const probe = cell.querySelector<HTMLElement>
+                ("[data-timestamp],[data-timecreated],[data-timemodified],[data-time]");
+                const candAttrs = ["data-timestamp", "data-timecreated", "data-timemodified", "data-time"] as const;
+                for (const a of candAttrs) {
+                    const v = probe?.getAttribute(a);
+                    if (v && /^\d{10,13}$/.test(v)) {
+                        const n = parseInt(v, 10);
+                        return n < 2e12 ? n * 1000 : n; // seconds→ms if needed
+                    }
+                }
+
+                // 3) Last resort: look for a 10/13-digit number in the HTML (epoch)
+                const html = cell.innerHTML;
+                const m = html.match(/\b(\d{13}|\d{10})\b/);
+                if (m) {
+                    const n = parseInt(m[1], 10);
+                    return n < 2e12 ? n * 1000 : n;
+                }
+
+                // Give up (avoid locale text parsing)
+                return undefined;
+            };
+
+            // Numeric cell parser (robust to a thousand separators)
+            const parseCellInt = (cell: HTMLTableCellElement | null): number => {
+                const raw = cell?.textContent?.replace(/\u00A0/g, " ").trim() ?? "";
+                const digits = raw.match(/[\d.,]+/);
+                if (!digits) return 0;
+                const cleaned = digits[0].replace(/[.,\s]/g, "");
+                const n = parseInt(cleaned, 10);
+                return Number.isFinite(n) ? n : 0;
+            };
+
+            const rows = Array.from(table.querySelectorAll<HTMLTableRowElement>("tbody tr"));
+            const participantsStats: ForumParticipantData[] = [];
+
+            for (const row of rows) {
+                // Name: language-agnostic via user profile link
+                const nameAnchor =
+                    row.querySelector<HTMLAnchorElement>('a[href*="/user/view.php"]');
+                if (!nameAnchor) continue;
+
+                const participantName =
+                    (Array.from(nameAnchor.childNodes).find(n => n.nodeType === Node.TEXT_NODE)?.textContent
+                        ?? nameAnchor.textContent ?? "").trim();
+
+                const idMatch =
+                    nameAnchor.getAttribute("href")?.match(/[?&]id=(\d+)/);
+                if (!idMatch) continue;
+                const participantId = parseInt(idMatch[1], 10);
+                if (!Number.isFinite(participantId)) continue;
+
+                // Map metrics by header keys
+                const discussionsPosted = parseCellInt(getCellByKey(row, "postcount"));  // c2 in many themes
+                const repliesPosted = parseCellInt(getCellByKey(row, "replycount"));   // c3
+                const views = parseCellInt(getCellByKey(row, "viewcount"));    // c5
+                const wordCount = parseCellInt(getCellByKey(row, "wordcount"));    // c6
+                const earliestPost = parseTimestampFromCell(getCellByKey(row, "earliestpost")); // c8
+                const mostRecentPost = parseTimestampFromCell(getCellByKey(row, "latestpost"));  // c9
+
+                // Skip pure-zero rows (noise)
+                if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
+                    continue;
+                }
+
+                participantsStats.push({
+                    participantId,
+                    participantName,
+                    discussionsPosted,
+                    repliesPosted,
+                    views,
+                    wordCount,
+                    earliestPost,
+                    mostRecentPost,
+                });
+            }
+
+            const forum: Forum = {
+                activityName,
+                numViews,
+                numUsers,
+                lastAccess,
+                id,
+                forumId,
+                subscriptions,
+                participantsStats,
+            };
+
+            const forums: Forum[] = [forum];
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeForums:success", {
+                id, forumId, subscriptions, participantsParsed: participantsStats.length, durationMs: ms,
+            });
+
+            return forums;
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeForums:error", {error: String(error), durationMs: ms});
+            return [];
+        }
+    }
+
+    /**
+     * Orchestrates the scraping of a full course, including its metadata
+     * and all activities (participants, quizzes, forums, choices, etc.).
+     */
+    async scrapeCourse(
+        courseId: string,
+        courseMainUrl: string,
+        activityReportUrl: string,
+        participantsUrl: string,
+        totalParticipants: number,
+        progress?: AnalysisProgress
+    ): Promise<Course> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeCourse:start", {
+            courseId,
+            totalParticipants,
+            urls: {courseMainUrl, activityReportUrl, participantsUrl},
+        });
+
+        try {
+            // ---- PROGRESS: initialize & pre-scan ----
+            progress?.start("status.initializing");
+            progress?.setLabel("status.fetching_activity_report");
+
+            const doc = await this.fetchAndParse(activityReportUrl);
+            const table = doc.querySelector('table#outlinereport');
+            const rows = Array.from(table?.querySelectorAll('tbody tr') ?? []);
+
+            // Base steps: parse activity report (1) + scrape participants (1) + scrape course main (1)
+            // + one step per activity row processed
+            const dynamicTotal = 3 + rows.length;
+            progress?.setTotal(dynamicTotal);
+            progress?.tick(1);
+            console.info("progress:tick", "activity_report_parsed", 1, dynamicTotal);
+
+            // ---- PROGRESS: participants ----
+            progress?.setLabel("status.scraping_participants");
+            const participants = await this.scrapeParticipants(participantsUrl);
+            progress?.tick(1);
+            console.info("progress:tick", "participants_done", 2, dynamicTotal);
+
+            const numParticipantsTotal = participants.length;
+
+            // ---- PROGRESS: course main ----
+            progress?.setLabel("status.scraping_course_main");
+            const courseName = await this.scrapeCourseMain(courseMainUrl);
+            progress?.tick(1);
+            console.info("progress:tick", "course_main_done", 3, dynamicTotal);
+
+            // ---- Prepare accumulators ----
+            const urlResources: URLResource[] = [];
+            const choices: Choice[] = [];
+            const workshops: Workshop[] = [];
+            const resources: Resource[] = [];
+            let quizzes: Quiz[] = [];
+            let forums: Forum[] = [];
+
+            const typeCounts = {
+                url: 0,
+                workshop: 0,
+                resource: 0,
+                choice: 0,
+                quiz: 0,
+                forum: 0,
+            };
+
+            // ---- Iterate activities (1 tick per row processed) ----
+            for (const row of rows) {
+                const activityLink = row.querySelector<HTMLAnchorElement>(
+                    'td.activityname a[href], td.activity a[href], td a[href*="/mod/"]'
+                );
+                if (!activityLink) {
+                    progress?.tick(1);
+                    continue;
+                }
+
+                const viewsCell = row.querySelector("td.numviews");
+                const lastAccessCell = row.querySelector("td.lastaccess");
+
+                const href = activityLink.getAttribute("href") ?? "";
+                const activityName = activityLink.textContent?.trim() ?? "";
+
+                const {numViews, numUsers} = parseViewsAndUsers(viewsCell?.textContent?.trim() ?? "");
+
+                const durationMatch =
+                    lastAccessCell?.textContent?.match(/\(([^)]+)\)/);
+                const relativeDuration = durationMatch?.[1]?.trim();
+                const lastAccess = parseLastAccess(relativeDuration);
+
+                const idMatch = href.match(/id=(\d+)/);
+                if (!idMatch) {
+                    progress?.tick(1);
+                    continue;
+                }
+                const id = parseInt(idMatch[1], 10);
+
+                try {
+                    switch (true) {
+                        case href.includes("/mod/url/"): {
+                            progress?.setLabel("status.scraping_url");
+                            urlResources.push({activityName, numViews, numUsers, lastAccess});
+                            typeCounts.url++;
+                            break;
+                        }
+
+                        case href.includes("/mod/workshop/"): {
+                            progress?.setLabel("status.scraping_workshop");
+                            workshops.push({activityName, numViews, numUsers, lastAccess});
+                            typeCounts.workshop++;
+                            break;
+                        }
+
+                        case href.includes("/mod/resource/"): {
+                            progress?.setLabel("status.scraping_resource");
+                            resources.push({activityName, numViews, numUsers, lastAccess});
+                            typeCounts.resource++;
+                            break;
+                        }
+
+                        case href.includes("/mod/choice/"): {
+                            progress?.setLabel("status.scraping_choice");
+                            const choiceResults = await this.scrapeChoices(
+                                id,
+                                activityName,
+                                numViews,
+                                numUsers,
+                                lastAccess
+                            );
+                            choices.push(...choiceResults);
+                            typeCounts.choice += choiceResults.length;
+                            break;
+                        }
+
+                        case href.includes("/mod/quiz/"): {
+                            progress?.setLabel("status.scraping_quiz");
+                            const quizResults = await this.scrapeQuizzes(
+                                id,
+                                activityName,
+                                numViews,
+                                numUsers,
+                                lastAccess,
+                                totalParticipants
+                            );
+                            quizzes.push(...quizResults);
+                            typeCounts.quiz += quizResults.length;
+                            break;
+                        }
+
+                        case href.includes("/mod/forum/"): {
+                            progress?.setLabel("status.scraping_forum");
+                            const forumResults = await this.scrapeForums(
+                                id,
+                                activityName,
+                                numViews,
+                                numUsers,
+                                lastAccess,
+                                totalParticipants,
+                                courseId
+                            );
+                            forums.push(...forumResults);
+                            typeCounts.forum += forumResults.length;
+                            break;
+                        }
+
+                        default: {
+                            progress?.setLabel("status.scraping_other");
+                            break;
+                        }
+                    }
+                } finally {
+                    progress?.tick(1);
+                }
+            }
+
+            const course: Course = {
+                id: parseInt(courseId, 10),
+                courseName,
+                numParticipantsTotal,
+                participants,
+                urlResources,
+                resources,
+                choices,
+                workshops,
+                quizzes,
+                forums,
+            };
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info(
+                "dataExtractor",
+                "scrapeCourse:success. SCRAPING FINISHED",
+                {
+                    courseId,
+                    courseName,
+                    numParticipantsTotal,
+                    durationMs: ms,
+                    totals: {
+                        urlResources: urlResources.length,
+                        resources: resources.length,
+                        choices: choices.length,
+                        workshops: workshops.length,
+                        quizzes: quizzes.length,
+                        forums: forums.length,
+                    },
+                },
+                course
+            );
+
+            // ---- PROGRESS: complete ----
+            progress?.setLabel("status.complete");
+            progress?.complete();
+
+            return course;
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeCourse:error", {error: String(error), durationMs: ms});
+            throw error;
+        }
+    }
+}

@@ -5,14 +5,14 @@
 [Prioridad]
 
 1. [Alta] Compatibilidad simultánea oficial/local.
-Motivación: Esta tarea surge porque la defensa del proyecto se va a realizar desde el entorno local (Moodle Docker)
-(hay más datos que mostrar y están anonimizados) y solamente hay que comentar que sería compatible con el
-entorno oficial (Campus Virtual de la UMA).
-Objetivo: que la extensión funcione de forma automática y transparente tanto en el Campus Virtual oficial como en
-el Moodle local (Docker), sin conmutación manual.
-Pista: Lo más simple es inspeccionar la url y meter un if-elseif directamente en el código. VEO MEJOR USAR
-INTERFACES.
-Deadline: 8 de septiembre máximo.
+Esta tarea requiere realizar un refactoring y limpieza de los siguientes archivos:
+- IDataExtractor.ts
+- dataExtractorProd.ts
+- dataExtractorLocal.ts
+Una vez completado, será necesario detectar los métodos comunes entre dataExtractorProd.ts y dataExtractorLocal.ts.
+Posteriormente, la interfaz + factoría deberá convertirse en una clase abstracta + factoría, de modo que la lógica
+compartida pueda centralizarse en la clase abstracta y así evitar duplicar código.
+Además, se debe solucionar el parpadeo al abrir o cambiar de tab.
 
 2. [Alta] [Opcional] Análisis predictivo y minería de datos.
 - Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).

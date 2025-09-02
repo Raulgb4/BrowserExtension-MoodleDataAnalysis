@@ -13,19 +13,53 @@
  * @date 2025
  */
 
-import {devlog} from "./devlog";
+import { devlog } from "./devlog";
 
-/** Base URLs for different Moodle environments */
-//export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
+/** Base URLs for different Moodle environments (kept for reference/logs or tests) */
+export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
 export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 
 /**
- * Base URL currently in use.
- *
- * NOTE: You can switch between local and production by updating this variable.
- * In the future, this could be made dynamic or configurable via chrome.storage.
+ * Returns the current origin (prod or local) without trailing slashes.
+ * Using window.location.origin makes all builders environment-agnostic.
+ * Accepts an optional Window for testability.
  */
-const BASE = MOODLE_BASE_URL_PROD;
+export function getBaseUrl(win: Window = window): string {
+    try {
+        return win.location.origin.replace(/\/+$/, "");
+    } catch (e) {
+        devlog.warn("urlBuilder", "getBaseUrl: unable to read window.location.origin", {
+            error: String(e),
+        });
+        // Safe fallback: keep PROD to avoid breaking official usage
+        return MOODLE_BASE_URL_PROD;
+    }
+}
+
+/** Mutable BASE value (initialized with getBaseUrl) */
+let BASE = getBaseUrl();
+
+/**
+ * Allows overriding BASE with the origin of the active Moodle tab.
+ * Call this from App.tsx after retrieving the active tab URL.
+ */
+export function setBaseUrl(origin: string) {
+    try {
+        BASE = new URL(origin).origin.replace(/\/+$/, "");
+        devlog.info("urlBuilder", "setBaseUrl", { BASE });
+    } catch (e) {
+        devlog.warn("urlBuilder", "setBaseUrl: invalid origin, keeping previous BASE", {
+            origin,
+            error: String(e),
+        });
+    }
+}
+
+/** Expose BASE for internal use */
+export function getCurrentBase(): string {
+    return BASE;
+}
+
 
 /**
  * Checks if a given URL belongs to a Moodle course-related section
@@ -53,12 +87,13 @@ export function extractMoodleCourseId(url: string): {
             "/badges/index.php",
             "/admin/tool/lp/coursecompetencies.php",
             "/mod/lti/coursetools.php",
-            "/backup/view.php"
+            "/backup/view.php",
         ];
 
         const pathname = parsed.pathname;
         const isCoursePage = validPaths.includes(pathname);
-        const courseId = parsed.searchParams.get("id") || parsed.searchParams.get("courseid");
+        const courseId =
+            parsed.searchParams.get("id") || parsed.searchParams.get("courseid");
 
         return {isCoursePage, courseId};
     } catch (e) {
@@ -70,217 +105,85 @@ export function extractMoodleCourseId(url: string): {
     }
 }
 
-
 /**
  * Parameterized route templates for constructing Moodle URLs dynamically.
  * These are relative paths that need to be prefixed with the BASE URL.
  */
 export const URLS = {
+    /** Main course view */
+    COURSE: (id: string | number) => `/course/view.php?id=${id}`,
 
-    /**
-     * Returns the path to the main course view page.
-     * Used for scraping the course name and basic metadata.
-     * @param id Course ID
-     */
-    COURSE: (id: string | number) =>
-        `/course/view.php?id=${id}`,
-
-    /**
-     * Returns the path to the participant list with optional pagination override.
-     * @param id Course ID
-     * @param perPage Number of participants to show per page (default: 1000)
-     */
+    /** Participants (with optional perPage override; default 1000) */
     PARTICIPANTS: (id: string | number, perPage?: number) =>
         `/user/index.php?id=${id}&perpage=${perPage ?? 1000}`,
 
-    /**
-     * Returns the path to the activity report page for the given course.
-     * @param id Course ID
-     */
-    ACTIVITY_REPORT: (id: string | number) =>
-        `/report/outline/index.php?id=${id}`,
+    /** Activity report */
+    ACTIVITY_REPORT: (id: string | number) => `/report/outline/index.php?id=${id}`,
 
-    /**
-     * Returns the path to the choice results overview page.
-     * @param id Choice ID
-     */
-    CHOICE_RESULTS: (id: string | number) =>
-        `/mod/choice/report.php?id=${id}`,
+    /** Choice results */
+    CHOICE_RESULTS: (id: string | number) => `/mod/choice/report.php?id=${id}`,
 
-    /**
-     * Returns the path to the quiz results overview page.
-     * @param id Quiz ID
-     * @param pageSize Number of attempts per page (default: 1000)
-     */
+    /** Quiz overview (with optional page size; default 1000) */
     QUIZ_RESULTS: (id: string | number, pageSize?: number) =>
         `/mod/quiz/report.php?id=${id}&mode=overview&pagesize=${pageSize ?? 1000}`,
 
-    /**
-     * Returns the path to the assign results overview page.
-     * @param id Assign ID
-     */
-    /*
-    ASSIGN_RESULTS: (id: string | number) =>
-        `/mod/assign/view.php?id=${id}&action=grading`,
+    /** Forum main */
+    FORUM_MAIN: (id: string | number) => `/mod/forum/view.php?id=${id}`,
 
-
-    */
-    /**
-     * Returns the path to a forum participation summary report.
-     * @param id main forum ID
-     */
-    FORUM_MAIN: (id: string | number) =>
-        `/mod/forum/view.php?id=${id}`,
-
-
-    /**
-     * Returns the path to a forum participation summary report.
-     * @param id Course ID
-     * @param forumId Forum ID
-     * @param perPage Number of posts per page (default: 1000)
-     */
+    /** Forum reports summary */
     FORUM_REPORTS: (id: string | number, forumId: string | number, perPage?: number) =>
         `/mod/forum/report/summary/index.php?courseid=${id}&forumid=${forumId}&perpage=${perPage ?? 1000}`,
 
-    /**
-     * Returns the path to a forum participation summary report.
-     * @param forumId Forum ID
-     */
+    /** Forum subscriptions */
     FORUM_SUBSCRIPTIONS: (forumId: string | number) =>
         `/mod/forum/subscribers.php?id=${forumId}`,
-
-
 };
 
-/**
- * Generates the URL for the main course view page.
- * Used to scrape the course name and metadata.
- *
- * @param courseId - The ID of the Moodle course.
- * @returns An object with a `courseMain` key mapping to the full course view URL.
- */
+/** Builders (unchanged API; only BASE is now dynamic) */
 export function getScrapeUrlCourseMain(courseId: string | number): Record<string, string> {
-    return {
-        courseMain: `${BASE}${URLS.COURSE(courseId)}`,
-    };
+    return {courseMain: `${BASE}${URLS.COURSE(courseId)}`};
 }
 
-/**
- * Generates the URL for the participant list of a course.
- *
- * @param courseId - The ID of the Moodle course.
- * @param totalParticipants - Optional. Number of participants to include per page.
- * @returns An object with `participants` key mapping to the full participants list URL.
- */
-export function getScrapeUrlParticipants(courseId: string | number, totalParticipants?: number): Record<string,
-    string> {
-    return {
-        participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`,
-    };
+export function getScrapeUrlParticipants(
+    courseId: string | number,
+    totalParticipants?: number
+): Record<string, string> {
+    return {participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`};
 }
 
-/**
- * Generates the URL for the activity report page of a course.
- *
- * @param courseId - The ID of the Moodle course.
- * @returns An object with an `activityReport` key mapping to the full activity report URL.
- */
 export function getScrapeUrlActivityReport(courseId: string | number): Record<string, string> {
-    return {
-        activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`,
-    };
+    return {activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`};
 }
 
-/**
- * Generates the URL used to access the choice results page for a specific choice activity.
- *
- * @param id - The ID of the choice activity.
- * @returns An object with a `choiceResults` key mapping to the full quiz results URL.
- */
 export function getScrapeUrlChoice(id: string | number): Record<string, string> {
-    return {
-        choiceResults: `${BASE}${URLS.CHOICE_RESULTS(id)}`,
-    };
+    return {choiceResults: `${BASE}${URLS.CHOICE_RESULTS(id)}`};
 }
 
-/**
- * Generates the URL used to access the quiz results page for a specific quiz activity.
- *
- * This is used to scrape individual student quiz data, such as names,
- * durations, and grades.
- *
- * @param id - The ID of the quiz activity.
- * @param totalParticipants - Optional. Ensures all student attempts are visible on one page.
- * @returns An object with a `quizResults` key mapping to the full quiz results URL.
- */
-export function getScrapeUrlQuiz(id: string | number, totalParticipants?: number): Record<string, string> {
-    return {
-        quizResults: `${BASE}${URLS.QUIZ_RESULTS(id, totalParticipants)}`,
-    };
+export function getScrapeUrlQuiz(
+    id: string | number,
+    totalParticipants?: number
+): Record<string, string> {
+    return {quizResults: `${BASE}${URLS.QUIZ_RESULTS(id, totalParticipants)}`};
 }
 
-/**
- * Generates the URL used to access the assign results page for a specific assign activity.
- *
- * This is used to scrape individual student assign data, such as names,
- * durations, and grades.
- *
- * @param id - The ID of the assign activity.
- * @returns An object with a `assignResults` key mapping to the full assign results URL.
- */
-
-/*
-export function getScrapeUrlAssign(id: string | number): Record<string, string> {
-    return {
-        assignResults: `${BASE}${URLS.ASSIGN_RESULTS(id)}`,
-    };
-}
-*/
-
-/**
- * Generates the URL used to access the main page of a specific forum.
- *
- * This is intended for scraping forum-level data such as discussions
- * and participation metrics. Currently only returns the forum overview page.
- *
- * @param id - The ID of the forum activity.
- * @returns An object with a `forumMain` key mapping to the full forum main page URL.
- */
 export function getScrapeUrlForumMain(id: string | number): Record<string, string> {
-    return {
-        forumMain: `${BASE}${URLS.FORUM_MAIN(id)}`,
-    };
+    return {forumMain: `${BASE}${URLS.FORUM_MAIN(id)}`};
 }
 
-/**
- * Generates the URL used to access the forum reports page for a specific course and forum.
- *
- * This URL provides detailed statistical information about forum participation, such as
- *  the number of posts, replies, views, and word counts for each user.
- *
- * @param courseId - The unique identifier of the course containing the forum.
- * @param forumId - The unique identifier of the forum activity.
- * @param totalParticipants - (Optional) Total number of course participants, used to construct the report URL.
- * @returns An object containing the `forumReports` key with the full URL to the forum report page.
- */
-export function getScrapeUrlForumReports(courseId: string | number, forumId: string | number,
-                                         totalParticipants?: number): Record<string, string> {
+export function getScrapeUrlForumReports(
+    courseId: string | number,
+    forumId: string | number,
+    totalParticipants?: number
+): Record<string, string> {
     return {
         forumReports: `${BASE}${URLS.FORUM_REPORTS(courseId, forumId, totalParticipants)}`,
     };
 }
 
-/**
- * Generates the URL used to access the subscription page of a specific forum.
- *
- * This URL is used to determine how many users are subscribed to the forum,
- * which can be useful for analyzing engagement levels.
- *
- * @param forumId - The unique identifier of the forum activity.
- * @returns An object containing the `forumSubscriptions` key with the full URL to the forum subscriptions page.
- */
-export function getScrapeUrlForumSubscriptions(forumId: string | number): Record<string, string> {
-    return {
-        forumSubscriptions: `${BASE}${URLS.FORUM_SUBSCRIPTIONS(forumId)}`,
-    };
+export function getScrapeUrlForumSubscriptions(
+    forumId: string | number
+): Record<string, string> {
+    return {forumSubscriptions: `${BASE}${URLS.FORUM_SUBSCRIPTIONS(forumId)}`};
 }
+
+
