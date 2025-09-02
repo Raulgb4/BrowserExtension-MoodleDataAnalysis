@@ -5,13 +5,11 @@
 [Prioridad]
 
 1. [Alta] Compatibilidad simultánea oficial/local.
-Esta tarea requiere realizar un refactoring y limpieza de los siguientes archivos:
-- IDataExtractor.ts
-- dataExtractorProd.ts
-- dataExtractorLocal.ts
-Una vez completado, será necesario detectar los métodos comunes entre dataExtractorProd.ts y dataExtractorLocal.ts.
-Posteriormente, la interfaz + factoría deberá convertirse en una clase abstracta + factoría, de modo que la lógica
-compartida pueda centralizarse en la clase abstracta y así evitar duplicar código.
+Esta tarea requiere realizar un refactoring y limpieza de:
+- dataExtractorLocal.ts a partir de:
+ - dataExtractor.ts (data_exports)
+ - IDataExtractor.ts
+ - dataExtractorProd.ts
 Además, se debe solucionar el parpadeo al abrir o cambiar de tab.
 
 2. [Alta] [Opcional] Análisis predictivo y minería de datos.
