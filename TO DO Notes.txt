@@ -12,7 +12,17 @@ Esta tarea requiere realizar un refactoring y limpieza de:
  - dataExtractorProd.ts
 Además, se debe solucionar el parpadeo al abrir o cambiar de tab.
 
-2. [Alta] [Opcional] Análisis predictivo y minería de datos.
+2. [Alta] JSDOC, refactoring y limpieza del código completo.
+
+3. [Alta] Testing de los datos del curso en relación con los datos extraídos en ambos entornos.
+
+4. [Alta] Actualizar el README.MD del proyecto.
+
+5. [Alta] Entrega de la memoria y del código a tutores antes del lunes 8 de septiembre.
+
+----------------
+
+6. [Alta] [Opcional] Análisis predictivo y minería de datos.
 - Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).
 - Dataset: X (participación en foro: mensajes/visitas), Y (calificación de una tarea).
 - UI: nueva sección con gráfico de dispersión + recta de regresión + breve interpretación.
@@ -20,12 +30,7 @@ Pista: Aunque no dé tiempo a incorporarlo en la entrega de la memoria y el cód
 en tu defensa como un objetivo adicional cumplido ;)
 Deadline: 22 de septiembre máximo.
 
-3. [Alta] Cierre de la memoria.
+7. [Media] Cierre de la memoria.
 Ajustes menores o cambios por implementar la línea futura de análisis y minería de datos.
-Deadline: 8 de septiembre máximo.
 
-4. [Alta] Actualizar el README.MD del proyecto.
-
-5. [Media] JSDOC, refactoring y limpieza de código.
-
-6. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
+8. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
