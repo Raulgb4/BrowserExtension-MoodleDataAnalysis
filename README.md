@@ -1,135 +1,128 @@
 # 📌 Moodle Data Analyzer
 
 🚀 **Google Chrome Extension for Extracting and Analyzing Moodle Course Data**  
-This project is a browser extension designed to help educators analyze student activity and participation in **Moodle** courses by scraping data directly from course pages (DOM).
+A browser extension built to help educators monitor and analyze student participation in **Moodle** courses.  
+It works by scraping course pages (DOM), processing the data locally, and providing interactive charts and exports — all within the browser.
 
 ---
 
-## 📖 Project Overview
+## 📖 Overview
 
-Once opened on a Moodle course page, the extension allows the teacher to initiate an analysis. It then collects key information such as participant data or activity stats by programmatically navigating and scraping key Moodle URLs.
+When opened on a Moodle course page, the extension allows teachers to **run an analysis**.  
+It automatically collects participant information, activity usage, and last access data by navigating Moodle’s internal URLs.
 
-The extracted data is processed and visualized using multiple chart types (bar, line, polar area...) and can be exported in several formats. Everything runs **locally** within the browser.
+The extracted data is then:
+- **Processed** into structured datasets.
+- **Visualized** with interactive charts (bar, line, pie, polar area, radar).
+- **Exported** into multiple file formats for reporting.
 
----
-
-## 🌟 Implemented Features
-
-- ✅ Multiple sections within the extension, each with modular React components and corresponding charts.
-- ✅ Support for various chart types (bar, line, polar area...). Powered by Chart.js.
-- ✅ Dynamic chart titles and legends that update, according to applied filters.
-- ✅ Participant filters by role (student, teacher) to view segmented data.
-- ✅ Export charts in CSV, PDF, PNG, and JPEG (SVG export not supported).
-- ✅ Display of the last analysis timestamp for user context.
-- ✅ Persistent data storage even after minimizing or closing the extension popup.
-- ✅ Responsive layout with scrollable and clearly segmented sections.
-- ✅ Error control: gracefully handles pages that are not Moodle course pages.
-- ✅ Modular codebase: reusable functions for scraping, processing, filtering, and chart rendering.
-- ✅ Manual re-analysis trigger to update scraped data.
-- ✅ Clear architectural separation between extraction, processing, and visualization modules.
-- ✅ English interface by default, with support for future internationalization (e.g., Spanish).
-
-> 📌 Current data is scraped from a **local Moodle server**, pending access to an official Moodle instance for real-case adaptation.
+⚡ All processing happens **locally in the browser**, ensuring privacy and efficiency.
 
 ---
 
-## 📦 Build and Run the Extension
+## 🌟 Features
 
-### 📌 One-Time Setup
+- ✅ Multiple sections with modular React components and charts.
+- ✅ Wide chart support powered by Chart.js.
+- ✅ Dynamic chart titles and legends that adapt to filters.
+- ✅ Role-based participant filtering (Student / Teacher).
+- ✅ Export charts as **CSV, PDF, PNG, and JPEG**.
+- ✅ “Last analysis” timestamp for context.
+- ✅ Persistent data across popup sessions.
+- ✅ Responsive layout with scrollable, segmented sections.
+- ✅ Error handling for non-Moodle pages.
+- ✅ Modular codebase (scraping, processing, filtering, visualization layers).
+- ✅ Manual re-analysis trigger to refresh data.
+- ✅ Internationalization-ready: English by default, Spanish supported.
+
+---
+
+## 📦 Build & Install
+
+### One-Time Setup
 
 ```bash
 npm install
 npm run build
 ```
 
-This will generate a `dist/` folder with the final compiled Chrome Extension files.
+This creates a `dist/` folder containing the compiled Chrome Extension.
 
-### 🧩 Load Extension Manually
+### Load Extension into Chrome
 
 1. Clone this repository:
    ```bash
    git clone https://github.com/Raulgb4/BrowserExtension-MoodleDataAnalysis.git
    ```
+2. Open Chrome and navigate to: `chrome://extensions/`
+3. Enable **Developer Mode** (top-right).
+4. Click **Load unpacked** and select the `dist/` folder.
 
-2. Open Google Chrome and go to: `chrome://extensions/`
-
-3. Enable **Developer Mode** (top-right)
-
-4. Click on **"Load unpacked"** and select the `dist/` folder.
-
-You're now ready to use the extension.
+👉 The extension is now ready to use.
 
 ---
 
-## 🐳 Moodle Test Server (Docker)
+## 🐳 Local Moodle Test Server (Docker)
 
-This project includes a preconfigured Moodle server using Docker Compose to allow testing the extension with real course data extracted from a `.mbz` backup file.
+The repository includes a **Dockerized Moodle server** to test the extension with real course data from `.mbz` backups.
 
-### ✅ How to Launch Moodle Locally
+### Launch Moodle Locally
 
-1. Go to the `docker/` directory:
-   ```bash
-   cd docker/
-   ```
+```bash
+cd docker/
+docker-compose up
+```
 
-2. Start the containers:
-   ```bash
-   docker-compose up
-   ```
+Then open 👉 http://localhost:8080
 
-3. Open your browser and access:
-   👉 http://localhost:8080
-
-4. Log in with:
+Default credentials:
 - **Username:** `admin`
 - **Password:** `admin123`
 
-> Credentials are configurable in `docker-compose.yml`
+*(These values can be changed in `docker-compose.yml`.)*
 
 ---
 
-### 📤 How to Restore a `.mbz` Course File
+### 📤 Restore a `.mbz` Course
 
-1. In the Moodle interface, go to:
+1. In Moodle, go to:  
    `Site administration > Courses > Restore`
-2. Upload the `.mbz` file provided by the tutors.
-3. Choose "Create a new course" when prompted.
-4. Follow the steps to complete the restore process.
-5. Once restored, you can navigate the course and use the browser extension to extract and analyze its data.
+2. Upload the `.mbz` backup file provided by tutors.
+3. Choose **Create a new course** when prompted.
+4. Follow the restore wizard.
+5. Once restored, navigate the course and analyze it using the extension.
 
 ---
 
-### 🔁 Stopping and Restarting
+### 🔁 Manage Docker Containers
 
-- To run in the background:
+- Run in background:
   ```bash
   docker-compose up -d
   ```
-- To stop the containers:
+- Stop containers:
   ```bash
   docker-compose down
   ```
 
 ---
 
-## 📂 Project Structure (IN PROGRESS)
-```
-BrowserExtension-MoodleDataAnalysis/
-├── dist/                # Production build: load this folder in the browser
-├── docker/              # Local Moodle test server setup
-├── src/                 # TypeScript source files (React components, services, etc.)
-├── public/              # Static assets like icons and base HTML files
-├── README.md            # Project documentation (this file)
-├── package.json         # Dependencies and scripts
-└── .gitignore           # Ignored files (dist/ is now tracked)
-```
+## 🛠️ Tech Stack
+
+- **React + TypeScript** – UI & state management
+- **TailwindCSS** – responsive styling
+- **Chart.js** – chart rendering
+- **i18next** – internationalization (EN/ES)
+- **jsPDF & FileSaver** – exporting charts & reports
+- **Docker Compose** – local Moodle environment
 
 ---
 
 ## 📜 License
 
-This project is licensed under the **MIT License** – see the `LICENSE` file for more details.
+Licensed under the **MIT License**
 
 ---
 
-🎓 Developed as part of a Final Year Project (TFG) at the University of Málaga by **Raúl García Balongo**.
+🎓 Developed as part of the **Final Year Project (TFG)** at the *University of Málaga*  
+by **Raúl García Balongo**.  
