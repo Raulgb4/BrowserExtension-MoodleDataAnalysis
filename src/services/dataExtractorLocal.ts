@@ -69,8 +69,6 @@ export class LocalDataExtractor implements IDataExtractor {
 
             let total: number | null = null;
 
-            // 0) LOCAL-FIRST: Moodle local expone el total en la tabla dinámica.
-            //    <div data-region="core_table/dynamic" data-table-total-rows="123">...</div>
             const totalRowsAttr = doc
                 .querySelector<HTMLElement>('[data-region="core_table/dynamic"]')
                 ?.getAttribute("data-table-total-rows");
@@ -136,7 +134,8 @@ export class LocalDataExtractor implements IDataExtractor {
             const doc = await this.fetchAndParse(participantsUrl);
 
 
-            const dynamicRegion = doc.querySelector<HTMLElement>('[data-region="core_table/dynamic"]');
+            const dynamicRegion =
+                doc.querySelector<HTMLElement>('[data-region="core_table/dynamic"]');
             const table =
                 doc.querySelector<HTMLTableElement>("#participants") ||
                 dynamicRegion?.querySelector("table") ||
@@ -144,7 +143,8 @@ export class LocalDataExtractor implements IDataExtractor {
 
             if (!table && !dynamicRegion) {
                 const ms = Math.round(performance.now() - t0);
-                devlog.error("dataExtractor", "scrapeParticipants:participants table not found", {durationMs: ms});
+                devlog.error("dataExtractor", "scrapeParticipants:participants table not found",
+                    {durationMs: ms});
                 return [];
             }
 
@@ -160,7 +160,8 @@ export class LocalDataExtractor implements IDataExtractor {
                 const arr = raw.split(/[,;|]/).map(s => s.trim()).filter(Boolean);
                 return arr.length ? arr : undefined;
             };
-            const fallbackParseStatus = (raw?: string | null) => raw?.trim() || undefined;
+            const fallbackParseStatus =
+                (raw?: string | null) => raw?.trim() || undefined;
 
             const parseGroupsFn: (s?: string | null) => any =
                 (globalThis as any).parseGroups ?? fallbackParseGroups;
@@ -183,7 +184,8 @@ export class LocalDataExtractor implements IDataExtractor {
                 if (!profileLink) continue;
 
                 // Prefer visible text node; fallback to full textContent.
-                const textNode = Array.from(profileLink.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+                const textNode =
+                    Array.from(profileLink.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
                 const rawName = (textNode?.textContent ?? profileLink.textContent ?? "").trim();
                 const participantName = rawName.replace(/\s+/g, " ");
                 if (!participantName || participantName === "-") continue;
@@ -202,7 +204,8 @@ export class LocalDataExtractor implements IDataExtractor {
                 //  - Local table often has it at cells[1], but also try a specific anchor class if present.
                 const emailFromCell = cells[1]?.textContent?.trim() ?? "";
                 const emailFromAnchor =
-                    nameCell?.querySelector<HTMLAnchorElement>("a.correo_lista_participantes")?.textContent?.trim() ?? "";
+                    nameCell?.querySelector<HTMLAnchorElement>
+                    ("a.correo_lista_participantes")?.textContent?.trim() ?? "";
                 const email = (emailFromAnchor || emailFromCell).replace(/\s+/g, " ");
 
                 // Roles:
@@ -263,7 +266,8 @@ export class LocalDataExtractor implements IDataExtractor {
             return participants;
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeParticipants:error", {error: String(error), durationMs: ms});
+            devlog.error("dataExtractor", "scrapeParticipants:error",
+                {error: String(error), durationMs: ms});
             return [];
         }
     }
@@ -311,7 +315,8 @@ export class LocalDataExtractor implements IDataExtractor {
         lastAccess: number | undefined
     ): Promise<Choice[]> {
         const t0 = performance.now();
-        devlog.info("dataExtractor", "scrapeChoices:start", {id, activityName, numViews, numUsers, lastAccess});
+        devlog.info("dataExtractor", "scrapeChoices:start",
+            {id, activityName, numViews, numUsers, lastAccess});
 
         try {
             const choices: Choice[] = [];
@@ -399,7 +404,8 @@ export class LocalDataExtractor implements IDataExtractor {
                 const nameAnchor = nameCell?.querySelector('a');
                 const participantName = nameAnchor?.textContent?.trim() ?? '';
 
-                const idMatch = nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
+                const idMatch =
+                    nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
                 if (!idMatch) {
                     console.warn("User ID not found for participant:", participantName);
                     continue;
@@ -466,7 +472,8 @@ export class LocalDataExtractor implements IDataExtractor {
             const urlForumMain = getScrapeUrlForumMain(id);
             let doc = await this.fetchAndParse(urlForumMain.forumMain);
 
-            const reportLink = doc.querySelector<HTMLAnchorElement>('a[href*="forumid="]');
+            const reportLink =
+                doc.querySelector<HTMLAnchorElement>('a[href*="forumid="]');
             const reportHref = reportLink?.getAttribute("href") ?? "";
             const forumId = parseInt(reportHref.match(/[?&]forumid=(\d+)/)?.[1] ?? "0", 10);
 
@@ -518,40 +525,41 @@ export class LocalDataExtractor implements IDataExtractor {
                 };
 
             // Parse a cell containing a date/time in a language-agnostic way.
-            const parseTimestampFromCell = (cell: Element | null): number | undefined => {
-                if (!cell) return undefined;
+            const parseTimestampFromCell =
+                (cell: Element | null): number | undefined => {
+                    if (!cell) return undefined;
 
-                // 1) <time datetime="..."> (ISO 8601)
-                const timeEl = cell.querySelector<HTMLTimeElement>("time[datetime]");
-                const iso = timeEl?.getAttribute("datetime");
-                if (iso) {
-                    const t = Date.parse(iso);
-                    if (Number.isFinite(t)) return t;
-                }
-
-                // 2) data-* timestamps (seconds or millis)
-                const probe = cell.querySelector<HTMLElement>
-                ("[data-timestamp],[data-timecreated],[data-timemodified],[data-time]");
-                const candAttrs = ["data-timestamp", "data-timecreated", "data-timemodified", "data-time"] as const;
-                for (const a of candAttrs) {
-                    const v = probe?.getAttribute(a);
-                    if (v && /^\d{10,13}$/.test(v)) {
-                        const n = parseInt(v, 10);
-                        return n < 2e12 ? n * 1000 : n; // seconds→ms if needed
+                    // 1) <time datetime="..."> (ISO 8601)
+                    const timeEl = cell.querySelector<HTMLTimeElement>("time[datetime]");
+                    const iso = timeEl?.getAttribute("datetime");
+                    if (iso) {
+                        const t = Date.parse(iso);
+                        if (Number.isFinite(t)) return t;
                     }
-                }
 
-                // 3) Last resort: look for a 10/13-digit number in the HTML (epoch)
-                const html = cell.innerHTML;
-                const m = html.match(/\b(\d{13}|\d{10})\b/);
-                if (m) {
-                    const n = parseInt(m[1], 10);
-                    return n < 2e12 ? n * 1000 : n;
-                }
+                    // 2) data-* timestamps (seconds or millis)
+                    const probe = cell.querySelector<HTMLElement>
+                    ("[data-timestamp],[data-timecreated],[data-timemodified],[data-time]");
+                    const candAttrs = ["data-timestamp", "data-timecreated", "data-timemodified", "data-time"] as const;
+                    for (const a of candAttrs) {
+                        const v = probe?.getAttribute(a);
+                        if (v && /^\d{10,13}$/.test(v)) {
+                            const n = parseInt(v, 10);
+                            return n < 2e12 ? n * 1000 : n; // seconds→ms if needed
+                        }
+                    }
 
-                // Give up (avoid locale text parsing)
-                return undefined;
-            };
+                    // 3) Last resort: look for a 10/13-digit number in the HTML (epoch)
+                    const html = cell.innerHTML;
+                    const m = html.match(/\b(\d{13}|\d{10})\b/);
+                    if (m) {
+                        const n = parseInt(m[1], 10);
+                        return n < 2e12 ? n * 1000 : n;
+                    }
+
+                    // Give up (avoid locale text parsing)
+                    return undefined;
+                };
 
             // Numeric cell parser (robust to a thousand separators)
             const parseCellInt = (cell: HTMLTableCellElement | null): number => {
@@ -563,7 +571,8 @@ export class LocalDataExtractor implements IDataExtractor {
                 return Number.isFinite(n) ? n : 0;
             };
 
-            const rows = Array.from(table.querySelectorAll<HTMLTableRowElement>("tbody tr"));
+            const rows =
+                Array.from(table.querySelectorAll<HTMLTableRowElement>("tbody tr"));
             const participantsStats: ForumParticipantData[] = [];
 
             for (const row of rows) {
@@ -583,12 +592,14 @@ export class LocalDataExtractor implements IDataExtractor {
                 if (!Number.isFinite(participantId)) continue;
 
                 // Map metrics by header keys
-                const discussionsPosted = parseCellInt(getCellByKey(row, "postcount"));  // c2 in many themes
-                const repliesPosted = parseCellInt(getCellByKey(row, "replycount"));   // c3
+                const discussionsPosted = parseCellInt(getCellByKey(row, "postcount"));// c2 in many themes
+                const repliesPosted = parseCellInt(getCellByKey(row, "replycount")); // c3
                 const views = parseCellInt(getCellByKey(row, "viewcount"));    // c5
                 const wordCount = parseCellInt(getCellByKey(row, "wordcount"));    // c6
-                const earliestPost = parseTimestampFromCell(getCellByKey(row, "earliestpost")); // c8
-                const mostRecentPost = parseTimestampFromCell(getCellByKey(row, "latestpost"));  // c9
+                const earliestPost =
+                    parseTimestampFromCell(getCellByKey(row, "earliestpost"));// c8
+                const mostRecentPost =
+                    parseTimestampFromCell(getCellByKey(row, "latestpost"));  // c9
 
                 // Skip pure-zero rows (noise)
                 if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
