@@ -170,17 +170,15 @@ const ParticipantsTab: React.FC = () => {
         roles: string[];
         selectedRoles: string[];
         onToggle: (role: string) => void;
-    }> = ({title, roles, selectedRoles, onToggle}) => (
+    }> = ({ title, roles, selectedRoles, onToggle }) => (
         <>
             <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
                 {title}
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+
+            <div className="w-full flex flex-wrap justify-center gap-4 mx-auto">
                 {roles.map((role) => (
-                    <label
-                        key={role}
-                        className="text-sm text-gray-700 cursor-pointer"
-                    >
+                    <label key={role} className="text-sm text-gray-700 cursor-pointer">
                         <input
                             type="checkbox"
                             checked={selectedRoles.includes(role)}
