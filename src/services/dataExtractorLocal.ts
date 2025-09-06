@@ -166,10 +166,9 @@ export class LocalDataExtractor implements IDataExtractor {
                 (globalThis as any).parseGroups ?? fallbackParseGroups;
 
 
-
             for (const row of rows) {
                 // --- NAME / PROFILE LINK ---
-                // Try common local cells: th.cell.c1 (local) or th.cell.c2 (alt), then anchor to user profile.
+                // Try common local cells: th.cell.c1 (local) or th.cell.c2 (alt), then anchor to the user profile.
                 const nameCell =
                     row.querySelector<HTMLElement>("th.cell.c1") ||
                     row.querySelector<HTMLElement>("th.cell.c2") ||

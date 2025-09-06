@@ -4,23 +4,15 @@
 
 [Prioridad]
 
-1. [Alta] Compatibilidad simultánea oficial/local.
-Esta tarea requiere realizar un refactoring y limpieza de:
-- dataExtractorLocal.ts a partir de:
- - dataExtractor.ts (data_exports)
- - IDataExtractor.ts
- - dataExtractorProd.ts
-Además, se debe solucionar el parpadeo al abrir o cambiar de tab.
+1. [Alta] JSDOC, refactoring y limpieza del código completo.
 
-2. [Alta] JSDOC, refactoring y limpieza del código completo.
+2. [Alta] Testing de los datos del curso en relación con los datos extraídos en ambos entornos.
 
-3. [Alta] Testing de los datos del curso en relación con los datos extraídos en ambos entornos.
-
-4. [Alta] Entrega de la memoria y del código a tutores antes del lunes 8 de septiembre.
+3. [Alta] Entrega de la memoria y del código a tutores antes del lunes 8 de septiembre.
 
 ----------------
 
-5. [Alta] [Opcional] Análisis predictivo y minería de datos.
+4. [Alta] [Opcional] Análisis predictivo y minería de datos.
 - Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).
 - Dataset: X (participación en foro: mensajes/visitas), Y (calificación de una tarea).
 - UI: nueva sección con gráfico de dispersión + recta de regresión + breve interpretación.
@@ -28,7 +20,7 @@ Pista: Aunque no dé tiempo a incorporarlo en la entrega de la memoria y el cód
 en tu defensa como un objetivo adicional cumplido ;)
 Deadline: 22 de septiembre máximo.
 
-6. [Media] Cierre de la memoria.
+5. [Media] Cierre de la memoria.
 Ajustes menores o cambios por implementar la línea futura de análisis y minería de datos.
 
-7. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.
+6. [Media] [Opcional] Hacer la documentación del proyecto en Docusaurus.

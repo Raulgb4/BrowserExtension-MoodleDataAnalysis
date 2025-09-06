@@ -29,7 +29,7 @@ export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
  */
 export function detectEnvironment(win: Window = window): Env {
     const origin = win.location.origin;
-    if (origin.startsWith(MOODLE_BASE_URL_PROD))  return "prod";
+    if (origin.startsWith(MOODLE_BASE_URL_PROD)) return "prod";
     if (origin.startsWith(MOODLE_BASE_URL_LOCAL)) return "local";
     return "prod";
 }
@@ -40,10 +40,10 @@ export function detectEnvironment(win: Window = window): Env {
 export function detectEnvironmentFromUrl(url: string): Env {
     try {
         const origin = new URL(url).origin;
-        if (origin.startsWith(MOODLE_BASE_URL_PROD))  return "prod";
+        if (origin.startsWith(MOODLE_BASE_URL_PROD)) return "prod";
         if (origin.startsWith(MOODLE_BASE_URL_LOCAL)) return "local";
     } catch (e) {
-        devlog.warn("factory", "detectEnvironmentFromUrl: invalid URL", { url, error: String(e) });
+        devlog.warn("factory", "detectEnvironmentFromUrl: invalid URL", {url, error: String(e)});
     }
     return "prod";
 }

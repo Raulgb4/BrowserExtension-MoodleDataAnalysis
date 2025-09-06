@@ -24,7 +24,8 @@ import {
     extractMoodleCourseId,
     getScrapeUrlActivityReport,
     getScrapeUrlCourseMain,
-    getScrapeUrlParticipants, setBaseUrl,
+    getScrapeUrlParticipants,
+    setBaseUrl,
 } from "./utils/urlBuilder";
 import {createDataExtractor} from "./services/dataExtractorFactory";
 import Loader from "./components/Loader";
@@ -201,7 +202,7 @@ export function App() {
                 devlog.error("app", "analyze: course is null/undefined after fetchAndStoreCourseData");
                 setIsError(true);
                 setOutputMessage("error_fetch_course"); // usa tu clave i18n si tienes
-                setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData} />);
+                setButton(<RestartButton courseId={courseId} onClick={analyzeCourseData}/>);
                 return;
             }
 
@@ -302,7 +303,7 @@ export function App() {
 
     // On mount: check the current active tab to extract the course ID
     useEffect(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
             const url = tabs?.[0]?.url;
             devlog.info("app", "active tab url", url);
 

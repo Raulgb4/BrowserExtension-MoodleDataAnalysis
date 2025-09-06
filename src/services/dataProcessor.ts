@@ -177,6 +177,7 @@ export function parseStatus(raw: string | undefined): string | undefined {
  * @param cell - The HTML element representing the cell (typically a <td> or <th>).
  * @returns The integer value parsed from the cell, or 0 if the content is invalid or not a number.
  */
+
 /*
 export function parseCellToInt(cell: Element | null): number {
     const text = cell?.textContent?.trim() ?? '';
@@ -205,7 +206,7 @@ export function parseViewsAndUsers(raw: string): { numViews: number; numUsers: n
     const views = toInt(matches[0] ?? "0");
     const users = toInt(matches[1] ?? "0");
 
-    return { numViews: views, numUsers: users };
+    return {numViews: views, numUsers: users};
 }
 
 

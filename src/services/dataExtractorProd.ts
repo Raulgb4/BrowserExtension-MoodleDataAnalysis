@@ -347,9 +347,16 @@ export class ProdDataExtractor implements IDataExtractor {
                 const nums = (txt.match(/\d+/g) || []).map(n => parseInt(n, 10)).filter(Number.isFinite);
                 if (nums.length === 0) return undefined;
                 let h = 0, m: number, s = 0;
-                if (nums.length === 1) { m = nums[0]; }
-                else if (nums.length === 2) { m = nums[0]; s = nums[1]; }
-                else { h = nums[0]; m = nums[1]; s = nums[2]; }
+                if (nums.length === 1) {
+                    m = nums[0];
+                } else if (nums.length === 2) {
+                    m = nums[0];
+                    s = nums[1];
+                } else {
+                    h = nums[0];
+                    m = nums[1];
+                    s = nums[2];
+                }
                 return ((h * 3600) + (m * 60) + s) * 1000;
             };
 
@@ -360,7 +367,7 @@ export class ProdDataExtractor implements IDataExtractor {
                 return cls ? parseInt(cls.slice(1), 10) : -1;
             };
 
-            // Find the results table by locating the "sumgrades" header and climbing up.
+            // Find the result table by locating the "sumgrades" header and climbing up.
             const findResultsTable = (root: Document): HTMLTableElement | null => {
                 const headerAnchor =
                     root.querySelector<HTMLAnchorElement>('a[data-sortby="sumgrades"]') ||
@@ -398,7 +405,7 @@ export class ProdDataExtractor implements IDataExtractor {
             const tableResultsQuiz = findResultsTable(doc);
             if (!tableResultsQuiz) {
                 const msNF = Math.round(performance.now() - t0);
-                devlog.warn("dataExtractor", "scrapeQuizzes:results table not found", { durationMs: msNF });
+                devlog.warn("dataExtractor", "scrapeQuizzes:results table not found", {durationMs: msNF});
                 return [];
             }
 
@@ -420,20 +427,32 @@ export class ProdDataExtractor implements IDataExtractor {
             for (const row of rowsResultsQuiz) {
                 // Name cell: user anchor to /user/view.php
                 const nameAnchor = row.querySelector<HTMLAnchorElement>('td a[href*="/user/view.php"]');
-                if (!nameAnchor) { skipNoNameAnchor++; continue; }
+                if (!nameAnchor) {
+                    skipNoNameAnchor++;
+                    continue;
+                }
 
                 const participantName = (nameAnchor.textContent || "").trim();
 
                 // Extract participant id from profile URL
                 const idMatch = nameAnchor.getAttribute("href")?.match(/[?&]id=(\d+)/);
-                if (!idMatch) { skipNoId++; continue; }
+                if (!idMatch) {
+                    skipNoId++;
+                    continue;
+                }
 
                 const participantId = parseInt(idMatch[1], 10);
-                if (Number.isNaN(participantId)) { skipNaNId++; continue; }
+                if (Number.isNaN(participantId)) {
+                    skipNaNId++;
+                    continue;
+                }
 
                 // Grade anchor (stable across locales)
                 const gradeAnchor = row.querySelector<HTMLAnchorElement>('td a[href*="/mod/quiz/review.php?attempt="]');
-                if (!gradeAnchor) { skipNoGrade++; continue; }
+                if (!gradeAnchor) {
+                    skipNoGrade++;
+                    continue;
+                }
 
                 const gradeCell = gradeAnchor.closest("td") as HTMLTableCellElement | null;
 
@@ -455,7 +474,10 @@ export class ProdDataExtractor implements IDataExtractor {
                 // Grade value (locale-agnostic)
                 const rawGrade = gradeAnchor.textContent?.trim() ?? "";
                 const parsedGrade = parseLocaleNumber(rawGrade) ?? NaN;
-                if (!Number.isFinite(parsedGrade)) { skipNoGrade++; continue; }
+                if (!Number.isFinite(parsedGrade)) {
+                    skipNoGrade++;
+                    continue;
+                }
 
                 const normalizedGrade = normalizeGradeTo10(parsedGrade, maxGrade);
 
@@ -504,7 +526,7 @@ export class ProdDataExtractor implements IDataExtractor {
 
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeQuizzes:error", { error: String(error), durationMs: ms });
+            devlog.error("dataExtractor", "scrapeQuizzes:error", {error: String(error), durationMs: ms});
             return [];
         }
     }
@@ -769,7 +791,10 @@ export class ProdDataExtractor implements IDataExtractor {
                 const activityLink = row.querySelector<HTMLAnchorElement>(
                     'td.activityname a[href], td.activity a[href], td a[href*="/mod/"]'
                 );
-                if (!activityLink) { progress?.tick(1); continue; }
+                if (!activityLink) {
+                    progress?.tick(1);
+                    continue;
+                }
 
                 const viewsCell = row.querySelector("td.numviews");
                 const lastAccessCell = row.querySelector("td.lastaccess");
