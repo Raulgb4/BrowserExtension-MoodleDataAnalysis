@@ -192,7 +192,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
     /**
      * Scrapes all Quiz activities within a course (adapted to Campus Virtual HTML).
      * - Header cells use data-sortby (lastname/firstname/duration/sumgrades)
-     * - Rows with actual attempts have: input[name="attemptid[]"]
+     * - Rows with actual attempts to have: input[name="attempted[]"]
      * - Name is in td.c2 (anchor to /user/view.php)
      * - Duration is in td.c6 (Spanish text like "47 días 16 horas" or "15 min 32 s")
      * - Grade is in td.c7 (anchor to review; comma decimal like "7,25")
@@ -218,7 +218,6 @@ export class ProdDataExtractor extends AbstractDataExtractor {
             const url = getScrapeUrlQuiz(id, totalParticipants);
             const doc = await this.fetchAndParse(url.quizResults);
 
-            // --- helper para números con coma o punto ---
             const parseLocaleNumber = (raw?: string | null): number | null => {
                 if (!raw) return null;
                 const s = raw.replace(/\u00A0/g, " ").trim();
@@ -241,7 +240,6 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 return Number.isFinite(n) ? (neg ? -n : n) : null;
             };
 
-            // Localiza la tabla por el header de "Calificación/..."
             const headerSum = doc.querySelector<HTMLAnchorElement>('a[data-sortby="sumgrades"]');
             const tableResultsQuiz =
                 (headerSum?.closest("table") as HTMLTableElement | null) ||
@@ -250,7 +248,6 @@ export class ProdDataExtractor extends AbstractDataExtractor {
             const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll<HTMLTableRowElement>("tbody tr") ?? [])
                 .filter(tr => tr.querySelector('input[name="attemptid[]"]')); // solo intentos reales
 
-            // ---- Tabla vacía o sin filas útiles ----
             if (!tableResultsQuiz || rowsResultsQuiz.length === 0) {
                 const msNF = Math.round(performance.now() - t0);
                 devlog.warn("dataExtractor", "scrapeQuizzes:no quiz results table or empty", {
@@ -259,7 +256,6 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 return [];
             }
 
-            // Max grade: del texto del header "Calificación/10,00"
             const maxGradeText = headerSum?.textContent?.trim() ?? "";
             const maxGradeNums = maxGradeText.match(/\d+(?:[.,]\d+)?/g);
             const lastNumStr = (maxGradeNums && maxGradeNums.length > 0)
@@ -267,32 +263,40 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 : "10";
             const maxGrade = parseLocaleNumber(lastNumStr) ?? 10;
 
-            // ---- Recorrido de filas ----
             const participantStats: QuizParticipantData[] = [];
             let skippedNoName = 0, skippedNoId = 0, skippedNoGrade = 0;
 
             for (const row of rowsResultsQuiz) {
-                // Nombre/ID en td.c2 → <a href="/user/view.php?id=...">
                 const nameCell = row.querySelector<HTMLTableCellElement>("td.cell.c2");
                 const nameAnchor = nameCell?.querySelector<HTMLAnchorElement>('a[href*="/user/view.php"]');
-                if (!nameAnchor) { skippedNoName++; continue; }
+                if (!nameAnchor) {
+                    skippedNoName++;
+                    continue;
+                }
 
                 const participantName = (nameAnchor.textContent || "").trim();
                 const idMatch = nameAnchor.getAttribute("href")?.match(/[?&]id=(\d+)/);
-                if (!idMatch) { skippedNoId++; continue; }
+                if (!idMatch) {
+                    skippedNoId++;
+                    continue;
+                }
                 const participantId = parseInt(idMatch[1], 10);
-                if (!Number.isFinite(participantId)) { skippedNoId++; continue; }
+                if (!Number.isFinite(participantId)) {
+                    skippedNoId++;
+                    continue;
+                }
 
-                // Duración en td.c6 (usa tu dataProcessor)
                 const rawDuration = row.querySelector<HTMLTableCellElement>("td.cell.c6")?.textContent ?? "";
                 const duration = normalizeTimeToMillis(rawDuration);
 
-                // Nota en td.c7 (anchor o texto directo) → usa parser locale-aware y tu normalizador
                 const gradeCell = row.querySelector<HTMLTableCellElement>("td.cell.c7");
                 const gradeAnchor = gradeCell?.querySelector<HTMLAnchorElement>("a");
                 const gradeRaw = (gradeAnchor?.textContent ?? gradeCell?.textContent ?? "").trim();
                 const gradeParsed = parseLocaleNumber(gradeRaw);
-                if (!Number.isFinite(gradeParsed)) { skippedNoGrade++; continue; }
+                if (!Number.isFinite(gradeParsed)) {
+                    skippedNoGrade++;
+                    continue;
+                }
                 const grade = gradeParsed as number;
 
                 const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
@@ -324,7 +328,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 activityName,
                 maxGrade,
                 participantsParsed: participantStats.length,
-                skipped: { noName: skippedNoName, noId: skippedNoId, noGrade: skippedNoGrade },
+                skipped: {noName: skippedNoName, noId: skippedNoId, noGrade: skippedNoGrade},
                 durationMs: ms,
             }, quiz);
 
@@ -332,11 +336,10 @@ export class ProdDataExtractor extends AbstractDataExtractor {
 
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeQuizzes:error", { error: String(error), durationMs: ms });
+            devlog.error("dataExtractor", "scrapeQuizzes:error", {error: String(error), durationMs: ms});
             return [];
         }
     }
-
 
 
     /**

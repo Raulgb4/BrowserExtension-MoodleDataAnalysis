@@ -274,7 +274,6 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             const tableResultsQuiz = doc.querySelector("table#attempts");
             const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll("tbody tr") ?? []);
 
-            // ---- Control de error: tabla vacía o sin filas útiles ----
             if (!tableResultsQuiz || rowsResultsQuiz.length === 0) {
                 const msNF = Math.round(performance.now() - t0);
                 devlog.warn("dataExtractor", "scrapeQuizzes:no quiz results table or empty", {
@@ -342,7 +341,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             return quizzes;
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeQuizzes:error", { error: String(error), durationMs: ms });
+            devlog.error("dataExtractor", "scrapeQuizzes:error", {error: String(error), durationMs: ms});
             return [];
         }
     }
