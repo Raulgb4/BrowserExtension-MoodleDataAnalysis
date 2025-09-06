@@ -14,10 +14,10 @@
  * @date 2025
  */
 
-import {IDataExtractor} from "./IDataExtractor";
 import {LocalDataExtractor} from "./dataExtractorLocal";
 import {ProdDataExtractor} from "./dataExtractorProd";
 import {devlog} from "../utils/devlog";
+import {AbstractDataExtractor} from "./AbstractDataExtractor";
 
 export type Env = "prod" | "local";
 
@@ -25,7 +25,7 @@ export const MOODLE_BASE_URL_PROD = "https://informatica.cv.uma.es";
 export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
 
 /**
- * Detect environment using the current window (valid in content scripts).
+ * Detect the environment using the current window (valid in content scripts).
  */
 export function detectEnvironment(win: Window = window): Env {
     const origin = win.location.origin;
@@ -54,7 +54,7 @@ export function detectEnvironmentFromUrl(url: string): Env {
  *
  * @param tabUrl Optional absolute URL of the active tab.
  */
-export function createDataExtractor(tabUrl?: string): IDataExtractor {
+export function createDataExtractor(tabUrl?: string): AbstractDataExtractor {
     const env = tabUrl ? detectEnvironmentFromUrl(tabUrl) : detectEnvironment();
     const extractor = env === "local" ? new LocalDataExtractor() : new ProdDataExtractor();
 

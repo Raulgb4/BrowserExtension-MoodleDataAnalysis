@@ -11,12 +11,10 @@
  * @date 2025
  */
 
-import {AnalysisProgress, IDataExtractor} from "./IDataExtractor";
-
 // Models
 import {Participant} from "../models/Participant";
 import {Quiz, QuizParticipantData} from "../models/Quiz";
-import {Forum, ForumParticipantData} from "../models/Forum";
+import {Forum} from "../models/Forum";
 import {Choice} from "../models/Choice";
 import {Course} from "../models/Course";
 import {devlog} from "../utils/devlog";
@@ -27,16 +25,11 @@ import {
     parseRoles,
     parseViewsAndUsers
 } from "./dataProcessor";
-import {
-    getScrapeUrlChoice,
-    getScrapeUrlForumMain,
-    getScrapeUrlForumReports,
-    getScrapeUrlForumSubscriptions,
-    getScrapeUrlQuiz
-} from "../utils/urlBuilder";
 import {Resource, URLResource, Workshop} from "../models/ActivityBase";
+import {AbstractDataExtractor, AnalysisProgress} from "./AbstractDataExtractor";
+import {getScrapeUrlQuiz} from "../utils/urlBuilder";
 
-export class LocalDataExtractor implements IDataExtractor {
+export class LocalDataExtractor extends AbstractDataExtractor {
 
     protected async fetchAndParse(url: string): Promise<Document> {
         const response = await fetch(url);
@@ -253,100 +246,6 @@ export class LocalDataExtractor implements IDataExtractor {
     }
 
     /**
-     * Scrapes the course main page and retrieves the course name or identifier.
-     */
-    async scrapeCourseMain(courseMainUrl: string): Promise<string> {
-        const t0 = performance.now();
-        devlog.info("dataExtractor", "scrapeCourseMain:start", {courseMainUrl});
-
-        try {
-            const doc = await this.fetchAndParse(courseMainUrl);
-
-            const selector = ".page-context-header h1";
-            const titleNode = doc.querySelector(selector);
-            const courseName = titleNode?.textContent?.trim();
-
-            if (!courseName) {
-                const ms = Math.round(performance.now() - t0);
-                devlog.error("dataExtractor", "scrapeCourseMain:course name not found",
-                    {selector, durationMs: ms});
-                return "";
-            }
-
-            const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeCourseMain:success", {courseName, durationMs: ms});
-            return courseName;
-
-        } catch (error) {
-            const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeCourseMain:error", {error: String(error), durationMs: ms});
-            return "";
-        }
-    }
-
-    /**
-     * Scrapes all Choice activities within a course.
-     */
-    async scrapeChoices(
-        id: number,
-        activityName: string,
-        numViews: number,
-        numUsers: number,
-        lastAccess: number | undefined
-    ): Promise<Choice[]> {
-        const t0 = performance.now();
-        devlog.info("dataExtractor", "scrapeChoices:start",
-            {id, activityName, numViews, numUsers, lastAccess});
-
-        try {
-            const choices: Choice[] = [];
-
-            const url = getScrapeUrlChoice(id);
-
-            const doc = await this.fetchAndParse(url.choiceResults);
-
-            const responseCounts: Record<string, number> = {};
-
-            const headerCells = doc.querySelectorAll('table.results.names thead tr th');
-            const labelCells = Array.from(headerCells)
-                .slice(1) // skip the first column
-                .map(th => th.querySelector('div.text-center')?.childNodes[0]?.textContent?.trim())
-                .filter((label): label is string => !!label); // filter out undefined/null
-
-            const responseCells = doc.querySelectorAll('table.results.names tbody tr td');
-
-            responseCells.forEach((cell, i) => {
-                const label = labelCells[i];
-                if (!label) return;
-
-                const value = parseInt(cell.textContent?.trim() ?? '0', 10);
-                responseCounts[label] = isNaN(value) ? 0 : value;
-            });
-
-            const choice: Choice = {
-                id,
-                activityName,
-                numViews,
-                numUsers,
-                lastAccess,
-                responseCounts
-            };
-
-            choices.push(choice);
-
-            const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeChoices:success", {id, activityName, durationMs: ms}, choice);
-
-            return choices;
-
-        } catch (error) {
-            const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeChoices:error", {error: String(error), durationMs: ms});
-            return [];
-        }
-    }
-
-    /**
      * Scrapes all Quiz activities within a course.
      */
     async scrapeQuizzes(
@@ -357,57 +256,66 @@ export class LocalDataExtractor implements IDataExtractor {
         lastAccess: number | undefined,
         totalParticipants: number
     ): Promise<Quiz[]> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeQuizzes:start", {
+            id, activityName, numViews, numUsers, lastAccess, totalParticipants
+        });
+
         try {
             const quizzes: Quiz[] = [];
-
             const url = getScrapeUrlQuiz(id, totalParticipants);
             const doc = await this.fetchAndParse(url.quizResults);
 
             const gradeHeaderAnchor = doc.querySelector('a[aria-label^="Sort by Grade/"]');
-            const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? '';
+            const gradeHeaderText = gradeHeaderAnchor?.textContent?.trim() ?? "";
             const maxGradeMatch = gradeHeaderText.match(/Grade\/([\d.]+)/);
-            const maxGrade = parseFloat(maxGradeMatch?.[1] ?? '1');
+            const maxGrade = parseFloat(maxGradeMatch?.[1] ?? "1");
 
-            const tableResultsQuiz = doc.querySelector('table#attempts');
-            const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll('tbody tr') ?? []);
+            const tableResultsQuiz = doc.querySelector("table#attempts");
+            const rowsResultsQuiz = Array.from(tableResultsQuiz?.querySelectorAll("tbody tr") ?? []);
+
+            // ---- Control de error: tabla vacía o sin filas útiles ----
+            if (!tableResultsQuiz || rowsResultsQuiz.length === 0) {
+                const msNF = Math.round(performance.now() - t0);
+                devlog.warn("dataExtractor", "scrapeQuizzes:no quiz results table or empty", {
+                    id,
+                    activityName,
+                    durationMs: msNF,
+                });
+                return [];
+            }
+
             const participantStats: QuizParticipantData[] = [];
 
             for (const rowQuiz of rowsResultsQuiz) {
-
                 const rowClass = rowQuiz.className.trim().toLowerCase();
-                if (rowClass.includes('emptyrow') || rowClass.includes('empty row')) continue;
+                if (rowClass.includes("emptyrow") || rowClass.includes("empty row")) continue;
 
-                const nameCell = rowQuiz.querySelector('td.cell.c2');
-                const nameText = nameCell?.textContent?.trim().toLowerCase() ?? '';
-                if (!nameText || nameText.includes('overall average')) continue;
+                const nameCell = rowQuiz.querySelector("td.cell.c2");
+                const nameText = nameCell?.textContent?.trim().toLowerCase() ?? "";
+                if (!nameText || nameText.includes("overall average")) continue;
 
-                const nameAnchor = nameCell?.querySelector('a');
-                const participantName = nameAnchor?.textContent?.trim() ?? '';
+                const nameAnchor = nameCell?.querySelector("a");
+                const participantName = nameAnchor?.textContent?.trim() ?? "";
 
-                const idMatch =
-                    nameAnchor?.getAttribute('href')?.match(/id=(\d+)/);
-                if (!idMatch) {
-                    console.warn("User ID not found for participant:", participantName);
-                    continue;
-                }
-                const participantId = parseInt(idMatch[1]);
+                const idMatch = nameAnchor?.getAttribute("href")?.match(/id=(\d+)/);
+                if (!idMatch) continue;
+                const participantId = parseInt(idMatch[1], 10);
 
-                const rawDuration = rowQuiz.querySelector('td.cell.c7')?.textContent?.trim() ?? '';
+                const rawDuration = rowQuiz.querySelector("td.cell.c7")?.textContent?.trim() ?? "";
                 const duration = normalizeTimeToMillis(rawDuration);
 
-                const gradeText = rowQuiz.querySelector('td.cell.c8 a')?.textContent?.trim() ?? '';
+                const gradeText = rowQuiz.querySelector("td.cell.c8 a")?.textContent?.trim() ?? "";
                 const grade = parseFloat(gradeText);
                 const normalizedGrade = normalizeGradeTo10(grade, maxGrade);
 
-                const participantData: QuizParticipantData = {
+                participantStats.push({
                     participantId,
                     participantName,
                     duration,
                     grade,
-                    normalizedGrade
-                };
-
-                participantStats.push(participantData);
+                    normalizedGrade,
+                });
             }
 
             const quiz: Quiz = {
@@ -417,209 +325,24 @@ export class LocalDataExtractor implements IDataExtractor {
                 lastAccess,
                 id,
                 maxGrade,
-                participantStats
+                participantStats,
             };
 
             quizzes.push(quiz);
 
-            return quizzes;
-
-        } catch (error) {
-            console.error("Error scraping Quizzes:", error);
-            return [];
-        }
-    }
-
-    /**
-     * Scrapes all Forum activities within a course.
-     */
-    async scrapeForums(
-        id: number,
-        activityName: string,
-        numViews: number,
-        numUsers: number,
-        lastAccess: number | undefined,
-        totalParticipants: number,
-        courseId: string
-    ): Promise<Forum[]> {
-        const t0 = performance.now();
-        devlog.info("dataExtractor", "scrapeForums:start", {
-            id, activityName, numViews, numUsers, lastAccess, totalParticipants, courseId
-        });
-
-        try {
-            // --- 1) Forum main → get forumId (language-agnostic via URL param) ---
-            const urlForumMain = getScrapeUrlForumMain(id);
-            let doc = await this.fetchAndParse(urlForumMain.forumMain);
-
-            const reportLink =
-                doc.querySelector<HTMLAnchorElement>('a[href*="forumid="]');
-            const reportHref = reportLink?.getAttribute("href") ?? "";
-            const forumId = parseInt(reportHref.match(/[?&]forumid=(\d+)/)?.[1] ?? "0", 10);
-
-            // --- 2) Subscriptions page: prefer numeric in the heading; fallback = row count ---
-            const urlForumSubscriptions = getScrapeUrlForumSubscriptions(forumId);
-            doc = await this.fetchAndParse(urlForumSubscriptions.forumSubscriptions);
-
-            let subscriptions: number;
-            const countInH2 = Array.from(doc.querySelectorAll("h2"))
-                .map(h => (h.textContent ?? "").match(/\(\s*(\d+)\s*\)/)?.[1])
-                .filter(Boolean)
-                .map(n => parseInt(n!, 10))[0];
-
-            if (Number.isFinite(countInH2)) {
-                subscriptions = countInH2!;
-            } else {
-                // Fallback: count users listed in the table (language-agnostic)
-                subscriptions = doc.querySelectorAll("table.generaltable tbody tr").length;
-            }
-
-            // --- 3) Forum summary report table (language-agnostic via IDs and data-sortby) ---
-            const urlForumReports = getScrapeUrlForumReports(courseId, forumId, totalParticipants);
-            doc = await this.fetchAndParse(urlForumReports.forumReports);
-
-            const table =
-                doc.querySelector<HTMLTableElement>("table#forumreport_summary_table");
-            if (!table) {
-                const msNF = Math.round(performance.now() - t0);
-                devlog.warn("dataExtractor", "scrapeForums:summary table not found", {durationMs: msNF});
-                return [];
-            }
-
-            // Build a header map: data-sortby -> column index
-            const headerIndex = new Map<string, number>();
-            Array.from(table.querySelectorAll<HTMLTableCellElement>("thead th")).forEach((th,
-                                                                                          idx) => {
-                const a = th.querySelector<HTMLAnchorElement>("a[data-sortby]");
-                const key = a?.getAttribute("data-sortby");
-                if (key) headerIndex.set(key, idx);
-            });
-
-            // Helpers to access cells by the header key
-            const getCellByKey =
-                (row: HTMLTableRowElement, key: string): HTMLTableCellElement | null => {
-                    const idx = headerIndex.get(key);
-                    if (idx == null) return null;
-                    const tds = row.querySelectorAll<HTMLTableCellElement>("td");
-                    return tds[idx] ?? null;
-                };
-
-            // Parse a cell containing a date/time in a language-agnostic way.
-            const parseTimestampFromCell =
-                (cell: Element | null): number | undefined => {
-                    if (!cell) return undefined;
-
-                    // 1) <time datetime="..."> (ISO 8601)
-                    const timeEl = cell.querySelector<HTMLTimeElement>("time[datetime]");
-                    const iso = timeEl?.getAttribute("datetime");
-                    if (iso) {
-                        const t = Date.parse(iso);
-                        if (Number.isFinite(t)) return t;
-                    }
-
-                    // 2) data-* timestamps (seconds or millis)
-                    const probe = cell.querySelector<HTMLElement>
-                    ("[data-timestamp],[data-timecreated],[data-timemodified],[data-time]");
-                    const candAttrs = ["data-timestamp", "data-timecreated", "data-timemodified", "data-time"] as const;
-                    for (const a of candAttrs) {
-                        const v = probe?.getAttribute(a);
-                        if (v && /^\d{10,13}$/.test(v)) {
-                            const n = parseInt(v, 10);
-                            return n < 2e12 ? n * 1000 : n; // seconds→ms if needed
-                        }
-                    }
-
-                    // 3) Last resort: look for a 10/13-digit number in the HTML (epoch)
-                    const html = cell.innerHTML;
-                    const m = html.match(/\b(\d{13}|\d{10})\b/);
-                    if (m) {
-                        const n = parseInt(m[1], 10);
-                        return n < 2e12 ? n * 1000 : n;
-                    }
-
-                    // Give up (avoid locale text parsing)
-                    return undefined;
-                };
-
-            // Numeric cell parser (robust to a thousand separators)
-            const parseCellInt = (cell: HTMLTableCellElement | null): number => {
-                const raw = cell?.textContent?.replace(/\u00A0/g, " ").trim() ?? "";
-                const digits = raw.match(/[\d.,]+/);
-                if (!digits) return 0;
-                const cleaned = digits[0].replace(/[.,\s]/g, "");
-                const n = parseInt(cleaned, 10);
-                return Number.isFinite(n) ? n : 0;
-            };
-
-            const rows =
-                Array.from(table.querySelectorAll<HTMLTableRowElement>("tbody tr"));
-            const participantsStats: ForumParticipantData[] = [];
-
-            for (const row of rows) {
-                // Name: language-agnostic via user profile link
-                const nameAnchor =
-                    row.querySelector<HTMLAnchorElement>('a[href*="/user/view.php"]');
-                if (!nameAnchor) continue;
-
-                const participantName =
-                    (Array.from(nameAnchor.childNodes).find(n => n.nodeType === Node.TEXT_NODE)?.textContent
-                        ?? nameAnchor.textContent ?? "").trim();
-
-                const idMatch =
-                    nameAnchor.getAttribute("href")?.match(/[?&]id=(\d+)/);
-                if (!idMatch) continue;
-                const participantId = parseInt(idMatch[1], 10);
-                if (!Number.isFinite(participantId)) continue;
-
-                // Map metrics by header keys
-                const discussionsPosted = parseCellInt(getCellByKey(row, "postcount"));// c2 in many themes
-                const repliesPosted = parseCellInt(getCellByKey(row, "replycount")); // c3
-                const views = parseCellInt(getCellByKey(row, "viewcount"));    // c5
-                const wordCount = parseCellInt(getCellByKey(row, "wordcount"));    // c6
-                const earliestPost =
-                    parseTimestampFromCell(getCellByKey(row, "earliestpost"));// c8
-                const mostRecentPost =
-                    parseTimestampFromCell(getCellByKey(row, "latestpost"));  // c9
-
-                // Skip pure-zero rows (noise)
-                if (discussionsPosted === 0 && repliesPosted === 0 && views === 0 && wordCount === 0) {
-                    continue;
-                }
-
-                participantsStats.push({
-                    participantId,
-                    participantName,
-                    discussionsPosted,
-                    repliesPosted,
-                    views,
-                    wordCount,
-                    earliestPost,
-                    mostRecentPost,
-                });
-            }
-
-            const forum: Forum = {
-                activityName,
-                numViews,
-                numUsers,
-                lastAccess,
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeQuizzes:success", {
                 id,
-                forumId,
-                subscriptions,
-                participantsStats,
-            };
+                activityName,
+                maxGrade,
+                participantsParsed: participantStats.length,
+                durationMs: ms,
+            }, quiz);
 
-            const forums: Forum[] = [forum];
-
-            const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeForums:success", {
-                id, forumId, subscriptions, participantsParsed: participantsStats.length, durationMs: ms,
-            });
-
-            return forums;
+            return quizzes;
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeForums:error", {error: String(error), durationMs: ms});
+            devlog.error("dataExtractor", "scrapeQuizzes:error", { error: String(error), durationMs: ms });
             return [];
         }
     }
@@ -657,13 +380,13 @@ export class LocalDataExtractor implements IDataExtractor {
             const dynamicTotal = 3 + rows.length;
             progress?.setTotal(dynamicTotal);
             progress?.tick(1);
-            console.info("progress:tick", "activity_report_parsed", 1, dynamicTotal);
+            devlog.info("progress:tick", "activity_report_parsed", 1, dynamicTotal);
 
             // ---- PROGRESS: participants ----
             progress?.setLabel("status.scraping_participants");
             const participants = await this.scrapeParticipants(participantsUrl);
             progress?.tick(1);
-            console.info("progress:tick", "participants_done", 2, dynamicTotal);
+            devlog.info("progress:tick", "participants_done", 2, dynamicTotal);
 
             const numParticipantsTotal = participants.length;
 
@@ -671,7 +394,7 @@ export class LocalDataExtractor implements IDataExtractor {
             progress?.setLabel("status.scraping_course_main");
             const courseName = await this.scrapeCourseMain(courseMainUrl);
             progress?.tick(1);
-            console.info("progress:tick", "course_main_done", 3, dynamicTotal);
+            devlog.info("progress:tick", "course_main_done", 3, dynamicTotal);
 
             // ---- Prepare accumulators ----
             const urlResources: URLResource[] = [];
@@ -693,6 +416,13 @@ export class LocalDataExtractor implements IDataExtractor {
             // ---- Iterate activities (1 tick per row processed) ----
             for (const row of rows) {
 
+                const activityLink = row.querySelector<HTMLAnchorElement>(
+                    'td.activityname a[href], td.activity a[href], td a[href*="/mod/"]'
+                );
+                if (!activityLink) {
+                    progress?.tick(1);
+                    continue;
+                }
 
                 const activityCell = row.querySelector('td.activityname');
                 const viewsCell = row.querySelector("td.numviews");

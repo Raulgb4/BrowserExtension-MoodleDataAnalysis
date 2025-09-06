@@ -1,14 +1,28 @@
 /**
  * @file AnalysisProgressContext.tsx
- *
  * @description
- * React context for tracking the progress of course analysis (scraping).
- * Provides functions to start, update, and complete a progress session,
- * and exposes the current progress state to the UI (e.g., Loader component).
+ * React context for tracking the progress of Moodle course analysis (scraping).
+ * Provides state and utility functions to:
+ *   - Start a new analysis session.
+ *   - Set the total number of steps.
+ *   - Increment the current step (tick).
+ *   - Update the progress label.
+ *   - Mark the analysis as complete.
+ *   - Reset the progress state.
  *
- * @author Raúl
+ * The context also exposes the timestamp of the last completed analysis,
+ * enabling features like "last analyzed X minutes ago" in the UI.
+ *
+ * Typical usage:
+ *   - Wrap the app with <AnalysisProvider>.
+ *   - Access progress state and methods via useAnalysisContext().
+ *   - Bind UI components (e.g., Loader) to reflect progress updates.
+ *
+ * @author
+ * Raúl García Balongo
  * @date 2025
  */
+
 
 import React, {createContext, ReactNode, useCallback, useContext, useState,} from "react";
 

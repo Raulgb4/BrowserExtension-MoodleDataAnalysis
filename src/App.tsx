@@ -42,7 +42,7 @@ import {useRelativeTime} from "./hooks/useRelativeTime";
 import ExportAllSelector from "./components/ExportAllSelector";
 import {ExportProvider} from "./context/ExportContext";
 import {devlog} from "./utils/devlog";
-import {IDataExtractor} from "./services/IDataExtractor";
+import {AbstractDataExtractor} from "./services/AbstractDataExtractor";
 
 /**
  * @function App
@@ -81,7 +81,7 @@ export function App() {
     // HOOK
     const relativeTime = useRelativeTime(lastAnalyzedAt);
 
-    const [extractor, setExtractor] = useState<IDataExtractor | null>(null);
+    const [extractor, setExtractor] = useState<AbstractDataExtractor | null>(null);
 
     type AnalysisProgress = {
         start: (label?: string) => void;

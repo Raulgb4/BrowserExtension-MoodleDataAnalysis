@@ -1,6 +1,21 @@
 /**
  * @file devlog.ts
- * @author Raúl García Balongo
+ * @description
+ * Lightweight logging utility for the Moodle Data Analyzer extension.
+ * Provides color-coded, context-aware console output for three log levels:
+ * INFO, WARN, and ERROR.
+ *
+ * Each log entry includes:
+ *   - A visual label with an icon and color styling.
+ *   - The logging context (e.g., module or feature name).
+ *   - A timestamp with millisecond precision.
+ *   - Any additional arguments passed by the caller.
+ *
+ * @note All messages are routed through `console.info` to ensure consistent
+ *       rendering across browsers, regardless of log level.
+ *
+ * @author
+ * Raúl García Balongo
  * @date 2025
  */
 
