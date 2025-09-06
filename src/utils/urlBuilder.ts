@@ -13,7 +13,7 @@
  * @date 2025
  */
 
-import { devlog } from "./devlog";
+import {devlog} from "./devlog";
 
 /** Base URLs for different Moodle environments (kept for reference/logs or tests) */
 export const MOODLE_BASE_URL_LOCAL = "http://localhost:8080";
@@ -46,7 +46,7 @@ let BASE = getBaseUrl();
 export function setBaseUrl(origin: string) {
     try {
         BASE = new URL(origin).origin.replace(/\/+$/, "");
-        devlog.info("urlBuilder", "setBaseUrl", { BASE });
+        devlog.info("urlBuilder", "setBaseUrl", {BASE});
     } catch (e) {
         devlog.warn("urlBuilder", "setBaseUrl: invalid origin, keeping previous BASE", {
             origin,

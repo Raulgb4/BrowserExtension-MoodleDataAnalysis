@@ -18,7 +18,8 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {
     computeAccessRanges,
-    computeActiveInactive, DEFAULT_ACTIVE_THRESHOLD_DAYS,
+    computeActiveInactive,
+    DEFAULT_ACTIVE_THRESHOLD_DAYS,
     extractUniqueRoles,
     filterByRoles,
 } from "../../utils/chartDataUtils";
@@ -170,7 +171,7 @@ const ParticipantsTab: React.FC = () => {
         roles: string[];
         selectedRoles: string[];
         onToggle: (role: string) => void;
-    }> = ({ title, roles, selectedRoles, onToggle }) => (
+    }> = ({title, roles, selectedRoles, onToggle}) => (
         <>
             <p className="text-sm text-gray-700 mb-2 text-center font-medium w-full">
                 {title}

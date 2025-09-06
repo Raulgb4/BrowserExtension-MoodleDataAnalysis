@@ -45,7 +45,6 @@ function out(level: Level, ctx: string, args: unknown[]) {
     const {label, icon, style} = LEVEL_META[level];
     const prefix = `%c${icon} ${label}%c %c${ctx}%c %c${ts()}%c`;
     const styles = [style, RESET, CTX_STYLE, RESET, TIME_STYLE, RESET];
-    // 👇 Siempre usamos console.info (aunque sea warn/error)
     console.info(prefix, ...styles, ...args);
 }
 

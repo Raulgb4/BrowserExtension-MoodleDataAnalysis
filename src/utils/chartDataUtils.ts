@@ -126,7 +126,7 @@ export const computeActiveInactive = (
         }
     }
 
-    return { active, inactive };
+    return {active, inactive};
 };
 
 

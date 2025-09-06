@@ -43,7 +43,7 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
 
 const chartSizes: Record<ChartType, string> = {
     pie: "w-64 h-64",
-    bar:  "w-full max-w-6xl h-[380px]",
+    bar: "w-full max-w-6xl h-[380px]",
     line: "w-full max-w-6xl h-[380px]",
     radar: "w-96",
     polarArea: "w-96 h-96",

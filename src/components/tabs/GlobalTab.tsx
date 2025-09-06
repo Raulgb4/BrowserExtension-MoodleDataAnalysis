@@ -193,9 +193,9 @@ const GlobalTab: React.FC = () => {
 
     return (
         <>
-            {chartBlocks.map(({ title, chartType, data, noteKey }, index) => (
+            {chartBlocks.map(({title, chartType, data, noteKey}, index) => (
                 <React.Fragment key={title}>
-                    <GraphBlock title={title} chartType={chartType} data={data} />
+                    <GraphBlock title={title} chartType={chartType} data={data}/>
 
                     {noteKey && (
                         <p
@@ -208,7 +208,7 @@ const GlobalTab: React.FC = () => {
                     )}
 
                     {index < chartBlocks.length - 1 && (
-                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto" />
+                        <hr className="my-6 border-t border-gray-300 w-3/4 mx-auto"/>
                     )}
                 </React.Fragment>
             ))}
