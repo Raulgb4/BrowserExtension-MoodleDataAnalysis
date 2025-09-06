@@ -693,24 +693,19 @@ export class LocalDataExtractor implements IDataExtractor {
 
             // ---- Iterate activities (1 tick per row processed) ----
             for (const row of rows) {
-                const activityLink = row.querySelector<HTMLAnchorElement>(
-                    'td.activityname a[href], td.activity a[href], td a[href*="/mod/"]'
-                );
-                if (!activityLink) {
-                    progress?.tick(1);
-                    continue;
-                }
 
+
+                const activityCell = row.querySelector('td.activityname');
                 const viewsCell = row.querySelector("td.numviews");
                 const lastAccessCell = row.querySelector("td.lastaccess");
+                const anchor = activityCell?.querySelector('a');
+                if (!anchor) continue;
 
-                const href = activityLink.getAttribute("href") ?? "";
-                const activityName = activityLink.textContent?.trim() ?? "";
+                const href = anchor?.getAttribute('href') ?? '';
+                const activityName = anchor?.textContent?.trim() ?? '';
+                const {numViews, numUsers} = parseViewsAndUsers(viewsCell?.textContent?.trim() ?? '');
 
-                const {numViews, numUsers} = parseViewsAndUsers(viewsCell?.textContent?.trim() ?? "");
-
-                const durationMatch =
-                    lastAccessCell?.textContent?.match(/\(([^)]+)\)/);
+                const durationMatch = lastAccessCell?.textContent?.match(/\(([^)]+)\)/);
                 const relativeDuration = durationMatch?.[1]?.trim();
                 const lastAccess = parseLastAccess(relativeDuration);
 
@@ -719,7 +714,7 @@ export class LocalDataExtractor implements IDataExtractor {
                     progress?.tick(1);
                     continue;
                 }
-                const id = parseInt(idMatch[1], 10);
+                const id = parseInt(idMatch[1]);
 
                 try {
                     switch (true) {

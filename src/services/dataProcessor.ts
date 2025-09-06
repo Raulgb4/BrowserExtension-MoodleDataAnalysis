@@ -194,31 +194,20 @@ export function parseCellToInt(cell: Element | null): number {
 export function parseViewsAndUsers(raw: string): { numViews: number; numUsers: number } {
     const text = (raw ?? "").replace(/\u00A0/g, " ").trim();
 
-    // Non-capturing group to avoid confusion; returns an array of full matches.
-    const NUM_TOKEN_RE = /\d{1,3}(?:[.,\s]\d{3})*|\d+/g;
-
-    // matches: string[] | null
-    const matches = text.match(NUM_TOKEN_RE);
-    const nums: string[] = matches ?? [];
+    const NUM_TOKEN_RE = /\d[\d.,\s]*/g;
+    const matches = text.match(NUM_TOKEN_RE) ?? [];
 
     const toInt = (s: string): number => {
         const n = parseInt(s.replace(/[.,\s]/g, ""), 10);
         return Number.isFinite(n) ? n : 0;
     };
 
-    if (nums.length === 0) {
-        return {numViews: 0, numUsers: 0};
-    }
+    const views = toInt(matches[0] ?? "0");
+    const users = toInt(matches[1] ?? "0");
 
-    // Ensure we always pass a string to toInt (satisfies TS)
-    const first = toInt(nums[0] ?? "0");
-    const second = toInt(nums[1] ?? "0");
-
-    return {
-        numViews: first,
-        numUsers: nums.length > 1 ? second : 0,
-    };
+    return { numViews: views, numUsers: users };
 }
+
 
 /**
  * Converts a JavaScript Date object into a human-readable relative time string.
