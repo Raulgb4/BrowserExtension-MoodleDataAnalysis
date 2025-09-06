@@ -160,14 +160,12 @@ export class LocalDataExtractor implements IDataExtractor {
                 const arr = raw.split(/[,;|]/).map(s => s.trim()).filter(Boolean);
                 return arr.length ? arr : undefined;
             };
-            const fallbackParseStatus =
-                (raw?: string | null) => raw?.trim() || undefined;
+
 
             const parseGroupsFn: (s?: string | null) => any =
                 (globalThis as any).parseGroups ?? fallbackParseGroups;
 
-            const parseStatusFn: (s?: string | null) => any =
-                (globalThis as any).parseStatus ?? fallbackParseStatus;
+
 
             for (const row of rows) {
                 // --- NAME / PROFILE LINK ---
@@ -221,25 +219,10 @@ export class LocalDataExtractor implements IDataExtractor {
                     cells[3]?.innerText?.trim();
                 const groups = parseGroupsFn(groupsRaw);
 
-                // Last access:
-                //  - Try class-based (td.cell.c4), then positional (cells[4]).
+                // lastAccessToCourse (optional, mirrors "official" shape if you use it elsewhere)
                 const lastAccessRaw =
-                    row.querySelector<HTMLElement>("td.cell.c4")?.innerText?.trim() ??
-                    cells[4]?.innerText?.trim();
+                    row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim();
                 const lastAccessToCourse = parseLastAccess(lastAccessRaw);
-
-                // Registration/status (local often at cells[5]); keep if your Participant type supports it.
-                const statusRaw =
-                    row.querySelector<HTMLElement>("td.cell.c5, td.status")?.innerText?.trim() ??
-                    cells[5]?.innerText?.trim();
-                const status = parseStatusFn(statusRaw);
-
-                // Registration (optional, mirrors "official" shape if you use it elsewhere)
-                const registrationRaw =
-                    row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim() ??
-                    statusRaw ??
-                    "";
-                const registration = registrationRaw || undefined;
 
                 const participant: Participant = {
                     id,
@@ -249,8 +232,6 @@ export class LocalDataExtractor implements IDataExtractor {
                     lastAccessToCourse,
                     // The following fields are included only if your Participant type defines them:
                     ...(typeof groups !== "undefined" ? {groups} : {}),
-                    ...(typeof status !== "undefined" ? {status} : {}),
-                    ...(registration ? {registration} : {}),
                 };
 
                 participants.push(participant);

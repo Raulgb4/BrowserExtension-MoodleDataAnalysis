@@ -1,8 +1,32 @@
 {
   "id": 2,
   "courseName": "Teoría de Autómatas y Lenguajes Formales (2022-23, Grado en Ingeniería de Computadores Grupo A, Grado en Ingeniería del Software Grupo D, Grado en Ingeniería Informática Grupos A,D y Grado en Matemáticas + Ingeniería Informática Todos",
-  "numParticipantsTotal": 215,
+  "numParticipantsTotal": 216,
   "participants": [
+    {
+      "id": 2,
+      "participantName": "Admin User",
+      "email": "raulgarciabalongo@hotmail.com",
+      "roles": [
+        "Student"
+      ],
+      "lastAccessToCourse": 16000,
+      "groups": [
+        "No groups"
+      ]
+    },
+    {
+      "id": 217,
+      "participantName": "UsuarioPrueba UsuarioPrueba",
+      "email": "UsuarioPrueba@UsuarioPrueba.com",
+      "roles": [
+        "Student"
+      ],
+      "lastAccessToCourse": 6620400000,
+      "groups": [
+        "No groups"
+      ]
+    },
     {
       "id": 3,
       "participantName": "anonfirstname1 anonlastname1",
@@ -13,9 +37,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 12,
@@ -27,9 +49,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 102,
@@ -41,9 +61,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 103,
@@ -57,9 +75,7 @@
         "Gr. Software (Grupo D)",
         "Taller de ejercicios",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 104,
@@ -71,9 +87,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 105,
@@ -85,9 +99,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 106,
@@ -99,9 +111,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 107,
@@ -113,9 +123,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 108,
@@ -128,9 +136,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 109,
@@ -143,9 +149,7 @@
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 110,
@@ -157,9 +161,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 111,
@@ -171,9 +173,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 13,
@@ -186,9 +186,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 112,
@@ -200,9 +198,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 113,
@@ -214,9 +210,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 114,
@@ -228,9 +222,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 115,
@@ -243,9 +235,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 116,
@@ -257,9 +247,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 117,
@@ -271,9 +259,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 118,
@@ -285,9 +271,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 119,
@@ -299,9 +283,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 120,
@@ -313,9 +295,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 121,
@@ -327,9 +307,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 14,
@@ -341,9 +319,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 122,
@@ -354,9 +330,7 @@
       ],
       "groups": [
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 123,
@@ -368,9 +342,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 124,
@@ -382,9 +354,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 125,
@@ -396,9 +366,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 126,
@@ -409,9 +377,7 @@
       ],
       "groups": [
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 127,
@@ -423,9 +389,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 128,
@@ -436,9 +400,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 129,
@@ -449,9 +411,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 130,
@@ -463,9 +423,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 131,
@@ -476,9 +434,7 @@
       ],
       "groups": [
         "Gr. Software (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 15,
@@ -490,9 +446,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 132,
@@ -504,9 +458,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 133,
@@ -519,9 +471,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 134,
@@ -532,9 +482,7 @@
       ],
       "groups": [
         "Gr. Software (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 135,
@@ -546,9 +494,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 136,
@@ -561,9 +507,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 137,
@@ -576,9 +520,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 138,
@@ -589,9 +531,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 139,
@@ -603,9 +543,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Software (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 140,
@@ -617,9 +555,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 141,
@@ -632,9 +568,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 16,
@@ -645,9 +579,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 142,
@@ -660,9 +592,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 143,
@@ -673,9 +603,7 @@
       ],
       "groups": [
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 144,
@@ -687,9 +615,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 145,
@@ -701,9 +627,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 146,
@@ -715,9 +639,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 147,
@@ -729,9 +651,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 148,
@@ -744,9 +664,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 149,
@@ -757,9 +675,7 @@
       ],
       "groups": [
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 150,
@@ -772,9 +688,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 151,
@@ -787,9 +701,7 @@
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 17,
@@ -800,9 +712,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 152,
@@ -814,9 +724,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 153,
@@ -828,9 +736,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 154,
@@ -842,9 +748,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 155,
@@ -857,9 +761,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 156,
@@ -871,9 +773,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 157,
@@ -885,9 +785,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 158,
@@ -899,9 +797,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 159,
@@ -913,9 +809,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 160,
@@ -928,9 +822,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 161,
@@ -942,9 +834,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 18,
@@ -955,9 +845,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 162,
@@ -969,9 +857,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 163,
@@ -983,9 +869,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 164,
@@ -997,9 +881,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 165,
@@ -1011,9 +893,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 166,
@@ -1025,9 +905,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 167,
@@ -1039,9 +917,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 168,
@@ -1054,9 +930,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 169,
@@ -1068,9 +942,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 170,
@@ -1083,9 +955,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 171,
@@ -1098,9 +968,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 19,
@@ -1112,9 +980,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 172,
@@ -1126,9 +992,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 173,
@@ -1139,9 +1003,7 @@
       ],
       "groups": [
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 174,
@@ -1153,9 +1015,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 175,
@@ -1166,9 +1026,7 @@
       ],
       "groups": [
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 176,
@@ -1180,9 +1038,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 177,
@@ -1193,9 +1049,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 178,
@@ -1207,9 +1061,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 179,
@@ -1221,9 +1073,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 180,
@@ -1235,9 +1085,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 181,
@@ -1249,9 +1097,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 20,
@@ -1262,9 +1108,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 182,
@@ -1275,9 +1119,7 @@
       ],
       "groups": [
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 183,
@@ -1290,9 +1132,7 @@
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 184,
@@ -1304,9 +1144,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 185,
@@ -1318,9 +1156,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 186,
@@ -1332,9 +1168,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 187,
@@ -1345,9 +1179,7 @@
       ],
       "groups": [
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 188,
@@ -1360,9 +1192,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 189,
@@ -1374,9 +1204,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 190,
@@ -1388,9 +1216,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 191,
@@ -1402,9 +1228,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 21,
@@ -1416,9 +1240,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 192,
@@ -1430,9 +1252,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 193,
@@ -1445,9 +1265,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 194,
@@ -1459,9 +1277,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 195,
@@ -1473,9 +1289,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 196,
@@ -1487,9 +1301,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 197,
@@ -1501,9 +1313,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 198,
@@ -1516,9 +1326,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 199,
@@ -1532,9 +1340,7 @@
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 200,
@@ -1546,9 +1352,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 201,
@@ -1559,9 +1363,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 4,
@@ -1572,9 +1374,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 22,
@@ -1586,9 +1386,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 202,
@@ -1601,9 +1399,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 203,
@@ -1615,9 +1411,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 204,
@@ -1629,9 +1423,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 205,
@@ -1642,9 +1434,7 @@
       ],
       "groups": [
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 206,
@@ -1657,9 +1447,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 207,
@@ -1671,9 +1459,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 208,
@@ -1684,9 +1470,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 209,
@@ -1697,9 +1481,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 210,
@@ -1710,9 +1492,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 211,
@@ -1723,9 +1503,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 23,
@@ -1737,9 +1515,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 212,
@@ -1750,9 +1526,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 213,
@@ -1763,9 +1537,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 214,
@@ -1776,9 +1548,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 215,
@@ -1789,9 +1559,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 216,
@@ -1802,9 +1570,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 24,
@@ -1815,9 +1581,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 25,
@@ -1828,9 +1592,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 26,
@@ -1841,9 +1603,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 27,
@@ -1855,9 +1615,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 28,
@@ -1868,9 +1626,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 29,
@@ -1881,9 +1637,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 30,
@@ -1896,9 +1650,7 @@
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 31,
@@ -1909,9 +1661,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 5,
@@ -1922,9 +1672,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 32,
@@ -1935,9 +1683,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 33,
@@ -1948,9 +1694,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 34,
@@ -1961,9 +1705,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 35,
@@ -1974,9 +1716,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 36,
@@ -1988,9 +1728,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 37,
@@ -2001,9 +1739,7 @@
       ],
       "groups": [
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 38,
@@ -2015,9 +1751,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 39,
@@ -2029,9 +1763,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 40,
@@ -2042,9 +1774,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 41,
@@ -2056,9 +1786,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 6,
@@ -2069,9 +1797,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 42,
@@ -2083,9 +1809,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 43,
@@ -2098,9 +1822,7 @@
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 44,
@@ -2111,9 +1833,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 45,
@@ -2125,9 +1845,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 46,
@@ -2139,9 +1857,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 47,
@@ -2153,9 +1869,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 48,
@@ -2167,9 +1881,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 49,
@@ -2181,9 +1893,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 50,
@@ -2196,9 +1906,7 @@
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 51,
@@ -2210,9 +1918,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 7,
@@ -2223,9 +1929,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 52,
@@ -2237,9 +1941,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 53,
@@ -2251,9 +1953,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 54,
@@ -2265,9 +1965,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 55,
@@ -2279,9 +1977,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 56,
@@ -2294,9 +1990,7 @@
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 57,
@@ -2309,9 +2003,7 @@
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 58,
@@ -2323,9 +2015,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 59,
@@ -2337,9 +2027,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 60,
@@ -2351,9 +2039,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 61,
@@ -2365,9 +2051,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 8,
@@ -2379,9 +2063,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 62,
@@ -2392,9 +2074,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 63,
@@ -2406,9 +2086,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 64,
@@ -2419,9 +2097,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 65,
@@ -2434,9 +2110,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 66,
@@ -2447,9 +2121,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 67,
@@ -2460,9 +2132,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 68,
@@ -2473,9 +2143,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 69,
@@ -2486,9 +2154,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 70,
@@ -2501,9 +2167,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Doble Informática+Matemáticas",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 71,
@@ -2514,9 +2178,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 9,
@@ -2527,9 +2189,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 72,
@@ -2541,9 +2201,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Doble Informática+Matemáticas"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 73,
@@ -2555,9 +2213,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Doble Informática+Matemáticas"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 74,
@@ -2569,9 +2225,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Doble Informática+Matemáticas"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 75,
@@ -2583,9 +2237,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 76,
@@ -2596,9 +2248,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 77,
@@ -2610,9 +2260,7 @@
       "groups": [
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Doble Informática+Matemáticas"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 78,
@@ -2623,9 +2271,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 79,
@@ -2636,9 +2282,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 80,
@@ -2649,9 +2293,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 81,
@@ -2663,9 +2305,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 10,
@@ -2678,9 +2318,7 @@
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 82,
@@ -2693,9 +2331,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 83,
@@ -2707,9 +2343,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 84,
@@ -2721,9 +2355,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 85,
@@ -2735,9 +2367,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 86,
@@ -2749,9 +2379,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 87,
@@ -2762,9 +2390,7 @@
       ],
       "groups": [
         "No groups"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 88,
@@ -2775,9 +2401,7 @@
       ],
       "groups": [
         "Gr. Computadores (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 89,
@@ -2789,9 +2413,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 90,
@@ -2804,9 +2426,7 @@
         "GR 3 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 91,
@@ -2819,9 +2439,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 11,
@@ -2833,9 +2451,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 92,
@@ -2847,9 +2463,7 @@
       "groups": [
         "GR 2 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 93,
@@ -2861,9 +2475,7 @@
       "groups": [
         "GR 2 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 94,
@@ -2875,9 +2487,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 95,
@@ -2889,9 +2499,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 96,
@@ -2905,9 +2513,7 @@
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios",
         "Trabajos TALF 2022-23"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 97,
@@ -2919,9 +2525,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 98,
@@ -2933,9 +2537,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 99,
@@ -2947,9 +2549,7 @@
       "groups": [
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 100,
@@ -2961,9 +2561,7 @@
       "groups": [
         "GR 1 (INF A)",
         "Gr. Informática (Grupo A)"
-      ],
-      "status": "Never",
-      "registration": "Never"
+      ]
     },
     {
       "id": 101,
@@ -2976,22 +2574,7 @@
         "GR 1 (COM A/INF D/SOF D)",
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
-      ],
-      "status": "Never",
-      "registration": "Never"
-    },
-    {
-      "id": 217,
-      "participantName": "UsuarioPrueba UsuarioPrueba",
-      "email": "UsuarioPrueba@UsuarioPrueba.com",
-      "roles": [
-        "Student"
-      ],
-      "groups": [
-        "No groups"
-      ],
-      "status": "72 days 18 hours",
-      "registration": "72 days 18 hours"
+      ]
     }
   ],
   "urlResources": [
@@ -2999,199 +2582,199 @@
       "activityName": "Presentación de TALF",
       "numViews": 631,
       "numUsers": 171,
-      "lastAccess": 5281200000
+      "lastAccess": 5616000000
     },
     {
       "activityName": "Apuntes y scripts (repo en bitbucket)",
       "numViews": 760,
       "numUsers": 157,
-      "lastAccess": 6390000000
+      "lastAccess": 6724800000
     },
     {
       "activityName": "Apuntes de TALF (enlace externo a última versión)",
       "numViews": 827,
       "numUsers": 175,
-      "lastAccess": 6660000000
+      "lastAccess": 6994800000
     },
     {
       "activityName": "Grabación tutoría virtual",
       "numViews": 106,
       "numUsers": 43,
-      "lastAccess": 63849600000
+      "lastAccess": 64195200000
     },
     {
       "activityName": "reparto TALF",
       "numViews": 5,
       "numUsers": 3,
-      "lastAccess": 6390000000
+      "lastAccess": 6724800000
     },
     {
       "activityName": "Sesión Presentación + T1 URL",
       "numViews": 408,
       "numUsers": 148,
-      "lastAccess": 50976000000
+      "lastAccess": 51321600000
     },
     {
       "activityName": "Vídeo del capítulo 1",
       "numViews": 236,
       "numUsers": 113,
-      "lastAccess": 6390000000
+      "lastAccess": 6724800000
     },
     {
       "activityName": "La biblioteca de Babel",
       "numViews": 67,
       "numUsers": 50,
-      "lastAccess": 63331200000
+      "lastAccess": 63676800000
     },
     {
       "activityName": "El hotel infinito de Hilbert",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 63072000000
+      "lastAccess": 63331200000
     },
     {
       "activityName": "Sesión del tema 2",
       "numViews": 459,
       "numUsers": 137,
-      "lastAccess": 50889600000
+      "lastAccess": 51235200000
     },
     {
       "activityName": "Vídeo del capítulo 2",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 65232000000
+      "lastAccess": 65577600000
     },
     {
       "activityName": "Noam Chomsky",
       "numViews": 40,
       "numUsers": 30,
-      "lastAccess": 64022400000
+      "lastAccess": 64368000000
     },
     {
       "activityName": "Anochecer",
       "numViews": 63,
       "numUsers": 45,
-      "lastAccess": 66355200000
+      "lastAccess": 66700800000
     },
     {
       "activityName": "Desarrollo embrionario",
       "numViews": 34,
       "numUsers": 26,
-      "lastAccess": 66355200000
+      "lastAccess": 66700800000
     },
     {
       "activityName": "Sesión del Tema 3",
       "numViews": 287,
       "numUsers": 105,
-      "lastAccess": 6465600000
+      "lastAccess": 6800400000
     },
     {
       "activityName": "IEEE Std 1003.1-2008",
       "numViews": 19,
       "numUsers": 17,
-      "lastAccess": 66182400000
+      "lastAccess": 66528000000
     },
     {
       "activityName": "Comparativa expresiones regulares en Perl, Python y Emacs",
       "numViews": 15,
       "numUsers": 14,
-      "lastAccess": 66182400000
+      "lastAccess": 66528000000
     },
     {
       "activityName": "Sesión de problemas",
       "numViews": 211,
       "numUsers": 90,
-      "lastAccess": 47088000000
+      "lastAccess": 47347200000
     },
     {
       "activityName": "Resumen Presentación prácticas",
       "numViews": 354,
       "numUsers": 132,
-      "lastAccess": 62467200000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "Práctica 1",
       "numViews": 203,
       "numUsers": 106,
-      "lastAccess": 47174400000
+      "lastAccess": 47520000000
     },
     {
       "activityName": "Práctica 1 bis",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 65577600000
+      "lastAccess": 65923200000
     },
     {
       "activityName": "Máquina Virtual Ubuntu",
       "numViews": 614,
       "numUsers": 172,
-      "lastAccess": 48384000000
+      "lastAccess": 48729600000
     },
     {
       "activityName": "Distribución de Linux",
       "numViews": 200,
       "numUsers": 96,
-      "lastAccess": 48384000000
+      "lastAccess": 48729600000
     },
     {
       "activityName": "Intro a LaTeX",
       "numViews": 234,
       "numUsers": 111,
-      "lastAccess": 60825600000
+      "lastAccess": 61171200000
     },
     {
       "activityName": "Overleaf",
       "numViews": 101,
       "numUsers": 67,
-      "lastAccess": 47779200000
+      "lastAccess": 48124800000
     },
     {
       "activityName": "grep + Regular Expressions",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 47520000000
+      "lastAccess": 47865600000
     },
     {
       "activityName": "Bash Linux Tutorial",
       "numViews": 58,
       "numUsers": 40,
-      "lastAccess": 62899200000
+      "lastAccess": 63244800000
     },
     {
       "activityName": "Sesión Tema 4 - ING INF",
       "numViews": 222,
       "numUsers": 86,
-      "lastAccess": 47088000000
+      "lastAccess": 47347200000
     },
     {
       "activityName": "Sesión del Tema 4 - ING COM",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 66441600000
+      "lastAccess": 66787200000
     },
     {
       "activityName": "JFLAP",
       "numViews": 69,
       "numUsers": 46,
-      "lastAccess": 47174400000
+      "lastAccess": 47520000000
     },
     {
       "activityName": "Sesión del Tema 5",
       "numViews": 240,
       "numUsers": 90,
-      "lastAccess": 51062400000
+      "lastAccess": 51408000000
     },
     {
       "activityName": "The pumping lemma poem",
       "numViews": 37,
       "numUsers": 33,
-      "lastAccess": 47779200000
+      "lastAccess": 48124800000
     },
     {
       "activityName": "Sesión del Tema 6 ING INF",
       "numViews": 232,
       "numUsers": 92,
-      "lastAccess": 51062400000
+      "lastAccess": 51408000000
     },
     {
       "activityName": "Tema 6 ING COM",
@@ -3202,31 +2785,31 @@
       "activityName": "Context free art",
       "numViews": 17,
       "numUsers": 15,
-      "lastAccess": 82425600000
+      "lastAccess": 82771200000
     },
     {
       "activityName": "Sistemas de Lindenmayer",
       "numViews": 11,
       "numUsers": 9,
-      "lastAccess": 82425600000
+      "lastAccess": 82771200000
     },
     {
       "activityName": "Context-free grammar programming",
       "numViews": 12,
       "numUsers": 10,
-      "lastAccess": 82252800000
+      "lastAccess": 82598400000
     },
     {
       "activityName": "Problemas 2 ING INF",
       "numViews": 113,
       "numUsers": 48,
-      "lastAccess": 51062400000
+      "lastAccess": 51408000000
     },
     {
       "activityName": "Sesión Práctica 2",
       "numViews": 93,
       "numUsers": 53,
-      "lastAccess": 59270400000
+      "lastAccess": 59616000000
     },
     {
       "activityName": "Tema 7 - sesión ING COM",
@@ -3237,31 +2820,31 @@
       "activityName": "Tema 7 - sesión ING INF",
       "numViews": 405,
       "numUsers": 105,
-      "lastAccess": 48038400000
+      "lastAccess": 48297600000
     },
     {
       "activityName": "MT simulada",
       "numViews": 73,
       "numUsers": 55,
-      "lastAccess": 62553600000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "La guerra de Turing",
       "numViews": 49,
       "numUsers": 41,
-      "lastAccess": 62812800000
+      "lastAccess": 63158400000
     },
     {
       "activityName": "Vídeo sobre incompletitud",
       "numViews": 45,
       "numUsers": 38,
-      "lastAccess": 48038400000
+      "lastAccess": 48297600000
     },
     {
       "activityName": "Tema 8 - sesión ING INF",
       "numViews": 354,
       "numUsers": 105,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "Tema 8 - sesión ING COM",
@@ -3272,13 +2855,13 @@
       "activityName": "Sesión Tema 9",
       "numViews": 349,
       "numUsers": 102,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "sesión de repaso Temas 7-9",
       "numViews": 109,
       "numUsers": 58,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Tutoría previa a Parcial 3",
@@ -3289,19 +2872,19 @@
       "activityName": "Problemas 3 (Parte I)",
       "numViews": 290,
       "numUsers": 93,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Problemas 3 (Parte II)",
       "numViews": 165,
       "numUsers": 68,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Sesión Práctica 3 INF",
       "numViews": 114,
       "numUsers": 54,
-      "lastAccess": 59270400000
+      "lastAccess": 59616000000
     },
     {
       "activityName": "Sesión Práctica 3 COMP",
@@ -3312,61 +2895,61 @@
       "activityName": "Compilador WHILE",
       "numViews": 359,
       "numUsers": 122,
-      "lastAccess": 62553600000
+      "lastAccess": 62899200000
     },
     {
       "activityName": "Sesión Tema 10",
       "numViews": 236,
       "numUsers": 89,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "Tesis Church-Turing",
       "numViews": 25,
       "numUsers": 19,
-      "lastAccess": 62467200000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "Sesión Tema 11 (ING COM)",
       "numViews": 188,
       "numUsers": 72,
-      "lastAccess": 48124800000
+      "lastAccess": 48470400000
     },
     {
       "activityName": "sesión Tema 11 (ING INF)",
       "numViews": 207,
       "numUsers": 84,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "Scripts en Octave para codificación de programas While",
       "numViews": 22,
       "numUsers": 17,
-      "lastAccess": 62726400000
+      "lastAccess": 62985600000
     },
     {
       "activityName": "Octave Online",
       "numViews": 11,
       "numUsers": 9,
-      "lastAccess": 64800000000
+      "lastAccess": 65145600000
     },
     {
       "activityName": "Sesión Tema 12 (ING COM)",
       "numViews": 116,
       "numUsers": 49,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "Sesión Tema 12 (ING INF)",
       "numViews": 194,
       "numUsers": 75,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "Sobre Castor afanoso y los grandes números",
       "numViews": 43,
       "numUsers": 33,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Tutoría previa a Parcial 4",
@@ -3377,25 +2960,25 @@
       "activityName": "Crear un ordenador en Life",
       "numViews": 26,
       "numUsers": 16,
-      "lastAccess": 62380800000
+      "lastAccess": 62726400000
     },
     {
       "activityName": "Problemas 4 ING COM",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 65404800000
+      "lastAccess": 65664000000
     },
     {
       "activityName": "Problemas 4 ING INF",
       "numViews": 159,
       "numUsers": 60,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Sesión Práctica 4 INF",
       "numViews": 78,
       "numUsers": 42,
-      "lastAccess": 62467200000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "Sesión Práctica 4 COMP",
@@ -3406,13 +2989,13 @@
       "activityName": "Francisco Vico",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 69292800000
+      "lastAccess": 69552000000
     },
     {
       "activityName": "Karl Thurnhofer",
       "numViews": 3,
       "numUsers": 2,
-      "lastAccess": 6663600000
+      "lastAccess": 6998400000
     },
     {
       "activityName": "Francisco Vico",
@@ -3455,178 +3038,178 @@
       "activityName": "Copia local del repo talfuma",
       "numViews": 181,
       "numUsers": 86,
-      "lastAccess": 5346000000
+      "lastAccess": 5680800000
     },
     {
       "activityName": "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
       "numViews": 480,
       "numUsers": 6,
-      "lastAccess": 5706000000
+      "lastAccess": 6040800000
     },
     {
       "activityName": "Jerarquía de Chomsky y el lenguaje natural",
       "numViews": 126,
       "numUsers": 79,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Ejercicios 1",
       "numViews": 833,
       "numUsers": 180,
-      "lastAccess": 5706000000
+      "lastAccess": 6040800000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 1",
       "numViews": 492,
       "numUsers": 152,
-      "lastAccess": 51062400000
+      "lastAccess": 51408000000
     },
     {
       "activityName": "Práctica 1",
       "numViews": 200,
       "numUsers": 6,
-      "lastAccess": 51408000000
+      "lastAccess": 51753600000
     },
     {
       "activityName": "Posibles soluciones Práctica 1",
       "numViews": 349,
       "numUsers": 146,
-      "lastAccess": 47174400000
+      "lastAccess": 47520000000
     },
     {
       "activityName": "Ejemplo de documento LaTex",
       "numViews": 232,
       "numUsers": 122,
-      "lastAccess": 80956800000
+      "lastAccess": 81302400000
     },
     {
       "activityName": "Ficheros Práctica 1",
       "numViews": 639,
       "numUsers": 180,
-      "lastAccess": 62812800000
+      "lastAccess": 63158400000
     },
     {
       "activityName": "Ejercicios 2",
       "numViews": 576,
       "numUsers": 150,
-      "lastAccess": 47174400000
+      "lastAccess": 47520000000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 2",
       "numViews": 451,
       "numUsers": 139,
-      "lastAccess": 51062400000
+      "lastAccess": 51408000000
     },
     {
       "activityName": "Práctica 2",
       "numViews": 814,
       "numUsers": 171,
-      "lastAccess": 47779200000
+      "lastAccess": 48124800000
     },
     {
       "activityName": "Posibles soluciones Práctica 2",
       "numViews": 161,
       "numUsers": 105,
-      "lastAccess": 62726400000
+      "lastAccess": 63072000000
     },
     {
       "activityName": "Ficheros Práctica 2",
       "numViews": 328,
       "numUsers": 161,
-      "lastAccess": 62726400000
+      "lastAccess": 63072000000
     },
     {
       "activityName": "JFLAP",
       "numViews": 409,
       "numUsers": 162,
-      "lastAccess": 47174400000
+      "lastAccess": 47520000000
     },
     {
       "activityName": "Ejercicios 3",
       "numViews": 718,
       "numUsers": 158,
-      "lastAccess": 53654400000
+      "lastAccess": 54000000000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 3",
       "numViews": 478,
       "numUsers": 131,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Práctica 3",
       "numViews": 772,
       "numUsers": 156,
-      "lastAccess": 61689600000
+      "lastAccess": 62035200000
     },
     {
       "activityName": "Soluciones práctica 3",
       "numViews": 310,
       "numUsers": 125,
-      "lastAccess": 62380800000
+      "lastAccess": 62726400000
     },
     {
       "activityName": "EjemploMT",
       "numViews": 425,
       "numUsers": 133,
-      "lastAccess": 47779200000
+      "lastAccess": 48124800000
     },
     {
       "activityName": "EjemploWHILE",
       "numViews": 353,
       "numUsers": 127,
-      "lastAccess": 62640000000
+      "lastAccess": 62985600000
     },
     {
       "activityName": "Paquete whilecode para Latex",
       "numViews": 246,
       "numUsers": 115,
-      "lastAccess": 62553600000
+      "lastAccess": 62899200000
     },
     {
       "activityName": "Ejercicios 4",
       "numViews": 322,
       "numUsers": 112,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 4",
       "numViews": 188,
       "numUsers": 89,
-      "lastAccess": 57196800000
+      "lastAccess": 57542400000
     },
     {
       "activityName": "Posible solución al taller",
       "numViews": 18,
       "numUsers": 14,
-      "lastAccess": 62553600000
+      "lastAccess": 62899200000
     },
     {
       "activityName": "Práctica 4",
       "numViews": 434,
       "numUsers": 149,
-      "lastAccess": 61689600000
+      "lastAccess": 62035200000
     },
     {
       "activityName": "Posibles soluciones Práctica 4",
       "numViews": 237,
       "numUsers": 111,
-      "lastAccess": 62380800000
+      "lastAccess": 62726400000
     },
     {
       "activityName": "Ficheros de la Práctica 4",
       "numViews": 210,
       "numUsers": 111,
-      "lastAccess": 62553600000
+      "lastAccess": 62899200000
     }
   ],
   "choices": [
     {
       "id": 23,
       "activityName": "Día para E1_1+",
-      "numViews": 135,
+      "numViews": 137,
       "numUsers": 9,
-      "lastAccess": 17000,
+      "lastAccess": 12000,
       "responseCounts": {
         "07/11 - lunes": 44,
         "08/11 - martes": 7,
@@ -3638,9 +3221,9 @@
     {
       "id": 29,
       "activityName": "¿Cómo explicarías a un niño qué es la matemática discreta?",
-      "numViews": 742,
+      "numViews": 762,
       "numUsers": 82,
-      "lastAccess": 17000,
+      "lastAccess": 12000,
       "responseCounts": {
         "Estudia lo que se puede contar.": 21,
         "Son los números naturales.": 0,
@@ -3655,102 +3238,3500 @@
       "activityName": "Taller Bloque 1",
       "numViews": 100,
       "numUsers": 5,
-      "lastAccess": 5346000000
+      "lastAccess": 5680800000
     },
     {
       "activityName": "Taller Bloque 2",
       "numViews": 699,
       "numUsers": 37,
-      "lastAccess": 6386400000
+      "lastAccess": 6721200000
     },
     {
       "activityName": "Taller Bloque 3",
       "numViews": 547,
       "numUsers": 33,
-      "lastAccess": 61689600000
+      "lastAccess": 62035200000
     },
     {
       "activityName": "Taller Bloque 4",
       "numViews": 441,
       "numUsers": 32,
-      "lastAccess": 6472800000
+      "lastAccess": 6807600000
     }
   ],
   "quizzes": [
     {
       "activityName": "E1_1+",
-      "numViews": 345,
+      "numViews": 347,
       "numUsers": 0,
-      "lastAccess": 19000,
+      "lastAccess": 14000,
       "id": 14,
       "maxGrade": 1,
-      "participantStats": []
+      "participantStats": [
+        {
+          "participantId": 11,
+          "participantName": "anonfirstname9 anonlastname9",
+          "duration": 2792000,
+          "grade": 0.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 12,
+          "participantName": "anonfirstname10 anonlastname10",
+          "duration": 1435000,
+          "grade": 0.33,
+          "normalizedGrade": 3.3
+        },
+        {
+          "participantId": 14,
+          "participantName": "anonfirstname12 anonlastname12",
+          "duration": 714000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 17,
+          "participantName": "anonfirstname15 anonlastname15",
+          "duration": 1426000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 27,
+          "participantName": "anonfirstname25 anonlastname25",
+          "duration": 2470000,
+          "grade": 0.42,
+          "normalizedGrade": 4.2
+        },
+        {
+          "participantId": 31,
+          "participantName": "anonfirstname29 anonlastname29",
+          "duration": 527000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 43,
+          "participantName": "anonfirstname41 anonlastname41",
+          "duration": 1355000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 49,
+          "participantName": "anonfirstname47 anonlastname47",
+          "duration": 1150000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 53,
+          "participantName": "anonfirstname51 anonlastname51",
+          "duration": 1109000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 60,
+          "participantName": "anonfirstname58 anonlastname58",
+          "duration": 998000,
+          "grade": 0.42,
+          "normalizedGrade": 4.2
+        },
+        {
+          "participantId": 61,
+          "participantName": "anonfirstname59 anonlastname59",
+          "duration": 674000,
+          "grade": 0.33,
+          "normalizedGrade": 3.3
+        },
+        {
+          "participantId": 65,
+          "participantName": "anonfirstname63 anonlastname63",
+          "duration": 2395000,
+          "grade": 0.33,
+          "normalizedGrade": 3.3
+        },
+        {
+          "participantId": 66,
+          "participantName": "anonfirstname64 anonlastname64",
+          "duration": 483000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 67,
+          "participantName": "anonfirstname65 anonlastname65",
+          "duration": 454000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 68,
+          "participantName": "anonfirstname66 anonlastname66",
+          "duration": 864000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 70,
+          "participantName": "anonfirstname68 anonlastname68",
+          "duration": 629000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 71,
+          "participantName": "anonfirstname69 anonlastname69",
+          "duration": 649000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 72,
+          "participantName": "anonfirstname70 anonlastname70",
+          "duration": 851000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 73,
+          "participantName": "anonfirstname71 anonlastname71",
+          "duration": 854000,
+          "grade": 0.67,
+          "normalizedGrade": 6.7
+        },
+        {
+          "participantId": 74,
+          "participantName": "anonfirstname72 anonlastname72",
+          "duration": 632000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 76,
+          "participantName": "anonfirstname74 anonlastname74",
+          "duration": 809000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 77,
+          "participantName": "anonfirstname75 anonlastname75",
+          "duration": 2237000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 79,
+          "participantName": "anonfirstname77 anonlastname77",
+          "duration": 1137000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 86,
+          "participantName": "anonfirstname84 anonlastname84",
+          "duration": 985000,
+          "grade": 0.67,
+          "normalizedGrade": 6.7
+        },
+        {
+          "participantId": 90,
+          "participantName": "anonfirstname88 anonlastname88",
+          "duration": 976000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 93,
+          "participantName": "anonfirstname91 anonlastname91",
+          "duration": 815000,
+          "grade": 0.67,
+          "normalizedGrade": 6.7
+        },
+        {
+          "participantId": 94,
+          "participantName": "anonfirstname92 anonlastname92",
+          "duration": 935000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 96,
+          "participantName": "anonfirstname94 anonlastname94",
+          "duration": 267000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 100,
+          "participantName": "anonfirstname98 anonlastname98",
+          "duration": 932000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 101,
+          "participantName": "anonfirstname99 anonlastname99",
+          "duration": 833000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 103,
+          "participantName": "anonfirstname101 anonlastname101",
+          "duration": 1817000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 105,
+          "participantName": "anonfirstname103 anonlastname103",
+          "duration": 1005000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 106,
+          "participantName": "anonfirstname104 anonlastname104",
+          "duration": 594000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 1310000,
+          "grade": 0.08,
+          "normalizedGrade": 0.8
+        },
+        {
+          "participantId": 110,
+          "participantName": "anonfirstname108 anonlastname108",
+          "duration": 1312000,
+          "grade": 0.58,
+          "normalizedGrade": 5.8
+        },
+        {
+          "participantId": 116,
+          "participantName": "anonfirstname114 anonlastname114",
+          "duration": 974000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 123,
+          "participantName": "anonfirstname121 anonlastname121",
+          "duration": 1057000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 125,
+          "participantName": "anonfirstname123 anonlastname123",
+          "duration": 2781000,
+          "grade": 0.58,
+          "normalizedGrade": 5.8
+        },
+        {
+          "participantId": 129,
+          "participantName": "anonfirstname127 anonlastname127",
+          "duration": 1029000,
+          "grade": 0.58,
+          "normalizedGrade": 5.8
+        },
+        {
+          "participantId": 132,
+          "participantName": "anonfirstname130 anonlastname130",
+          "duration": 1899000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 135,
+          "participantName": "anonfirstname133 anonlastname133",
+          "duration": 755000,
+          "grade": 0.17,
+          "normalizedGrade": 1.7
+        },
+        {
+          "participantId": 137,
+          "participantName": "anonfirstname135 anonlastname135",
+          "duration": 1426000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 139,
+          "participantName": "anonfirstname137 anonlastname137",
+          "duration": 1486000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 141,
+          "participantName": "anonfirstname139 anonlastname139",
+          "duration": 679000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 145,
+          "participantName": "anonfirstname143 anonlastname143",
+          "duration": 1318000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 148,
+          "participantName": "anonfirstname146 anonlastname146",
+          "duration": 539000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 153,
+          "participantName": "anonfirstname151 anonlastname151",
+          "duration": 2749000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 154,
+          "participantName": "anonfirstname152 anonlastname152",
+          "duration": 1085000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 155,
+          "participantName": "anonfirstname153 anonlastname153",
+          "duration": 1009000,
+          "grade": 0.67,
+          "normalizedGrade": 6.7
+        },
+        {
+          "participantId": 156,
+          "participantName": "anonfirstname154 anonlastname154",
+          "duration": 875000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 158,
+          "participantName": "anonfirstname156 anonlastname156",
+          "duration": 1006000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 159,
+          "participantName": "anonfirstname157 anonlastname157",
+          "duration": 1078000,
+          "grade": 0.67,
+          "normalizedGrade": 6.7
+        },
+        {
+          "participantId": 165,
+          "participantName": "anonfirstname163 anonlastname163",
+          "duration": 1869000,
+          "grade": 0.42,
+          "normalizedGrade": 4.2
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 1087000,
+          "grade": 0.58,
+          "normalizedGrade": 5.8
+        },
+        {
+          "participantId": 167,
+          "participantName": "anonfirstname165 anonlastname165",
+          "duration": 1741000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 170,
+          "participantName": "anonfirstname168 anonlastname168",
+          "duration": 1397000,
+          "grade": 0.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 172,
+          "participantName": "anonfirstname170 anonlastname170",
+          "duration": 1355000,
+          "grade": 0.58,
+          "normalizedGrade": 5.8
+        },
+        {
+          "participantId": 176,
+          "participantName": "anonfirstname174 anonlastname174",
+          "duration": 1165000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 178,
+          "participantName": "anonfirstname176 anonlastname176",
+          "duration": 1830000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 179,
+          "participantName": "anonfirstname177 anonlastname177",
+          "duration": 1824000,
+          "grade": 0.33,
+          "normalizedGrade": 3.3
+        },
+        {
+          "participantId": 188,
+          "participantName": "anonfirstname186 anonlastname186",
+          "duration": 631000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 191,
+          "participantName": "anonfirstname189 anonlastname189",
+          "duration": 1250000,
+          "grade": 0.58,
+          "normalizedGrade": 5.8
+        },
+        {
+          "participantId": 193,
+          "participantName": "anonfirstname191 anonlastname191",
+          "duration": 1038000,
+          "grade": 0.83,
+          "normalizedGrade": 8.3
+        },
+        {
+          "participantId": 197,
+          "participantName": "anonfirstname195 anonlastname195",
+          "duration": 1144000,
+          "grade": 0.42,
+          "normalizedGrade": 4.2
+        },
+        {
+          "participantId": 199,
+          "participantName": "anonfirstname197 anonlastname197",
+          "duration": 729000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 202,
+          "participantName": "anonfirstname200 anonlastname200",
+          "duration": 942000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 204,
+          "participantName": "anonfirstname202 anonlastname202",
+          "duration": 800000,
+          "grade": 1,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 206,
+          "participantName": "anonfirstname204 anonlastname204",
+          "duration": 670000,
+          "grade": 0.17,
+          "normalizedGrade": 1.7
+        },
+        {
+          "participantId": 207,
+          "participantName": "anonfirstname205 anonlastname205",
+          "duration": 1107000,
+          "grade": 0.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 208,
+          "participantName": "anonfirstname206 anonlastname206",
+          "duration": 1978000,
+          "grade": 0.42,
+          "normalizedGrade": 4.2
+        }
+      ]
     },
     {
       "activityName": "E2_1",
       "numViews": 162,
-      "numUsers": 27,
-      "lastAccess": 18000,
+      "numUsers": 47,
+      "lastAccess": 13000,
       "id": 15,
       "maxGrade": 5,
-      "participantStats": []
+      "participantStats": [
+        {
+          "participantId": 8,
+          "participantName": "anonfirstname6 anonlastname6",
+          "duration": 6060000,
+          "grade": 1,
+          "normalizedGrade": 2
+        },
+        {
+          "participantId": 10,
+          "participantName": "anonfirstname8 anonlastname8",
+          "duration": 4260000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 11,
+          "participantName": "anonfirstname9 anonlastname9",
+          "duration": 7020000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 12,
+          "participantName": "anonfirstname10 anonlastname10",
+          "duration": 6360000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 14,
+          "participantName": "anonfirstname12 anonlastname12",
+          "duration": 5040000,
+          "grade": 1.58,
+          "normalizedGrade": 3.16
+        },
+        {
+          "participantId": 15,
+          "participantName": "anonfirstname13 anonlastname13",
+          "duration": 2138000,
+          "grade": 0.33,
+          "normalizedGrade": 0.66
+        },
+        {
+          "participantId": 17,
+          "participantName": "anonfirstname15 anonlastname15",
+          "duration": 5280000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 21,
+          "participantName": "anonfirstname19 anonlastname19",
+          "duration": 4680000,
+          "grade": 0.25,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 22,
+          "participantName": "anonfirstname20 anonlastname20",
+          "duration": 4320000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 28,
+          "participantName": "anonfirstname26 anonlastname26",
+          "duration": 5220000,
+          "grade": 0.25,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 29,
+          "participantName": "anonfirstname27 anonlastname27",
+          "duration": 5280000,
+          "grade": 5,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 30,
+          "participantName": "anonfirstname28 anonlastname28",
+          "duration": 6840000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 31,
+          "participantName": "anonfirstname29 anonlastname29",
+          "duration": 4740000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 32,
+          "participantName": "anonfirstname30 anonlastname30",
+          "duration": 5340000,
+          "grade": 5,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 33,
+          "participantName": "anonfirstname31 anonlastname31",
+          "duration": 6120000,
+          "grade": 3,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 41,
+          "participantName": "anonfirstname39 anonlastname39",
+          "duration": 6660000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 42,
+          "participantName": "anonfirstname40 anonlastname40",
+          "duration": 5460000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 43,
+          "participantName": "anonfirstname41 anonlastname41",
+          "duration": 5820000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 44,
+          "participantName": "anonfirstname42 anonlastname42",
+          "duration": 4620000,
+          "grade": 1.5,
+          "normalizedGrade": 3
+        },
+        {
+          "participantId": 46,
+          "participantName": "anonfirstname44 anonlastname44",
+          "duration": 3200000,
+          "grade": 1.42,
+          "normalizedGrade": 2.84
+        },
+        {
+          "participantId": 47,
+          "participantName": "anonfirstname45 anonlastname45",
+          "duration": 6300000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 48,
+          "participantName": "anonfirstname46 anonlastname46",
+          "duration": 5580000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 49,
+          "participantName": "anonfirstname47 anonlastname47",
+          "duration": 1594000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 52,
+          "participantName": "anonfirstname50 anonlastname50",
+          "duration": 6240000,
+          "grade": 1,
+          "normalizedGrade": 2
+        },
+        {
+          "participantId": 53,
+          "participantName": "anonfirstname51 anonlastname51",
+          "duration": 4860000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 54,
+          "participantName": "anonfirstname52 anonlastname52",
+          "duration": 5400000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 58,
+          "participantName": "anonfirstname56 anonlastname56",
+          "duration": 4020000,
+          "grade": 0.92,
+          "normalizedGrade": 1.84
+        },
+        {
+          "participantId": 60,
+          "participantName": "anonfirstname58 anonlastname58",
+          "duration": 3005000,
+          "grade": 0.58,
+          "normalizedGrade": 1.16
+        },
+        {
+          "participantId": 61,
+          "participantName": "anonfirstname59 anonlastname59",
+          "duration": 5940000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 62,
+          "participantName": "anonfirstname60 anonlastname60",
+          "duration": 3660000,
+          "grade": 0.42,
+          "normalizedGrade": 0.84
+        },
+        {
+          "participantId": 63,
+          "participantName": "anonfirstname61 anonlastname61",
+          "duration": 5400000,
+          "grade": 2.33,
+          "normalizedGrade": 4.66
+        },
+        {
+          "participantId": 65,
+          "participantName": "anonfirstname63 anonlastname63",
+          "duration": 4500000,
+          "grade": 1.5,
+          "normalizedGrade": 3
+        },
+        {
+          "participantId": 66,
+          "participantName": "anonfirstname64 anonlastname64",
+          "duration": 4200000,
+          "grade": 5,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 67,
+          "participantName": "anonfirstname65 anonlastname65",
+          "duration": 3284000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 68,
+          "participantName": "anonfirstname66 anonlastname66",
+          "duration": 4440000,
+          "grade": 4.5,
+          "normalizedGrade": 9
+        },
+        {
+          "participantId": 69,
+          "participantName": "anonfirstname67 anonlastname67",
+          "duration": 5700000,
+          "grade": 3.5,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 70,
+          "participantName": "anonfirstname68 anonlastname68",
+          "duration": 4380000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 71,
+          "participantName": "anonfirstname69 anonlastname69",
+          "duration": 4920000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 72,
+          "participantName": "anonfirstname70 anonlastname70",
+          "duration": 3660000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 73,
+          "participantName": "anonfirstname71 anonlastname71",
+          "duration": 5820000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 74,
+          "participantName": "anonfirstname72 anonlastname72",
+          "duration": 4440000,
+          "grade": 3.58,
+          "normalizedGrade": 7.16
+        },
+        {
+          "participantId": 75,
+          "participantName": "anonfirstname73 anonlastname73",
+          "duration": 3202000,
+          "grade": 0.25,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 76,
+          "participantName": "anonfirstname74 anonlastname74",
+          "duration": 6360000,
+          "grade": 1.75,
+          "normalizedGrade": 3.5
+        },
+        {
+          "participantId": 77,
+          "participantName": "anonfirstname75 anonlastname75",
+          "duration": 5880000,
+          "grade": 2.33,
+          "normalizedGrade": 4.66
+        },
+        {
+          "participantId": 78,
+          "participantName": "anonfirstname76 anonlastname76",
+          "duration": 5460000,
+          "grade": 2.08,
+          "normalizedGrade": 4.16
+        },
+        {
+          "participantId": 79,
+          "participantName": "anonfirstname77 anonlastname77",
+          "duration": 4500000,
+          "grade": 3,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 82,
+          "participantName": "anonfirstname80 anonlastname80",
+          "duration": 2066000,
+          "grade": 0.75,
+          "normalizedGrade": 1.5
+        },
+        {
+          "participantId": 84,
+          "participantName": "anonfirstname82 anonlastname82",
+          "duration": 5880000,
+          "grade": 3.83,
+          "normalizedGrade": 7.66
+        },
+        {
+          "participantId": 86,
+          "participantName": "anonfirstname84 anonlastname84",
+          "duration": 5580000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 89,
+          "participantName": "anonfirstname87 anonlastname87",
+          "duration": 6000000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 90,
+          "participantName": "anonfirstname88 anonlastname88",
+          "duration": 6600000,
+          "grade": 2.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 91,
+          "participantName": "anonfirstname89 anonlastname89",
+          "duration": 3257000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 92,
+          "participantName": "anonfirstname90 anonlastname90",
+          "duration": 3058000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 93,
+          "participantName": "anonfirstname91 anonlastname91",
+          "duration": 5640000,
+          "grade": 2.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 94,
+          "participantName": "anonfirstname92 anonlastname92",
+          "duration": 5880000,
+          "grade": 1.92,
+          "normalizedGrade": 3.84
+        },
+        {
+          "participantId": 96,
+          "participantName": "anonfirstname94 anonlastname94",
+          "duration": 3840000,
+          "grade": 5,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 97,
+          "participantName": "anonfirstname95 anonlastname95",
+          "duration": 5760000,
+          "grade": 5,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 98,
+          "participantName": "anonfirstname96 anonlastname96",
+          "duration": 6360000,
+          "grade": 4.75,
+          "normalizedGrade": 9.5
+        },
+        {
+          "participantId": 99,
+          "participantName": "anonfirstname97 anonlastname97",
+          "duration": 4080000,
+          "grade": 0.75,
+          "normalizedGrade": 1.5
+        },
+        {
+          "participantId": 101,
+          "participantName": "anonfirstname99 anonlastname99",
+          "duration": 4020000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 102,
+          "participantName": "anonfirstname100 anonlastname100",
+          "duration": 5460000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 103,
+          "participantName": "anonfirstname101 anonlastname101",
+          "duration": 7380000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 104,
+          "participantName": "anonfirstname102 anonlastname102",
+          "duration": 5820000,
+          "grade": 2.92,
+          "normalizedGrade": 5.84
+        },
+        {
+          "participantId": 105,
+          "participantName": "anonfirstname103 anonlastname103",
+          "duration": 5940000,
+          "grade": 2.25,
+          "normalizedGrade": 4.5
+        },
+        {
+          "participantId": 106,
+          "participantName": "anonfirstname104 anonlastname104",
+          "duration": 5520000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 6420000,
+          "grade": 1.5,
+          "normalizedGrade": 3
+        },
+        {
+          "participantId": 108,
+          "participantName": "anonfirstname106 anonlastname106",
+          "duration": 4140000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 109,
+          "participantName": "anonfirstname107 anonlastname107",
+          "duration": 4260000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 110,
+          "participantName": "anonfirstname108 anonlastname108",
+          "duration": 4080000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 111,
+          "participantName": "anonfirstname109 anonlastname109",
+          "duration": 4440000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 114,
+          "participantName": "anonfirstname112 anonlastname112",
+          "duration": 3316000,
+          "grade": 0.67,
+          "normalizedGrade": 1.34
+        },
+        {
+          "participantId": 115,
+          "participantName": "anonfirstname113 anonlastname113",
+          "duration": 5160000,
+          "grade": 1.58,
+          "normalizedGrade": 3.16
+        },
+        {
+          "participantId": 116,
+          "participantName": "anonfirstname114 anonlastname114",
+          "duration": 6240000,
+          "grade": 2.33,
+          "normalizedGrade": 4.66
+        },
+        {
+          "participantId": 117,
+          "participantName": "anonfirstname115 anonlastname115",
+          "duration": 5520000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 118,
+          "participantName": "anonfirstname116 anonlastname116",
+          "duration": 4920000,
+          "grade": 0.92,
+          "normalizedGrade": 1.84
+        },
+        {
+          "participantId": 119,
+          "participantName": "anonfirstname117 anonlastname117",
+          "duration": 4080000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 120,
+          "participantName": "anonfirstname118 anonlastname118",
+          "duration": 5820000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 121,
+          "participantName": "anonfirstname119 anonlastname119",
+          "duration": 3034000,
+          "grade": 2.08,
+          "normalizedGrade": 4.16
+        },
+        {
+          "participantId": 123,
+          "participantName": "anonfirstname121 anonlastname121",
+          "duration": 5400000,
+          "grade": 3.58,
+          "normalizedGrade": 7.16
+        },
+        {
+          "participantId": 124,
+          "participantName": "anonfirstname122 anonlastname122",
+          "duration": 2050000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 125,
+          "participantName": "anonfirstname123 anonlastname123",
+          "duration": 6060000,
+          "grade": 1.33,
+          "normalizedGrade": 2.66
+        },
+        {
+          "participantId": 129,
+          "participantName": "anonfirstname127 anonlastname127",
+          "duration": 5160000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 130,
+          "participantName": "anonfirstname128 anonlastname128",
+          "duration": 5880000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 133,
+          "participantName": "anonfirstname131 anonlastname131",
+          "duration": 4680000,
+          "grade": 0.67,
+          "normalizedGrade": 1.34
+        },
+        {
+          "participantId": 135,
+          "participantName": "anonfirstname133 anonlastname133",
+          "duration": 5460000,
+          "grade": 1.08,
+          "normalizedGrade": 2.16
+        },
+        {
+          "participantId": 136,
+          "participantName": "anonfirstname134 anonlastname134",
+          "duration": 3960000,
+          "grade": 2.92,
+          "normalizedGrade": 5.84
+        },
+        {
+          "participantId": 137,
+          "participantName": "anonfirstname135 anonlastname135",
+          "duration": 4920000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 139,
+          "participantName": "anonfirstname137 anonlastname137",
+          "duration": 5520000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 140,
+          "participantName": "anonfirstname138 anonlastname138",
+          "duration": 6780000,
+          "grade": 2.92,
+          "normalizedGrade": 5.84
+        },
+        {
+          "participantId": 141,
+          "participantName": "anonfirstname139 anonlastname139",
+          "duration": 6900000,
+          "grade": 4.5,
+          "normalizedGrade": 9
+        },
+        {
+          "participantId": 142,
+          "participantName": "anonfirstname140 anonlastname140",
+          "duration": 6840000,
+          "grade": 4.08,
+          "normalizedGrade": 8.16
+        },
+        {
+          "participantId": 144,
+          "participantName": "anonfirstname142 anonlastname142",
+          "duration": 3660000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 145,
+          "participantName": "anonfirstname143 anonlastname143",
+          "duration": 6120000,
+          "grade": 0.17,
+          "normalizedGrade": 0.34
+        },
+        {
+          "participantId": 146,
+          "participantName": "anonfirstname144 anonlastname144",
+          "duration": 6060000,
+          "grade": 1.92,
+          "normalizedGrade": 3.84
+        },
+        {
+          "participantId": 147,
+          "participantName": "anonfirstname145 anonlastname145",
+          "duration": 6840000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 148,
+          "participantName": "anonfirstname146 anonlastname146",
+          "duration": 2649000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 150,
+          "participantName": "anonfirstname148 anonlastname148",
+          "duration": 5220000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 151,
+          "participantName": "anonfirstname149 anonlastname149",
+          "duration": 6360000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 152,
+          "participantName": "anonfirstname150 anonlastname150",
+          "duration": 6000000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 153,
+          "participantName": "anonfirstname151 anonlastname151",
+          "duration": 5580000,
+          "grade": 2.25,
+          "normalizedGrade": 4.5
+        },
+        {
+          "participantId": 154,
+          "participantName": "anonfirstname152 anonlastname152",
+          "duration": 4920000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 155,
+          "participantName": "anonfirstname153 anonlastname153",
+          "duration": 4440000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 156,
+          "participantName": "anonfirstname154 anonlastname154",
+          "duration": 3304000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 158,
+          "participantName": "anonfirstname156 anonlastname156",
+          "duration": 6060000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 159,
+          "participantName": "anonfirstname157 anonlastname157",
+          "duration": 4560000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 160,
+          "participantName": "anonfirstname158 anonlastname158",
+          "duration": 6420000,
+          "grade": 4.75,
+          "normalizedGrade": 9.5
+        },
+        {
+          "participantId": 163,
+          "participantName": "anonfirstname161 anonlastname161",
+          "duration": 6240000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 164,
+          "participantName": "anonfirstname162 anonlastname162",
+          "duration": 6000000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 165,
+          "participantName": "anonfirstname163 anonlastname163",
+          "duration": 5040000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 4800000,
+          "grade": 0.5,
+          "normalizedGrade": 1
+        },
+        {
+          "participantId": 167,
+          "participantName": "anonfirstname165 anonlastname165",
+          "duration": 5880000,
+          "grade": 3.58,
+          "normalizedGrade": 7.16
+        },
+        {
+          "participantId": 168,
+          "participantName": "anonfirstname166 anonlastname166",
+          "duration": 5640000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 169,
+          "participantName": "anonfirstname167 anonlastname167",
+          "duration": 4020000,
+          "grade": 1.42,
+          "normalizedGrade": 2.84
+        },
+        {
+          "participantId": 170,
+          "participantName": "anonfirstname168 anonlastname168",
+          "duration": 6060000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 171,
+          "participantName": "anonfirstname169 anonlastname169",
+          "duration": 6000000,
+          "grade": 1.33,
+          "normalizedGrade": 2.66
+        },
+        {
+          "participantId": 172,
+          "participantName": "anonfirstname170 anonlastname170",
+          "duration": 6000000,
+          "grade": 0.58,
+          "normalizedGrade": 1.16
+        },
+        {
+          "participantId": 174,
+          "participantName": "anonfirstname172 anonlastname172",
+          "duration": 5940000,
+          "grade": 1.58,
+          "normalizedGrade": 3.16
+        },
+        {
+          "participantId": 176,
+          "participantName": "anonfirstname174 anonlastname174",
+          "duration": 2841000,
+          "grade": 1.42,
+          "normalizedGrade": 2.84
+        },
+        {
+          "participantId": 178,
+          "participantName": "anonfirstname176 anonlastname176",
+          "duration": 6240000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 179,
+          "participantName": "anonfirstname177 anonlastname177",
+          "duration": 4380000,
+          "grade": 1.17,
+          "normalizedGrade": 2.34
+        },
+        {
+          "participantId": 180,
+          "participantName": "anonfirstname178 anonlastname178",
+          "duration": 4080000,
+          "grade": 1.58,
+          "normalizedGrade": 3.16
+        },
+        {
+          "participantId": 181,
+          "participantName": "anonfirstname179 anonlastname179",
+          "duration": 5460000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 183,
+          "participantName": "anonfirstname181 anonlastname181",
+          "duration": 6300000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 184,
+          "participantName": "anonfirstname182 anonlastname182",
+          "duration": 6180000,
+          "grade": 5,
+          "normalizedGrade": 10
+        },
+        {
+          "participantId": 185,
+          "participantName": "anonfirstname183 anonlastname183",
+          "duration": 3049000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 188,
+          "participantName": "anonfirstname186 anonlastname186",
+          "duration": 6420000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 190,
+          "participantName": "anonfirstname188 anonlastname188",
+          "duration": 644000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 191,
+          "participantName": "anonfirstname189 anonlastname189",
+          "duration": 6000000,
+          "grade": 1.58,
+          "normalizedGrade": 3.16
+        },
+        {
+          "participantId": 192,
+          "participantName": "anonfirstname190 anonlastname190",
+          "duration": 2220000,
+          "grade": 0.33,
+          "normalizedGrade": 0.66
+        },
+        {
+          "participantId": 193,
+          "participantName": "anonfirstname191 anonlastname191",
+          "duration": 6000000,
+          "grade": 3.5,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 194,
+          "participantName": "anonfirstname192 anonlastname192",
+          "duration": 712000,
+          "grade": 0.5,
+          "normalizedGrade": 1
+        },
+        {
+          "participantId": 196,
+          "participantName": "anonfirstname194 anonlastname194",
+          "duration": 2792000,
+          "grade": 0.33,
+          "normalizedGrade": 0.66
+        },
+        {
+          "participantId": 197,
+          "participantName": "anonfirstname195 anonlastname195",
+          "duration": 5400000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 198,
+          "participantName": "anonfirstname196 anonlastname196",
+          "duration": 5160000,
+          "grade": 1.5,
+          "normalizedGrade": 3
+        },
+        {
+          "participantId": 199,
+          "participantName": "anonfirstname197 anonlastname197",
+          "duration": 6120000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 200,
+          "participantName": "anonfirstname198 anonlastname198",
+          "duration": 5280000,
+          "grade": 0.25,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 202,
+          "participantName": "anonfirstname200 anonlastname200",
+          "duration": 6120000,
+          "grade": 4.33,
+          "normalizedGrade": 8.66
+        },
+        {
+          "participantId": 203,
+          "participantName": "anonfirstname201 anonlastname201",
+          "duration": 5880000,
+          "grade": 1.83,
+          "normalizedGrade": 3.66
+        },
+        {
+          "participantId": 204,
+          "participantName": "anonfirstname202 anonlastname202",
+          "duration": 5640000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 206,
+          "participantName": "anonfirstname204 anonlastname204",
+          "duration": 6300000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 207,
+          "participantName": "anonfirstname205 anonlastname205",
+          "duration": 6480000,
+          "grade": 1.33,
+          "normalizedGrade": 2.66
+        },
+        {
+          "participantId": 208,
+          "participantName": "anonfirstname206 anonlastname206",
+          "duration": 2339000,
+          "grade": 0,
+          "normalizedGrade": 0
+        }
+      ]
     },
     {
       "activityName": "E1_2",
-      "numViews": 712,
+      "numViews": 714,
       "numUsers": 5,
-      "lastAccess": 18000,
+      "lastAccess": 13000,
       "id": 17,
       "maxGrade": 5,
-      "participantStats": []
+      "participantStats": [
+        {
+          "participantId": 8,
+          "participantName": "anonfirstname6 anonlastname6",
+          "duration": 9180000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 9,
+          "participantName": "anonfirstname7 anonlastname7",
+          "duration": 6900000,
+          "grade": 4.75,
+          "normalizedGrade": 9.5
+        },
+        {
+          "participantId": 10,
+          "participantName": "anonfirstname8 anonlastname8",
+          "duration": 5040000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 11,
+          "participantName": "anonfirstname9 anonlastname9",
+          "duration": 10980000,
+          "grade": 2.25,
+          "normalizedGrade": 4.5
+        },
+        {
+          "participantId": 12,
+          "participantName": "anonfirstname10 anonlastname10",
+          "duration": 6060000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 15,
+          "participantName": "anonfirstname13 anonlastname13",
+          "duration": 3780000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 22,
+          "participantName": "anonfirstname20 anonlastname20",
+          "duration": 4560000,
+          "grade": 1.75,
+          "normalizedGrade": 3.5
+        },
+        {
+          "participantId": 28,
+          "participantName": "anonfirstname26 anonlastname26",
+          "duration": 5940000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 30,
+          "participantName": "anonfirstname28 anonlastname28",
+          "duration": 6060000,
+          "grade": 3.5,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 41,
+          "participantName": "anonfirstname39 anonlastname39",
+          "duration": 5160000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 45,
+          "participantName": "anonfirstname43 anonlastname43",
+          "duration": 6000000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 46,
+          "participantName": "anonfirstname44 anonlastname44",
+          "duration": 3047000,
+          "grade": 1.42,
+          "normalizedGrade": 2.84
+        },
+        {
+          "participantId": 47,
+          "participantName": "anonfirstname45 anonlastname45",
+          "duration": 4920000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 52,
+          "participantName": "anonfirstname50 anonlastname50",
+          "duration": 6240000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 54,
+          "participantName": "anonfirstname52 anonlastname52",
+          "duration": 4860000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 58,
+          "participantName": "anonfirstname56 anonlastname56",
+          "duration": 3028000,
+          "grade": 1.5,
+          "normalizedGrade": 3
+        },
+        {
+          "participantId": 60,
+          "participantName": "anonfirstname58 anonlastname58",
+          "duration": 4980000,
+          "grade": 3.5,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 62,
+          "participantName": "anonfirstname60 anonlastname60",
+          "duration": 4560000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 65,
+          "participantName": "anonfirstname63 anonlastname63",
+          "duration": 6360000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 69,
+          "participantName": "anonfirstname67 anonlastname67",
+          "duration": 3599000,
+          "grade": 4.17,
+          "normalizedGrade": 8.34
+        },
+        {
+          "participantId": 78,
+          "participantName": "anonfirstname76 anonlastname76",
+          "duration": 6840000,
+          "grade": 4.08,
+          "normalizedGrade": 8.16
+        },
+        {
+          "participantId": 79,
+          "participantName": "anonfirstname77 anonlastname77",
+          "duration": 3228000,
+          "grade": 3.58,
+          "normalizedGrade": 7.16
+        },
+        {
+          "participantId": 87,
+          "participantName": "anonfirstname85 anonlastname85",
+          "duration": 3840000,
+          "grade": 1.33,
+          "normalizedGrade": 2.66
+        },
+        {
+          "participantId": 92,
+          "participantName": "anonfirstname90 anonlastname90",
+          "duration": 6120000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 94,
+          "participantName": "anonfirstname92 anonlastname92",
+          "duration": 8880000,
+          "grade": 3.42,
+          "normalizedGrade": 6.84
+        },
+        {
+          "participantId": 99,
+          "participantName": "anonfirstname97 anonlastname97",
+          "duration": 3558000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 102,
+          "participantName": "anonfirstname100 anonlastname100",
+          "duration": 5640000,
+          "grade": 2.83,
+          "normalizedGrade": 5.66
+        },
+        {
+          "participantId": 103,
+          "participantName": "anonfirstname101 anonlastname101",
+          "duration": 6180000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 4860000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 108,
+          "participantName": "anonfirstname106 anonlastname106",
+          "duration": 3960000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 109,
+          "participantName": "anonfirstname107 anonlastname107",
+          "duration": 3496000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 110,
+          "participantName": "anonfirstname108 anonlastname108",
+          "duration": 2696000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 111,
+          "participantName": "anonfirstname109 anonlastname109",
+          "duration": 5760000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 114,
+          "participantName": "anonfirstname112 anonlastname112",
+          "duration": 2685000,
+          "grade": 2.25,
+          "normalizedGrade": 4.5
+        },
+        {
+          "participantId": 115,
+          "participantName": "anonfirstname113 anonlastname113",
+          "duration": 3780000,
+          "grade": 2.25,
+          "normalizedGrade": 4.5
+        },
+        {
+          "participantId": 117,
+          "participantName": "anonfirstname115 anonlastname115",
+          "duration": 4860000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 118,
+          "participantName": "anonfirstname116 anonlastname116",
+          "duration": 2557000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 121,
+          "participantName": "anonfirstname119 anonlastname119",
+          "duration": 3566000,
+          "grade": 2.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 123,
+          "participantName": "anonfirstname121 anonlastname121",
+          "duration": 5700000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 124,
+          "participantName": "anonfirstname122 anonlastname122",
+          "duration": 2673000,
+          "grade": 1.75,
+          "normalizedGrade": 3.5
+        },
+        {
+          "participantId": 125,
+          "participantName": "anonfirstname123 anonlastname123",
+          "duration": 5760000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 129,
+          "participantName": "anonfirstname127 anonlastname127",
+          "duration": 3382000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 130,
+          "participantName": "anonfirstname128 anonlastname128",
+          "duration": 3960000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 132,
+          "participantName": "anonfirstname130 anonlastname130",
+          "duration": 4980000,
+          "grade": 4.25,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 133,
+          "participantName": "anonfirstname131 anonlastname131",
+          "duration": 4200000,
+          "grade": 2.92,
+          "normalizedGrade": 5.84
+        },
+        {
+          "participantId": 135,
+          "participantName": "anonfirstname133 anonlastname133",
+          "duration": 5160000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 139,
+          "participantName": "anonfirstname137 anonlastname137",
+          "duration": 4860000,
+          "grade": 3.92,
+          "normalizedGrade": 7.84
+        },
+        {
+          "participantId": 146,
+          "participantName": "anonfirstname144 anonlastname144",
+          "duration": 11160000,
+          "grade": 4.08,
+          "normalizedGrade": 8.16
+        },
+        {
+          "participantId": 158,
+          "participantName": "anonfirstname156 anonlastname156",
+          "duration": 2683000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 161,
+          "participantName": "anonfirstname159 anonlastname159",
+          "duration": 5880000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 4620000,
+          "grade": 1.67,
+          "normalizedGrade": 3.34
+        },
+        {
+          "participantId": 167,
+          "participantName": "anonfirstname165 anonlastname165",
+          "duration": 5340000,
+          "grade": 3.75,
+          "normalizedGrade": 7.5
+        },
+        {
+          "participantId": 172,
+          "participantName": "anonfirstname170 anonlastname170",
+          "duration": 6420000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 174,
+          "participantName": "anonfirstname172 anonlastname172",
+          "duration": 2236000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 176,
+          "participantName": "anonfirstname174 anonlastname174",
+          "duration": 1581000,
+          "grade": 1.83,
+          "normalizedGrade": 3.66
+        },
+        {
+          "participantId": 179,
+          "participantName": "anonfirstname177 anonlastname177",
+          "duration": 7860000,
+          "grade": 3,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 180,
+          "participantName": "anonfirstname178 anonlastname178",
+          "duration": 3600000,
+          "grade": 2.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 189,
+          "participantName": "anonfirstname187 anonlastname187",
+          "duration": 514000,
+          "grade": 0.25,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 191,
+          "participantName": "anonfirstname189 anonlastname189",
+          "duration": 6720000,
+          "grade": 3.92,
+          "normalizedGrade": 7.84
+        },
+        {
+          "participantId": 193,
+          "participantName": "anonfirstname191 anonlastname191",
+          "duration": 5700000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 194,
+          "participantName": "anonfirstname192 anonlastname192",
+          "duration": 698000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 195,
+          "participantName": "anonfirstname193 anonlastname193",
+          "duration": 13260000,
+          "grade": 3.67,
+          "normalizedGrade": 7.34
+        },
+        {
+          "participantId": 196,
+          "participantName": "anonfirstname194 anonlastname194",
+          "duration": 5940000,
+          "grade": 2.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 197,
+          "participantName": "anonfirstname195 anonlastname195",
+          "duration": 4260000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 200,
+          "participantName": "anonfirstname198 anonlastname198",
+          "duration": 3290000,
+          "grade": 1.25,
+          "normalizedGrade": 2.5
+        },
+        {
+          "participantId": 203,
+          "participantName": "anonfirstname201 anonlastname201",
+          "duration": 3576000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 207,
+          "participantName": "anonfirstname205 anonlastname205",
+          "duration": 3505000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 208,
+          "participantName": "anonfirstname206 anonlastname206",
+          "duration": 1011000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 210,
+          "participantName": "anonfirstname208 anonlastname208",
+          "duration": 4980000,
+          "grade": 2.08,
+          "normalizedGrade": 4.16
+        }
+      ]
     },
     {
       "activityName": "E2_2",
-      "numViews": 884,
+      "numViews": 886,
       "numUsers": 5,
-      "lastAccess": 18000,
+      "lastAccess": 13000,
       "id": 18,
       "maxGrade": 4.67,
-      "participantStats": []
+      "participantStats": [
+        {
+          "participantId": 8,
+          "participantName": "anonfirstname6 anonlastname6",
+          "duration": 15180000,
+          "grade": 2,
+          "normalizedGrade": 4.28
+        },
+        {
+          "participantId": 10,
+          "participantName": "anonfirstname8 anonlastname8",
+          "duration": 2972000,
+          "grade": 1.67,
+          "normalizedGrade": 3.58
+        },
+        {
+          "participantId": 11,
+          "participantName": "anonfirstname9 anonlastname9",
+          "duration": 4080000,
+          "grade": 2.67,
+          "normalizedGrade": 5.72
+        },
+        {
+          "participantId": 14,
+          "participantName": "anonfirstname12 anonlastname12",
+          "duration": 4260000,
+          "grade": 2.92,
+          "normalizedGrade": 6.25
+        },
+        {
+          "participantId": 15,
+          "participantName": "anonfirstname13 anonlastname13",
+          "duration": 2858000,
+          "grade": 1.75,
+          "normalizedGrade": 3.75
+        },
+        {
+          "participantId": 17,
+          "participantName": "anonfirstname15 anonlastname15",
+          "duration": 3306000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 21,
+          "participantName": "anonfirstname19 anonlastname19",
+          "duration": 3342000,
+          "grade": 2.17,
+          "normalizedGrade": 4.65
+        },
+        {
+          "participantId": 22,
+          "participantName": "anonfirstname20 anonlastname20",
+          "duration": 1761000,
+          "grade": -0.33,
+          "normalizedGrade": -0.71
+        },
+        {
+          "participantId": 28,
+          "participantName": "anonfirstname26 anonlastname26",
+          "duration": 6900000,
+          "grade": 1.25,
+          "normalizedGrade": 2.68
+        },
+        {
+          "participantId": 30,
+          "participantName": "anonfirstname28 anonlastname28",
+          "duration": 5700000,
+          "grade": 3.92,
+          "normalizedGrade": 8.39
+        },
+        {
+          "participantId": 41,
+          "participantName": "anonfirstname39 anonlastname39",
+          "duration": 6060000,
+          "grade": 2.67,
+          "normalizedGrade": 5.72
+        },
+        {
+          "participantId": 43,
+          "participantName": "anonfirstname41 anonlastname41",
+          "duration": 5220000,
+          "grade": 3.09,
+          "normalizedGrade": 6.62
+        },
+        {
+          "participantId": 44,
+          "participantName": "anonfirstname42 anonlastname42",
+          "duration": 6660000,
+          "grade": 2.84,
+          "normalizedGrade": 6.08
+        },
+        {
+          "participantId": 45,
+          "participantName": "anonfirstname43 anonlastname43",
+          "duration": 5100000,
+          "grade": 2.67,
+          "normalizedGrade": 5.72
+        },
+        {
+          "participantId": 46,
+          "participantName": "anonfirstname44 anonlastname44",
+          "duration": 1751000,
+          "grade": 1.17,
+          "normalizedGrade": 2.51
+        },
+        {
+          "participantId": 47,
+          "participantName": "anonfirstname45 anonlastname45",
+          "duration": 5580000,
+          "grade": 2,
+          "normalizedGrade": 4.28
+        },
+        {
+          "participantId": 52,
+          "participantName": "anonfirstname50 anonlastname50",
+          "duration": 4740000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 53,
+          "participantName": "anonfirstname51 anonlastname51",
+          "duration": 3840000,
+          "grade": 3.42,
+          "normalizedGrade": 7.32
+        },
+        {
+          "participantId": 58,
+          "participantName": "anonfirstname56 anonlastname56",
+          "duration": 5640000,
+          "grade": 1.42,
+          "normalizedGrade": 3.04
+        },
+        {
+          "participantId": 60,
+          "participantName": "anonfirstname58 anonlastname58",
+          "duration": 2285000,
+          "grade": 0.67,
+          "normalizedGrade": 1.43
+        },
+        {
+          "participantId": 61,
+          "participantName": "anonfirstname59 anonlastname59",
+          "duration": 4740000,
+          "grade": 3.34,
+          "normalizedGrade": 7.15
+        },
+        {
+          "participantId": 62,
+          "participantName": "anonfirstname60 anonlastname60",
+          "duration": 5280000,
+          "grade": 2.59,
+          "normalizedGrade": 5.55
+        },
+        {
+          "participantId": 65,
+          "participantName": "anonfirstname63 anonlastname63",
+          "duration": 4740000,
+          "grade": 1.92,
+          "normalizedGrade": 4.11
+        },
+        {
+          "participantId": 76,
+          "participantName": "anonfirstname74 anonlastname74",
+          "duration": 3391000,
+          "grade": 2.84,
+          "normalizedGrade": 6.08
+        },
+        {
+          "participantId": 77,
+          "participantName": "anonfirstname75 anonlastname75",
+          "duration": 7680000,
+          "grade": 3.84,
+          "normalizedGrade": 8.22
+        },
+        {
+          "participantId": 78,
+          "participantName": "anonfirstname76 anonlastname76",
+          "duration": 7380000,
+          "grade": 2.92,
+          "normalizedGrade": 6.25
+        },
+        {
+          "participantId": 82,
+          "participantName": "anonfirstname80 anonlastname80",
+          "duration": 2827000,
+          "grade": 0.75,
+          "normalizedGrade": 1.61
+        },
+        {
+          "participantId": 86,
+          "participantName": "anonfirstname84 anonlastname84",
+          "duration": 4440000,
+          "grade": 2.92,
+          "normalizedGrade": 6.25
+        },
+        {
+          "participantId": 92,
+          "participantName": "anonfirstname90 anonlastname90",
+          "duration": 12180000,
+          "grade": 0.83,
+          "normalizedGrade": 1.78
+        },
+        {
+          "participantId": 94,
+          "participantName": "anonfirstname92 anonlastname92",
+          "duration": 6960000,
+          "grade": 1.83,
+          "normalizedGrade": 3.92
+        },
+        {
+          "participantId": 95,
+          "participantName": "anonfirstname93 anonlastname93",
+          "duration": 5820000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 99,
+          "participantName": "anonfirstname97 anonlastname97",
+          "duration": 4740000,
+          "grade": 1.67,
+          "normalizedGrade": 3.58
+        },
+        {
+          "participantId": 100,
+          "participantName": "anonfirstname98 anonlastname98",
+          "duration": 4020000,
+          "grade": 1.67,
+          "normalizedGrade": 3.58
+        },
+        {
+          "participantId": 103,
+          "participantName": "anonfirstname101 anonlastname101",
+          "duration": 4020000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 105,
+          "participantName": "anonfirstname103 anonlastname103",
+          "duration": 5160000,
+          "grade": 2.17,
+          "normalizedGrade": 4.65
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 4500000,
+          "grade": 2.08,
+          "normalizedGrade": 4.45
+        },
+        {
+          "participantId": 109,
+          "participantName": "anonfirstname107 anonlastname107",
+          "duration": 2953000,
+          "grade": 1.75,
+          "normalizedGrade": 3.75
+        },
+        {
+          "participantId": 114,
+          "participantName": "anonfirstname112 anonlastname112",
+          "duration": 3900000,
+          "grade": 0.83,
+          "normalizedGrade": 1.78
+        },
+        {
+          "participantId": 115,
+          "participantName": "anonfirstname113 anonlastname113",
+          "duration": 4080000,
+          "grade": 1.92,
+          "normalizedGrade": 4.11
+        },
+        {
+          "participantId": 116,
+          "participantName": "anonfirstname114 anonlastname114",
+          "duration": 5100000,
+          "grade": 3.84,
+          "normalizedGrade": 8.22
+        },
+        {
+          "participantId": 117,
+          "participantName": "anonfirstname115 anonlastname115",
+          "duration": 5760000,
+          "grade": 2.59,
+          "normalizedGrade": 5.55
+        },
+        {
+          "participantId": 118,
+          "participantName": "anonfirstname116 anonlastname116",
+          "duration": 2606000,
+          "grade": 0.5,
+          "normalizedGrade": 1.07
+        },
+        {
+          "participantId": 120,
+          "participantName": "anonfirstname118 anonlastname118",
+          "duration": 3094000,
+          "grade": 3.09,
+          "normalizedGrade": 6.62
+        },
+        {
+          "participantId": 121,
+          "participantName": "anonfirstname119 anonlastname119",
+          "duration": 4440000,
+          "grade": 2.25,
+          "normalizedGrade": 4.82
+        },
+        {
+          "participantId": 124,
+          "participantName": "anonfirstname122 anonlastname122",
+          "duration": 2012000,
+          "grade": 1.17,
+          "normalizedGrade": 2.51
+        },
+        {
+          "participantId": 125,
+          "participantName": "anonfirstname123 anonlastname123",
+          "duration": 5100000,
+          "grade": 2.67,
+          "normalizedGrade": 5.72
+        },
+        {
+          "participantId": 130,
+          "participantName": "anonfirstname128 anonlastname128",
+          "duration": 4020000,
+          "grade": 3.5,
+          "normalizedGrade": 7.49
+        },
+        {
+          "participantId": 132,
+          "participantName": "anonfirstname130 anonlastname130",
+          "duration": 8280000,
+          "grade": 3.92,
+          "normalizedGrade": 8.39
+        },
+        {
+          "participantId": 133,
+          "participantName": "anonfirstname131 anonlastname131",
+          "duration": 5160000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 135,
+          "participantName": "anonfirstname133 anonlastname133",
+          "duration": 5160000,
+          "grade": 2.67,
+          "normalizedGrade": 5.72
+        },
+        {
+          "participantId": 137,
+          "participantName": "anonfirstname135 anonlastname135",
+          "duration": 4500000,
+          "grade": 3.59,
+          "normalizedGrade": 7.69
+        },
+        {
+          "participantId": 139,
+          "participantName": "anonfirstname137 anonlastname137",
+          "duration": 5220000,
+          "grade": 2.84,
+          "normalizedGrade": 6.08
+        },
+        {
+          "participantId": 145,
+          "participantName": "anonfirstname143 anonlastname143",
+          "duration": 5100000,
+          "grade": 2.75,
+          "normalizedGrade": 5.89
+        },
+        {
+          "participantId": 146,
+          "participantName": "anonfirstname144 anonlastname144",
+          "duration": 6060000,
+          "grade": 4,
+          "normalizedGrade": 8.57
+        },
+        {
+          "participantId": 148,
+          "participantName": "anonfirstname146 anonlastname146",
+          "duration": 2607000,
+          "grade": 2.75,
+          "normalizedGrade": 5.89
+        },
+        {
+          "participantId": 153,
+          "participantName": "anonfirstname151 anonlastname151",
+          "duration": 6660000,
+          "grade": 2.75,
+          "normalizedGrade": 5.89
+        },
+        {
+          "participantId": 154,
+          "participantName": "anonfirstname152 anonlastname152",
+          "duration": 3451000,
+          "grade": 2.59,
+          "normalizedGrade": 5.55
+        },
+        {
+          "participantId": 158,
+          "participantName": "anonfirstname156 anonlastname156",
+          "duration": 3474000,
+          "grade": 4.5,
+          "normalizedGrade": 9.64
+        },
+        {
+          "participantId": 159,
+          "participantName": "anonfirstname157 anonlastname157",
+          "duration": 3044000,
+          "grade": 3,
+          "normalizedGrade": 6.42
+        },
+        {
+          "participantId": 161,
+          "participantName": "anonfirstname159 anonlastname159",
+          "duration": 2670000,
+          "grade": 1.58,
+          "normalizedGrade": 3.38
+        },
+        {
+          "participantId": 165,
+          "participantName": "anonfirstname163 anonlastname163",
+          "duration": 5220000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 2524000,
+          "grade": 1.42,
+          "normalizedGrade": 3.04
+        },
+        {
+          "participantId": 169,
+          "participantName": "anonfirstname167 anonlastname167",
+          "duration": 4680000,
+          "grade": 2.5,
+          "normalizedGrade": 5.35
+        },
+        {
+          "participantId": 171,
+          "participantName": "anonfirstname169 anonlastname169",
+          "duration": 4920000,
+          "grade": 1.33,
+          "normalizedGrade": 2.85
+        },
+        {
+          "participantId": 172,
+          "participantName": "anonfirstname170 anonlastname170",
+          "duration": 6420000,
+          "grade": 2.17,
+          "normalizedGrade": 4.65
+        },
+        {
+          "participantId": 174,
+          "participantName": "anonfirstname172 anonlastname172",
+          "duration": 4200000,
+          "grade": 1.25,
+          "normalizedGrade": 2.68
+        },
+        {
+          "participantId": 176,
+          "participantName": "anonfirstname174 anonlastname174",
+          "duration": 3045000,
+          "grade": 2.17,
+          "normalizedGrade": 4.65
+        },
+        {
+          "participantId": 179,
+          "participantName": "anonfirstname177 anonlastname177",
+          "duration": 9480000,
+          "grade": 3.25,
+          "normalizedGrade": 6.96
+        },
+        {
+          "participantId": 180,
+          "participantName": "anonfirstname178 anonlastname178",
+          "duration": 2653000,
+          "grade": 2.75,
+          "normalizedGrade": 5.89
+        },
+        {
+          "participantId": 181,
+          "participantName": "anonfirstname179 anonlastname179",
+          "duration": 5820000,
+          "grade": 2.34,
+          "normalizedGrade": 5.01
+        },
+        {
+          "participantId": 188,
+          "participantName": "anonfirstname186 anonlastname186",
+          "duration": 6720000,
+          "grade": 3.42,
+          "normalizedGrade": 7.32
+        },
+        {
+          "participantId": 189,
+          "participantName": "anonfirstname187 anonlastname187",
+          "duration": 3297000,
+          "grade": 0.58,
+          "normalizedGrade": 1.24
+        },
+        {
+          "participantId": 191,
+          "participantName": "anonfirstname189 anonlastname189",
+          "duration": 6120000,
+          "grade": 3.84,
+          "normalizedGrade": 8.22
+        },
+        {
+          "participantId": 193,
+          "participantName": "anonfirstname191 anonlastname191",
+          "duration": 4620000,
+          "grade": 4,
+          "normalizedGrade": 8.57
+        },
+        {
+          "participantId": 194,
+          "participantName": "anonfirstname192 anonlastname192",
+          "duration": 715000,
+          "grade": -0.58,
+          "normalizedGrade": -1.24
+        },
+        {
+          "participantId": 195,
+          "participantName": "anonfirstname193 anonlastname193",
+          "duration": 5760000,
+          "grade": 1.92,
+          "normalizedGrade": 4.11
+        },
+        {
+          "participantId": 196,
+          "participantName": "anonfirstname194 anonlastname194",
+          "duration": 4440000,
+          "grade": 1,
+          "normalizedGrade": 2.14
+        },
+        {
+          "participantId": 197,
+          "participantName": "anonfirstname195 anonlastname195",
+          "duration": 4500000,
+          "grade": 2.67,
+          "normalizedGrade": 5.72
+        },
+        {
+          "participantId": 198,
+          "participantName": "anonfirstname196 anonlastname196",
+          "duration": 4440000,
+          "grade": 2.84,
+          "normalizedGrade": 6.08
+        },
+        {
+          "participantId": 199,
+          "participantName": "anonfirstname197 anonlastname197",
+          "duration": 3289000,
+          "grade": 3,
+          "normalizedGrade": 6.42
+        },
+        {
+          "participantId": 200,
+          "participantName": "anonfirstname198 anonlastname198",
+          "duration": 3300000,
+          "grade": 1.58,
+          "normalizedGrade": 3.38
+        },
+        {
+          "participantId": 203,
+          "participantName": "anonfirstname201 anonlastname201",
+          "duration": 6060000,
+          "grade": 1.58,
+          "normalizedGrade": 3.38
+        },
+        {
+          "participantId": 207,
+          "participantName": "anonfirstname205 anonlastname205",
+          "duration": 9300000,
+          "grade": 2.17,
+          "normalizedGrade": 4.65
+        },
+        {
+          "participantId": 208,
+          "participantName": "anonfirstname206 anonlastname206",
+          "duration": 376000,
+          "grade": 0.08,
+          "normalizedGrade": 0.17
+        },
+        {
+          "participantId": 210,
+          "participantName": "anonfirstname208 anonlastname208",
+          "duration": 4200000,
+          "grade": 0.58,
+          "normalizedGrade": 1.24
+        }
+      ]
     },
     {
       "activityName": "E1_3",
-      "numViews": 341,
+      "numViews": 343,
       "numUsers": 1,
-      "lastAccess": 18000,
+      "lastAccess": 13000,
       "id": 20,
       "maxGrade": 5,
-      "participantStats": []
+      "participantStats": [
+        {
+          "participantId": 8,
+          "participantName": "anonfirstname6 anonlastname6",
+          "duration": 6720000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 10,
+          "participantName": "anonfirstname8 anonlastname8",
+          "duration": 5940000,
+          "grade": 0.58,
+          "normalizedGrade": 1.16
+        },
+        {
+          "participantId": 11,
+          "participantName": "anonfirstname9 anonlastname9",
+          "duration": 9240000,
+          "grade": 4.33,
+          "normalizedGrade": 8.66
+        },
+        {
+          "participantId": 46,
+          "participantName": "anonfirstname44 anonlastname44",
+          "duration": 3960000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 58,
+          "participantName": "anonfirstname56 anonlastname56",
+          "duration": 4380000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 81,
+          "participantName": "anonfirstname79 anonlastname79",
+          "duration": 1763000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 85,
+          "participantName": "anonfirstname83 anonlastname83",
+          "duration": 3600000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 87,
+          "participantName": "anonfirstname85 anonlastname85",
+          "duration": 3008000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 92,
+          "participantName": "anonfirstname90 anonlastname90",
+          "duration": 5700000,
+          "grade": 1.75,
+          "normalizedGrade": 3.5
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 5160000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 109,
+          "participantName": "anonfirstname107 anonlastname107",
+          "duration": 3536000,
+          "grade": 3.08,
+          "normalizedGrade": 6.16
+        },
+        {
+          "participantId": 110,
+          "participantName": "anonfirstname108 anonlastname108",
+          "duration": 2773000,
+          "grade": 3.42,
+          "normalizedGrade": 6.84
+        },
+        {
+          "participantId": 114,
+          "participantName": "anonfirstname112 anonlastname112",
+          "duration": 3600000,
+          "grade": 2.25,
+          "normalizedGrade": 4.5
+        },
+        {
+          "participantId": 115,
+          "participantName": "anonfirstname113 anonlastname113",
+          "duration": 3163000,
+          "grade": 3.92,
+          "normalizedGrade": 7.84
+        },
+        {
+          "participantId": 118,
+          "participantName": "anonfirstname116 anonlastname116",
+          "duration": 13800000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 124,
+          "participantName": "anonfirstname122 anonlastname122",
+          "duration": 4020000,
+          "grade": 1.17,
+          "normalizedGrade": 2.34
+        },
+        {
+          "participantId": 125,
+          "participantName": "anonfirstname123 anonlastname123",
+          "duration": 8580000,
+          "grade": 2.17,
+          "normalizedGrade": 4.34
+        },
+        {
+          "participantId": 161,
+          "participantName": "anonfirstname159 anonlastname159",
+          "duration": 3594000,
+          "grade": 3,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 3900000,
+          "grade": 3.67,
+          "normalizedGrade": 7.34
+        },
+        {
+          "participantId": 172,
+          "participantName": "anonfirstname170 anonlastname170",
+          "duration": 6480000,
+          "grade": 4,
+          "normalizedGrade": 8
+        },
+        {
+          "participantId": 176,
+          "participantName": "anonfirstname174 anonlastname174",
+          "duration": 3960000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 186,
+          "participantName": "anonfirstname184 anonlastname184",
+          "duration": 1039000,
+          "grade": 0.67,
+          "normalizedGrade": 1.34
+        },
+        {
+          "participantId": 190,
+          "participantName": "anonfirstname188 anonlastname188",
+          "duration": 4200000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 192,
+          "participantName": "anonfirstname190 anonlastname190",
+          "duration": 2381000,
+          "grade": 1.33,
+          "normalizedGrade": 2.66
+        },
+        {
+          "participantId": 194,
+          "participantName": "anonfirstname192 anonlastname192",
+          "duration": 2769000,
+          "grade": 2.08,
+          "normalizedGrade": 4.16
+        },
+        {
+          "participantId": 210,
+          "participantName": "anonfirstname208 anonlastname208",
+          "duration": 1275000,
+          "grade": 1.5,
+          "normalizedGrade": 3
+        }
+      ]
     },
     {
       "activityName": "E2_3",
-      "numViews": 353,
+      "numViews": 355,
       "numUsers": 7,
-      "lastAccess": 17000,
+      "lastAccess": 12000,
       "id": 21,
       "maxGrade": 5,
-      "participantStats": []
+      "participantStats": [
+        {
+          "participantId": 8,
+          "participantName": "anonfirstname6 anonlastname6",
+          "duration": 8700000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 9,
+          "participantName": "anonfirstname7 anonlastname7",
+          "duration": 7800000,
+          "grade": 4.33,
+          "normalizedGrade": 8.66
+        },
+        {
+          "participantId": 10,
+          "participantName": "anonfirstname8 anonlastname8",
+          "duration": 1620000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 15,
+          "participantName": "anonfirstname13 anonlastname13",
+          "duration": 3900000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 28,
+          "participantName": "anonfirstname26 anonlastname26",
+          "duration": 8280000,
+          "grade": 2.5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 46,
+          "participantName": "anonfirstname44 anonlastname44",
+          "duration": 4980000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 47,
+          "participantName": "anonfirstname45 anonlastname45",
+          "duration": 5220000,
+          "grade": 3,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 58,
+          "participantName": "anonfirstname56 anonlastname56",
+          "duration": 4800000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 60,
+          "participantName": "anonfirstname58 anonlastname58",
+          "duration": 4440000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 63,
+          "participantName": "anonfirstname61 anonlastname61",
+          "duration": 4260000,
+          "grade": 2.33,
+          "normalizedGrade": 4.66
+        },
+        {
+          "participantId": 65,
+          "participantName": "anonfirstname63 anonlastname63",
+          "duration": 4740000,
+          "grade": 3.67,
+          "normalizedGrade": 7.34
+        },
+        {
+          "participantId": 81,
+          "participantName": "anonfirstname79 anonlastname79",
+          "duration": 2218000,
+          "grade": 3.17,
+          "normalizedGrade": 6.34
+        },
+        {
+          "participantId": 82,
+          "participantName": "anonfirstname80 anonlastname80",
+          "duration": 4260000,
+          "grade": 3.42,
+          "normalizedGrade": 6.84
+        },
+        {
+          "participantId": 85,
+          "participantName": "anonfirstname83 anonlastname83",
+          "duration": 1535000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 92,
+          "participantName": "anonfirstname90 anonlastname90",
+          "duration": 15960000,
+          "grade": 0.5,
+          "normalizedGrade": 1
+        },
+        {
+          "participantId": 94,
+          "participantName": "anonfirstname92 anonlastname92",
+          "duration": 5760000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 99,
+          "participantName": "anonfirstname97 anonlastname97",
+          "duration": 4260000,
+          "grade": 4.5,
+          "normalizedGrade": 9
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 3077000,
+          "grade": 2.58,
+          "normalizedGrade": 5.16
+        },
+        {
+          "participantId": 109,
+          "participantName": "anonfirstname107 anonlastname107",
+          "duration": 4320000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 114,
+          "participantName": "anonfirstname112 anonlastname112",
+          "duration": 2126000,
+          "grade": 0.58,
+          "normalizedGrade": 1.16
+        },
+        {
+          "participantId": 115,
+          "participantName": "anonfirstname113 anonlastname113",
+          "duration": 3429000,
+          "grade": 3.67,
+          "normalizedGrade": 7.34
+        },
+        {
+          "participantId": 118,
+          "participantName": "anonfirstname116 anonlastname116",
+          "duration": 14460000,
+          "grade": 2.33,
+          "normalizedGrade": 4.66
+        },
+        {
+          "participantId": 124,
+          "participantName": "anonfirstname122 anonlastname122",
+          "duration": 391000,
+          "grade": 0.25,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 161,
+          "participantName": "anonfirstname159 anonlastname159",
+          "duration": 1843000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 4860000,
+          "grade": 2.67,
+          "normalizedGrade": 5.34
+        },
+        {
+          "participantId": 171,
+          "participantName": "anonfirstname169 anonlastname169",
+          "duration": 4680000,
+          "grade": 3.25,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 172,
+          "participantName": "anonfirstname170 anonlastname170",
+          "duration": 652000,
+          "grade": 2.42,
+          "normalizedGrade": 4.84
+        },
+        {
+          "participantId": 174,
+          "participantName": "anonfirstname172 anonlastname172",
+          "duration": 2100000,
+          "grade": 3.33,
+          "normalizedGrade": 6.66
+        },
+        {
+          "participantId": 186,
+          "participantName": "anonfirstname184 anonlastname184",
+          "duration": 20580000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 190,
+          "participantName": "anonfirstname188 anonlastname188",
+          "duration": 1404000,
+          "grade": 2.33,
+          "normalizedGrade": 4.66
+        },
+        {
+          "participantId": 192,
+          "participantName": "anonfirstname190 anonlastname190",
+          "duration": 336000,
+          "grade": 0.5,
+          "normalizedGrade": 1
+        },
+        {
+          "participantId": 194,
+          "participantName": "anonfirstname192 anonlastname192",
+          "duration": 542000,
+          "grade": 2,
+          "normalizedGrade": 4
+        },
+        {
+          "participantId": 196,
+          "participantName": "anonfirstname194 anonlastname194",
+          "duration": 6360000,
+          "grade": 2.75,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 210,
+          "participantName": "anonfirstname208 anonlastname208",
+          "duration": 5460000,
+          "grade": 1.42,
+          "normalizedGrade": 2.84
+        }
+      ]
     },
     {
       "activityName": "Cuestionario CHAEA",
-      "numViews": 139,
+      "numViews": 141,
       "numUsers": 8,
-      "lastAccess": 17000,
+      "lastAccess": 12000,
       "id": 25,
       "maxGrade": 10,
+      "participantStats": [
+        {
+          "participantId": 8,
+          "participantName": "anonfirstname6 anonlastname6",
+          "duration": 780000,
+          "grade": 7,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 9,
+          "participantName": "anonfirstname7 anonlastname7",
+          "duration": 1000800000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 13,
+          "participantName": "anonfirstname11 anonlastname11",
+          "duration": 483000,
+          "grade": 7,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 15,
+          "participantName": "anonfirstname13 anonlastname13",
+          "duration": 461000,
+          "grade": 8.5,
+          "normalizedGrade": 8.5
+        },
+        {
+          "participantId": 21,
+          "participantName": "anonfirstname19 anonlastname19",
+          "duration": 554000,
+          "grade": 6.63,
+          "normalizedGrade": 6.63
+        },
+        {
+          "participantId": 29,
+          "participantName": "anonfirstname27 anonlastname27",
+          "duration": 867000,
+          "grade": 6.88,
+          "normalizedGrade": 6.88
+        },
+        {
+          "participantId": 32,
+          "participantName": "anonfirstname30 anonlastname30",
+          "duration": 787000,
+          "grade": 5.88,
+          "normalizedGrade": 5.88
+        },
+        {
+          "participantId": 33,
+          "participantName": "anonfirstname31 anonlastname31",
+          "duration": 677000,
+          "grade": 6.13,
+          "normalizedGrade": 6.13
+        },
+        {
+          "participantId": 43,
+          "participantName": "anonfirstname41 anonlastname41",
+          "duration": 405000,
+          "grade": 7.25,
+          "normalizedGrade": 7.25
+        },
+        {
+          "participantId": 66,
+          "participantName": "anonfirstname64 anonlastname64",
+          "duration": 4186800000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 68,
+          "participantName": "anonfirstname66 anonlastname66",
+          "duration": 661000,
+          "grade": 6,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 70,
+          "participantName": "anonfirstname68 anonlastname68",
+          "duration": 415000,
+          "grade": 6.88,
+          "normalizedGrade": 6.88
+        },
+        {
+          "participantId": 71,
+          "participantName": "anonfirstname69 anonlastname69",
+          "duration": 2707200000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 72,
+          "participantName": "anonfirstname70 anonlastname70",
+          "duration": 520000,
+          "grade": 7.38,
+          "normalizedGrade": 7.38
+        },
+        {
+          "participantId": 74,
+          "participantName": "anonfirstname72 anonlastname72",
+          "duration": 889000,
+          "grade": 6.5,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 79,
+          "participantName": "anonfirstname77 anonlastname77",
+          "duration": 4298400000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 82,
+          "participantName": "anonfirstname80 anonlastname80",
+          "duration": 596000,
+          "grade": 6.75,
+          "normalizedGrade": 6.75
+        },
+        {
+          "participantId": 85,
+          "participantName": "anonfirstname83 anonlastname83",
+          "duration": 358000,
+          "grade": 6.63,
+          "normalizedGrade": 6.63
+        },
+        {
+          "participantId": 86,
+          "participantName": "anonfirstname84 anonlastname84",
+          "duration": 1403000,
+          "grade": 6,
+          "normalizedGrade": 6
+        },
+        {
+          "participantId": 89,
+          "participantName": "anonfirstname87 anonlastname87",
+          "duration": 799000,
+          "grade": 6.5,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 90,
+          "participantName": "anonfirstname88 anonlastname88",
+          "duration": 2545200000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 93,
+          "participantName": "anonfirstname91 anonlastname91",
+          "duration": 801000,
+          "grade": 7.13,
+          "normalizedGrade": 7.13
+        },
+        {
+          "participantId": 96,
+          "participantName": "anonfirstname94 anonlastname94",
+          "duration": 536000,
+          "grade": 5.38,
+          "normalizedGrade": 5.38
+        },
+        {
+          "participantId": 97,
+          "participantName": "anonfirstname95 anonlastname95",
+          "duration": 133200000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 100,
+          "participantName": "anonfirstname98 anonlastname98",
+          "duration": 4107600000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 102,
+          "participantName": "anonfirstname100 anonlastname100",
+          "duration": 484000,
+          "grade": 6.38,
+          "normalizedGrade": 6.38
+        },
+        {
+          "participantId": 107,
+          "participantName": "anonfirstname105 anonlastname105",
+          "duration": 7740000,
+          "grade": 7.13,
+          "normalizedGrade": 7.13
+        },
+        {
+          "participantId": 110,
+          "participantName": "anonfirstname108 anonlastname108",
+          "duration": 556000,
+          "grade": 5.5,
+          "normalizedGrade": 5.5
+        },
+        {
+          "participantId": 118,
+          "participantName": "anonfirstname116 anonlastname116",
+          "duration": 32000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 120,
+          "participantName": "anonfirstname118 anonlastname118",
+          "duration": 1675000,
+          "grade": 7,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 121,
+          "participantName": "anonfirstname119 anonlastname119",
+          "duration": 4024800000,
+          "grade": 0.5,
+          "normalizedGrade": 0.5
+        },
+        {
+          "participantId": 129,
+          "participantName": "anonfirstname127 anonlastname127",
+          "duration": 3754800000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 130,
+          "participantName": "anonfirstname128 anonlastname128",
+          "duration": 331000,
+          "grade": 8.75,
+          "normalizedGrade": 8.75
+        },
+        {
+          "participantId": 132,
+          "participantName": "anonfirstname130 anonlastname130",
+          "duration": 680400000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 133,
+          "participantName": "anonfirstname131 anonlastname131",
+          "duration": 656000,
+          "grade": 5.38,
+          "normalizedGrade": 5.38
+        },
+        {
+          "participantId": 141,
+          "participantName": "anonfirstname139 anonlastname139",
+          "duration": 873000,
+          "grade": 5,
+          "normalizedGrade": 5
+        },
+        {
+          "participantId": 142,
+          "participantName": "anonfirstname140 anonlastname140",
+          "duration": 4298400000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 144,
+          "participantName": "anonfirstname142 anonlastname142",
+          "duration": 478000,
+          "grade": 5.63,
+          "normalizedGrade": 5.63
+        },
+        {
+          "participantId": 146,
+          "participantName": "anonfirstname144 anonlastname144",
+          "duration": 426000,
+          "grade": 7.38,
+          "normalizedGrade": 7.38
+        },
+        {
+          "participantId": 150,
+          "participantName": "anonfirstname148 anonlastname148",
+          "duration": 830000,
+          "grade": 7,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 155,
+          "participantName": "anonfirstname153 anonlastname153",
+          "duration": 585000,
+          "grade": 5.25,
+          "normalizedGrade": 5.25
+        },
+        {
+          "participantId": 159,
+          "participantName": "anonfirstname157 anonlastname157",
+          "duration": 3783600000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 160,
+          "participantName": "anonfirstname158 anonlastname158",
+          "duration": 3181000,
+          "grade": 7.13,
+          "normalizedGrade": 7.13
+        },
+        {
+          "participantId": 163,
+          "participantName": "anonfirstname161 anonlastname161",
+          "duration": 324000,
+          "grade": 6.38,
+          "normalizedGrade": 6.38
+        },
+        {
+          "participantId": 166,
+          "participantName": "anonfirstname164 anonlastname164",
+          "duration": 338400000,
+          "grade": 7.13,
+          "normalizedGrade": 7.13
+        },
+        {
+          "participantId": 167,
+          "participantName": "anonfirstname165 anonlastname165",
+          "duration": 487000,
+          "grade": 7.75,
+          "normalizedGrade": 7.75
+        },
+        {
+          "participantId": 178,
+          "participantName": "anonfirstname176 anonlastname176",
+          "duration": 640000,
+          "grade": 6.5,
+          "normalizedGrade": 6.5
+        },
+        {
+          "participantId": 179,
+          "participantName": "anonfirstname177 anonlastname177",
+          "duration": 4024800000,
+          "grade": 1.5,
+          "normalizedGrade": 1.5
+        },
+        {
+          "participantId": 189,
+          "participantName": "anonfirstname187 anonlastname187",
+          "duration": 680400000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 190,
+          "participantName": "anonfirstname188 anonlastname188",
+          "duration": 3841200000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 191,
+          "participantName": "anonfirstname189 anonlastname189",
+          "duration": 818000,
+          "grade": 7.75,
+          "normalizedGrade": 7.75
+        },
+        {
+          "participantId": 193,
+          "participantName": "anonfirstname191 anonlastname191",
+          "duration": 615000,
+          "grade": 7.63,
+          "normalizedGrade": 7.63
+        },
+        {
+          "participantId": 198,
+          "participantName": "anonfirstname196 anonlastname196",
+          "duration": 402000,
+          "grade": 6.63,
+          "normalizedGrade": 6.63
+        },
+        {
+          "participantId": 199,
+          "participantName": "anonfirstname197 anonlastname197",
+          "duration": 420000,
+          "grade": 7,
+          "normalizedGrade": 7
+        },
+        {
+          "participantId": 206,
+          "participantName": "anonfirstname204 anonlastname204",
+          "duration": 1706400000,
+          "grade": 0,
+          "normalizedGrade": 0
+        },
+        {
+          "participantId": 207,
+          "participantName": "anonfirstname205 anonlastname205",
+          "duration": 545000,
+          "grade": 6.13,
+          "normalizedGrade": 6.13
+        }
+      ]
+    },
+    {
+      "activityName": "prueba",
+      "numViews": 684,
+      "numUsers": 2,
+      "lastAccess": 12000,
+      "id": 26,
+      "maxGrade": 1,
       "participantStats": []
     }
   ],
   "forums": [
     {
       "activityName": "Foro de dudas",
-      "numViews": 695,
+      "numViews": 701,
       "numUsers": 1,
-      "lastAccess": 20000,
+      "lastAccess": 15000,
       "id": 3,
       "forumId": 1,
-      "subscriptions": 205,
+      "subscriptions": 206,
       "participantsStats": [
+        {
+          "participantId": 2,
+          "participantName": "Admin User",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 2132,
+          "wordCount": 0
+        },
         {
           "participantId": 3,
           "participantName": "anonfirstname1 anonlastname1",
@@ -5395,13 +8376,21 @@
     },
     {
       "activityName": "Novedades y anuncios",
-      "numViews": 433,
+      "numViews": 439,
       "numUsers": 2,
-      "lastAccess": 20000,
+      "lastAccess": 15000,
       "id": 4,
       "forumId": 2,
-      "subscriptions": 214,
+      "subscriptions": 215,
       "participantsStats": [
+        {
+          "participantId": 2,
+          "participantName": "Admin User",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 1906,
+          "wordCount": 0
+        },
         {
           "participantId": 12,
           "participantName": "anonfirstname10 anonlastname10",
@@ -6838,13 +9827,21 @@
     },
     {
       "activityName": "Trabajos TALF 2022-23",
-      "numViews": 346,
+      "numViews": 352,
       "numUsers": 0,
-      "lastAccess": 19000,
+      "lastAccess": 14000,
       "id": 5,
       "forumId": 3,
       "subscriptions": 14,
       "participantsStats": [
+        {
+          "participantId": 2,
+          "participantName": "Admin User",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 1891,
+          "wordCount": 0
+        },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
