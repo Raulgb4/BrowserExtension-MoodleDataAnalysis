@@ -14,7 +14,7 @@
  */
 
 import React, {useEffect, useMemo, useRef} from "react";
-import {Bar, Line, Pie, PolarArea, Radar} from "react-chartjs-2";
+import {Bar, Line, Pie, PolarArea, Radar, Scatter} from "react-chartjs-2";
 import {Chart as ChartJS, ChartData, ChartOptions} from "chart.js";
 import {exportToCSV, exportToDOCX, exportToImage, exportToPDF, formatDateForExport} from "../utils/exportUtils";
 import {ArrowDownTrayIcon, DocumentArrowDownIcon, PhotoIcon,} from "@heroicons/react/24/outline";
@@ -23,7 +23,7 @@ import {useTranslation} from "react-i18next";
 import {DocumentTextIcon} from "@heroicons/react/16/solid";
 import {useExportContext} from "../context/ExportContext";
 
-type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea";
+type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea" | "scatter";
 
 interface GraphBlockProps {
     title: string;
@@ -39,6 +39,7 @@ const chartComponents: Record<ChartType, React.ComponentType<any>> = {
     line: Line,
     radar: Radar,
     polarArea: PolarArea,
+    scatter: Scatter,
 };
 
 const chartSizes: Record<ChartType, string> = {
@@ -47,6 +48,7 @@ const chartSizes: Record<ChartType, string> = {
     line: "w-full max-w-6xl h-[380px]",
     radar: "w-96",
     polarArea: "w-96 h-96",
+    scatter: "w-full max-w-6xl h-[380px]",
 };
 
 //const truncate = (label: string, maxLength = 15): string =>
@@ -200,6 +202,18 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                         } as any,
                     },
                 },
+            };
+        }
+
+        if (chartType === "scatter") {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: baseLegend },
+                scales: {
+                    x: { type: "linear", beginAtZero: true },
+                    y: { type: "linear", beginAtZero: true }
+                }
             };
         }
 

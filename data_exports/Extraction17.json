@@ -4,18 +4,6 @@
   "numParticipantsTotal": 215,
   "participants": [
     {
-      "id": 217,
-      "participantName": "UsuarioPrueba UsuarioPrueba",
-      "email": "UsuarioPrueba@UsuarioPrueba.com",
-      "roles": [
-        "Student"
-      ],
-      "lastAccessToCourse": 6631200000,
-      "groups": [
-        "No groups"
-      ]
-    },
-    {
       "id": 3,
       "participantName": "anonfirstname1 anonlastname1",
       "email": "anon1@doesntexist.invalid",
@@ -2563,6 +2551,18 @@
         "Gr. Informática (Grupo D)",
         "Taller de ejercicios"
       ]
+    },
+    {
+      "id": 217,
+      "participantName": "UsuarioPrueba UsuarioPrueba",
+      "email": "UsuarioPrueba@UsuarioPrueba.com",
+      "roles": [
+        "Student"
+      ],
+      "lastAccessToCourse": 7480800000,
+      "groups": [
+        "No groups"
+      ]
     }
   ],
   "urlResources": [
@@ -2570,199 +2570,199 @@
       "activityName": "Presentación de TALF",
       "numViews": 631,
       "numUsers": 171,
-      "lastAccess": 5626800000
+      "lastAccess": 6476400000
     },
     {
       "activityName": "Apuntes y scripts (repo en bitbucket)",
       "numViews": 760,
       "numUsers": 157,
-      "lastAccess": 6735600000
+      "lastAccess": 7585200000
     },
     {
       "activityName": "Apuntes de TALF (enlace externo a última versión)",
       "numViews": 827,
       "numUsers": 175,
-      "lastAccess": 7009200000
+      "lastAccess": 7858800000
     },
     {
       "activityName": "Grabación tutoría virtual",
       "numViews": 106,
       "numUsers": 43,
-      "lastAccess": 64195200000
+      "lastAccess": 65059200000
     },
     {
       "activityName": "reparto TALF",
       "numViews": 5,
       "numUsers": 3,
-      "lastAccess": 6735600000
+      "lastAccess": 7585200000
     },
     {
       "activityName": "Sesión Presentación + T1 URL",
       "numViews": 408,
       "numUsers": 148,
-      "lastAccess": 51321600000
+      "lastAccess": 52185600000
     },
     {
       "activityName": "Vídeo del capítulo 1",
       "numViews": 236,
       "numUsers": 113,
-      "lastAccess": 6735600000
+      "lastAccess": 7585200000
     },
     {
       "activityName": "La biblioteca de Babel",
       "numViews": 67,
       "numUsers": 50,
-      "lastAccess": 63676800000
+      "lastAccess": 64540800000
     },
     {
       "activityName": "El hotel infinito de Hilbert",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 63417600000
+      "lastAccess": 64195200000
     },
     {
       "activityName": "Sesión del tema 2",
       "numViews": 459,
       "numUsers": 137,
-      "lastAccess": 51235200000
+      "lastAccess": 52099200000
     },
     {
       "activityName": "Vídeo del capítulo 2",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 65577600000
+      "lastAccess": 66441600000
     },
     {
       "activityName": "Noam Chomsky",
       "numViews": 40,
       "numUsers": 30,
-      "lastAccess": 64368000000
+      "lastAccess": 65232000000
     },
     {
       "activityName": "Anochecer",
       "numViews": 63,
       "numUsers": 45,
-      "lastAccess": 66700800000
+      "lastAccess": 67564800000
     },
     {
       "activityName": "Desarrollo embrionario",
       "numViews": 34,
       "numUsers": 26,
-      "lastAccess": 66700800000
+      "lastAccess": 67564800000
     },
     {
       "activityName": "Sesión del Tema 3",
       "numViews": 287,
       "numUsers": 105,
-      "lastAccess": 6814800000
+      "lastAccess": 7664400000
     },
     {
       "activityName": "IEEE Std 1003.1-2008",
       "numViews": 19,
       "numUsers": 17,
-      "lastAccess": 66528000000
+      "lastAccess": 67392000000
     },
     {
       "activityName": "Comparativa expresiones regulares en Perl, Python y Emacs",
       "numViews": 15,
       "numUsers": 14,
-      "lastAccess": 66528000000
+      "lastAccess": 67392000000
     },
     {
       "activityName": "Sesión de problemas",
       "numViews": 211,
       "numUsers": 90,
-      "lastAccess": 47433600000
+      "lastAccess": 48211200000
     },
     {
       "activityName": "Resumen Presentación prácticas",
       "numViews": 354,
       "numUsers": 132,
-      "lastAccess": 62812800000
+      "lastAccess": 63676800000
     },
     {
       "activityName": "Práctica 1",
       "numViews": 203,
       "numUsers": 106,
-      "lastAccess": 47520000000
+      "lastAccess": 48384000000
     },
     {
       "activityName": "Práctica 1 bis",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 65923200000
+      "lastAccess": 66787200000
     },
     {
       "activityName": "Máquina Virtual Ubuntu",
       "numViews": 614,
       "numUsers": 172,
-      "lastAccess": 48729600000
+      "lastAccess": 49593600000
     },
     {
       "activityName": "Distribución de Linux",
       "numViews": 200,
       "numUsers": 96,
-      "lastAccess": 48729600000
+      "lastAccess": 49593600000
     },
     {
       "activityName": "Intro a LaTeX",
       "numViews": 234,
       "numUsers": 111,
-      "lastAccess": 61171200000
+      "lastAccess": 62035200000
     },
     {
       "activityName": "Overleaf",
       "numViews": 101,
       "numUsers": 67,
-      "lastAccess": 48124800000
+      "lastAccess": 48988800000
     },
     {
       "activityName": "grep + Regular Expressions",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 47865600000
+      "lastAccess": 48729600000
     },
     {
       "activityName": "Bash Linux Tutorial",
       "numViews": 58,
       "numUsers": 40,
-      "lastAccess": 63244800000
+      "lastAccess": 64108800000
     },
     {
       "activityName": "Sesión Tema 4 - ING INF",
       "numViews": 222,
       "numUsers": 86,
-      "lastAccess": 47433600000
+      "lastAccess": 48211200000
     },
     {
       "activityName": "Sesión del Tema 4 - ING COM",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 66787200000
+      "lastAccess": 67651200000
     },
     {
       "activityName": "JFLAP",
       "numViews": 69,
       "numUsers": 46,
-      "lastAccess": 47520000000
+      "lastAccess": 48384000000
     },
     {
       "activityName": "Sesión del Tema 5",
       "numViews": 240,
       "numUsers": 90,
-      "lastAccess": 51408000000
+      "lastAccess": 52272000000
     },
     {
       "activityName": "The pumping lemma poem",
       "numViews": 37,
       "numUsers": 33,
-      "lastAccess": 48124800000
+      "lastAccess": 48988800000
     },
     {
       "activityName": "Sesión del Tema 6 ING INF",
       "numViews": 232,
       "numUsers": 92,
-      "lastAccess": 51408000000
+      "lastAccess": 52272000000
     },
     {
       "activityName": "Tema 6 ING COM",
@@ -2773,31 +2773,31 @@
       "activityName": "Context free art",
       "numViews": 17,
       "numUsers": 15,
-      "lastAccess": 82771200000
+      "lastAccess": 83635200000
     },
     {
       "activityName": "Sistemas de Lindenmayer",
       "numViews": 11,
       "numUsers": 9,
-      "lastAccess": 82771200000
+      "lastAccess": 83635200000
     },
     {
       "activityName": "Context-free grammar programming",
       "numViews": 12,
       "numUsers": 10,
-      "lastAccess": 82598400000
+      "lastAccess": 83462400000
     },
     {
       "activityName": "Problemas 2 ING INF",
       "numViews": 113,
       "numUsers": 48,
-      "lastAccess": 51408000000
+      "lastAccess": 52272000000
     },
     {
       "activityName": "Sesión Práctica 2",
       "numViews": 93,
       "numUsers": 53,
-      "lastAccess": 59616000000
+      "lastAccess": 60480000000
     },
     {
       "activityName": "Tema 7 - sesión ING COM",
@@ -2808,31 +2808,31 @@
       "activityName": "Tema 7 - sesión ING INF",
       "numViews": 405,
       "numUsers": 105,
-      "lastAccess": 48384000000
+      "lastAccess": 49161600000
     },
     {
       "activityName": "MT simulada",
       "numViews": 73,
       "numUsers": 55,
-      "lastAccess": 62899200000
+      "lastAccess": 63676800000
     },
     {
       "activityName": "La guerra de Turing",
       "numViews": 49,
       "numUsers": 41,
-      "lastAccess": 63158400000
+      "lastAccess": 64022400000
     },
     {
       "activityName": "Vídeo sobre incompletitud",
       "numViews": 45,
       "numUsers": 38,
-      "lastAccess": 48384000000
+      "lastAccess": 49161600000
     },
     {
       "activityName": "Tema 8 - sesión ING INF",
       "numViews": 354,
       "numUsers": 105,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Tema 8 - sesión ING COM",
@@ -2843,13 +2843,13 @@
       "activityName": "Sesión Tema 9",
       "numViews": 349,
       "numUsers": 102,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "sesión de repaso Temas 7-9",
       "numViews": 109,
       "numUsers": 58,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Tutoría previa a Parcial 3",
@@ -2860,19 +2860,19 @@
       "activityName": "Problemas 3 (Parte I)",
       "numViews": 290,
       "numUsers": 93,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Problemas 3 (Parte II)",
       "numViews": 165,
       "numUsers": 68,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Sesión Práctica 3 INF",
       "numViews": 114,
       "numUsers": 54,
-      "lastAccess": 59616000000
+      "lastAccess": 60480000000
     },
     {
       "activityName": "Sesión Práctica 3 COMP",
@@ -2883,61 +2883,61 @@
       "activityName": "Compilador WHILE",
       "numViews": 359,
       "numUsers": 122,
-      "lastAccess": 62899200000
+      "lastAccess": 63763200000
     },
     {
       "activityName": "Sesión Tema 10",
       "numViews": 236,
       "numUsers": 89,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Tesis Church-Turing",
       "numViews": 25,
       "numUsers": 19,
-      "lastAccess": 62812800000
+      "lastAccess": 63676800000
     },
     {
       "activityName": "Sesión Tema 11 (ING COM)",
       "numViews": 188,
       "numUsers": 72,
-      "lastAccess": 48470400000
+      "lastAccess": 49334400000
     },
     {
       "activityName": "sesión Tema 11 (ING INF)",
       "numViews": 207,
       "numUsers": 84,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Scripts en Octave para codificación de programas While",
       "numViews": 22,
       "numUsers": 17,
-      "lastAccess": 63072000000
+      "lastAccess": 63849600000
     },
     {
       "activityName": "Octave Online",
       "numViews": 11,
       "numUsers": 9,
-      "lastAccess": 65145600000
+      "lastAccess": 65923200000
     },
     {
       "activityName": "Sesión Tema 12 (ING COM)",
       "numViews": 116,
       "numUsers": 49,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Sesión Tema 12 (ING INF)",
       "numViews": 194,
       "numUsers": 75,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Sobre Castor afanoso y los grandes números",
       "numViews": 43,
       "numUsers": 33,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Tutoría previa a Parcial 4",
@@ -2948,25 +2948,25 @@
       "activityName": "Crear un ordenador en Life",
       "numViews": 26,
       "numUsers": 16,
-      "lastAccess": 62726400000
+      "lastAccess": 63590400000
     },
     {
       "activityName": "Problemas 4 ING COM",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 65750400000
+      "lastAccess": 66528000000
     },
     {
       "activityName": "Problemas 4 ING INF",
       "numViews": 159,
       "numUsers": 60,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Sesión Práctica 4 INF",
       "numViews": 78,
       "numUsers": 42,
-      "lastAccess": 62812800000
+      "lastAccess": 63676800000
     },
     {
       "activityName": "Sesión Práctica 4 COMP",
@@ -2977,13 +2977,13 @@
       "activityName": "Francisco Vico",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 69638400000
+      "lastAccess": 70416000000
     },
     {
       "activityName": "Karl Thurnhofer",
       "numViews": 3,
       "numUsers": 2,
-      "lastAccess": 7009200000
+      "lastAccess": 7858800000
     },
     {
       "activityName": "Francisco Vico",
@@ -3026,178 +3026,178 @@
       "activityName": "Copia local del repo talfuma",
       "numViews": 181,
       "numUsers": 86,
-      "lastAccess": 5691600000
+      "lastAccess": 6541200000
     },
     {
       "activityName": "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
       "numViews": 4806,
       "numUsers": 203,
-      "lastAccess": 6051600000
+      "lastAccess": 6901200000
     },
     {
       "activityName": "Jerarquía de Chomsky y el lenguaje natural",
       "numViews": 126,
       "numUsers": 79,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Ejercicios 1",
       "numViews": 833,
       "numUsers": 180,
-      "lastAccess": 6051600000
+      "lastAccess": 6901200000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 1",
       "numViews": 492,
       "numUsers": 152,
-      "lastAccess": 51408000000
+      "lastAccess": 52272000000
     },
     {
       "activityName": "Práctica 1",
       "numViews": 2006,
       "numUsers": 195,
-      "lastAccess": 51753600000
+      "lastAccess": 52617600000
     },
     {
       "activityName": "Posibles soluciones Práctica 1",
       "numViews": 349,
       "numUsers": 146,
-      "lastAccess": 47520000000
+      "lastAccess": 48384000000
     },
     {
       "activityName": "Ejemplo de documento LaTex",
       "numViews": 232,
       "numUsers": 122,
-      "lastAccess": 81302400000
+      "lastAccess": 82166400000
     },
     {
       "activityName": "Ficheros Práctica 1",
       "numViews": 639,
       "numUsers": 180,
-      "lastAccess": 63158400000
+      "lastAccess": 64022400000
     },
     {
       "activityName": "Ejercicios 2",
       "numViews": 576,
       "numUsers": 150,
-      "lastAccess": 47520000000
+      "lastAccess": 48384000000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 2",
       "numViews": 451,
       "numUsers": 139,
-      "lastAccess": 51408000000
+      "lastAccess": 52272000000
     },
     {
       "activityName": "Práctica 2",
       "numViews": 814,
       "numUsers": 171,
-      "lastAccess": 48124800000
+      "lastAccess": 48988800000
     },
     {
       "activityName": "Posibles soluciones Práctica 2",
       "numViews": 161,
       "numUsers": 105,
-      "lastAccess": 63072000000
+      "lastAccess": 63936000000
     },
     {
       "activityName": "Ficheros Práctica 2",
       "numViews": 328,
       "numUsers": 161,
-      "lastAccess": 63072000000
+      "lastAccess": 63936000000
     },
     {
       "activityName": "JFLAP",
       "numViews": 409,
       "numUsers": 162,
-      "lastAccess": 47520000000
+      "lastAccess": 48384000000
     },
     {
       "activityName": "Ejercicios 3",
       "numViews": 718,
       "numUsers": 158,
-      "lastAccess": 54000000000
+      "lastAccess": 54864000000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 3",
       "numViews": 478,
       "numUsers": 131,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Práctica 3",
       "numViews": 772,
       "numUsers": 156,
-      "lastAccess": 62035200000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "Soluciones práctica 3",
       "numViews": 310,
       "numUsers": 125,
-      "lastAccess": 62726400000
+      "lastAccess": 63590400000
     },
     {
       "activityName": "EjemploMT",
       "numViews": 425,
       "numUsers": 133,
-      "lastAccess": 48124800000
+      "lastAccess": 48988800000
     },
     {
       "activityName": "EjemploWHILE",
       "numViews": 353,
       "numUsers": 127,
-      "lastAccess": 62985600000
+      "lastAccess": 63849600000
     },
     {
       "activityName": "Paquete whilecode para Latex",
       "numViews": 246,
       "numUsers": 115,
-      "lastAccess": 62899200000
+      "lastAccess": 63763200000
     },
     {
       "activityName": "Ejercicios 4",
       "numViews": 322,
       "numUsers": 112,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Posibles soluciones a los ejercicios 4",
       "numViews": 188,
       "numUsers": 89,
-      "lastAccess": 57542400000
+      "lastAccess": 58320000000
     },
     {
       "activityName": "Posible solución al taller",
       "numViews": 18,
       "numUsers": 14,
-      "lastAccess": 62899200000
+      "lastAccess": 63763200000
     },
     {
       "activityName": "Práctica 4",
       "numViews": 434,
       "numUsers": 149,
-      "lastAccess": 62035200000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "Posibles soluciones Práctica 4",
       "numViews": 237,
       "numUsers": 111,
-      "lastAccess": 62726400000
+      "lastAccess": 63590400000
     },
     {
       "activityName": "Ficheros de la Práctica 4",
       "numViews": 210,
       "numUsers": 111,
-      "lastAccess": 62899200000
+      "lastAccess": 63763200000
     }
   ],
   "choices": [
     {
       "id": 23,
       "activityName": "Día para E1_1+",
-      "numViews": 1398,
+      "numViews": 1412,
       "numUsers": 127,
-      "lastAccess": 288000,
+      "lastAccess": 55740000,
       "responseCounts": {
         "07/11 - lunes": 44,
         "08/11 - martes": 7,
@@ -3209,9 +3209,9 @@
     {
       "id": 29,
       "activityName": "¿Cómo explicarías a un niño qué es la matemática discreta?",
-      "numViews": 781,
+      "numViews": 794,
       "numUsers": 82,
-      "lastAccess": 287000,
+      "lastAccess": 55740000,
       "responseCounts": {
         "Estudia lo que se puede contar.": 21,
         "Son los números naturales.": 0,
@@ -3226,33 +3226,33 @@
       "activityName": "Taller Bloque 1",
       "numViews": 1005,
       "numUsers": 39,
-      "lastAccess": 5691600000
+      "lastAccess": 6541200000
     },
     {
       "activityName": "Taller Bloque 2",
       "numViews": 699,
       "numUsers": 37,
-      "lastAccess": 6735600000
+      "lastAccess": 7585200000
     },
     {
       "activityName": "Taller Bloque 3",
       "numViews": 547,
       "numUsers": 33,
-      "lastAccess": 62035200000
+      "lastAccess": 62812800000
     },
     {
       "activityName": "Taller Bloque 4",
       "numViews": 441,
       "numUsers": 32,
-      "lastAccess": 6818400000
+      "lastAccess": 7668000000
     }
   ],
   "quizzes": [
     {
       "activityName": "E1_1+",
-      "numViews": 3491,
+      "numViews": 3512,
       "numUsers": 147,
-      "lastAccess": 67000,
+      "lastAccess": 55740000,
       "id": 14,
       "maxGrade": 1,
       "participantStats": [
@@ -3750,9 +3750,9 @@
     },
     {
       "activityName": "E2_1",
-      "numViews": 16269,
+      "numViews": 16282,
       "numUsers": 156,
-      "lastAccess": 289000,
+      "lastAccess": 55740000,
       "id": 15,
       "maxGrade": 5,
       "participantStats": [
@@ -4754,9 +4754,9 @@
     },
     {
       "activityName": "E1_2",
-      "numViews": 7164,
+      "numViews": 7177,
       "numUsers": 93,
-      "lastAccess": 289000,
+      "lastAccess": 55740000,
       "id": 17,
       "maxGrade": 5,
       "participantStats": [
@@ -5247,9 +5247,9 @@
     },
     {
       "activityName": "E2_2",
-      "numViews": 8884,
+      "numViews": 8897,
       "numUsers": 103,
-      "lastAccess": 288000,
+      "lastAccess": 55740000,
       "id": 18,
       "maxGrade": 4.67,
       "participantStats": [
@@ -5852,9 +5852,9 @@
     },
     {
       "activityName": "E1_3",
-      "numViews": 3450,
+      "numViews": 3463,
       "numUsers": 43,
-      "lastAccess": 288000,
+      "lastAccess": 55740000,
       "id": 20,
       "maxGrade": 5,
       "participantStats": [
@@ -6044,9 +6044,9 @@
     },
     {
       "activityName": "E2_3",
-      "numViews": 3576,
+      "numViews": 3589,
       "numUsers": 41,
-      "lastAccess": 288000,
+      "lastAccess": 55740000,
       "id": 21,
       "maxGrade": 5,
       "participantStats": [
@@ -6292,9 +6292,9 @@
     },
     {
       "activityName": "Cuestionario CHAEA",
-      "numViews": 1437,
+      "numViews": 1450,
       "numUsers": 133,
-      "lastAccess": 287000,
+      "lastAccess": 55740000,
       "id": 25,
       "maxGrade": 10,
       "participantStats": [
@@ -6696,9 +6696,9 @@
   "forums": [
     {
       "activityName": "Foro de dudas",
-      "numViews": 7070,
+      "numViews": 7114,
       "numUsers": 171,
-      "lastAccess": 290000,
+      "lastAccess": 55740000,
       "id": 3,
       "forumId": 1,
       "subscriptions": 205,
@@ -8347,9 +8347,9 @@
     },
     {
       "activityName": "Novedades y anuncios",
-      "numViews": 4449,
+      "numViews": 4491,
       "numUsers": 180,
-      "lastAccess": 290000,
+      "lastAccess": 55740000,
       "id": 4,
       "forumId": 2,
       "subscriptions": 214,
@@ -9790,9 +9790,9 @@
     },
     {
       "activityName": "Trabajos TALF 2022-23",
-      "numViews": 3577,
+      "numViews": 3619,
       "numUsers": 19,
-      "lastAccess": 290000,
+      "lastAccess": 55740000,
       "id": 5,
       "forumId": 3,
       "subscriptions": 14,

@@ -59,7 +59,11 @@
     "workshop_visits": "Workshop Visits",
     "activity_overview": "Activity Overview",
     "top_activities": "Top Activities",
-    "other_top_n": "{{name}} - Top {{count}} activities"
+    "other_top_n": "{{name}} - Top {{count}} activities",
+    "predictive": {
+      "participation_vs_grade": "Correlation between Forum Participation and Quiz Scores"
+    },
+    "regression_line": "Regression line"
   },
   "access": {
     "last_7_days": "Last 7 days",
@@ -78,7 +82,8 @@
     "normalized_score": "Normalized Score",
     "average_score": "Average Score",
     "participation_percentage": "Participation (%)",
-    "subscriptions": "Subscriptions"
+    "subscriptions": "Subscriptions",
+    "students": "Students"
   },
   "filter": {
     "by_role": "Filter by role:",
@@ -100,7 +105,9 @@
   "label": {
     "students": "students",
     "participants": "participants",
-    "activities": "activities"
+    "activities": "activities",
+    "forum": "Most visited forum",
+    "quiz": "Most visited quiz"
   },
   "pdf": {
     "analysis_date": "Analysis date",
@@ -113,6 +120,30 @@
   "note": {
     "participation_definition": "Sum of posts, replies, and views relative to the forum total.",
     "avg_views_definition": "Average views per user = total views ÷ number of users (per activity).",
-    "active_participant_definition": "Considered active if they accessed the course within the last {{days}} days."
+    "active_participant_definition": "Considered active if they accessed the course within the last {{days}} days.",
+    "regression_summary": "Slope={{slope}}, r={{r}}, R²={{r2}}",
+    "correlation_not_causation": "Correlation does not imply causation",
+    "using_top_forum_quiz": "Using forum: {{forum}} · quiz: {{quiz}}",
+    "corr": {
+      "template": "{{strength}} ({{direction}})",
+      "none": "virtually no correlation",
+      "very_weak": "very weak correlation",
+      "weak": "weak correlation",
+      "moderate": "moderate correlation",
+      "strong": "strong correlation",
+      "very_strong": "very strong correlation",
+      "positive": "positive",
+      "negative": "negative"
+    }
+  },
+  "axis": {
+    "forum_participation_percent": "Forum participation (%)",
+    "quiz_grade_0_10": "Quiz grade (0-10)"
+  },
+  "state": {
+    "no_predictive_data": "Not enough data available to display correlation"
+  },
+  "generic": {
+    "unknown": "Unknown"
   }
 }

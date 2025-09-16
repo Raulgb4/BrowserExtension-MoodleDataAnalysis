@@ -7,9 +7,32 @@
 1. [Alta] Preparación de la defensa del proyecto. Powerpoint a presentar.
 
 2. [Alta] [Opcional] Análisis predictivo y minería de datos.
-- Prototipo: relación entre participación en foros y calificación de una tarea (la de mayor número de visitas).
-- Dataset: X (participación en foro: mensajes/visitas), Y (calificación de una tarea).
-- UI: nueva sección con gráfico de dispersión + recta de regresión + breve interpretación.
+Explorar la relación entre participación en foros y calificación en cuestionarios a nivel de alumno,
+mostrando dispersión + recta de regresión y una interpretación breve.
+Se añade una nueva gráfica dentro de la tab “Participantes”.
+Foro elegido: el foro con más visualizaciones del curso.
+Cuestionario elegido: el cuestionario con más visualizaciones.
+
+PASOS
+1. Verificar en chrome.storage.local las fuentes necesarias
+(participants, métricas de foros por alumno, notas de cuestionarios, views totales por actividad).
+2. Implementar selección automática de foro* y quiz* “más visitados” (criterio y desempate).
+3. Aplicar filtro de roles existente para obtener el conjunto de alumnos a analizar.
+4. Calcular totales del foro* (P + R + V) y, por alumno, X = (posts+replies+views)/(P+R+V).
+5. Calcular, por alumno, Y = 10 * (grade/maxGrade) del quiz*.
+6. Depurar dataset (descartar alumnos sin X o Y válidos; mínimo de puntos requerido).
+7. Implementar utilidades de regresión lineal y correlación (pendiente, intercepto, r, R²).
+8. Construir datasets Chart.js: scatter (puntos) + línea (y = a + b·x).
+9. Añadir nuevo GraphBlock en ParticipantsTab con ejes y título adecuados.
+10. Mostrar interpretación breve (slope, r, R² y etiqueta cualitativa).
+11. Gestionar estado vacío cuando no haya datos suficientes.
+12. Añadir claves i18n (título, ejes, resumen).
+13. (Opcional) Persistir selección de foro/quiz y/o añadir selector manual.
+14. Asegurar exportación (CSV/imagen/PDF) del scatter (mapeo x,y).
+15. Pruebas con diferentes cursos/roles y revisión visual.
+16. Commit con mensaje claro y actualización de documentación.
+
+
 Pista: Aunque no dé tiempo a incorporarlo en la entrega de la memoria y el código, sí podrías mostrarlo al tribunal
 en tu defensa como un objetivo adicional cumplido ;)
 Deadline: 22 de septiembre máximo.
