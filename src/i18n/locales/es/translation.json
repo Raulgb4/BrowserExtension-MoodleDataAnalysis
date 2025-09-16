@@ -107,7 +107,11 @@
     "participants": "participantes",
     "activities": "actividades",
     "forum": "Foro con más visitas",
-    "quiz": "Cuestionario con más visitas"
+    "quiz": "Cuestionario con más visitas",
+    "forums": "Foros",
+    "quizzes": "Cuestionarios",
+    "all_forums": "Todos los foros",
+    "all_quizzes": "Todos los cuestionarios"
   },
   "pdf": {
     "analysis_date": "Fecha de análisis",
@@ -136,11 +140,11 @@
     }
   },
   "axis": {
-    "forum_participation_percent": "Participación en foro (%)",
-    "quiz_grade_0_10": "Nota en cuestionario (0-10)"
+    "forum_participation_percent": "Participación acumulada en foros (%)",
+    "quiz_grade_0_10": "Nota media en cuestionarios (0-10)"
   },
   "state": {
-    "no_predictive_data": "No hay datos suficientes para mostrar la correlación"
+    "no_predictive_data": "No hay datos suficientes para calcular y mostrar la gráfica de correlación"
   },
   "generic": {
     "unknown": "Desconocido"

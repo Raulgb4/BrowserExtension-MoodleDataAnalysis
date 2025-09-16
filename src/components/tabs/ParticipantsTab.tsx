@@ -42,11 +42,6 @@ const ParticipantsTab: React.FC = () => {
 
     const [participants, setParticipants] = useState<Participant[]>([]);
 
-    const [topForumId, setTopForumId] = useState<string | null>(null);
-    const [topForumName, setTopForumName] = useState<string>("");
-    const [topQuizId, setTopQuizId] = useState<string | null>(null);
-    const [topQuizName, setTopQuizName] = useState<string>("");
-
     const [forumParticipation, setForumParticipation] = useState<Record<string, number>>({});
     const [quizGrades, setQuizGrades] = useState<Record<string, number>>({});
 
@@ -57,12 +52,11 @@ const ParticipantsTab: React.FC = () => {
     const ACTIVE_THRESHOLD_DAYS = DEFAULT_ACTIVE_THRESHOLD_DAYS;
 
     useEffect(() => {
-        // Load participants and roles from local storage
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find(key => key.startsWith("course_"));
+            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
             if (!courseKey) return;
 
-            const course = result[courseKey];
+            const course = result[courseKey] ?? {};
             const allParticipants = Array.isArray(course.participants) ? course.participants : [];
             const roleArray = extractUniqueRoles(allParticipants);
 
@@ -79,31 +73,15 @@ const ParticipantsTab: React.FC = () => {
                 Array.isArray(storedAccess) ? storedAccess : roleArray
             );
 
-            const getMostViewed = (arr: any[] = []) => {
-                if (arr.length === 0) return null;
-                return arr
-                    .slice()
-                    .sort((a, b) => (b.numViews ?? 0) - (a.numViews ?? 0)
-                        || String(a.id ?? "").localeCompare(String(b.id ?? "")))[0];
-            };
-
-            const topForum = getMostViewed(course.forums);
-            const topQuiz = getMostViewed(course.quizzes);
-
-            setTopForumId(topForum?.id ?? null);
-            setTopForumName(topForum?.activityName ?? topForum?.title ?? "");
-            setTopQuizId(topQuiz?.id ?? null);
-            setTopQuizName(topQuiz?.activityName ?? topQuiz?.title ?? "");
-
             void chrome.storage.local.set({
-                participants_top_forum_id: topForum?.id ?? null,
-                participants_top_quiz_id: topQuiz?.id ?? null,
+                participants_scope_forums: "all",
+                participants_scope_quizzes: "all",
             });
         });
     }, []);
 
+
     useEffect(() => {
-        // Update active/inactive count based on selected roles
         const filtered = filterByRoles(participants, selectedRolesParticipation);
         const {active, inactive} = computeActiveInactive(filtered, ACTIVE_THRESHOLD_DAYS);
         setActiveCount(active);
@@ -111,84 +89,88 @@ const ParticipantsTab: React.FC = () => {
     }, [participants, selectedRolesParticipation]);
 
     useEffect(() => {
-        // Update the last access range distribution based on selected roles
         const filtered = filterByRoles(participants, selectedRolesAccess);
         const ranges = computeAccessRanges(filtered);
         setLastAccessRanges(ranges);
     }, [participants, selectedRolesAccess]);
 
     useEffect(() => {
-        if (!topForumId) return;
-
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
             if (!courseKey) return;
 
             const course = result[courseKey];
-            const forum = (course.forums || []).find((f: any) => f.id === topForumId);
-            if (!forum || !Array.isArray(forum.participantsStats)) return;
+            const forums: any[] = Array.isArray(course?.forums) ? course.forums : [];
 
-            const forumTotal = forum.participantsStats.reduce(
-                (sum: number, p: any) => sum + p.discussionsPosted + p.repliesPosted + p.views,
-                0
-            );
+            const perPidTotals: Record<string, number> = {};
+            let grandTotal = 0;
+
+            for (const f of forums) {
+                const stats: any[] = Array.isArray(f?.participantsStats) ? f.participantsStats : [];
+                for (const s of stats) {
+                    const pid = String(s.participantId);
+                    const total = (s.discussionsPosted ?? 0) + (s.repliesPosted ?? 0) + (s.views ?? 0);
+                    perPidTotals[pid] = (perPidTotals[pid] ?? 0) + total;
+                    grandTotal += total;
+                }
+            }
 
             const participationMap: Record<string, number> = {};
-            forum.participantsStats.forEach((p: any) => {
-                const total = p.discussionsPosted + p.repliesPosted + p.views;
-                participationMap[p.participantId] =
-                    forumTotal > 0 ? parseFloat(((total / forumTotal) * 100).toFixed(2)) : 0;
-            });
+            for (const pid of Object.keys(perPidTotals)) {
+                participationMap[pid] =
+                    grandTotal > 0 ? +(((perPidTotals[pid] / grandTotal) * 100).toFixed(2)) : 0;
+            }
 
             setForumParticipation(participationMap);
         });
-    }, [topForumId]);
+    }, []);
+
 
     useEffect(() => {
-        if (!topQuizId) return;
-
         chrome.storage.local.get(null, (result) => {
             const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
             if (!courseKey) return;
 
             const course = result[courseKey];
-            const quiz = (course.quizzes || []).find((q: any) => q.id === topQuizId);
-            if (!quiz || !Array.isArray(quiz.participantStats)) return;
+            const quizzes: any[] = Array.isArray(course?.quizzes) ? course.quizzes : [];
 
             const toNumber = (v: any) =>
                 typeof v === "number" ? v :
                     typeof v === "string" ? parseFloat(v.replace(",", ".")) :
                         NaN;
 
-            const gradesMap: Record<string, number> = {};
-
-            quiz.participantStats.forEach((p: any) => {
-                // 👉 usa directamente la nota sobre 10 que ya viene
-                const g10 = toNumber(p.normalizedGrade);
-                if (Number.isFinite(g10)) {
-                    // opcional: clamp a [0,10]
-                    const val = Math.max(0, Math.min(10, g10));
-                    gradesMap[p.participantId] = +val.toFixed(2);
+            const perPidGrades: Record<string, number[]> = {};
+            for (const q of quizzes) {
+                const stats: any[] = Array.isArray(q?.participantStats) ? q.participantStats : [];
+                for (const s of stats) {
+                    const pid = String(s.participantId);
+                    const g10 = toNumber(s.normalizedGrade);
+                    if (Number.isFinite(g10)) {
+                        const clamped = Math.max(0, Math.min(10, g10));
+                        (perPidGrades[pid] ??= []).push(clamped);
+                    }
                 }
-            });
+            }
+
+            const gradesMap: Record<string, number> = {};
+            for (const pid of Object.keys(perPidGrades)) {
+                const arr = perPidGrades[pid];
+                const avg = arr.reduce((a, b) => a + b, 0) / arr.length;
+                gradesMap[pid] = +avg.toFixed(2);
+            }
 
             setQuizGrades(gradesMap);
         });
-    }, [topQuizId]);
+    }, []);
+
 
     useEffect(() => {
-        if (!topForumId || !topQuizId) {
-            setXyPoints([]);
-            return;
-        }
-
         const pts: Array<{ pid: string; name: string; x: number; y: number }> = [];
 
         for (const p of participants) {
             const pid = String((p as any).participantId ?? (p as any).id);
-
-            const x = forumParticipation[pid];
-            const y = quizGrades[pid];
+            const x = forumParticipation[pid]; // %
+            const y = quizGrades[pid];         // 0–10
 
             if (typeof x === "number" && typeof y === "number") {
                 pts.push({
@@ -201,7 +183,8 @@ const ParticipantsTab: React.FC = () => {
         }
 
         setXyPoints(pts);
-    }, [participants, forumParticipation, quizGrades, topForumId, topQuizId]);
+    }, [participants, forumParticipation, quizGrades]);
+
 
 
     function leastSquares(pts: { x: number; y: number }[]) {
@@ -510,18 +493,15 @@ const ParticipantsTab: React.FC = () => {
                         </li>
 
                         <li className="text-[13px] sm:text-[14px] text-gray-600">
-                            <span className="font-medium">
-                              {t("label.forum")}:
-                            </span>{" "}
-                            <span>{topForumName || t("generic.unknown")}</span>
+                            <span className="font-medium">{t("label.forums")}:</span>{" "}
+                            <span>{t("label.all_forums")}</span>
                         </li>
 
                         <li className="text-[13px] sm:text-[14px] text-gray-600">
-                            <span className="font-medium">
-                              {t("label.quiz")}:
-                            </span>{" "}
-                            <span>{topQuizName || t("generic.unknown")}</span>
+                            <span className="font-medium">{t("label.quizzes")}:</span>{" "}
+                            <span>{t("label.all_quizzes")}</span>
                         </li>
+
                     </ul>
                 </GraphBlock>
             ) : (

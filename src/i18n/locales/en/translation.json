@@ -107,7 +107,11 @@
     "participants": "participants",
     "activities": "activities",
     "forum": "Most visited forum",
-    "quiz": "Most visited quiz"
+    "quiz": "Most visited quiz",
+    "forums": "Forums",
+    "quizzes": "Quizzes",
+    "all_forums": "All forums",
+    "all_quizzes": "All quizzes"
   },
   "pdf": {
     "analysis_date": "Analysis date",
@@ -137,11 +141,11 @@
     }
   },
   "axis": {
-    "forum_participation_percent": "Forum participation (%)",
-    "quiz_grade_0_10": "Quiz grade (0-10)"
+    "forum_participation_percent": "Cumulative forum participation (%)",
+    "quiz_grade_0_10": "Average quiz grade (0-10)"
   },
   "state": {
-    "no_predictive_data": "Not enough data available to display correlation"
+    "no_predictive_data": "Not enough data available to calculate and display the correlation graph"
   },
   "generic": {
     "unknown": "Unknown"
