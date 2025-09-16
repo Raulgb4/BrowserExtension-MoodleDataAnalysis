@@ -186,7 +186,6 @@ const ParticipantsTab: React.FC = () => {
     }, [participants, forumParticipation, quizGrades]);
 
 
-
     function leastSquares(pts: { x: number; y: number }[]) {
         const n = pts.length;
         if (n < 2) return {a: 0, b: 0, r: 0, r2: 0};
@@ -352,8 +351,8 @@ const ParticipantsTab: React.FC = () => {
     const directionKey = r >= 0 ? "note.corr.positive" : "note.corr.negative";
 
     const corrText = t("note.corr.template", {
-        strength: t(strengthKey, { defaultValue: "correlación prácticamente nula" }),
-        direction: t(directionKey, { defaultValue: "positiva" }),
+        strength: t(strengthKey, {defaultValue: "correlación prácticamente nula"}),
+        direction: t(directionKey, {defaultValue: "positiva"}),
         defaultValue: "Correlación prácticamente nula (positiva)",
     });
 
@@ -480,28 +479,32 @@ const ParticipantsTab: React.FC = () => {
                 >
                     <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-[14px] sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
                         <li>
-                          <span>
-                            {t("note.regression_summary", {
-                                slope: b.toFixed(3),
-                                r: r.toFixed(3),
-                                r2: r2.toFixed(3),
-                            })}
-                          </span>
-                            <span className="ml-2 text-gray-600">
-                            {corrText}
-                          </span>
+                            <span className="font-semibold">{t("note.slope_title")}: </span>
+                            <span>
+      {t("note.slope_explainer", {
+          slope: b.toFixed(3),
+      })}
+    </span>
                         </li>
 
-                        <li className="text-[13px] sm:text-[14px] text-gray-600">
-                            <span className="font-medium">{t("label.forums")}:</span>{" "}
-                            <span>{t("label.all_forums")}</span>
+                        <li>
+                            <span className="font-semibold">{t("note.r_title")}: </span>
+                            <span>
+      {t("note.r_explainer", {
+          r: r.toFixed(3),
+          corr: corrText, // tu texto interpretativo: "débil (positiva)", etc.
+      })}
+    </span>
                         </li>
 
-                        <li className="text-[13px] sm:text-[14px] text-gray-600">
-                            <span className="font-medium">{t("label.quizzes")}:</span>{" "}
-                            <span>{t("label.all_quizzes")}</span>
+                        <li>
+                            <span className="font-semibold">{t("note.r2_title")}: </span>
+                            <span>
+      {t("note.r2_explainer", {
+          pct: (r2 * 100).toFixed(1),
+      })}
+    </span>
                         </li>
-
                     </ul>
                 </GraphBlock>
             ) : (

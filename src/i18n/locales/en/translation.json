@@ -138,10 +138,16 @@
       "very_strong": "very strong correlation",
       "positive": "positive",
       "negative": "negative"
-    }
+    },
+    "slope_title": "Slope (m)",
+    "slope_explainer": "Each +1 point in participation (X) is associated on average with +{{slope}} points in the mean quiz grade (Y).",
+    "r_title": "Correlation (r)",
+    "r_explainer": "Strength and direction of the linear relationship: r={{r}} → {{corr}}.",
+    "r2_title": "Coefficient of Determination (R²)",
+    "r2_explainer": "{{pct}}% of the variance in Y is explained by X; the rest depends on other factors."
   },
   "axis": {
-    "forum_participation_percent": "Cumulative forum participation (%)",
+    "forum_participation_percent": "Percentage of total forum activity (course-wide) (%)",
     "quiz_grade_0_10": "Average quiz grade (0-10)"
   },
   "state": {

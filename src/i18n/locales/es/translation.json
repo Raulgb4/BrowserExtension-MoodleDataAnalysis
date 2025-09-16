@@ -137,11 +137,17 @@
       "very_strong": "correlación muy fuerte",
       "positive": "positiva",
       "negative": "negativa"
-    }
+    },
+    "slope_title": "Pendiente (m)",
+    "slope_explainer": "Cada +1 punto en participación (X) se asocia en promedio con +{{slope}} puntos en la nota media (Y).",
+    "r_title": "Correlación (r)",
+    "r_explainer": "Fuerza y dirección de la relación lineal: r={{r}} → {{corr}}.",
+    "r2_title": "Coeficiente de determinación (R²)",
+    "r2_explainer": "{{pct}}% de la variación de Y se explica por X; el resto depende de otros factores."
   },
   "axis": {
-    "forum_participation_percent": "Participación acumulada en foros (%)",
-    "quiz_grade_0_10": "Nota media en cuestionarios (0-10)"
+    "forum_participation_percent": "Porcentaje del total de actividad en todos los foros del curso (%)",
+    "quiz_grade_0_10": "Nota media de todos los cuestionarios del curso"
   },
   "state": {
     "no_predictive_data": "No hay datos suficientes para calcular y mostrar la gráfica de correlación"
