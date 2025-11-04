@@ -721,9 +721,6 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
-  .text-\[14px\] {
-    font-size: 14px;
-  }
   .text-\[18px\] {
     font-size: 18px;
   }
