@@ -42,6 +42,7 @@
   "tab_quizzes": "Cuestionarios",
   "tab_forums": "Foros",
   "tab_other_activities": "Otras Actividades",
+  "tab_correlations": "Correlaciones",
   "chart": {
     "total_visits": "Visitas totales por tipo de actividad",
     "avg_views_per_user": "Media de visualizaciones por usuario",

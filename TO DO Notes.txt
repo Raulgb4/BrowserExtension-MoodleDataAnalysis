@@ -4,9 +4,11 @@
 
 [Prioridad]
 
-1. [Alta] Preparación de la defensa del proyecto. Powerpoint a presentar.
+1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-2. [Alta] [Opcional] Análisis predictivo y minería de datos.
+
+
+2. [REALIZADA] Análisis predictivo y minería de datos.
 Explorar la relación entre participación en foros y calificación en cuestionarios a nivel de alumno,
 mostrando dispersión + recta de regresión y una interpretación breve.
 Se añade una nueva gráfica dentro de la tab “Participantes”.
@@ -31,8 +33,3 @@ PASOS
 14. Asegurar exportación (CSV/imagen/PDF) del scatter (mapeo x,y).
 15. Pruebas con diferentes cursos/roles y revisión visual.
 16. Commit con mensaje claro y actualización de documentación.
-
-
-Pista: Aunque no dé tiempo a incorporarlo en la entrega de la memoria y el código, sí podrías mostrarlo al tribunal
-en tu defensa como un objetivo adicional cumplido ;)
-Deadline: 22 de septiembre máximo.

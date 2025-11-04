@@ -26,6 +26,7 @@ const allTabs = [
     "tab_quizzes",
     "tab_forums",
     "tab_other_activities",
+    "tab_correlations",
 ];
 
 interface HiddenTabsRendererProps {

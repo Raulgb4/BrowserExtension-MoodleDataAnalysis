@@ -16,6 +16,7 @@ import ForumsTab from "./tabs/ForumsTab";
 import QuizzesTab from "./tabs/QuizzesTab";
 import OtherActivitiesTab from "./tabs/OtherActivitiesTab";
 import GlobalTab from "./tabs/GlobalTab";
+import CorrelationsTab  from "./tabs/CorrelationsTab";
 import {useExportContext} from "../context/ExportContext";
 
 
@@ -31,6 +32,7 @@ const tabComponents: Record<string, React.FC<{ activeTab: string }>> = {
     tab_quizzes: QuizzesTab,
     tab_forums: ForumsTab,
     tab_other_activities: OtherActivitiesTab,
+    tab_correlations: CorrelationsTab,
 };
 
 const TabContent: React.FC<TabContentProps> = ({tab}) => {

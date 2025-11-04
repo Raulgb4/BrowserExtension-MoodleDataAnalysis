@@ -99,3 +99,15 @@ export const hasDataOtherActivities = (course: any) => {
     const workshops = Array.isArray(course?.workshops) && course.workshops.length > 0;
     return urlRes || files || workshops;
 };
+
+/**
+ * Checks if the Correlations tab has data.
+ *
+ * @param course - The course object from storage.
+ * @returns True if there is at least one URL resource, file resource, or workshop.
+ */
+export const hasDataCorrelations = (course: any) => {
+
+    const hasDataWorkshops = Array.isArray(course?.workshops) && course.workshops.length > 0;
+    return hasDataWorkshops || hasDataChoices(course) || hasDataParticipants(course) ;
+};

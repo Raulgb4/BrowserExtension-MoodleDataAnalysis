@@ -17,9 +17,10 @@ import {
     AdjustmentsHorizontalIcon,
     ChatBubbleLeftRightIcon,
     GlobeAltIcon,
+    PresentationChartLineIcon,
     QuestionMarkCircleIcon,
     Squares2X2Icon,
-    UsersIcon
+    UsersIcon,
 } from "@heroicons/react/24/solid";
 import {useTranslation} from "react-i18next";
 import HiddenTabsRenderer from "./HiddenTabsRenderer";
@@ -27,6 +28,7 @@ import HiddenTabsRenderer from "./HiddenTabsRenderer";
 import {
     getCurrentCourse,
     hasDataChoices,
+    hasDataCorrelations,
     hasDataForums,
     hasDataGlobal,
     hasDataOtherActivities,
@@ -43,6 +45,7 @@ const ALL_TABS = [
     {key: "tab_quizzes", icon: QuestionMarkCircleIcon, guard: hasDataQuizzes},
     {key: "tab_forums", icon: ChatBubbleLeftRightIcon, guard: hasDataForums},
     {key: "tab_other_activities", icon: Squares2X2Icon, guard: hasDataOtherActivities},
+    {key: "tab_correlations", icon: PresentationChartLineIcon, guard: hasDataCorrelations},
 ] as const;
 
 // Union type of tab keys inferred from ALL_TABS.
@@ -141,11 +144,12 @@ const TabSection: React.FC = () => {
                             <button
                                 key={key}
                                 onClick={() => setActiveTab(key)}
-                                className={`flex items-center gap-1.5 pb-2 text-sm font-medium whitespace-nowrap
-                            transition-all ${
+                                className={`flex items-center gap-1.5 text-sm font-medium whitespace-nowrap
+        transition-all px-2 pt-1 pb-3 border-b-2
+        ${
                                     isActive
-                                        ? "text-orange-600 border-b-2 border-orange-600"
-                                        : "text-gray-500 hover:text-orange-600 border-b-2 border-transparent"
+                                        ? "text-orange-600 border-orange-600"
+                                        : "text-gray-500 hover:text-orange-600 border-transparent"
                                 }`}
                             >
                                 <Icon className="w-4 h-4" aria-hidden="true"/>
