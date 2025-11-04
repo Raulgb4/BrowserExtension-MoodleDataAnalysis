@@ -123,7 +123,7 @@ const CorrelationsTab: React.FC = () => {
     // Regression and correlation stats for current points
     const {a, b, r, r2} = useMemo(() => leastSquares(xyPoints), [xyPoints]);
 
-    // Human-friendly labels (i18n) describing correlation strength & direction
+    // Human-friendly labels (i18n) describing correlation strength and direction
     const {strengthKey, directionKey} = useMemo(() => classifyCorrelation(r), [r]);
 
     // Final note shown in UI (e.g., legend or caption)

@@ -90,7 +90,7 @@ export function regressionY(a: number, b: number, x: number): number {
 // --- Axis helpers ------------------------------------------------------------
 
 /**
- * Computes a "nice" X-axis domain and tick step for percentage-like data (0..maxPercent).
+ * Computes a "nice" X-axis domain and tick step for percentage-like data (0...maxPercent).
  * Keeps labels tidy as data scales.
  *
  * @param points Points to inspect for max X.
@@ -147,7 +147,7 @@ export function buildCorrelationPoints(
 
 /**
  * Returns i18n keys for correlation strength and direction based on r.
- * Keep the mapping here so UI stays clean.
+ * Keep the mapping here so the UI stays clean.
  */
 export function classifyCorrelation(r: number): { strengthKey: string; directionKey: string } {
     const rAbs = Math.abs(r);
