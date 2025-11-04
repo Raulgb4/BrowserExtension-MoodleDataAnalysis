@@ -6,7 +6,63 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
+Situación actual
+----------------
+Has propuesto varias correlaciones posibles basadas en las variables que la extensión ya extrae (último acceso,
+participación en encuestas, notas medias por tipo de actividad, nota final…).
+Tus tutores han debatido las propuestas y han alineado el enfoque del artículo y la ampliación técnica con
+un objetivo claro: Demostrar la utilidad práctica de tu extensión a través de correlaciones entre los datos que la
+extensión ya recopila (actividad, participación, visitas, etc.) y el rendimiento académico (notas).
 
+Conclusiones
+------------
+1. Qué correlaciones NO merece la pena hacer
+
+Correlaciones entre notas (por ejemplo, quiz vs assignment, quiz vs workshop...)
+→ Karl considera que no aportan valor al artículo, ya que esas notas no son datos que la extensión “descubra”,
+sino datos ya conocidos por Moodle.
+
+2. Qué correlaciones SÍ tienen sentido
+
+Karl y Miguel coinciden en que el foco debe estar en cruzar métricas de actividad con notas, es decir:
+
+- N.º de visitas / participaciones / conexiones ↔ calificaciones. Ejemplos concretos:
+
+-> N.º de visitas a cada actividad evaluable (quiz, workshop, assignment) ↔ nota obtenida en esa actividad.
+-> N.º de visitas a las actividades de un tipo ↔ nota media del alumno en ese tipo de actividades.
+-> N.º de visitas totales ↔ nota global del alumno.
+-> Participación en encuestas ↔ nota en talleres (aunque con la limitación de baja participación).
+-> N.º de conexiones totales al curso ↔ nota final (si se consigue esa variable o algo equivalente, como visitas totales).
+
+Tarea a realizar
+----------------
+
+1. Definir el conjunto final de correlaciones a implementar, con base en los criterios de Karl:
+
+-> Priorizar correlaciones entre actividad (visitas, participación, interacciones) y notas.
+-> Evitar correlaciones entre diferentes tipos de notas (porque no aportan novedad).
+-> Centrarte en las que ya puedes obtener desde tu extensión sin tener que rediseñar el scraping.
+
+2. Redactar una breve propuesta de correlaciones revisada, para confirmación final:
+Por ejemplo:
+
+-> Correlación entre número de visitas a cada quiz ↔ nota obtenida en ese quiz.
+-> Correlación entre número de visitas a cada workshop ↔ nota obtenida en ese workshop.
+-> Correlación entre número de visitas a cada assignment ↔ nota obtenida en ese assignment.
+-> Correlación entre número de visitas totales del alumno ↔ nota global.
+-> Correlación entre participación en encuestas ↔ nota media en talleres (opcional / complementaria).
+
+3. Confirmar con tus tutores esa lista final antes de empezar el desarrollo técnico
+(Karl dejó claro que la idea es que trabajes “lo menos posible” y reutilices lo que ya tienes).
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------
 
 2. [REALIZADA] Análisis predictivo y minería de datos.
 Explorar la relación entre participación en foros y calificación en cuestionarios a nivel de alumno,
