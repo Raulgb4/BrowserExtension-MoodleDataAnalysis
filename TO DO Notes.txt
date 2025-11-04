@@ -6,58 +6,27 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-Situación actual
-----------------
-Has propuesto varias correlaciones posibles basadas en las variables que la extensión ya extrae (último acceso,
-participación en encuestas, notas medias por tipo de actividad, nota final…).
-Tus tutores han debatido las propuestas y han alineado el enfoque del artículo y la ampliación técnica con
-un objetivo claro: Demostrar la utilidad práctica de tu extensión a través de correlaciones entre los datos que la
-extensión ya recopila (actividad, participación, visitas, etc.) y el rendimiento académico (notas).
+Listado de correlaciones propuestas
+-----------------------------------
 
-Conclusiones
-------------
-1. Qué correlaciones NO merece la pena hacer
+-> Correlación entre el número de visitas a cada actividad evaluable (quiz, workshop, assignment) y la nota media
+   obtenida en esa actividad. Además, pueden establecerse distintos niveles de comparación para las categorías
+   evaluables (cuestionarios, talleres, tareas):
+   - Nota obtenida en la actividad concreta.
+   - Nota media del alumno en todas las actividades de esa misma categoría.
+   - Nota global final del alumno en el curso.
 
-Correlaciones entre notas (por ejemplo, quiz vs assignment, quiz vs workshop...)
-→ Karl considera que no aportan valor al artículo, ya que esas notas no son datos que la extensión “descubra”,
-sino datos ya conocidos por Moodle.
+-> Correlación entre el nivel de participación del alumno y su calificación. De forma análoga, puede analizarse a
+   diferentes niveles:
+   - Participación en cada actividad específica.
+   - Participación media del alumno en todas las actividades de una categoría concreta.
+   - Participación media global en el conjunto del curso.
 
-2. Qué correlaciones SÍ tienen sentido
+-> Correlación entre la participación en encuestas (Choice) y la nota media en talleres (Workshop).
+   Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.
 
-Karl y Miguel coinciden en que el foco debe estar en cruzar métricas de actividad con notas, es decir:
-
-- N.º de visitas / participaciones / conexiones ↔ calificaciones. Ejemplos concretos:
-
--> N.º de visitas a cada actividad evaluable (quiz, workshop, assignment) ↔ nota obtenida en esa actividad.
--> N.º de visitas a las actividades de un tipo ↔ nota media del alumno en ese tipo de actividades.
--> N.º de visitas totales ↔ nota global del alumno.
--> Participación en encuestas ↔ nota en talleres (aunque con la limitación de baja participación).
--> N.º de conexiones totales al curso ↔ nota final (si se consigue esa variable o algo equivalente, como visitas totales).
-
-Tarea a realizar
-----------------
-
-1. Definir el conjunto final de correlaciones a implementar, con base en los criterios de Karl:
-
--> Priorizar correlaciones entre actividad (visitas, participación, interacciones) y notas.
--> Evitar correlaciones entre diferentes tipos de notas (porque no aportan novedad).
--> Centrarte en las que ya puedes obtener desde tu extensión sin tener que rediseñar el scraping.
-
-2. Redactar una breve propuesta de correlaciones revisada, para confirmación final:
-Por ejemplo:
-
--> Correlación entre número de visitas a cada quiz ↔ nota obtenida en ese quiz.
--> Correlación entre número de visitas a cada workshop ↔ nota obtenida en ese workshop.
--> Correlación entre número de visitas a cada assignment ↔ nota obtenida en ese assignment.
--> Correlación entre número de visitas totales del alumno ↔ nota global.
--> Correlación entre participación en encuestas ↔ nota media en talleres (opcional / complementaria).
-
-3. Confirmar con tus tutores esa lista final antes de empezar el desarrollo técnico
-(Karl dejó claro que la idea es que trabajes “lo menos posible” y reutilices lo que ya tienes).
-
-
-
-
+-> Correlación entre el número total de conexiones o visitas al curso y la calificación final.
+   (En caso de disponer de dicha variable o de un indicador equivalente como el total de accesos registrados.)
 
 
 
