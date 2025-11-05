@@ -11,6 +11,13 @@
  * @date 2025
  */
 
+export interface ParticipantData {
+    activityId: number;
+    activityName: string;
+    numViews: number;
+}
+
+
 export interface Participant {
 
     /**
@@ -47,4 +54,14 @@ export interface Participant {
      * Registration of the participant (e.g., "Movilidad", "Manual enrolments").
      */
     registration?: string;
+
+    /**
+     * List of visits of participants.
+     */
+    participantVisits?: ParticipantData[];
+
+    /**
+     * Final grade of participant (0-10)
+     */
+    finalGrade?: number;
 }

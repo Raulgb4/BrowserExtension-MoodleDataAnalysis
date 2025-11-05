@@ -27,7 +27,7 @@ import {
 } from "./dataProcessor";
 import {Resource, URLResource, Workshop} from "../models/ActivityBase";
 import {AbstractDataExtractor, AnalysisProgress} from "./AbstractDataExtractor";
-import {getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {getScrapeUrlParticipantsGradesOverview, getScrapeUrlQuiz} from "../utils/urlBuilder";
 
 export class LocalDataExtractor extends AbstractDataExtractor {
 
@@ -119,7 +119,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     /**
      * Scrapes the list of participants from the given participants URL.
      */
-    async scrapeParticipants(participantsUrl: string): Promise<Participant[]> {
+    async scrapeParticipants(participantsUrl: string, courseId: string): Promise<Participant[]> {
         const t0 = performance.now();
         devlog.info("dataExtractor", "scrapeParticipants:start", {participantsUrl});
 
@@ -216,14 +216,78 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                     row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim();
                 const lastAccessToCourse = parseLastAccess(lastAccessRaw);
 
+
+                const urlGradeOverview = getScrapeUrlParticipantsGradesOverview(id, courseId);
+                const docGradeOverview = await this.fetchAndParse(urlGradeOverview.participantsGradesOverview);
+
+                let finalGradeNormalized10: number | undefined;
+                try {
+                    // 1) Encuentra la fila del curso actual en la tabla de overview
+                    const table = docGradeOverview.querySelector<HTMLTableElement>("#overview-grade");
+                    if (table) {
+                        // Busca el <a> que contiene "?id=<courseId>" en la primera columna
+                        const link = table.querySelector<HTMLAnchorElement>(
+                            `tbody tr td.c0 a[href*="id=${encodeURIComponent(String(courseId))}"]`
+                        );
+
+                        if (link) {
+                            // Sube a la fila <tr> y toma la celda de "Grade" (c1)
+                            const row = link.closest("tr");
+                            const gradeCell = row?.querySelector<HTMLTableCellElement>("td.c1");
+                            const rawText = gradeCell?.textContent?.trim() ?? "";
+
+                            // 2) Parseo robusto del texto (p.ej. "6.25", "6,25", "85 %", "-")
+                            //    - Permite coma decimal
+                            //    - Filtra caracteres no numéricos salvo separador decimal y %
+                            const hasPercent = rawText.includes("%");
+                            const numericText = rawText
+                                .replace(/\s/g, "")        // quita espacios
+                                .replace(",", ".")         // coma -> punto
+                                .replace(/[^0-9.+-]/g, ""); // deja solo dígitos y signo/decimal
+
+                            const value = Number.parseFloat(numericText);
+
+                            if (!Number.isNaN(value)) {
+                                // 3) Normalización a escala 0–10
+                                if (hasPercent) {
+                                    // 85% -> 8.5
+                                    finalGradeNormalized10 = value / 10;
+                                } else if (value > 10) {
+                                    // Asumimos escala 0–100
+                                    finalGradeNormalized10 = value / 10;
+                                } else if (value >= 0) {
+                                    // Ya viene en 0–10
+                                    finalGradeNormalized10 = value;
+                                }
+
+                                // Clamp y redondeo a dos decimales
+                                if (typeof finalGradeNormalized10 === "number") {
+                                    finalGradeNormalized10 = Math.max(0, Math.min(10, finalGradeNormalized10));
+                                    finalGradeNormalized10 = Number(finalGradeNormalized10.toFixed(2)); // <-- redondeo
+                                }
+                            }
+
+                        }
+                    }
+                } catch (e) {
+                    // opcional: log de depuración, pero no rompas el scraping del resto
+                    // console.debug("Error parsing final grade overview:", e);
+                }
+
+
+                // Subscrapeo para obterner el report completo del participante COMPLETAR
+                //const urlReport = getScrapeUrlParticipantsReport(id,courseId);
+                //const docReport = await this.fetchAndParse(urlReport.participantsReport);
+
+
                 const participant: Participant = {
                     id,
                     participantName,
                     email,
                     roles,
                     lastAccessToCourse,
-                    // The following fields are included only if your Participant type defines them:
                     ...(typeof groups !== "undefined" ? {groups} : {}),
+                    ...(typeof finalGradeNormalized10 === "number" ? {finalGrade: finalGradeNormalized10} : {}),
                 };
 
                 participants.push(participant);
@@ -383,7 +447,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
 
             // ---- PROGRESS: participants ----
             progress?.setLabel("status.scraping_participants");
-            const participants = await this.scrapeParticipants(participantsUrl);
+            const participants = await this.scrapeParticipants(participantsUrl, courseId);
             progress?.tick(1);
             devlog.info("progress:tick", "participants_done", 2, dynamicTotal);
 

@@ -66,7 +66,7 @@ export abstract class AbstractDataExtractor {
     /**
      * Scrapes the list of participants from the given participants URL.
      */
-    abstract scrapeParticipants(participantsUrl: string): Promise<Participant[]>;
+    abstract scrapeParticipants(participantsUrl: string, courseId: string): Promise<Participant[]>;
 
     /**
      * Scrapes the course main page and retrieves the course name or identifier.

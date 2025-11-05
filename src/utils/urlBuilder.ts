@@ -117,6 +117,12 @@ export const URLS = {
     PARTICIPANTS: (id: string | number, perPage?: number) =>
         `/user/index.php?id=${id}&perpage=${perPage ?? 1000}`,
 
+    PARTICIPANTS_REPORT: (userId: string | number, courseId: string | number) =>
+        `/report/outline/user.php?id=${userId}&course=${courseId}&mode=complete`,
+
+    PARTICIPANTS_GRADES_OVERVIEW: (userId: string | number, courseId: string | number) =>
+        `/grade/report/overview/index.php?userid=${userId}&id=${courseId}`,
+
     /** Activity report */
     ACTIVITY_REPORT: (id: string | number) => `/report/outline/index.php?id=${id}`,
 
@@ -149,6 +155,20 @@ export function getScrapeUrlParticipants(
     totalParticipants?: number
 ): Record<string, string> {
     return {participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`};
+}
+
+export function getScrapeUrlParticipantsReport(
+    userId: string | number,
+    courseId: string | number,
+): Record<string, string> {
+    return {participantsReport: `${BASE}${URLS.PARTICIPANTS_REPORT(userId, courseId)}`};
+}
+
+export function getScrapeUrlParticipantsGradesOverview(
+    userId: string | number,
+    courseId: string | number,
+): Record<string, string> {
+    return {participantsGradesOverview: `${BASE}${URLS.PARTICIPANTS_GRADES_OVERVIEW(userId, courseId)}`};
 }
 
 export function getScrapeUrlActivityReport(courseId: string | number): Record<string, string> {

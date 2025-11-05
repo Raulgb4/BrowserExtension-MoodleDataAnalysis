@@ -11,7 +11,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 59011200000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.84
     },
     {
       "id": 22955,
@@ -21,7 +22,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 50976000000,
-      "registration": "Movilidad"
+      "registration": "Movilidad",
+      "finalGrade": 3.23
     },
     {
       "id": 13924,
@@ -31,7 +33,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 54518400000,
-      "registration": "Matrícula dejó de recibirse"
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 3.8
     },
     {
       "id": 17317,
@@ -40,8 +43,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 56937600000,
-      "registration": "Matrícula dejó de recibirse"
+      "lastAccessToCourse": 57024000000,
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 9.61
     },
     {
       "id": 2975,
@@ -50,7 +54,7 @@
       "roles": [
         "Profesor"
       ],
-      "lastAccessToCourse": 30736800000,
+      "lastAccessToCourse": 30744000000,
       "registration": "LDAP enrolments"
     },
     {
@@ -60,8 +64,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 71460000,
-      "registration": "5157-23-0920-A"
+      "lastAccessToCourse": 78960000,
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.37
     },
     {
       "id": 22484,
@@ -70,8 +75,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 20196000000,
-      "registration": "5157-23-0920-A"
+      "lastAccessToCourse": 20206800000,
+      "registration": "5157-23-0920-A",
+      "finalGrade": 6.02
     },
     {
       "id": 18471,
@@ -81,7 +87,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 55814400000,
-      "registration": "Matrícula dejó de recibirse"
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 7.82
     },
     {
       "id": 17554,
@@ -91,7 +98,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57024000000,
-      "registration": "Matrícula dejó de recibirse"
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 6.86
     },
     {
       "id": 23016,
@@ -101,7 +109,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 53308800000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 4.29
     },
     {
       "id": 18749,
@@ -111,7 +120,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57542400000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.13
     },
     {
       "id": 22842,
@@ -121,7 +131,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 56073600000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.21
     },
     {
       "id": 18699,
@@ -130,7 +141,7 @@
       "roles": [
         "Profesor"
       ],
-      "lastAccessToCourse": 6000,
+      "lastAccessToCourse": 1000,
       "registration": "Manual enrolments"
     },
     {
@@ -141,7 +152,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57369600000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 8.57
     },
     {
       "id": 23000,
@@ -151,7 +163,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57974400000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 8.38
     },
     {
       "id": 23018,
@@ -160,8 +173,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 29260800000,
-      "registration": "Manual enrolments"
+      "lastAccessToCourse": 29268000000,
+      "registration": "Manual enrolments",
+      "finalGrade": 8.24
     },
     {
       "id": 23111,
@@ -180,7 +194,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 56160000000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 7.63
     },
     {
       "id": 18474,
@@ -190,7 +205,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 55296000000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.5
     },
     {
       "id": 17323,
@@ -199,8 +215,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 46051200000,
-      "registration": "5157-23-0920-A"
+      "lastAccessToCourse": 46137600000,
+      "registration": "5157-23-0920-A",
+      "finalGrade": 8.54
     },
     {
       "id": 16043,
@@ -209,8 +226,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 3481200000,
-      "registration": "Matrícula dejó de recibirse"
+      "lastAccessToCourse": 3488400000,
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 8.82
     },
     {
       "id": 17292,
@@ -220,7 +238,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 33523200000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 6.97
     },
     {
       "id": 2541,
@@ -229,7 +248,7 @@
       "roles": [
         "Profesor"
       ],
-      "lastAccessToCourse": 1926000000,
+      "lastAccessToCourse": 1933200000,
       "registration": "Manual enrolments"
     },
     {
@@ -239,8 +258,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 55987200000,
-      "registration": "Matrícula dejó de recibirse"
+      "lastAccessToCourse": 56073600000,
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 9.21
     },
     {
       "id": 18503,
@@ -250,7 +270,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57369600000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.04
     },
     {
       "id": 19133,
@@ -259,8 +280,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 25311600000,
-      "registration": "Matrícula dejó de recibirse"
+      "lastAccessToCourse": 25318800000,
+      "registration": "Matrícula dejó de recibirse",
+      "finalGrade": 7.24
     },
     {
       "id": 16155,
@@ -280,7 +302,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 56937600000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 7.53
     },
     {
       "id": 18511,
@@ -290,7 +313,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57196800000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 8.31
     },
     {
       "id": 22490,
@@ -299,8 +323,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 57110400000,
-      "registration": "5157-23-0920-A"
+      "lastAccessToCourse": 57196800000,
+      "registration": "5157-23-0920-A",
+      "finalGrade": 7.36
     },
     {
       "id": 17629,
@@ -320,7 +345,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 55814400000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 8.02
     },
     {
       "id": 17197,
@@ -329,8 +355,9 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 31532400000,
-      "registration": "5157-23-0920-A"
+      "lastAccessToCourse": 31536000000,
+      "registration": "5157-23-0920-A",
+      "finalGrade": 9.13
     },
     {
       "id": 22901,
@@ -340,7 +367,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 57283200000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 8.27
     },
     {
       "id": 23040,
@@ -350,7 +378,8 @@
         "Estudiante"
       ],
       "lastAccessToCourse": 53395200000,
-      "registration": "5157-23-0920-A"
+      "registration": "5157-23-0920-A",
+      "finalGrade": 6.85
     }
   ],
   "urlResources": [
@@ -359,14 +388,14 @@
       "activityName": "k-means algorithm demo",
       "numViews": 23,
       "numUsers": 14,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513531,
       "activityName": "Competitive learning",
       "numViews": 25,
       "numUsers": 17,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513532,
@@ -396,14 +425,14 @@
       "activityName": "Presentation",
       "numViews": 252,
       "numUsers": 34,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 525076,
       "activityName": "tempAC2324 4 - NEW!!!",
       "numViews": 38,
       "numUsers": 22,
-      "lastAccess": 7423200000
+      "lastAccess": 7430400000
     },
     {
       "id": 524566,
@@ -417,7 +446,7 @@
       "activityName": "tempAC2324 2 - NEW!!!",
       "numViews": 127,
       "numUsers": 30,
-      "lastAccess": 61689600000
+      "lastAccess": 61776000000
     },
     {
       "id": 514934,
@@ -431,42 +460,42 @@
       "activityName": "clustering (introduccion)",
       "numViews": 5,
       "numUsers": 1,
-      "lastAccess": 67737600000
+      "lastAccess": 67824000000
     },
     {
       "id": 513518,
       "activityName": "Introduction to Clustering",
       "numViews": 95,
       "numUsers": 33,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513519,
       "activityName": "Clustering",
       "numViews": 203,
       "numUsers": 35,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513522,
       "activityName": "Exercise 3 Clustering (clase)",
       "numViews": 71,
       "numUsers": 27,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513525,
       "activityName": "Cluster Validation",
       "numViews": 91,
       "numUsers": 29,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 518977,
       "activityName": "Sillhouettes: a graphical aid to interpretation and validation of cluster analysis",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 65923200000
+      "lastAccess": 66009600000
     },
     {
       "id": 513527,
@@ -480,35 +509,35 @@
       "activityName": "Sillhouettes Analysis  in K-means Clustering",
       "numViews": 94,
       "numUsers": 27,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513529,
       "activityName": "Neural Networks (introduction)",
       "numViews": 71,
       "numUsers": 27,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513530,
       "activityName": "Neural Networks for clustering",
       "numViews": 103,
       "numUsers": 30,
-      "lastAccess": 8542800000
+      "lastAccess": 8550000000
     },
     {
       "id": 519693,
       "activityName": "Competitive example",
       "numViews": 61,
       "numUsers": 23,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513535,
       "activityName": "Genetic Algorithms",
       "numViews": 102,
       "numUsers": 31,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513536,
@@ -522,21 +551,21 @@
       "activityName": "A simple example",
       "numViews": 35,
       "numUsers": 22,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513539,
       "activityName": "Feature Selection",
       "numViews": 89,
       "numUsers": 30,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513540,
       "activityName": "FEATURE SELECTION WITH GENETIC ALGORITHMS",
       "numViews": 68,
       "numUsers": 28,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513542,
@@ -550,14 +579,14 @@
       "activityName": "Gradient descent",
       "numViews": 80,
       "numUsers": 27,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513545,
       "activityName": "Neural Networks",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 64713600000
+      "lastAccess": 64800000000
     },
     {
       "id": 513546,
@@ -571,21 +600,21 @@
       "activityName": "Perceptron y Adaline",
       "numViews": 81,
       "numUsers": 28,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513549,
       "activityName": "Neural Networks (BP and more)",
       "numViews": 98,
       "numUsers": 31,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513550,
       "activityName": "How Backpropagation Works?",
       "numViews": 83,
       "numUsers": 27,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513551,
@@ -599,21 +628,21 @@
       "activityName": "Survival Analysis",
       "numViews": 93,
       "numUsers": 29,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513554,
       "activityName": "Survival Analysis (presentacion)",
       "numViews": 6,
       "numUsers": 1,
-      "lastAccess": 62294400000
+      "lastAccess": 62380800000
     },
     {
       "id": 513555,
       "activityName": "Cox regression",
       "numViews": 84,
       "numUsers": 27,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513557,
@@ -626,14 +655,14 @@
       "activityName": "pract 0 presentation",
       "numViews": 144,
       "numUsers": 35,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513514,
       "activityName": "paper Microarray analysis",
       "numViews": 135,
       "numUsers": 35,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513515,
@@ -671,14 +700,14 @@
       "activityName": "pract 1 clustering",
       "numViews": 213,
       "numUsers": 32,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513564,
       "activityName": "clustering",
       "numViews": 146,
       "numUsers": 32,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513565,
@@ -692,35 +721,35 @@
       "activityName": "[Ref. 1] The Transcriptional Program of Sporulation in Budding Yeast",
       "numViews": 106,
       "numUsers": 26,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513567,
       "activityName": "[Ref. 2] Comparison of clustering methods",
       "numViews": 131,
       "numUsers": 29,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513568,
       "activityName": "[Ref. 3] Yeast reproduction",
       "numViews": 64,
       "numUsers": 23,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513569,
       "activityName": "[Ref. 4] Advanced clustering analysis on sporulation data I",
       "numViews": 54,
       "numUsers": 22,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513570,
       "activityName": "[Ref. 5] Advanced clustering analysis on sporulation data II",
       "numViews": 33,
       "numUsers": 17,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 513571,
@@ -745,7 +774,7 @@
       "activityName": "pract 2 classification",
       "numViews": 176,
       "numUsers": 30,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 515413,
@@ -778,7 +807,7 @@
       "activityName": "pract 3 project",
       "numViews": 203,
       "numUsers": 30,
-      "lastAccess": 29260800000
+      "lastAccess": 29268000000
     },
     {
       "id": 515414,
@@ -956,580 +985,37 @@
       "activityName": "Lab 0",
       "numViews": 620,
       "numUsers": 35,
-      "lastAccess": 8564400000
+      "lastAccess": 8571600000
     },
     {
       "id": 517530,
       "activityName": "Lab 1",
       "numViews": 1240,
       "numUsers": 33,
-      "lastAccess": 3265200000
+      "lastAccess": 3272400000
     },
     {
       "id": 519796,
       "activityName": "Lab 2 - Task A",
       "numViews": 400,
       "numUsers": 30,
-      "lastAccess": 8564400000
+      "lastAccess": 8571600000
     },
     {
       "id": 519797,
       "activityName": "Lab 2 - Task B",
       "numViews": 339,
       "numUsers": 30,
-      "lastAccess": 8287200000
+      "lastAccess": 8294400000
     },
     {
       "id": 519800,
       "activityName": "Lab 3",
       "numViews": 1733,
       "numUsers": 30,
-      "lastAccess": 4950000000
+      "lastAccess": 4957200000
     }
   ],
   "quizzes": [],
-  "forums": [
-    {
-      "activityName": "News forum",
-      "numViews": 1078,
-      "numUsers": 37,
-      "lastAccess": 1364000,
-      "id": 513507,
-      "forumId": 20555,
-      "subscriptions": 35,
-      "participantsStats": [
-        {
-          "participantId": 16155,
-          "participantName": "Rey Blanes Álvaro Rafael",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 2,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17317,
-          "participantName": "Beltran López Carlos",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 6,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18474,
-          "participantName": "Madrid Espinosa Carlos",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 8,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23106,
-          "participantName": "Koehler Cedric",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 11,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17554,
-          "participantName": "Cubillos del Toro David",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 6,
-          "wordCount": 0
-        },
-        {
-          "participantId": 22484,
-          "participantName": "Bojar Dorota",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 6,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23040,
-          "participantName": "Yahsi Yahsi Emre",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 44,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23000,
-          "participantName": "Günzel Fabián",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 30,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17172,
-          "participantName": "Babusca Voicu Florin",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 12,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17288,
-          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 4,
-          "wordCount": 0
-        },
-        {
-          "participantId": 22842,
-          "participantName": "Gabrielle Gaucher",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 18,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17292,
-          "participantName": "Mendez Parrilla Javier",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 2,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23018,
-          "participantName": "Herwerth Jonathan",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 24,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17295,
-          "participantName": "Vergara Ruz Juan Carlos",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 15,
-          "wordCount": 0
-        },
-        {
-          "participantId": 22955,
-          "participantName": "Bachl Katharina",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 14,
-          "wordCount": 0
-        },
-        {
-          "participantId": 22901,
-          "participantName": "Wilde Lea Rebecca",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 21,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17197,
-          "participantName": "Vida Montañez María",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 6,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17629,
-          "participantName": "Valderrama Palacios María del Rocío",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 1,
-          "wordCount": 0
-        },
-        {
-          "participantId": 19133,
-          "participantName": "Perales Díaz Mario",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 4,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18475,
-          "participantName": "Moralejo Palma Matías",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 7,
-          "wordCount": 0
-        },
-        {
-          "participantId": 2541,
-          "participantName": "Molina Cabello Miguel Angel",
-          "discussionsPosted": 13,
-          "repliesPosted": 10,
-          "views": 135,
-          "wordCount": 1101
-        },
-        {
-          "participantId": 18511,
-          "participantName": "Ruiz Villarrazo Miguel Angel",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 1,
-          "wordCount": 0
-        },
-        {
-          "participantId": 22490,
-          "participantName": "Taudul Mikolaj",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 24,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17323,
-          "participantName": "Martín Serrano Nerea",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 8,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18502,
-          "participantName": "Bermúdez Gámez Pablo",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 41,
-          "wordCount": 0
-        },
-        {
-          "participantId": 2975,
-          "participantName": "Benítez Rochel Rafaela",
-          "discussionsPosted": 4,
-          "repliesPosted": 0,
-          "views": 38,
-          "wordCount": 105
-        },
-        {
-          "participantId": 18503,
-          "participantName": "Obrero Berlanga Raúl",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 4,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18471,
-          "participantName": "Castro Valderas Raúl Angel",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 13,
-          "wordCount": 0
-        },
-        {
-          "participantId": 16043,
-          "participantName": "Martín Vera Sergio",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 20,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18749,
-          "participantName": "Fernández Giaccomassi Susana Rocío",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 9,
-          "wordCount": 0
-        },
-        {
-          "participantId": 19114,
-          "participantName": "Guirado Osorio Víctor",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 16,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23016,
-          "participantName": "Dar Yunus Emre",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 39,
-          "wordCount": 0
-        },
-        {
-          "participantId": 13924,
-          "participantName": "Barakat Nieto Yussef",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 6,
-          "wordCount": 0
-        }
-      ]
-    },
-    {
-      "activityName": "Issues related to laboratory exercises",
-      "numViews": 1998,
-      "numUsers": 35,
-      "lastAccess": 1363000,
-      "id": 513508,
-      "forumId": 20556,
-      "subscriptions": 2,
-      "participantsStats": [
-        {
-          "participantId": 17317,
-          "participantName": "Beltran López Carlos",
-          "discussionsPosted": 1,
-          "repliesPosted": 1,
-          "views": 63,
-          "wordCount": 95
-        },
-        {
-          "participantId": 18474,
-          "participantName": "Madrid Espinosa Carlos",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 58,
-          "wordCount": 104
-        },
-        {
-          "participantId": 23106,
-          "participantName": "Koehler Cedric",
-          "discussionsPosted": 1,
-          "repliesPosted": 4,
-          "views": 57,
-          "wordCount": 160
-        },
-        {
-          "participantId": 17554,
-          "participantName": "Cubillos del Toro David",
-          "discussionsPosted": 0,
-          "repliesPosted": 2,
-          "views": 43,
-          "wordCount": 73
-        },
-        {
-          "participantId": 22484,
-          "participantName": "Bojar Dorota",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 55,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23040,
-          "participantName": "Yahsi Yahsi Emre",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 66,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23000,
-          "participantName": "Günzel Fabián",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 61,
-          "wordCount": 49
-        },
-        {
-          "participantId": 17172,
-          "participantName": "Babusca Voicu Florin",
-          "discussionsPosted": 2,
-          "repliesPosted": 1,
-          "views": 65,
-          "wordCount": 333
-        },
-        {
-          "participantId": 17288,
-          "participantName": "Rodríguez-cordoba Lucena Francisco Jesús",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 26,
-          "wordCount": 17
-        },
-        {
-          "participantId": 22842,
-          "participantName": "Gabrielle Gaucher",
-          "discussionsPosted": 0,
-          "repliesPosted": 2,
-          "views": 40,
-          "wordCount": 76
-        },
-        {
-          "participantId": 17292,
-          "participantName": "Mendez Parrilla Javier",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 3,
-          "wordCount": 0
-        },
-        {
-          "participantId": 23018,
-          "participantName": "Herwerth Jonathan",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 90,
-          "wordCount": 40
-        },
-        {
-          "participantId": 17295,
-          "participantName": "Vergara Ruz Juan Carlos",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 58,
-          "wordCount": 49
-        },
-        {
-          "participantId": 22955,
-          "participantName": "Bachl Katharina",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 2,
-          "wordCount": 0
-        },
-        {
-          "participantId": 22901,
-          "participantName": "Wilde Lea Rebecca",
-          "discussionsPosted": 0,
-          "repliesPosted": 2,
-          "views": 63,
-          "wordCount": 42
-        },
-        {
-          "participantId": 17197,
-          "participantName": "Vida Montañez María",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 37,
-          "wordCount": 50
-        },
-        {
-          "participantId": 17629,
-          "participantName": "Valderrama Palacios María del Rocío",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 15,
-          "wordCount": 0
-        },
-        {
-          "participantId": 19133,
-          "participantName": "Perales Díaz Mario",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 31,
-          "wordCount": 57
-        },
-        {
-          "participantId": 18475,
-          "participantName": "Moralejo Palma Matías",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 61,
-          "wordCount": 56
-        },
-        {
-          "participantId": 2541,
-          "participantName": "Molina Cabello Miguel Angel",
-          "discussionsPosted": 1,
-          "repliesPosted": 35,
-          "views": 173,
-          "wordCount": 1116
-        },
-        {
-          "participantId": 18511,
-          "participantName": "Ruiz Villarrazo Miguel Angel",
-          "discussionsPosted": 0,
-          "repliesPosted": 2,
-          "views": 19,
-          "wordCount": 50
-        },
-        {
-          "participantId": 22490,
-          "participantName": "Taudul Mikolaj",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 41,
-          "wordCount": 0
-        },
-        {
-          "participantId": 17323,
-          "participantName": "Martín Serrano Nerea",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 78,
-          "wordCount": 59
-        },
-        {
-          "participantId": 18502,
-          "participantName": "Bermúdez Gámez Pablo",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 105,
-          "wordCount": 88
-        },
-        {
-          "participantId": 2975,
-          "participantName": "Benítez Rochel Rafaela",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 7,
-          "wordCount": 0
-        },
-        {
-          "participantId": 18503,
-          "participantName": "Obrero Berlanga Raúl",
-          "discussionsPosted": 0,
-          "repliesPosted": 1,
-          "views": 31,
-          "wordCount": 38
-        },
-        {
-          "participantId": 18471,
-          "participantName": "Castro Valderas Raúl Angel",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 21,
-          "wordCount": 0
-        },
-        {
-          "participantId": 16043,
-          "participantName": "Martín Vera Sergio",
-          "discussionsPosted": 1,
-          "repliesPosted": 1,
-          "views": 72,
-          "wordCount": 109
-        },
-        {
-          "participantId": 18749,
-          "participantName": "Fernández Giaccomassi Susana Rocío",
-          "discussionsPosted": 1,
-          "repliesPosted": 1,
-          "views": 88,
-          "wordCount": 106
-        },
-        {
-          "participantId": 19114,
-          "participantName": "Guirado Osorio Víctor",
-          "discussionsPosted": 0,
-          "repliesPosted": 2,
-          "views": 89,
-          "wordCount": 46
-        },
-        {
-          "participantId": 23016,
-          "participantName": "Dar Yunus Emre",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 15,
-          "wordCount": 0
-        },
-        {
-          "participantId": 13924,
-          "participantName": "Barakat Nieto Yussef",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 3,
-          "wordCount": 0
-        }
-      ]
-    }
-  ]
+  "forums": []
 }

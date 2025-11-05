@@ -17,7 +17,10 @@ import {Forum} from "../models/Forum";
 import {Choice} from "../models/Choice";
 import {Course} from "../models/Course";
 import {devlog} from "../utils/devlog";
-import {getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {
+    getScrapeUrlParticipantsGradesOverview,
+    getScrapeUrlQuiz
+} from "../utils/urlBuilder";
 import {
     normalizeGradeTo10,
     normalizeTimeToMillis,
@@ -107,7 +110,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
     /**
      * Scrapes the list of participants from the given participants URL.
      */
-    async scrapeParticipants(participantsUrl: string): Promise<Participant[]> {
+    async scrapeParticipants(participantsUrl: string, courseId: string): Promise<Participant[]> {
         const t0 = performance.now();
         devlog.info("dataExtractor", "scrapeParticipants:start", {participantsUrl});
 
@@ -161,6 +164,79 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                     row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim() ?? "";
                 const registration = registrationRaw || undefined;
 
+                const urlGradeOverview = getScrapeUrlParticipantsGradesOverview(id, courseId);
+                const docGradeOverview = await this.fetchAndParse(urlGradeOverview.participantsGradesOverview);
+
+                let finalGradeNormalized10: number | undefined;
+
+                try {
+                    const table = docGradeOverview.querySelector<HTMLTableElement>("#overview-grade");
+                    if (table) {
+                        // Recorremos todas las filas y validamos el parámetro ?id= del <a>
+                        const rows = Array.from(table.querySelectorAll<HTMLTableRowElement>("tbody tr"));
+                        for (const row of rows) {
+                            const link = row.querySelector<HTMLAnchorElement>("td.c0 a");
+                            if (!link) continue;
+
+                            // Construimos URL absoluta para parsear searchParams de forma fiable
+                            // (en producción el href ya es absoluto; en local añadimos base por si viniera relativo)
+                            let href = link.getAttribute("href") || "";
+                            try {
+                                const absolute = new URL(href, "https://dummy.base/");
+                                const idParam = absolute.searchParams.get("id");
+                                if (idParam !== String(courseId)) continue;
+                            } catch {
+                                // Si por cualquier motivo el href no es parseable, prueba con match básico como fallback
+                                if (!href.includes(`id=${encodeURIComponent(String(courseId))}`)) continue;
+                            }
+
+                            // Celda de nota (segunda columna)
+                            const gradeCell = row.querySelector<HTMLTableCellElement>("td.c1");
+                            const rawText = gradeCell?.textContent?.trim() ?? "";
+
+                            // Parseo robusto: acepta "32.30", "6,25", "85 %", etc.
+                            const hasPercent = rawText.includes("%");
+                            const numericText = rawText
+                                .replace(/\s/g, "")        // quita espacios
+                                .replace(",", ".")         // coma -> punto
+                                .replace(/[^0-9.+-]/g, ""); // deja sólo dígitos, signo y decimal
+
+                            const value = Number.parseFloat(numericText);
+                            if (Number.isNaN(value)) break;
+
+                            // Normalización a escala 0–10
+                            if (hasPercent) {
+                                // p.ej. 85% -> 8.5
+                                finalGradeNormalized10 = value / 10;
+                            } else if (value > 10) {
+                                // Escala 0–100 -> 0–10 (p.ej. 32.30 -> 3.23)
+                                finalGradeNormalized10 = value / 10;
+                            } else if (value >= 0) {
+                                // Ya está en 0–10
+                                finalGradeNormalized10 = value;
+                            }
+
+                            // Clamp y redondeo a dos decimales
+                            if (typeof finalGradeNormalized10 === "number") {
+                                finalGradeNormalized10 = Math.max(0, Math.min(10, finalGradeNormalized10));
+                                finalGradeNormalized10 = Number(finalGradeNormalized10.toFixed(2)); // <-- aquí redondeamos
+                            }
+
+                            // Encontrada y procesada la fila del curso actual; salimos
+                            break;
+                        }
+                    }
+                } catch {
+                    // Silenciar errores para no romper el scraping del resto
+                    // console.debug("Error parsing final grade overview (prod)");
+                }
+
+
+                // Subscrapeo para obterner el report completo del participante COMPLETAR
+                // const urlReport = getScrapeUrlParticipantsReport(id, courseId);
+                // const docReport = await this.fetchAndParse(urlReport.participantsReport);
+
+
                 const participant: Participant = {
                     id,
                     participantName,
@@ -168,6 +244,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                     roles,
                     lastAccessToCourse,
                     registration,
+                    ...(typeof finalGradeNormalized10 === "number" ? {finalGrade: finalGradeNormalized10} : {}),
                 };
 
                 participants.push(participant);
@@ -379,7 +456,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
 
             // ---- PROGRESS: participants ----
             progress?.setLabel("status.scraping_participants");
-            const participants = await this.scrapeParticipants(participantsUrl);
+            const participants = await this.scrapeParticipants(participantsUrl, courseId);
             progress?.tick(1);
             devlog.info("progress:tick", "participants_done", 2, dynamicTotal);
 
