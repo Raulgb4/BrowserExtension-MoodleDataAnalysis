@@ -62,7 +62,8 @@
     "top_activities": "Actividades principales",
     "other_top_n": "{{name}} - Top {{count}} actividades",
     "predictive": {
-      "participation_vs_grade": "Correlación entre participación en foros y calificación en cuestionarios"
+      "participation_vs_grade": "Correlación entre participación en foros y calificación en cuestionarios",
+      "quiz_views_vs_grade": "Correlación entre el número total de visitas y la calificación media en cuestionarios"
     },
     "regression_line": "Línea de regresión"
   },
@@ -84,7 +85,8 @@
     "average_score": "Nota media",
     "participation_percentage": "Participación (%)",
     "subscriptions": "Suscripciones",
-    "students": "Estudiantes"
+    "students": "Estudiantes",
+    "quizzes": "Cuestionarios"
   },
   "filter": {
     "by_role": "Filtrar por rol:",
@@ -148,7 +150,8 @@
   },
   "axis": {
     "forum_participation_percent": "Porcentaje del total de actividad en todos los foros del curso (%)",
-    "quiz_grade_0_10": "Nota media de todos los cuestionarios del curso"
+    "quiz_grade_0_10": "Nota media de todos los cuestionarios del curso",
+    "quiz_total_views": "Visitas de todos los cuestionarios del curso"
   },
   "state": {
     "no_predictive_data": "No hay datos suficientes para calcular y mostrar la gráfica de correlación"

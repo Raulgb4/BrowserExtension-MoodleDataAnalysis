@@ -38,6 +38,8 @@ const CorrelationsTab: React.FC = () => {
     const [quizAvgGrade, setQuizAvgGrade] = useState<Record<string, number>>({});
     const [participants, setParticipants] = useState<Participant[]>([]);
 
+    const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<Array<{ x: number; y: number; label: string }>>([]);
+
     // Derive once, reuse everywhere --------------------------------------------
     // Map for quick lookups by participant id (pid)
     //   "123" => { id: "123", participantName: "Ana Pérez", role: "student" },
@@ -55,6 +57,60 @@ const CorrelationsTab: React.FC = () => {
 
     // NOTE: we deliberately do NOT store `name` inside xyPoints:
     // it avoids duplication; resolve names from `participantsById` where needed.
+
+    useEffect(() => {
+        // Retrieve quizzes from local storage
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
+            if (!courseKey) return;
+
+            const rawQuizzes = result[courseKey]?.quizzes;
+            if (!Array.isArray(rawQuizzes)) return;
+
+            // Filtrar solo cuestionarios con participantStats válidos
+            const quizzes: any[] = rawQuizzes.filter(
+                (quiz: any) =>
+                    quiz &&
+                    Array.isArray(quiz.participantStats) &&
+                    quiz.participantStats.length > 0
+            );
+
+            const points: Array<{ x: number; y: number; label: string }> = [];
+
+            for (const q of quizzes) {
+                // Extraer el nombre original del cuestionario
+                const label =
+                    q?.name?.trim?.() ||
+                    q?.title?.trim?.() ||
+                    q?.quizName?.trim?.() ||
+                    q?.activityName?.trim?.() ||
+                    `Cuestionario ${q?.id ?? ""}`;
+
+                // X: total de visitas del cuestionario (usa numViews si existe, si no, suma las vistas de los participantes)
+                const x =
+                    typeof q?.numViews === "number"
+                        ? q.numViews
+                        : q.participantStats.reduce(
+                            (acc: number, p: any) => acc + (p?.numViews || 0),
+                            0
+                        );
+
+                // Y: nota media normalizada del cuestionario (media de normalizedGrade de sus participantes)
+                const grades = q.participantStats
+                    .map((p: any) => p?.normalizedGrade)
+                    .filter((g: any) => typeof g === "number");
+
+                if (grades.length > 0) {
+                    const y = grades.reduce((a: number, b: number) => a + b, 0) / grades.length;
+                    points.push({ x, y, label });
+                }
+            }
+
+            setQuizViewsVsAvgPoints(points);
+        });
+    }, []);
+
+
 
 
     useEffect(() => {
@@ -135,9 +191,38 @@ const CorrelationsTab: React.FC = () => {
         });
     }, [t, strengthKey, directionKey]);
 
+    const { min: minQuizX, max: maxQuizX, stepSize: stepQuizX } = useMemo(() => {
+        // Si tu computeXAxisBounds soporta omitir el 2º parámetro, úsalo así:
+        // return computeXAxisBounds(quizViewsVsAvgPoints);
+        // Si no, calculamos unos márgenes "agradables":
+        if (quizViewsVsAvgPoints.length === 0) return { min: 0, max: 1, stepSize: 1 };
+        const xs = quizViewsVsAvgPoints.map(p => p.x);
+        const rawMin = Math.min(...xs);
+        const rawMax = Math.max(...xs);
+        const pad = Math.max(1, Math.round((rawMax - rawMin) * 0.05));
+        const min = Math.max(0, rawMin - pad);
+        const max = rawMax + pad;
+        // paso aproximado en 5-6 ticks
+        const stepSize = Math.max(1, Math.round((max - min) / 6));
+        return { min, max, stepSize };
+    }, [quizViewsVsAvgPoints]);
+
+    const { a: aQuiz, b: bQuiz, r: rQuiz, r2: r2Quiz } = useMemo(
+        () => leastSquares(quizViewsVsAvgPoints),
+        [quizViewsVsAvgPoints]
+    );
+
+    const quizCorrText = useMemo(() => {
+        const { strengthKey, directionKey } = classifyCorrelation(rQuiz);
+        return t("note.corr.template", { strength: t(strengthKey), direction: t(directionKey) });
+    }, [rQuiz, t]);
+
+
 
     return (
         <div className="space-y-8">
+
+
             {/* Scatter: forum participation (X) vs quiz grade (Y) */}
             {xyPoints.length >= 3 ? (
                 <GraphBlock
@@ -240,6 +325,107 @@ const CorrelationsTab: React.FC = () => {
                     </p>
                 </div>
             )}
+
+
+
+
+            {/* Scatter: quiz total views (X) vs average quiz grade (Y) */}
+            {quizViewsVsAvgPoints.length >= 2 ? (
+                <GraphBlock
+                    title={t("chart.predictive.quiz_views_vs_grade")}
+                    chartType="scatter"
+                    data={{
+                        datasets: [
+                            {
+                                type: "scatter",
+                                label: t("legend.quizzes"),
+                                data: quizViewsVsAvgPoints.map((q) => ({
+                                    x: q.x,
+                                    y: q.y,
+                                    quizName: q.label,
+                                })),
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(156,39,176,0.6)",
+                                pointBorderColor: "rgba(156,39,176,1)",
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: "rgba(156,39,176,1)",
+                                pointHoverBorderColor: "rgba(156,39,176,1)",
+                            },
+                            {
+                                type: "line",
+                                label: t("chart.regression_line"),
+                                data: [
+                                    { x: minQuizX, y: regressionY(aQuiz, bQuiz, minQuizX) },
+                                    { x: maxQuizX, y: regressionY(aQuiz, bQuiz, maxQuizX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(249,128,18,1)",
+                                backgroundColor: "rgba(249,128,18,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+                        ],
+                    }}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: { display: true, text: t("axis.quiz_total_views") },
+                                min: minQuizX,
+                                max: maxQuizX,
+                                ticks: {
+                                    stepSize: stepQuizX,
+                                    precision: 0, // fuerza valores enteros
+                                    callback: (value) => Math.round(value as number).toString(), // evita decimales en etiquetas
+                                },
+                            },
+                            y: {
+                                title: { display: true, text: t("axis.quiz_grade_0_10") },
+                                min: 0,
+                                max: 10,
+                            },
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    title: (items) => {
+                                        const raw = items?.[0]?.raw as any;
+                                        return raw?.quizName ?? t("legend.quizzes");
+                                    },
+                                    label: (ctx) => {
+                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x;
+                                        const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y;
+                                        return `${t("axis.quiz_total_views")}: ${x} · ${t("axis.quiz_grade_0_10")}: ${y}/10`;
+                                    },
+                                },
+                            },
+                        },
+                    }}
+                >
+                    {/* Resumen de correlación */}
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                        <li>
+                            <span className="font-semibold">{t("note.slope_title")}: </span>
+                            {t("note.slope_explainer", { slope: bQuiz.toFixed(3) })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r_title")}: </span>
+                            {t("note.r_explainer", { r: rQuiz.toFixed(3), corr: quizCorrText })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r2_title")}: </span>
+                            {t("note.r2_explainer", { pct: (r2Quiz * 100).toFixed(1) })}
+                        </li>
+                    </ul>
+                </GraphBlock>
+            ) : null}
+
+
+
+
+
         </div>
     );
 };

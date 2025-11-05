@@ -6,16 +6,33 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-Listado de correlaciones propuestas
------------------------------------
+   - 1º Correlación entre el número de total de visitas de un alumno y la nota final del alumno.
+     Eje x: visitas, Eje y: nota final, Punto: Alumno
+     - Paso 1: Todas las actividades deben tener asociado un id. Añadirlo al modelo y scrapearlo.
+     - Paso 2: Hay que implementar en el modelo Participants un diccionario clave (id actividad) y
+       valor (visitas actividad)
+     - Paso 3: Hay que implementar en el modelo Participants un nuevo atributo nota final
+     - Paso 4: Hay que scrapear la nota final de cada alumno en el apartado de calificaciones.
+     - Paso 4: Número total de visitas de un alumno -> Suma de los valores del diccionario
+     - Paso 5: Implementar la gráfica en CorrelationsTab.
 
--> Correlación entre el número de visitas a cada actividad evaluable (quiz, workshop, assignment) y la nota media
-   obtenida en esa actividad. Además, pueden establecerse distintos niveles de comparación para las categorías
-   evaluables (cuestionarios, talleres, tareas):
-   - Nota obtenida en la actividad concreta.
-   - Nota media del alumno en todas las actividades de esa misma categoría.
-   - Nota global final del alumno en el curso.
+     - Paso 6: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
 
+
+
+   - 2º Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y la nota media obtenida
+     en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias, Punto: Actividad evaluables
+
+        -> Correlación entre el número de visitas a cada actividad evaluable (quiz, workshop, assignment) y
+        la nota media obtenida en esa actividad. Además, pueden establecerse distintos niveles de comparación
+        para las categorías evaluables (cuestionarios, talleres, tareas):
+           - Nota obtenida en la actividad concreta.
+           - Nota media del alumno en todas las actividades de esa misma categoría.
+           - Nota global final del alumno en el curso.
+
+
+Más adelante
+---------------------
 -> Correlación entre el nivel de participación del alumno y su calificación. De forma análoga, puede analizarse a
    diferentes niveles:
    - Participación en cada actividad específica.
@@ -26,7 +43,7 @@ Listado de correlaciones propuestas
    Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.
 
 -> Correlación entre el número total de conexiones o visitas al curso y la calificación final.
-   (En caso de disponer de dicha variable o de un indicador equivalente como el total de accesos registrados.)
+   (En caso de disponer de dicha variable o de un indicador equivalente como el total de accesos registrados).
 
 
 

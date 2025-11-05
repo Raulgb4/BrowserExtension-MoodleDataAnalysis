@@ -62,7 +62,8 @@
     "top_activities": "Top Activities",
     "other_top_n": "{{name}} - Top {{count}} activities",
     "predictive": {
-      "participation_vs_grade": "Correlation between Forum Participation and Quiz Scores"
+      "participation_vs_grade": "Correlation between Forum Participation and Quiz Scores",
+      "quiz_views_vs_grade": "Correlation between total number of visits and average quiz grade"
     },
     "regression_line": "Regression line"
   },
@@ -84,7 +85,8 @@
     "average_score": "Average Score",
     "participation_percentage": "Participation (%)",
     "subscriptions": "Subscriptions",
-    "students": "Students"
+    "students": "Students",
+    "quizzes": "Quizzes"
   },
   "filter": {
     "by_role": "Filter by role:",
@@ -149,7 +151,8 @@
   },
   "axis": {
     "forum_participation_percent": "Percentage of total forum activity (course-wide) (%)",
-    "quiz_grade_0_10": "Average quiz grade (0-10)"
+    "quiz_grade_0_10": "Average quiz grade (0-10)",
+    "quiz_total_views": "Total visits of all course quizzes"
   },
   "state": {
     "no_predictive_data": "Not enough data available to calculate and display the correlation graph"
