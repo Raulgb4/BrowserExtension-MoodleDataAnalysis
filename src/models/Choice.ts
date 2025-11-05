@@ -17,11 +17,6 @@ import {ActivityBase} from "./ActivityBase";
  */
 export interface Choice extends ActivityBase {
     /**
-     * Unique identifier of the choice activity in Moodle.
-     */
-    id: number;
-
-    /**
      * A dictionary mapping each response option (e.g., "Yes", "No", "Maybe")
      * to the number of participants who selected that option.
      *

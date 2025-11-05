@@ -47,11 +47,6 @@ export interface QuizParticipantData {
  */
 export interface Quiz extends ActivityBase {
     /**
-     * Internal Moodle identifier for the quiz.
-     */
-    id: number;
-
-    /**
      * Maximum grade defined for this quiz (e.g. 1, 5, 10).
      */
     maxGrade: number;

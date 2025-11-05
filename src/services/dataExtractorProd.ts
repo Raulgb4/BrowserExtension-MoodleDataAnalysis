@@ -442,21 +442,21 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                     switch (true) {
                         case href.includes("/mod/url/"): {
                             progress?.setLabel("status.scraping_url");
-                            urlResources.push({activityName, numViews, numUsers, lastAccess});
+                            urlResources.push({id, activityName, numViews, numUsers, lastAccess});
                             typeCounts.url++;
                             break;
                         }
 
                         case href.includes("/mod/workshop/"): {
                             progress?.setLabel("status.scraping_workshop");
-                            workshops.push({activityName, numViews, numUsers, lastAccess});
+                            workshops.push({id, activityName, numViews, numUsers, lastAccess});
                             typeCounts.workshop++;
                             break;
                         }
 
                         case href.includes("/mod/resource/"): {
                             progress?.setLabel("status.scraping_resource");
-                            resources.push({activityName, numViews, numUsers, lastAccess});
+                            resources.push({id, activityName, numViews, numUsers, lastAccess});
                             typeCounts.resource++;
                             break;
                         }

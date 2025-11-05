@@ -11,6 +11,12 @@
  */
 
 export interface ActivityBase {
+
+    /**
+     * Internal Moodle identifier.
+     */
+    id: number;
+
     /**
      * The name/title of the activity as it appears in Moodle.
      */
