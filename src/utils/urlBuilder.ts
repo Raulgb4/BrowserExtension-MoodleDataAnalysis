@@ -157,6 +157,9 @@ export function getScrapeUrlParticipants(
     return {participants: `${BASE}${URLS.PARTICIPANTS(courseId, totalParticipants)}`};
 }
 
+// TO MODIFY
+//------------------------------------------------------------------
+
 export function getScrapeUrlParticipantsReport(
     userId: string | number,
     courseId: string | number,
@@ -170,6 +173,9 @@ export function getScrapeUrlParticipantsGradesOverview(
 ): Record<string, string> {
     return {participantsGradesOverview: `${BASE}${URLS.PARTICIPANTS_GRADES_OVERVIEW(userId, courseId)}`};
 }
+
+//------------------------------------------------------------------
+
 
 export function getScrapeUrlActivityReport(courseId: string | number): Record<string, string> {
     return {activityReport: `${BASE}${URLS.ACTIVITY_REPORT(courseId)}`};

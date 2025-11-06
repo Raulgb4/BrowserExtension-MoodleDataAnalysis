@@ -11,9 +11,22 @@
  * @date 2025
  */
 
+// Define un enum para los tipos de actividad soportados
+export enum ActivityType {
+    Choice = "Choice",
+    Quiz = "Quiz",
+    Forum = "Forum",
+    URLResource = "URL Resource",
+    Resource = "Resource",
+    Workshop = "Workshop",
+    Assignment = "Assignment",
+}
+
+// Actualiza la interfaz ParticipantData para usar el enum
 export interface ParticipantData {
     activityId: number;
     activityName: string;
+    activityType: ActivityType;
     numViews: number;
 }
 

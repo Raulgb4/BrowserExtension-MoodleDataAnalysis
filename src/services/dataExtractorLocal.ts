@@ -27,7 +27,7 @@ import {
 } from "./dataProcessor";
 import {Resource, URLResource, Workshop} from "../models/ActivityBase";
 import {AbstractDataExtractor, AnalysisProgress} from "./AbstractDataExtractor";
-import {getScrapeUrlParticipantsGradesOverview, getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {getScrapeUrlQuiz} from "../utils/urlBuilder";
 
 export class LocalDataExtractor extends AbstractDataExtractor {
 
@@ -217,69 +217,12 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 const lastAccessToCourse = parseLastAccess(lastAccessRaw);
 
 
-                const urlGradeOverview = getScrapeUrlParticipantsGradesOverview(id, courseId);
-                const docGradeOverview = await this.fetchAndParse(urlGradeOverview.participantsGradesOverview);
-
-                let finalGradeNormalized10: number | undefined;
-                try {
-                    // 1) Encuentra la fila del curso actual en la tabla de overview
-                    const table = docGradeOverview.querySelector<HTMLTableElement>("#overview-grade");
-                    if (table) {
-                        // Busca el <a> que contiene "?id=<courseId>" en la primera columna
-                        const link = table.querySelector<HTMLAnchorElement>(
-                            `tbody tr td.c0 a[href*="id=${encodeURIComponent(String(courseId))}"]`
-                        );
-
-                        if (link) {
-                            // Sube a la fila <tr> y toma la celda de "Grade" (c1)
-                            const row = link.closest("tr");
-                            const gradeCell = row?.querySelector<HTMLTableCellElement>("td.c1");
-                            const rawText = gradeCell?.textContent?.trim() ?? "";
-
-                            // 2) Parseo robusto del texto (p.ej. "6.25", "6,25", "85 %", "-")
-                            //    - Permite coma decimal
-                            //    - Filtra caracteres no numéricos salvo separador decimal y %
-                            const hasPercent = rawText.includes("%");
-                            const numericText = rawText
-                                .replace(/\s/g, "")        // quita espacios
-                                .replace(",", ".")         // coma -> punto
-                                .replace(/[^0-9.+-]/g, ""); // deja solo dígitos y signo/decimal
-
-                            const value = Number.parseFloat(numericText);
-
-                            if (!Number.isNaN(value)) {
-                                // 3) Normalización a escala 0–10
-                                if (hasPercent) {
-                                    // 85% -> 8.5
-                                    finalGradeNormalized10 = value / 10;
-                                } else if (value > 10) {
-                                    // Asumimos escala 0–100
-                                    finalGradeNormalized10 = value / 10;
-                                } else if (value >= 0) {
-                                    // Ya viene en 0–10
-                                    finalGradeNormalized10 = value;
-                                }
-
-                                // Clamp y redondeo a dos decimales
-                                if (typeof finalGradeNormalized10 === "number") {
-                                    finalGradeNormalized10 = Math.max(0, Math.min(10, finalGradeNormalized10));
-                                    finalGradeNormalized10 = Number(finalGradeNormalized10.toFixed(2)); // <-- redondeo
-                                }
-                            }
-
-                        }
-                    }
-                } catch (e) {
-                    // opcional: log de depuración, pero no rompas el scraping del resto
-                    // console.debug("Error parsing final grade overview:", e);
-                }
+                // TO MODIFY
+                // const urlGradeOverview = getScrapeUrlParticipantsGradesOverview(id, courseId);
+                // const docGradeOverview = await this.fetchAndParse(urlGradeOverview.participantsGradesOverview);
 
 
-                // Subscrapeo para obterner el report completo del participante COMPLETAR
-                //const urlReport = getScrapeUrlParticipantsReport(id,courseId);
-                //const docReport = await this.fetchAndParse(urlReport.participantsReport);
-
-
+                // Construcción del participante con activities opcional
                 const participant: Participant = {
                     id,
                     participantName,
@@ -287,10 +230,10 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                     roles,
                     lastAccessToCourse,
                     ...(typeof groups !== "undefined" ? {groups} : {}),
-                    ...(typeof finalGradeNormalized10 === "number" ? {finalGrade: finalGradeNormalized10} : {}),
                 };
 
                 participants.push(participant);
+
             }
 
             const ms = Math.round(performance.now() - t0);

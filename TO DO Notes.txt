@@ -6,40 +6,71 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-   - 1º Correlación entre el número de total de visitas de un alumno y la nota final del alumno.
-     Eje x: visitas, Eje y: nota final, Punto: Alumno
-     - Paso 1: Hay que scrapear id actividad, nombre y visitas del ParticipantReport.
-     - Paso 2: Número total de visitas de un alumno -> Suma de los valores del diccionario
-     - Paso 3: Implementar la gráfica en CorrelationsTab.
+   - Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y
+   la nota media obtenida en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias,
+   Punto: Actividad evaluables. Mas info: Correlación entre el número de visitas a cada actividad evaluable
+   (quiz, workshop, assignment) y la nota media obtenida en esa actividad. Además, pueden establecerse distintos niveles de comparación
+   para las categorías evaluables (cuestionarios, talleres, tareas):
+   - Nota obtenida en la actividad concreta.
+   - Nota media del alumno en todas las actividades de esa misma categoría.
+   - Nota global final del alumno en el curso.
 
-     - Paso 4: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
+   ** También vamos a obtener el dato "Nota final" del curso para cada alumno. Que puede servir para otra correlación
+   en un futuro.
+
+    - Paso 0: Limpieza de dataExtractorLocal y dataExtractorProduction de lo que habíamos implementado con lo
+          de recorrer la tabla de participantes y hacer una consulta por cada fila para obtener nota final y visitas
+          individuales en cada una de las actividades.
+
+    - Paso 1: Preparar los modelos. Copiar lo participantStats (participantid y grade) de las Quizzes para los Workshops
+          y los Assignments.
+
+    - Paso 2: Preparar URLBUILDER (Limpieza de lo que ya no sirve) con la url del GRADER REPORT
+      (Evitar paginación importante perpage=0): http://localhost:8080/grade/report/grader/index.php?id=2&report=grader&perpage=0
+
+    - Paso 3: Scrapear datos de la tabla contenida en el GRADER REPORT. (Local y producción)
+          - Id estudiante - nombre estudiante - Nota final - Tipo actividad - Nombre - id actividad - nota
+            (esto para workshop y assignment)(Tener en cuenta normalizar sobre 10)
+
+    - Paso 4: Implementar la gráfica de la correlación en CorrelationsTab.tsx
+      (Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y
+      la nota media obtenida en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias Punto: Actividad evaluables.)
 
 
-
-   - 2º Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y la nota media obtenida
-     en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias, Punto: Actividad evaluables
-
-        -> Correlación entre el número de visitas a cada actividad evaluable (quiz, workshop, assignment) y
-        la nota media obtenida en esa actividad. Además, pueden establecerse distintos niveles de comparación
-        para las categorías evaluables (cuestionarios, talleres, tareas):
-           - Nota obtenida en la actividad concreta.
-           - Nota media del alumno en todas las actividades de esa misma categoría.
-           - Nota global final del alumno en el curso.
+    - Paso 5: Implementar la gráfica de esta correlación en CorrelationsTab.tsx
+      (Correlación entre la participación (suma de los votos = visitas totales) en encuestas (Choice) y la nota media
+      en talleres (Workshop). Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.)
 
 
-Más adelante
----------------------
--> Correlación entre el nivel de participación del alumno y su calificación. De forma análoga, puede analizarse a
-   diferentes niveles:
-   - Participación en cada actividad específica.
-   - Participación media del alumno en todas las actividades de una categoría concreta.
-   - Participación media global en el conjunto del curso.
+    - Paso 6: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
 
--> Correlación entre la participación en encuestas (Choice) y la nota media en talleres (Workshop).
-   Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.
+    - Paso 7: Mandar correo con la limitación técnica para el resto de correlaciones.
 
--> Correlación entre el número total de conexiones o visitas al curso y la calificación final.
-   (En caso de disponer de dicha variable o de un indicador equivalente como el total de accesos registrados).
+
+   LIMITACIÓN TÉCNICA
+   ------------------
+
+    HA SURGIDO UNA LIMITACIÓN TÉCNICA EN EL CAMPUS OFICIAL DE LA UMA PARA CONSEGUIR LAS VISITAS QUE REALIZA
+    CADA ESTUDIANTE A LAS DISTINTAS ACTIVIDADES.
+
+    Al tener que hacer una consulta a una url de forma repetida por cada participante, el campus virtual de la UMA
+    restringe el acceso durante un número de horas a la IP que está machacando a peticiones (Ataque DDOS falso positivo).
+    Esta conclusión se ha llegado de forma verificada haciendo pruebas en distintos equipos conectados a diferentes
+    routers con diferentes ips y verificando que el problema no venía del código programado recientemente.
+
+    Para implementar la correlación (Correlación entre el número de total de visitas de un alumno y la nota final del alumno.
+    Eje x: visitas, Eje y: nota final, Punto: Alumno) se necesita recorrer la lista de participantes y por cada uno de
+    ellos obtener las visitas de cada actividad accediendo a "Informe Completo" ("Complete report")
+
+    Otras correlaciones que se iban a implementar y se ven afectadas debido a esta limitación son:
+
+    - "Correlación entre el nivel de participación del alumno y su calificación" (participación = visitas).
+      De forma análoga, puede analizarse a diferentes niveles:
+      - Participación en cada actividad específica.
+      - Participación media del alumno en todas las actividades de una categoría concreta.
+      - Participación media global en el conjunto del curso.
+
+    - "Correlación entre el número total de conexiones o visitas al curso y la calificación final"
 
 
 
