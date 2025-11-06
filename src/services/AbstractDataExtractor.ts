@@ -178,6 +178,28 @@ export abstract class AbstractDataExtractor {
         totalParticipants: number
     ): Promise<Quiz[]>;
 
+    /*
+    abstract scrapeWorkshops(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined,
+        courseId: string
+    ): Promise<Workshop[]>;
+     */
+
+    /*
+    async scrapeAssignments(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined,
+        courseId: string
+    ): Promise<Assignment[]>;
+    */
+
     /**
      * Scrapes all Forum activities within a course.
      */

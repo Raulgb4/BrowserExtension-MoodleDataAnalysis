@@ -40,7 +40,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 57024000000,
+      "lastAccessToCourse": 57110400000,
       "registration": "Matrícula dejó de recibirse"
     },
     {
@@ -50,7 +50,7 @@
       "roles": [
         "Profesor"
       ],
-      "lastAccessToCourse": 30823200000,
+      "lastAccessToCourse": 30830400000,
       "registration": "LDAP enrolments"
     },
     {
@@ -60,7 +60,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 154800000,
+      "lastAccessToCourse": 162000000,
       "registration": "5157-23-0920-A"
     },
     {
@@ -70,7 +70,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 20282400000,
+      "lastAccessToCourse": 20289600000,
       "registration": "5157-23-0920-A"
     },
     {
@@ -160,7 +160,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 29347200000,
+      "lastAccessToCourse": 29354400000,
       "registration": "Manual enrolments"
     },
     {
@@ -199,7 +199,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 46137600000,
+      "lastAccessToCourse": 46224000000,
       "registration": "5157-23-0920-A"
     },
     {
@@ -209,7 +209,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 3567600000,
+      "lastAccessToCourse": 3574800000,
       "registration": "Matrícula dejó de recibirse"
     },
     {
@@ -229,7 +229,7 @@
       "roles": [
         "Profesor"
       ],
-      "lastAccessToCourse": 2012400000,
+      "lastAccessToCourse": 2019600000,
       "registration": "Manual enrolments"
     },
     {
@@ -239,7 +239,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 56073600000,
+      "lastAccessToCourse": 56160000000,
       "registration": "Matrícula dejó de recibirse"
     },
     {
@@ -259,7 +259,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 25398000000,
+      "lastAccessToCourse": 25405200000,
       "registration": "Matrícula dejó de recibirse"
     },
     {
@@ -299,7 +299,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 57196800000,
+      "lastAccessToCourse": 57283200000,
       "registration": "5157-23-0920-A"
     },
     {
@@ -329,7 +329,7 @@
       "roles": [
         "Estudiante"
       ],
-      "lastAccessToCourse": 31536000000,
+      "lastAccessToCourse": 31622400000,
       "registration": "5157-23-0920-A"
     },
     {
@@ -359,14 +359,14 @@
       "activityName": "k-means algorithm demo",
       "numViews": 23,
       "numUsers": 14,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513531,
       "activityName": "Competitive learning",
       "numViews": 25,
       "numUsers": 17,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513532,
@@ -396,14 +396,14 @@
       "activityName": "Presentation",
       "numViews": 252,
       "numUsers": 34,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 525076,
       "activityName": "tempAC2324 4 - NEW!!!",
       "numViews": 38,
       "numUsers": 22,
-      "lastAccess": 7509600000
+      "lastAccess": 7516800000
     },
     {
       "id": 524566,
@@ -417,7 +417,7 @@
       "activityName": "tempAC2324 2 - NEW!!!",
       "numViews": 127,
       "numUsers": 30,
-      "lastAccess": 61776000000
+      "lastAccess": 61862400000
     },
     {
       "id": 514934,
@@ -431,42 +431,42 @@
       "activityName": "clustering (introduccion)",
       "numViews": 5,
       "numUsers": 1,
-      "lastAccess": 67824000000
+      "lastAccess": 67910400000
     },
     {
       "id": 513518,
       "activityName": "Introduction to Clustering",
       "numViews": 95,
       "numUsers": 33,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513519,
       "activityName": "Clustering",
       "numViews": 203,
       "numUsers": 35,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513522,
       "activityName": "Exercise 3 Clustering (clase)",
       "numViews": 71,
       "numUsers": 27,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513525,
       "activityName": "Cluster Validation",
       "numViews": 91,
       "numUsers": 29,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 518977,
       "activityName": "Sillhouettes: a graphical aid to interpretation and validation of cluster analysis",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 66009600000
+      "lastAccess": 66096000000
     },
     {
       "id": 513527,
@@ -480,35 +480,35 @@
       "activityName": "Sillhouettes Analysis  in K-means Clustering",
       "numViews": 94,
       "numUsers": 27,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513529,
       "activityName": "Neural Networks (introduction)",
       "numViews": 71,
       "numUsers": 27,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513530,
       "activityName": "Neural Networks for clustering",
       "numViews": 103,
       "numUsers": 30,
-      "lastAccess": 8629200000
+      "lastAccess": 8636400000
     },
     {
       "id": 519693,
       "activityName": "Competitive example",
       "numViews": 61,
       "numUsers": 23,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513535,
       "activityName": "Genetic Algorithms",
       "numViews": 102,
       "numUsers": 31,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513536,
@@ -522,21 +522,21 @@
       "activityName": "A simple example",
       "numViews": 35,
       "numUsers": 22,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513539,
       "activityName": "Feature Selection",
       "numViews": 89,
       "numUsers": 30,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513540,
       "activityName": "FEATURE SELECTION WITH GENETIC ALGORITHMS",
       "numViews": 68,
       "numUsers": 28,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513542,
@@ -550,14 +550,14 @@
       "activityName": "Gradient descent",
       "numViews": 80,
       "numUsers": 27,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513545,
       "activityName": "Neural Networks",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 64800000000
+      "lastAccess": 64886400000
     },
     {
       "id": 513546,
@@ -571,21 +571,21 @@
       "activityName": "Perceptron y Adaline",
       "numViews": 81,
       "numUsers": 28,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513549,
       "activityName": "Neural Networks (BP and more)",
       "numViews": 98,
       "numUsers": 31,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513550,
       "activityName": "How Backpropagation Works?",
       "numViews": 83,
       "numUsers": 27,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513551,
@@ -599,21 +599,21 @@
       "activityName": "Survival Analysis",
       "numViews": 93,
       "numUsers": 29,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513554,
       "activityName": "Survival Analysis (presentacion)",
       "numViews": 6,
       "numUsers": 1,
-      "lastAccess": 62380800000
+      "lastAccess": 62467200000
     },
     {
       "id": 513555,
       "activityName": "Cox regression",
       "numViews": 84,
       "numUsers": 27,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513557,
@@ -626,14 +626,14 @@
       "activityName": "pract 0 presentation",
       "numViews": 144,
       "numUsers": 35,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513514,
       "activityName": "paper Microarray analysis",
       "numViews": 135,
       "numUsers": 35,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513515,
@@ -671,14 +671,14 @@
       "activityName": "pract 1 clustering",
       "numViews": 213,
       "numUsers": 32,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513564,
       "activityName": "clustering",
       "numViews": 146,
       "numUsers": 32,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513565,
@@ -692,35 +692,35 @@
       "activityName": "[Ref. 1] The Transcriptional Program of Sporulation in Budding Yeast",
       "numViews": 106,
       "numUsers": 26,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513567,
       "activityName": "[Ref. 2] Comparison of clustering methods",
       "numViews": 131,
       "numUsers": 29,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513568,
       "activityName": "[Ref. 3] Yeast reproduction",
       "numViews": 64,
       "numUsers": 23,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513569,
       "activityName": "[Ref. 4] Advanced clustering analysis on sporulation data I",
       "numViews": 54,
       "numUsers": 22,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513570,
       "activityName": "[Ref. 5] Advanced clustering analysis on sporulation data II",
       "numViews": 33,
       "numUsers": 17,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 513571,
@@ -745,7 +745,7 @@
       "activityName": "pract 2 classification",
       "numViews": 176,
       "numUsers": 30,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 515413,
@@ -778,7 +778,7 @@
       "activityName": "pract 3 project",
       "numViews": 203,
       "numUsers": 30,
-      "lastAccess": 29347200000
+      "lastAccess": 29354400000
     },
     {
       "id": 515414,
@@ -956,44 +956,193 @@
       "activityName": "Lab 0",
       "numViews": 620,
       "numUsers": 35,
-      "lastAccess": 8650800000
+      "lastAccess": 8658000000
     },
     {
       "id": 517530,
       "activityName": "Lab 1",
       "numViews": 1240,
       "numUsers": 33,
-      "lastAccess": 3351600000
+      "lastAccess": 3358800000
     },
     {
       "id": 519796,
       "activityName": "Lab 2 - Task A",
       "numViews": 400,
       "numUsers": 30,
-      "lastAccess": 8650800000
+      "lastAccess": 8658000000
     },
     {
       "id": 519797,
       "activityName": "Lab 2 - Task B",
       "numViews": 339,
       "numUsers": 30,
-      "lastAccess": 8373600000
+      "lastAccess": 8380800000
     },
     {
       "id": 519800,
       "activityName": "Lab 3",
       "numViews": 1733,
       "numUsers": 30,
-      "lastAccess": 5036400000
+      "lastAccess": 5043600000
+    }
+  ],
+  "assignments": [
+    {
+      "id": 517756,
+      "activityName": "Late submission of laboratory exercises",
+      "numViews": 539,
+      "numUsers": 26,
+      "lastAccess": 5727600000
+    },
+    {
+      "id": 525891,
+      "activityName": "Laboratory exercises call",
+      "numViews": 134,
+      "numUsers": 10,
+      "lastAccess": 7520400000
+    },
+    {
+      "id": 513520,
+      "activityName": "Exercise1 Clustering",
+      "numViews": 748,
+      "numUsers": 34,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513521,
+      "activityName": "Exercise2 Clustering",
+      "numViews": 663,
+      "numUsers": 32,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513523,
+      "activityName": "Hierarchical clustering with agglomerative algorithm",
+      "numViews": 18,
+      "numUsers": 2,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513524,
+      "activityName": "Hierarchical Clustering (dendrogram)",
+      "numViews": 643,
+      "numUsers": 33,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513526,
+      "activityName": "Sillhouettes Analysis  in K-means Clustering",
+      "numViews": 669,
+      "numUsers": 32,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513534,
+      "activityName": "Competitive Learning (Exercise)",
+      "numViews": 529,
+      "numUsers": 31,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513533,
+      "activityName": "Competitive learning (class exercise)",
+      "numViews": 22,
+      "numUsers": 2,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513538,
+      "activityName": "GA (Numerical example from article read in class)",
+      "numViews": 387,
+      "numUsers": 28,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513541,
+      "activityName": "TEST",
+      "numViews": 12,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513543,
+      "activityName": "Genetic Algorithms Example",
+      "numViews": 16,
+      "numUsers": 2,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513556,
+      "activityName": "Backpropagation Example",
+      "numViews": 595,
+      "numUsers": 31,
+      "lastAccess": 80820000
+    },
+    {
+      "id": 513516,
+      "activityName": "Lab exercise 0",
+      "numViews": 22,
+      "numUsers": 6,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513560,
+      "activityName": "Task 0a: Paper description",
+      "numViews": 21,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513574,
+      "activityName": "Lab exercise 1 Clustering",
+      "numViews": 10,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513579,
+      "activityName": "Lab exercise 2 Classification",
+      "numViews": 10,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513581,
+      "activityName": "Lab exercise 3 Project",
+      "numViews": 10,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513582,
+      "activityName": "Lab exercise 3a Project - PROPOSAL",
+      "numViews": 10,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513611,
+      "activityName": "Upload your Golub's paper summary",
+      "numViews": 10,
+      "numUsers": 1,
+      "lastAccess": 7524000000
+    },
+    {
+      "id": 513612,
+      "activityName": "Unit 2 assignement",
+      "numViews": 8,
+      "numUsers": 1,
+      "lastAccess": 7524000000
     }
   ],
   "quizzes": [],
   "forums": [
     {
       "activityName": "News forum",
-      "numViews": 1090,
+      "numViews": 1102,
       "numUsers": 37,
-      "lastAccess": 12240000,
+      "lastAccess": 6660000,
       "id": 513507,
       "forumId": 20555,
       "subscriptions": 35,
@@ -1007,19 +1156,19 @@
           "wordCount": 0
         },
         {
-          "participantId": 18474,
-          "participantName": "Madrid Espinosa Carlos",
-          "discussionsPosted": 0,
-          "repliesPosted": 0,
-          "views": 8,
-          "wordCount": 0
-        },
-        {
           "participantId": 17317,
           "participantName": "Beltran López Carlos",
           "discussionsPosted": 0,
           "repliesPosted": 0,
           "views": 6,
+          "wordCount": 0
+        },
+        {
+          "participantId": 18474,
+          "participantName": "Madrid Espinosa Carlos",
+          "discussionsPosted": 0,
+          "repliesPosted": 0,
+          "views": 8,
           "wordCount": 0
         },
         {
@@ -1266,9 +1415,9 @@
     },
     {
       "activityName": "Issues related to laboratory exercises",
-      "numViews": 2010,
+      "numViews": 2022,
       "numUsers": 35,
-      "lastAccess": 12240000,
+      "lastAccess": 6660000,
       "id": 513508,
       "forumId": 20556,
       "subscriptions": 2,

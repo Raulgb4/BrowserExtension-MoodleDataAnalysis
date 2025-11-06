@@ -12,10 +12,11 @@
 import React, {useEffect, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
-import {ActivityBase, Resource, URLResource, Workshop} from "../../models/ActivityBase";
+import {ActivityBase, Resource, URLResource} from "../../models/ActivityBase";
 import {ChartData} from "chart.js";
 import {getTopByMetric} from "../../utils/chartDataUtils";
 import {useTranslation} from "react-i18next";
+import {Workshop} from "../../models/Workshop";
 
 type GraphKey = "url" | "file" | "workshop";
 

@@ -49,12 +49,6 @@ export interface ActivityBase {
 export type URLResource = ActivityBase;
 
 /**
- * Represents a Workshop activity (modtype_workshop),
- * used for peer-assessment in Moodle.
- */
-export type Workshop = ActivityBase;
-
-/**
  * Represents a static resource (modtype_resource),
  * such as a PDF or document uploaded to the course.
  */

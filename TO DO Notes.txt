@@ -18,10 +18,6 @@
    ** También vamos a obtener el dato "Nota final" del curso para cada alumno. Que puede servir para otra correlación
    en un futuro.
 
-    - Paso 0: Limpieza de dataExtractorLocal y dataExtractorProduction de lo que habíamos implementado con lo
-          de recorrer la tabla de participantes y hacer una consulta por cada fila para obtener nota final y visitas
-          individuales en cada una de las actividades.
-
     - Paso 1: Preparar los modelos. Copiar lo participantStats (participantid y grade) de las Quizzes para los Workshops
           y los Assignments.
 

@@ -11,11 +11,13 @@
  * @date 2025
  */
 
-import {Resource, URLResource, Workshop} from './ActivityBase';
+import {Resource, URLResource} from './ActivityBase';
 import {Quiz} from './Quiz';
 import {Forum} from './Forum';
 import {Choice} from './Choice';
 import {Participant} from './Participant';
+import {Workshop} from "./Workshop";
+import {Assignment} from "./Assignment";
 
 export interface Course {
     /**
@@ -47,6 +49,11 @@ export interface Course {
      * List of workshop activities (modtype_workshop).
      */
     workshops: Workshop[];
+
+    /**
+     * List of assignment activities (modtype_assign).
+     */
+    assignments: Assignment[];
 
     /**
      * List of quiz activities (modtype_quiz), including detailed student performance.

@@ -25,7 +25,9 @@ import {
     parseRoles,
     parseViewsAndUsers
 } from "./dataProcessor";
-import {Resource, URLResource, Workshop} from "../models/ActivityBase";
+import {Resource, URLResource} from "../models/ActivityBase";
+import {Assignment} from "../models/Assignment";
+import {Workshop} from "../models/Workshop";
 
 export class ProdDataExtractor extends AbstractDataExtractor {
 
@@ -400,6 +402,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
             const urlResources: URLResource[] = [];
             const choices: Choice[] = [];
             const workshops: Workshop[] = [];
+            const assignments: Assignment[] = [];
             const resources: Resource[] = [];
             let quizzes: Quiz[] = [];
             let forums: Forum[] = [];
@@ -407,6 +410,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
             const typeCounts = {
                 url: 0,
                 workshop: 0,
+                assignment: 0,
                 resource: 0,
                 choice: 0,
                 quiz: 0,
@@ -455,6 +459,13 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                         case href.includes("/mod/workshop/"): {
                             progress?.setLabel("status.scraping_workshop");
                             workshops.push({id, activityName, numViews, numUsers, lastAccess});
+                            typeCounts.workshop++;
+                            break;
+                        }
+
+                        case href.includes("/mod/assign/"): {
+                            progress?.setLabel("status.scraping_assignment");
+                            assignments.push({id, activityName, numViews, numUsers, lastAccess});
                             typeCounts.workshop++;
                             break;
                         }
@@ -521,6 +532,10 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 }
             }
 
+            // IMPLEMENTAR UNA FUNCIÓN QUE SCRAPE LOS DATOS DE LA PÁGINA GRADER REPORT
+
+
+
             const course: Course = {
                 id: parseInt(courseId, 10),
                 courseName,
@@ -530,6 +545,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 resources,
                 choices,
                 workshops,
+                assignments,
                 quizzes,
                 forums,
             };
@@ -548,6 +564,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                         resources: resources.length,
                         choices: choices.length,
                         workshops: workshops.length,
+                        assignments: assignments.length,
                         quizzes: quizzes.length,
                         forums: forums.length,
                     },

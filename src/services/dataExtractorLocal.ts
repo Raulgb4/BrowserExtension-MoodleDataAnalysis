@@ -25,9 +25,11 @@ import {
     parseRoles,
     parseViewsAndUsers
 } from "./dataProcessor";
-import {Resource, URLResource, Workshop} from "../models/ActivityBase";
+import {Resource, URLResource} from "../models/ActivityBase";
 import {AbstractDataExtractor, AnalysisProgress} from "./AbstractDataExtractor";
 import {getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {Workshop} from "../models/Workshop";
+import {Assignment} from "../models/Assignment";
 
 export class LocalDataExtractor extends AbstractDataExtractor {
 
@@ -216,12 +218,6 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                     row.querySelector<HTMLElement>("td.cell.c5")?.innerText?.trim();
                 const lastAccessToCourse = parseLastAccess(lastAccessRaw);
 
-
-                // TO MODIFY
-                // const urlGradeOverview = getScrapeUrlParticipantsGradesOverview(id, courseId);
-                // const docGradeOverview = await this.fetchAndParse(urlGradeOverview.participantsGradesOverview);
-
-
                 // Construcción del participante con activities opcional
                 const participant: Participant = {
                     id,
@@ -235,7 +231,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 participants.push(participant);
 
             }
-
+            
             const ms = Math.round(performance.now() - t0);
             devlog.info("dataExtractor", "scrapeParticipants:done", {
                 rows: rows.length,
@@ -354,6 +350,139 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     }
 
     /**
+     * Scrapes all Workshop activities within a course. PLANTILLA A RELLENAR
+     */
+    /*
+    async scrapeWorkshops(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined,
+        courseId: string
+    ): Promise<Workshop[]> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeWorkshops:start", {
+            id, activityName, numViews, numUsers, lastAccess, courseId
+        });
+
+        try {
+            const workshops: Workshop[] = [];
+            const url = getScrapeUrlGraderReport(courseId);
+            const doc = await this.fetchAndParse(url.graderReport);
+
+            // Scraping del DOM de Moodle de la página TO DO
+
+            const participantStats: WorkshopParticipantData[] = []; // participantId, participantName, grade
+
+            for (const rowWorkshop of rowsResultsWorkshop) {
+
+                // Scraping del DOM de Moodle de la página TO DO
+
+                participantStats.push({
+                    participantId,
+                    participantName,
+                    grade,
+                });
+            }
+
+            const workshop: Workshop = {
+                activityName,
+                numViews,
+                numUsers,
+                lastAccess,
+                id,
+                participantStats,
+            };
+
+            workshops.push(workshop);
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeWorkshops:success", {
+                id,
+                activityName,
+                participantsParsed: participantStats.length,
+                durationMs: ms,
+            }, workshop);
+
+            return workshops;
+
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeWorkshops:error", {error: String(error), durationMs: ms});
+            return [];
+        }
+    }
+    */
+
+    /**
+     * Scrapes all Assignment activities within a course. PLANTILLA A RELLENAR
+     */
+    /*
+    async scrapeAssignments(
+        id: number,
+        activityName: string,
+        numViews: number,
+        numUsers: number,
+        lastAccess: number | undefined,
+        courseId: string
+    ): Promise<Assignment[]> {
+        const t0 = performance.now();
+        devlog.info("dataExtractor", "scrapeAssignments:start", {
+            id, activityName, numViews, numUsers, lastAccess, courseId
+        });
+
+        try {
+            const assignments: Assignment[] = [];
+            const url = getScrapeUrlGraderReport(courseId);
+            const doc = await this.fetchAndParse(url.graderReport);
+
+            // Scraping del DOM de Moodle de la página TO DO
+
+            const participantStats: AssignmentParticipantData[] = []; // participantId, participantName, grade
+
+            for (const rowAssignment of rowsResultsAssignment) {
+
+                // Scraping del DOM de Moodle de la página TO DO
+
+                participantStats.push({
+                    participantId,
+                    participantName,
+                    grade,
+                });
+            }
+
+            const assignment: Assignment = {
+                activityName,
+                numViews,
+                numUsers,
+                lastAccess,
+                id,
+                participantStats,
+            };
+
+            assignments.push(assignment);
+
+            const ms = Math.round(performance.now() - t0);
+            devlog.info("dataExtractor", "scrapeAssignments:success", {
+                id,
+                activityName,
+                participantsParsed: participantStats.length,
+                durationMs: ms,
+            }, assignment);
+
+            return assignments;
+
+        } catch (error) {
+            const ms = Math.round(performance.now() - t0);
+            devlog.error("dataExtractor", "scrapeAssignments:error", {error: String(error), durationMs: ms});
+            return [];
+        }
+    }
+    */
+
+
+    /**
      * Orchestrates the scraping of a full course, including its metadata
      * and all activities (participants, quizzes, forums, choices, etc.).
      */
@@ -406,6 +535,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             const urlResources: URLResource[] = [];
             const choices: Choice[] = [];
             const workshops: Workshop[] = [];
+            const assignments: Assignment[] = [];
             const resources: Resource[] = [];
             let quizzes: Quiz[] = [];
             let forums: Forum[] = [];
@@ -413,6 +543,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             const typeCounts = {
                 url: 0,
                 workshop: 0,
+                assignment:0,
                 resource: 0,
                 choice: 0,
                 quiz: 0,
@@ -460,13 +591,6 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                             break;
                         }
 
-                        case href.includes("/mod/workshop/"): {
-                            progress?.setLabel("status.scraping_workshop");
-                            workshops.push({id, activityName, numViews, numUsers, lastAccess});
-                            typeCounts.workshop++;
-                            break;
-                        }
-
                         case href.includes("/mod/resource/"): {
                             progress?.setLabel("status.scraping_resource");
                             resources.push({id, activityName, numViews, numUsers, lastAccess});
@@ -487,6 +611,54 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                             typeCounts.choice += choiceResults.length;
                             break;
                         }
+
+                        case href.includes("/mod/workshop/"): {
+                            progress?.setLabel("status.scraping_workshop");
+                            workshops.push({id, activityName, numViews, numUsers, lastAccess});
+                            typeCounts.workshop++;
+                            break;
+                        }
+
+                        case href.includes("/mod/assign/"): {
+                            progress?.setLabel("status.scraping_assignment");
+                            assignments.push({id, activityName, numViews, numUsers, lastAccess});
+                            typeCounts.workshop++;
+                            break;
+                        }
+
+                        /*
+                        case href.includes("/mod/workshop/"): {
+                            progress?.setLabel("status.scraping_workshop");
+                            const workshopResults = await this.scrapeWorkshops(
+                                id,
+                                activityName,
+                                numViews,
+                                numUsers,
+                                lastAccess,
+                                courseId
+                            );
+                            workshops.push(...workshopResults);
+                            typeCounts.workshop += workshopResults.length;
+                            break;
+                        }                
+                         */
+
+                        /*    
+                        case href.includes("/mod/assign/"): {
+                            progress?.setLabel("status.scraping_assign");
+                            const assignmentResults = await this.scrapeAssignments(
+                                id,
+                                activityName,
+                                numViews,
+                                numUsers,
+                                lastAccess,
+                                courseId
+                            );
+                            assignments.push(...assignmentResults);
+                            typeCounts.assignment += assignmentResults.length;
+                            break;
+                        }                  
+                         */
 
                         case href.includes("/mod/quiz/"): {
                             progress?.setLabel("status.scraping_quiz");
@@ -529,6 +701,10 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 }
             }
 
+
+            // IMPLEMENTAR UNA FUNCIÓN QUE SCRAPE LOS DATOS DE LA PÁGINA GRADER REPORT
+
+
             const course: Course = {
                 id: parseInt(courseId, 10),
                 courseName,
@@ -538,6 +714,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 resources,
                 choices,
                 workshops,
+                assignments,
                 quizzes,
                 forums,
             };
@@ -556,6 +733,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                         resources: resources.length,
                         choices: choices.length,
                         workshops: workshops.length,
+                        assignments: assignments.length,
                         quizzes: quizzes.length,
                         forums: forums.length,
                     },
