@@ -18,29 +18,52 @@
    ** También vamos a obtener el dato "Nota final" del curso para cada alumno. Que puede servir para otra correlación
    en un futuro.
 
-    - Paso 1: Preparar los modelos. Copiar lo participantStats (participantid y grade) de las Quizzes para los Workshops
-          y los Assignments.
+    - Paso 1: Implementar la función scrapeGraderReport() en local y producción. Esta función debe añadir los datos
+    faltantes al modelo de Participants, Workshops y Assignments a partir del scrapeo de la página Grade Report.
 
-    - Paso 2: Preparar URLBUILDER (Limpieza de lo que ya no sirve) con la url del GRADER REPORT
-      (Evitar paginación importante perpage=0): http://localhost:8080/grade/report/grader/index.php?id=2&report=grader&perpage=0
+        - Paso 1.1: Scrapear datos de la tabla contenida en el GRADER REPORT. (Local y producción)
+              - Id estudiante - nombre estudiante - Nota final - Tipo actividad - Nombre - id actividad - nota
+                (esto para workshop y assignment)(Tener en cuenta normalizar sobre 10)
 
-    - Paso 3: Scrapear datos de la tabla contenida en el GRADER REPORT. (Local y producción)
-          - Id estudiante - nombre estudiante - Nota final - Tipo actividad - Nombre - id actividad - nota
-            (esto para workshop y assignment)(Tener en cuenta normalizar sobre 10)
+    ** Se recomienda hacerlo con un "stage de reconocimiento": Parche a cada Modelo -> Scraper de grader report que llama
+    a los parches -> Aplicar parches -> Integración en scrapeCourse.
 
-    - Paso 4: Implementar la gráfica de la correlación en CorrelationsTab.tsx
+    ** Es obligatorio hacerlo de esta forma para poder recorrer la tabla de grader report una sola vez.
+
+    ** Prompt Paso 1:
+    Estoy trabajando en un archivo dataExtractorLocal.ts que contiene una función principal llamada
+    scrapeCourse(courseId), encargada de scrapear toda la información de un curso de Moodle.
+
+    Al final de esta función, quiero ejecutar una nueva función llamada
+    this.scrapeGraderReport(courseId, participants, workshops, assignments);
+    con el objetivo de rellenar datos adicionales que no puedo obtener durante el scrapeo inicial, ya que se
+    encuentran en otra página (el "Grader Report" o informe de calificaciones).
+
+    Los datos que quiero completar son:
+
+    - Para cada participante, su nota final.
+    - Para cada taller (workshop), la lista de participantes con su nota.
+    - Para cada tarea (assignment), la lista de participantes con su nota.
+
+    Mi idea es implementar una función que reciba esas listas (participants, workshops, assignments) como parámetros,
+    haga un nuevo scrapeo a la página del grader report, y luego enriquezca esas listas con la información
+    faltante antes de construir el objeto final course. Quiero saber si este enfoque es posible y cómo plantearlo
+    correctamente en TypeScript para mantener el código limpio, eficiente y testable.
+
+
+    - Paso 2: Implementar la gráfica de la correlación en CorrelationsTab.tsx
       (Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y
       la nota media obtenida en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias Punto: Actividad evaluables.)
 
 
-    - Paso 5: Implementar la gráfica de esta correlación en CorrelationsTab.tsx
+    - Paso 3: Implementar la gráfica de esta correlación en CorrelationsTab.tsx
       (Correlación entre la participación (suma de los votos = visitas totales) en encuestas (Choice) y la nota media
       en talleres (Workshop). Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.)
 
 
-    - Paso 6: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
+    - Paso 4: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
 
-    - Paso 7: Mandar correo con la limitación técnica para el resto de correlaciones.
+    - Paso 5: Mandar correo con la limitación técnica para el resto de correlaciones.
 
 
    LIMITACIÓN TÉCNICA

@@ -701,9 +701,8 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 }
             }
 
-
             // IMPLEMENTAR UNA FUNCIÓN QUE SCRAPE LOS DATOS DE LA PÁGINA GRADER REPORT
-
+            // this.scrapeGraderReport(courseId, participants, workshops, assignments);
 
             const course: Course = {
                 id: parseInt(courseId, 10),
