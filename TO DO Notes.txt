@@ -25,10 +25,6 @@
               - Id estudiante - nombre estudiante - Nota final - Tipo actividad - Nombre - id actividad - nota
                 (esto para workshop y assignment)(Tener en cuenta normalizar sobre 10)
 
-    ** Se recomienda hacerlo con un "stage de reconocimiento": Parche a cada Modelo -> Scraper de grader report que llama
-    a los parches -> Aplicar parches -> Integración en scrapeCourse.
-
-    ** Es obligatorio hacerlo de esta forma para poder recorrer la tabla de grader report una sola vez.
 
     ** Prompt Paso 1:
     Estoy trabajando en un archivo dataExtractorLocal.ts que contiene una función principal llamada
@@ -37,7 +33,7 @@
     Al final de esta función, quiero ejecutar una nueva función llamada
     this.scrapeGraderReport(courseId, participants, workshops, assignments);
     con el objetivo de rellenar datos adicionales que no puedo obtener durante el scrapeo inicial, ya que se
-    encuentran en otra página (el "Grader Report" o informe de calificaciones).
+    encuentran en otra página (el "Grader Report").
 
     Los datos que quiero completar son:
 
@@ -49,6 +45,35 @@
     haga un nuevo scrapeo a la página del grader report, y luego enriquezca esas listas con la información
     faltante antes de construir el objeto final course. Quiero saber si este enfoque es posible y cómo plantearlo
     correctamente en TypeScript para mantener el código limpio, eficiente y testable.
+
+    Quiero que me expliques la propuesta con términos sencillos y de forma muy lenta, no me satures de información
+    ni de código desde el primer momento. Quiero que abordemos primero las posibles alternativas que tenemos para
+    dar solución al problema. Quiero soluciones sencillas y fáciles de implementar.
+
+    Modelo de datos de Participant:
+    export interface Participant {
+        id: number;
+        email: string;
+        participantName?: string;
+        roles?: string[];
+        groups?: string[];
+        lastAccessToCourse?: number;
+        registration?: string;
+        finalGrade?: number; --> Dato a enriquecer con el nuevo scrapeo.
+    }
+
+    Modelo de datos de Assignment (Para workshop igual pero cambiando Assignment por Workshop):
+    export interface AssignmentParticipantData {
+        participantId: number;
+        participantName: string;
+        grade: number;
+    }
+
+    export interface Assignment extends ActivityBase {
+
+        participantStats?: AssignmentParticipantData[];
+    }
+
 
 
     - Paso 2: Implementar la gráfica de la correlación en CorrelationsTab.tsx
