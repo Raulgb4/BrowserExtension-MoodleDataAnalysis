@@ -484,7 +484,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
 
 
     /**
-     * Scrapea la página del Grader Report de Moodle
+     * Scrapea la página del Grader Report de Moodle (entorno local)
      */
     private async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
         const url = getScrapeUrlGraderReport(courseId);
@@ -505,14 +505,12 @@ export class LocalDataExtractor extends AbstractDataExtractor {
         const colMeta = new Map<number, { type: ColType; activityId?: number }>();
         let finalItemId: number | null = null;
 
-        // El encabezado suele estar en tr.heading
         const headerRow =
             table.querySelector('tr.heading') ??
             table.querySelector('thead tr') ??
             null;
 
         if (headerRow) {
-            // Incluimos tanto 'item' (actividades) como 'courseitem' (total del curso)
             const ths = headerRow.querySelectorAll<HTMLTableCellElement>(
                 'th.item[data-itemid], th.courseitem[data-itemid]'
             );
@@ -520,7 +518,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 const itemId = Number(th.getAttribute('data-itemid'));
                 if (!Number.isFinite(itemId)) return;
 
-                // Course total
+                // Detectar "Course total"
                 const isCourseTotal =
                     th.classList.contains('courseitem') ||
                     th.querySelector('.gradeitemheader')?.textContent?.toLowerCase().includes('course total') ||
@@ -532,7 +530,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                     return;
                 }
 
-                // Actividades: mirar el enlace para detectar tipo y id
+                // Detectar tipo por href
                 const link = th.querySelector<HTMLAnchorElement>('a.gradeitemheader');
                 const href = link?.getAttribute('href') || '';
                 let type: ColType | null = null;
@@ -566,7 +564,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 if (!Number.isFinite(itemId)) return;
 
                 const meta = colMeta.get(itemId);
-                if (!meta) return; // columna que no nos interesa
+                if (!meta) return;
 
                 const raw = td.querySelector('.gradevalue')?.textContent?.trim() ?? '';
                 if (!raw || raw === '-') return;
@@ -574,8 +572,8 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 const val = parseFloat(raw.replace(',', '.'));
                 if (!Number.isFinite(val)) return;
 
-                // TODO: normalización local si procede
-                const normalized = this.normalizeLocal(val);
+                // --- Normalización según tipo ---
+                const normalized = this.normalizeLocalByType(val, meta.type);
 
                 if (meta.type === 'final') {
                     finalGradesByPid.set(pid, normalized);
@@ -608,13 +606,31 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     }
 
     /**
-     * Normaliza una nota del GR local (placeholder).
-     * Ahora mismo devuelve el valor tal cual para no interferir.
-     * Más adelante podremos inferir la escala o pasar a 0–10.
+     * Normaliza una nota según el tipo de actividad:
+     * - Workshop: escala 0–50 → 0–10
+     * - Assignment: escala 0–1 → 0–10
+     * - Final: escala ya en 0–10
      */
-    private normalizeLocal(value: number): number {
-        return value; // placeholder
+    private normalizeLocalByType(value: number, type: "workshop" | "assignment" | "final"): number {
+        let normalized: number;
+
+        switch (type) {
+            case "workshop":
+                normalized = (value / 50) * 10;
+                break;
+            case "assignment":
+                normalized = (value / 1) * 10;
+                break;
+            case "final":
+            default:
+                normalized = value;
+                break;
+        }
+
+        // Redondear a 2 decimales y clamp en [0, 10]
+        return Math.min(10, Math.max(0, Number(normalized.toFixed(2))));
     }
+
 
 
 
