@@ -8,7 +8,7 @@
  * @date 2025
  */
 
-import {AbstractDataExtractor, AnalysisProgress} from "./AbstractDataExtractor";
+import {AbstractDataExtractor, AnalysisProgress, GraderReportData} from "./AbstractDataExtractor";
 
 // Models
 import {Participant} from "../models/Participant";
@@ -17,7 +17,7 @@ import {Forum} from "../models/Forum";
 import {Choice} from "../models/Choice";
 import {Course} from "../models/Course";
 import {devlog} from "../utils/devlog";
-import {getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {getScrapeUrlGraderReport, getScrapeUrlQuiz} from "../utils/urlBuilder";
 import {
     normalizeGradeTo10,
     normalizeTimeToMillis,
@@ -348,6 +348,156 @@ export class ProdDataExtractor extends AbstractDataExtractor {
         }
     }
 
+    /**
+     * Scrapea la página del Grader Report (UMA)
+     */
+    private async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
+        const url = getScrapeUrlGraderReport(courseId);
+        const doc = await this.fetchAndParse(url.graderReport);
+
+        const table = doc.querySelector('table.gradereport-grader-table#user-grades');
+        if (!table) {
+            devlog.warn("grader_report", "table_not_found", {courseId});
+            return {
+                finalGradesByPid: new Map(),
+                workshopGradesByWid: new Map(),
+                assignmentGradesByAid: new Map(),
+            };
+        }
+
+        // --- 1) Mapear columnas por data-itemid ---
+        type ColType = "workshop" | "assignment" | "final";
+        const colMeta = new Map<number, { type: ColType; activityId?: number }>();
+        let finalItemId: number | null = null;
+
+        // En UMA, el header principal viene en <tr class="heading">
+        const headerRow =
+            table.querySelector('tr.heading') ??
+            table.querySelector('thead tr') ??
+            null;
+
+        if (headerRow) {
+            // Columns relevantes tienen data-itemid; incluye tanto actividades como el total de curso (courseitem)
+            const ths = headerRow.querySelectorAll<HTMLTableCellElement>('th[data-itemid]');
+            ths.forEach((th) => {
+                const itemId = Number(th.getAttribute('data-itemid'));
+                if (!Number.isFinite(itemId)) return;
+
+                // 1. Detectar "Course total" (nota final del curso)
+                const labelEl = th.querySelector('.gradeitemheader'); // puede ser <span> o <a>
+                const labelText = labelEl?.textContent?.trim().toLowerCase() ?? '';
+                const isCourseTotal =
+                    th.classList.contains('courseitem') ||
+                    labelText.includes('course total');
+
+                if (isCourseTotal) {
+                    colMeta.set(itemId, {type: "final"});
+                    finalItemId = itemId;
+                    return;
+                }
+
+                // 2. Detectar tipo de actividad por el href cuando exista
+                const link = th.querySelector<HTMLAnchorElement>('a.gradeitemheader');
+                const href = link?.getAttribute('href') || '';
+
+                let type: ColType | null = null;
+                if (href.includes('/mod/workshop/')) type = "workshop";
+                else if (href.includes('/mod/assign/')) type = "assignment";
+
+                // Extraer id de actividad si hay href
+                let activityId: number | undefined;
+                if (type && href) {
+                    const m = href.match(/id=(\d+)/);
+                    const idNum = Number(m?.[1] ?? NaN);
+                    if (Number.isFinite(idNum)) activityId = idNum;
+                }
+
+                // Registrar solo si pudimos inferir tipo (y, si aplica, activityId)
+                if (type) {
+                    colMeta.set(itemId, {type, activityId});
+                }
+            });
+        }
+
+        // --- 2) Estructuras de salida ---
+        const finalGradesByPid = new Map<number, number>();
+        const workshopGradesByWid = new Map<number, Map<number, number>>();
+        const assignmentGradesByAid = new Map<number, Map<number, number>>();
+        const finalGradesRaw: Array<{ pid: number; value: number }> = [];
+
+        // --- 3) Recorremos filas de usuarios ---
+        const rows = table.querySelectorAll<HTMLTableRowElement>('tbody tr.userrow');
+        rows.forEach((row) => {
+            const pid = Number(row.getAttribute('data-uid'));
+            if (!Number.isFinite(pid)) return;
+
+            // Celdas de nota: td.grade ... con data-itemid
+            const cells = row.querySelectorAll<HTMLTableCellElement>('td.grade[data-itemid]');
+            cells.forEach((td) => {
+                const itemId = Number(td.getAttribute('data-itemid'));
+                if (!Number.isFinite(itemId)) return;
+
+                const meta = colMeta.get(itemId);
+                if (!meta) return; // columna no interesada / no mapeada
+
+                // Valor de la celda
+                const gv = td.querySelector<HTMLElement>('.gradevalue');
+                const raw = gv?.textContent?.trim() ?? '';
+                // Ignorar "-" y notas “apagadas” (sin calificación)
+                if (!raw || raw === '-' || gv?.classList.contains('dimmed_text')) return;
+
+                // Convertir a número (admite coma decimal)
+                const parsed = parseFloat(raw.replace(',', '.'));
+                if (!Number.isFinite(parsed)) return;
+
+                // UMA parece usar escala sobre 10. Mantenemos normalización como hook.
+                const normalized = parsed;
+
+                if (meta.type === 'final') {
+                    // En lugar de guardar ya en el Map, acumulamos crudo
+                    finalGradesRaw.push({pid, value: normalized});
+                    return;
+                }
+
+                if (meta.type === 'workshop' && Number.isFinite(meta.activityId!)) {
+                    const wid = meta.activityId!;
+                    const byPid = workshopGradesByWid.get(wid) ?? new Map<number, number>();
+                    byPid.set(pid, normalized);
+                    workshopGradesByWid.set(wid, byPid);
+                    return;
+                }
+
+                if (meta.type === 'assignment' && Number.isFinite(meta.activityId!)) {
+                    const aid = meta.activityId!;
+                    const byPid = assignmentGradesByAid.get(aid) ?? new Map<number, number>();
+                    byPid.set(pid, normalized);
+                    assignmentGradesByAid.set(aid, byPid);
+                    return;
+                }
+            });
+        });
+
+        // --- Post-proceso de escala para la nota final ---
+        // Regla: si alguna nota final supera 10 de forma clara, asumimos escala 0–100 y convertimos a 0–10.
+        if (finalGradesRaw.length > 0) {
+            const maxFinal = Math.max(...finalGradesRaw.map(x => x.value));
+            const needsDivideBy10 = maxFinal > 10.0001 && maxFinal <= 100.0001;
+
+            for (const { pid, value } of finalGradesRaw) {
+                const normalizedTo10 = needsDivideBy10 ? value / 10 : value;
+                // Redondeo a dos decimales y clamp opcional a [0, 10]
+                const rounded = Math.min(10, Math.max(0, Number(normalizedTo10.toFixed(2))));
+                finalGradesByPid.set(pid, rounded);
+            }
+        }
+
+        return {
+            finalGradesByPid,
+            workshopGradesByWid,
+            assignmentGradesByAid,
+        };
+    }
+
 
     /**
      * Orchestrates the scraping of a full course, including its metadata
@@ -532,8 +682,19 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 }
             }
 
-            // IMPLEMENTAR UNA FUNCIÓN QUE SCRAPE LOS DATOS DE LA PÁGINA GRADER REPORT
-            // this.scrapeGraderReport(courseId, participants, workshops, assignments);
+            // 1) Recopilar datos crudos del Grader Report
+            try {
+                const graderData = await this.scrapeGraderReport(courseId);
+                this.enrichFromGraderReport({
+                    participants,
+                    workshops,
+                    assignments,
+                    graderData,
+                });
+            } catch (err) {
+                // Si falla el GR, no tiramos el scrape: lo registramos y seguimos con los datos base
+                devlog.warn("dataExtractor", "grader_report:skipped_or_failed", {error: String(err), courseId});
+            }
 
             const course: Course = {
                 id: parseInt(courseId, 10),

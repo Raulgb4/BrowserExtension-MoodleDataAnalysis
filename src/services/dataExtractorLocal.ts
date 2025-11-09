@@ -26,20 +26,10 @@ import {
     parseViewsAndUsers
 } from "./dataProcessor";
 import {Resource, URLResource} from "../models/ActivityBase";
-import {AbstractDataExtractor, AnalysisProgress} from "./AbstractDataExtractor";
+import {AbstractDataExtractor, AnalysisProgress, GraderReportData} from "./AbstractDataExtractor";
 import {getScrapeUrlGraderReport, getScrapeUrlQuiz} from "../utils/urlBuilder";
 import {Workshop} from "../models/Workshop";
-import {Assignment, AssignmentParticipantData} from "../models/Assignment";
-
-/**
- * Estructura base con los datos del Grader Report
- * (rellenaremos las Maps más adelante)
- */
-interface GraderReportData {
-    finalGradesByPid: Map<number, number>;
-    workshopGradesByWid: Map<number, Map<number, number>>;
-    assignmentGradesByAid: Map<number, Map<number, number>>;
-}
+import {Assignment} from "../models/Assignment";
 
 export class LocalDataExtractor extends AbstractDataExtractor {
 
@@ -496,9 +486,6 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     /**
      * Scrapea la página del Grader Report de Moodle
      */
-    /**
-     * Scrapea la página del Grader Report de Moodle
-     */
     private async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
         const url = getScrapeUrlGraderReport(courseId);
         const doc = await this.fetchAndParse(url.graderReport);
@@ -630,71 +617,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     }
 
 
-    /**
-     * Fusiona los datos del Grader Report con los ya scrapeados del curso.
-     */
-    private enrichFromGraderReport(args: {
-        participants: Participant[];
-        workshops: Workshop[];
-        assignments: Assignment[];
-        graderData: GraderReportData;
-    }): void {
-        const { participants, workshops, assignments, graderData } = args;
 
-        // Índices O(1) para lookup
-        const nameByPid = new Map<number, string>();
-        for (const p of participants) {
-            nameByPid.set(p.id, p.participantName ?? p.email ?? String(p.id));
-        }
-
-        // 1) Final grade por participante
-        if (graderData.finalGradesByPid?.size) {
-            for (const p of participants) {
-                const g = graderData.finalGradesByPid.get(p.id);
-                if (Number.isFinite(g as number)) {
-                    p.finalGrade = g as number;
-                }
-            }
-        }
-
-        // Helper genérico para volcar mapas (aid/wid -> (pid -> grade)) en participantStats[]
-        function fillParticipantStatsForActivities<T extends { id: number; participantStats?: AssignmentParticipantData[] }>(
-            activities: T[],
-            gradesByActivity: Map<number, Map<number, number>>
-        ) {
-            if (!gradesByActivity?.size || !activities?.length) return;
-
-            // Índice de actividad por id para no hacer .find() repetidos
-            const byId = new Map<number, T>();
-            for (const a of activities) byId.set(a.id, a);
-
-            for (const [activityId, gradesByPid] of gradesByActivity.entries()) {
-                const activity = byId.get(activityId);
-                if (!activity) continue;
-
-                const stats: AssignmentParticipantData[] = [];
-                for (const [pid, grade] of gradesByPid.entries()) {
-                    if (!Number.isFinite(grade)) continue;
-                    stats.push({
-                        participantId: pid,
-                        participantName: nameByPid.get(pid) ?? String(pid),
-                        grade,
-                    });
-                }
-
-                // Opcional: ordenar de mayor a menor (comenta si no lo quieres)
-                stats.sort((a, b) => (b.grade ?? 0) - (a.grade ?? 0));
-
-                activity.participantStats = stats;
-            }
-        }
-
-        // 2) Workshops → participantStats
-        fillParticipantStatsForActivities(workshops, graderData.workshopGradesByWid);
-
-        // 3) Assignments → participantStats
-        fillParticipantStatsForActivities(assignments, graderData.assignmentGradesByAid);
-    }
 
 
 
@@ -922,11 +845,7 @@ export class LocalDataExtractor extends AbstractDataExtractor {
 
             // 1) Recopilar datos crudos del Grader Report
             try {
-                progress?.setLabel("status.scraping_grader_report_collect");
                 const graderData = await this.scrapeGraderReport(courseId);
-
-                // 2) Fusionar sobre las listas existentes (mutación in-place simple)
-                progress?.setLabel("status.scraping_grader_report_merge");
                 this.enrichFromGraderReport({
                     participants,
                     workshops,

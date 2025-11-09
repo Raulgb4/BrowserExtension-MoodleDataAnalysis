@@ -29,6 +29,8 @@ import {
     getScrapeUrlForumReports,
     getScrapeUrlForumSubscriptions
 } from "../utils/urlBuilder";
+import {Assignment, AssignmentParticipantData} from "../models/Assignment";
+import {Workshop} from "../models/Workshop";
 
 /**
  * Progress tracker used during long-running scraping operations.
@@ -41,6 +43,18 @@ export type AnalysisProgress = {
     setLabel: (label: string) => void;
     complete: () => void;
 };
+
+/**
+ * Estructura base con los datos del Grader Report
+ * (rellenaremos las Maps más adelante)
+ */
+export interface GraderReportData {
+    finalGradesByPid: Map<number, number>;
+    workshopGradesByWid: Map<number, Map<number, number>>;
+    assignmentGradesByAid: Map<number, Map<number, number>>;
+}
+
+
 
 /**
  * Abstract base class for all data extractor implementations (prod/local).
@@ -395,6 +409,73 @@ export abstract class AbstractDataExtractor {
             devlog.error("dataExtractor", "scrapeForums:error", {error: String(error), durationMs: ms});
             return [];
         }
+    }
+
+
+    /**
+     * Fusiona los datos del Grader Report con los ya scrapeados del curso.
+     */
+    protected enrichFromGraderReport(args: {
+        participants: Participant[];
+        workshops: Workshop[];
+        assignments: Assignment[];
+        graderData: GraderReportData;
+    }): void {
+        const { participants, workshops, assignments, graderData } = args;
+
+        // Índices O(1) para lookup
+        const nameByPid = new Map<number, string>();
+        for (const p of participants) {
+            nameByPid.set(p.id, p.participantName ?? p.email ?? String(p.id));
+        }
+
+        // 1) Final grade por participante
+        if (graderData.finalGradesByPid?.size) {
+            for (const p of participants) {
+                const g = graderData.finalGradesByPid.get(p.id);
+                if (Number.isFinite(g as number)) {
+                    p.finalGrade = g as number;
+                }
+            }
+        }
+
+        // Helper genérico para volcar mapas (aid/wid -> (pid -> grade)) en participantStats[]
+        function fillParticipantStatsForActivities<T extends { id: number; participantStats?: AssignmentParticipantData[] }>(
+            activities: T[],
+            gradesByActivity: Map<number, Map<number, number>>
+        ) {
+            if (!gradesByActivity?.size || !activities?.length) return;
+
+            // Índice de actividad por id para no hacer .find() repetidos
+            const byId = new Map<number, T>();
+            for (const a of activities) byId.set(a.id, a);
+
+            for (const [activityId, gradesByPid] of gradesByActivity.entries()) {
+                const activity = byId.get(activityId);
+                if (!activity) continue;
+
+                const stats: AssignmentParticipantData[] = [];
+                for (const [pid, grade] of gradesByPid.entries()) {
+                    if (!Number.isFinite(grade)) continue;
+                    stats.push({
+                        participantId: pid,
+                        participantName: nameByPid.get(pid) ?? String(pid),
+                        grade,
+                    });
+                }
+
+                // Opcional: ordenar de mayor a menor (comenta si no lo quieres)
+                stats.sort((a, b) => (b.grade ?? 0) - (a.grade ?? 0));
+
+                activity.participantStats = stats;
+            }
+        }
+
+        // 2) Workshops → participantStats
+        fillParticipantStatsForActivities(workshops, graderData.workshopGradesByWid);
+
+        // 3) Assignments → participantStats
+        fillParticipantStatsForActivities(assignments, graderData.assignmentGradesByAid);
     }
 
     /**

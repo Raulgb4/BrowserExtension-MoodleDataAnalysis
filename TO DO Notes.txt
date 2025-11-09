@@ -18,77 +18,19 @@
    ** También vamos a obtener el dato "Nota final" del curso para cada alumno. Que puede servir para otra correlación
    en un futuro.
 
-    - Paso 1: Implementar la función scrapeGraderReport() en local y producción. Esta función debe añadir los datos
-    faltantes al modelo de Participants, Workshops y Assignments a partir del scrapeo de la página Grade Report.
-
-        - Paso 1.1: Scrapear datos de la tabla contenida en el GRADER REPORT. (Local y producción)
-              - Id estudiante - nombre estudiante - Nota final - Tipo actividad - Nombre - id actividad - nota
-                (esto para workshop y assignment)(Tener en cuenta normalizar sobre 10)
-
-
-    ** Prompt Paso 1:
-    Estoy trabajando en un archivo dataExtractorLocal.ts que contiene una función principal llamada
-    scrapeCourse(courseId), encargada de scrapear toda la información de un curso de Moodle.
-
-    Al final de esta función, quiero ejecutar una nueva función llamada
-    this.scrapeGraderReport(courseId, participants, workshops, assignments);
-    con el objetivo de rellenar datos adicionales que no puedo obtener durante el scrapeo inicial, ya que se
-    encuentran en otra página (el "Grader Report").
-
-    Los datos que quiero completar son:
-
-    - Para cada participante, su nota final.
-    - Para cada taller (workshop), la lista de participantes con su nota.
-    - Para cada tarea (assignment), la lista de participantes con su nota.
-
-    Mi idea es implementar una función que reciba esas listas (participants, workshops, assignments) como parámetros,
-    haga un nuevo scrapeo a la página del grader report, y luego enriquezca esas listas con la información
-    faltante antes de construir el objeto final course. Quiero saber si este enfoque es posible y cómo plantearlo
-    correctamente en TypeScript para mantener el código limpio, eficiente y testable.
-
-    Quiero que me expliques la propuesta con términos sencillos y de forma muy lenta, no me satures de información
-    ni de código desde el primer momento. Quiero que abordemos primero las posibles alternativas que tenemos para
-    dar solución al problema. Quiero soluciones sencillas y fáciles de implementar.
-
-    Modelo de datos de Participant:
-    export interface Participant {
-        id: number;
-        email: string;
-        participantName?: string;
-        roles?: string[];
-        groups?: string[];
-        lastAccessToCourse?: number;
-        registration?: string;
-        finalGrade?: number; --> Dato a enriquecer con el nuevo scrapeo.
-    }
-
-    Modelo de datos de Assignment (Para workshop igual pero cambiando Assignment por Workshop):
-    export interface AssignmentParticipantData {
-        participantId: number;
-        participantName: string;
-        grade: number;
-    }
-
-    export interface Assignment extends ActivityBase {
-
-        participantStats?: AssignmentParticipantData[];
-    }
-
-
-
-    - Paso 2: Implementar la gráfica de la correlación en CorrelationsTab.tsx
+    - Paso 1: Implementar la gráfica de la correlación en CorrelationsTab.tsx
       (Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y
       la nota media obtenida en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias Punto: Actividad evaluables.)
 
 
-    - Paso 3: Implementar la gráfica de esta correlación en CorrelationsTab.tsx
+    - Paso 2: Implementar la gráfica de esta correlación en CorrelationsTab.tsx
       (Correlación entre la participación (suma de los votos = visitas totales) en encuestas (Choice) y la nota media
       en talleres (Workshop). Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.)
 
 
-    - Paso 4: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
+    - Paso 3: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
 
-    - Paso 5: Mandar correo con la limitación técnica para el resto de correlaciones.
+    - Paso 4: Mandar correo con la limitación técnica para el resto de correlaciones.
 
 
    LIMITACIÓN TÉCNICA
