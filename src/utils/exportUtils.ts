@@ -50,51 +50,73 @@ export const formatDateForExport = (date: Date): string => {
     return `${y}-${m}-${d}_${h}-${min}`;
 };
 
-/**
- * @function exportToCSV
- * @description
- * Utility function to export chart data as a CSV file.
- * This function takes an array of labels and corresponding values,
- * builds a valid CSV string, and triggers a file download in the browser.
- *
- * It automatically generates a file with headers,
- * composes the rows from the label-value pairs, and handles the creation
- * and cleanup of a temporary anchor element for triggering the download.
- *
- * @param {string[]} labels - Array of category labels to include in the CSV.
- * @param {number[]} values - Array of numeric values corresponding to each label.
- * @param {string} [filename="export.csv"] - The desired filename for the exported CSV.
- *
- * @param headers
- * @returns {void} This function does not return anything; it triggers a download.
- */
+// Tipos auxiliares
+type CsvCell = string | number | null | undefined;
+type CsvRow = CsvCell[];
+
+// Overloads
 export function exportToCSV(
     labels: string[],
     values: number[],
-    filename: string = "export.csv",
-    headers: [string, string] = ["Category", "Value"]
+    filename?: string,
+    headers?: [string, string]
+): void;
+
+export function exportToCSV(options: {
+    rows: CsvRow[];
+    filename?: string;
+    headers?: string[];
+}): void;
+
+// Implementación única
+export function exportToCSV(
+    a: string[] | { rows: CsvRow[]; filename?: string; headers?: string[] },
+    b?: number[],
+    c?: string,
+    d?: [string, string]
 ): void {
-    const title = filename.replace(/\.[^/.]+$/, "");
-    const header = headers;
-    const rows = labels.map((label, i) => [label, values[i]]);
+    // Escape CSV
+    const escapeCell = (val: CsvCell): string => {
+        const s = val == null ? "" : String(val);
+        return /[",;\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
 
-    const csv = [
-        [title],
-        header,
-        ...rows
-    ]
-        .map((row) => row.join(","))
-        .join("\n");
+    let filename = "export.csv";
+    let headers: string[] = ["Category", "Value"];
+    let rows: CsvRow[] = [];
 
-    const blob = new Blob([csv], {type: "text/csv;charset=utf-8;"});
+    if (Array.isArray(a)) {
+        // MODO 1: retro-compatible (labels + values)
+        const labels = a;
+        const values = Array.isArray(b) ? b : [];
+        if (typeof c === "string") filename = c;
+        if (Array.isArray(d)) headers = d;
+
+        rows = labels.map((label, i) => [label, values[i]]);
+    } else {
+        // MODO 2: objeto opciones (correlaciones, 3+ columnas)
+        const opts = a;
+        rows = opts.rows ?? [];
+        if (typeof opts.filename === "string") filename = opts.filename;
+        if (Array.isArray(opts.headers)) headers = opts.headers;
+    }
+
+    if (!/\.csv$/i.test(filename)) filename = `${filename}.csv`;
+
+    const lines: string[] = [];
+    if (headers.length > 0) lines.push(headers.map(escapeCell).join(","));
+    for (const row of rows) lines.push(row.map(escapeCell).join(","));
+
+    const csv = lines.join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
-    const downloadLink = document.createElement("a");
-    downloadLink.href = url;
-    downloadLink.setAttribute("download", filename);
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 /**
@@ -208,13 +230,15 @@ export function exportToImage(
  * @param values - The values associated with each label.
  * @param filename - Desired filename for the exported PDF (default: "chart.pdf").
  * @param headers
+ * @param extra
  */
 export function exportToPDF(
     chartRef: RefObject<ChartJS | null>,
     labels: string[],
     values: number[],
     filename = "chart.pdf",
-    headers: [string, string] = ["Category", "Value"]
+    headers: [string, string] = ["Category", "Value"],
+    extra?: { rows?: CsvRow[]; headers?: string[] }
 ): void {
     const chart = chartRef.current;
     if (!chart) {
@@ -275,6 +299,7 @@ export function exportToPDF(
  * @param filename - Desired filename for the exported DOCX (default: "chart.docx").
  * @param headers - Tuple specifying the column headers for the table (default: ["Category", "Value"]).
  *
+ * @param extra
  * @returns A Promise that resolves when the file has been generated and saved.
  */
 export async function exportToDOCX(
@@ -282,7 +307,8 @@ export async function exportToDOCX(
     labels: string[],
     values: number[],
     filename = "chart.docx",
-    headers: [string, string] = ["Category", "Value"]
+    headers: [string, string] = ["Category", "Value"],
+    extra?: { rows?: CsvRow[]; headers?: string[] }
 ): Promise<void> {
     const chart = chartRef.current;
     if (!chart) {

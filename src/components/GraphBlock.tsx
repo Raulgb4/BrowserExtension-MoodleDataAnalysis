@@ -98,10 +98,77 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             ? (data.datasets[0].data as number[])
             : [];
 
-    /** Register this chart for "Export All" on mount; unregister on unmounting */
+
+
+
+
+
+    // === NUEVO: soporte de exportación para SCATTER (3 columnas) ===
+    const isScatter = chartType === "scatter";
+
+    // Intenta leer títulos de ejes si existen, para usarlos como cabeceras
+    const xAxisTitle =
+        (options as any)?.scales?.x?.title?.text ||
+        (data as any)?.options?.scales?.x?.title?.text ||
+        // fallback traducido genérico
+        (isScatter ? t("axis.x") : t("category"));
+
+    const yAxisTitle =
+        (options as any)?.scales?.y?.title?.text ||
+        (data as any)?.options?.scales?.y?.title?.text ||
+        (isScatter ? t("axis.y") : t("value"));
+
+    // Construye filas a partir de los datasets tipo scatter (ignora la recta de regresión)
+    const scatterRows: (string | number)[][] = useMemo(() => {
+        if (!isScatter || !Array.isArray(data?.datasets)) return [];
+
+        const rows: (string | number)[][] = [];
+        for (const ds of data.datasets as any[]) {
+            if (ds?.type !== "scatter" || !Array.isArray(ds?.data)) continue;
+            for (const p of ds.data) {
+                if (p && typeof p.x === "number" && typeof p.y === "number") {
+                    const label3 =
+                        p.studentName ??
+                        p.quizName ??
+                        p.label ??
+                        // si quieres, usa el label del dataset como 3ª columna por defecto
+                        ds?.label ??
+                        "";
+                    rows.push([p.x, p.y, label3]);
+                }
+            }
+        }
+        return rows;
+    }, [isScatter, data]);
+
+    // Cabeceras para 3 columnas; la tercera intenta inferirse del label del dataset principal
+    const scatterHeaders: string[] = useMemo(() => {
+        if (!isScatter) return [];
+        // Intenta detectar si el dataset principal representa "students", "quizzes", etc.
+        const mainScatter = (data?.datasets as any[])?.find((d) => d?.type === "scatter");
+        const dsLabel = (mainScatter?.label as string) || "";
+        let thirdCol = t("label");
+        if (/student/i.test(dsLabel)) thirdCol = t("legend.students");
+        else if (/quiz/i.test(dsLabel)) thirdCol = t("legend.quizzes");
+        // añade más heurísticas si quieres
+        return [String(xAxisTitle), String(yAxisTitle), thirdCol];
+    }, [isScatter, data, xAxisTitle, yAxisTitle, t]);
+
+    // ... (sigue igual: register/unregister, defaults, etc.)
+
+    // (Opcional) registra también rows + headers para "Export All" si tu contexto lo admite
     const exportable = useMemo(
-        () => ({chartRef, title, labels: exportLabels, values: exportValues}),
-        [title, exportLabels, exportValues]
+        () => ({
+            chartRef,
+            title,
+            labels: exportLabels,
+            values: exportValues,
+            // nuevos opcionales:
+            rows: scatterRows,
+            headers3: scatterHeaders,
+            chartType,
+        }),
+        [title, exportLabels, exportValues, scatterRows, scatterHeaders, chartType]
     );
 
     useEffect(() => {
@@ -258,53 +325,79 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
     return (
         <div className="mb-6 relative" role="region" aria-labelledby={sanitizedId}>
-            {/* Title and export buttons */}
+            {/* Title y botones */}
             <div className="mb-2 flex flex-col gap-2">
-                <p
-                    id={sanitizedId}
-                    className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
-                    bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full break-words text-left"
-                >
+                <p id={sanitizedId} className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
+           bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full break-words text-left">
                     {translatedTitle}
                 </p>
 
                 <div className="flex gap-2 flex-wrap justify-end">
+                    {/* CSV */}
                     <button
-                        onClick={() => exportToCSV(exportLabels, exportValues, baseFileName, headerLabels)}
+                        onClick={() => {
+                            if (isScatter && scatterRows.length > 0) {
+                                // NUEVO modo por filas
+                                exportToCSV({
+                                    rows: scatterRows,
+                                    filename: baseFileName,
+                                    headers: scatterHeaders,
+                                });
+                            } else {
+                                // Modo clásico 2 columnas
+                                exportToCSV(exportLabels, exportValues, baseFileName, headerLabels);
+                            }
+                        }}
                         title="Download CSV"
                         aria-label="Export chart as CSV"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                        hover:bg-orange-100 transition text-orange-600 text-xs"
+                       hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <DocumentArrowDownIcon className="w-4 h-4"/>
+                        <DocumentArrowDownIcon className="w-4 h-4" />
                         CSV
                     </button>
 
+                    {/* PDF */}
                     <button
-                        onClick={() =>
-                            exportToPDF(chartRef, exportLabels, exportValues, `${baseFileName}.pdf`,
-                                headerLabels)
-                        }
+                        onClick={() => {
+                            if (isScatter && scatterRows.length > 0) {
+                                // requiere el mismo patrón en exportToPDF (soporte de { rows, headers })
+                                exportToPDF(chartRef, [], [], `${baseFileName}.pdf`, headerLabels, {
+                                    rows: scatterRows,
+                                    headers: scatterHeaders,
+                                });
+                            } else {
+                                exportToPDF(chartRef, exportLabels, exportValues, `${baseFileName}.pdf`, headerLabels);
+                            }
+                        }}
                         title="Download PDF"
                         aria-label="Export chart as PDF"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                        hover:bg-orange-100 transition text-orange-600 text-xs"
+                       hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <ArrowDownTrayIcon className="w-4 h-4"/>
+                        <ArrowDownTrayIcon className="w-4 h-4" />
                         PDF
                     </button>
 
+                    {/* DOCX */}
                     <button
-                        onClick={() =>
-                            exportToDOCX(chartRef, exportLabels, exportValues, `${baseFileName}.docx`,
-                                headerLabels)
-                        }
+                        onClick={() => {
+                            if (isScatter && scatterRows.length > 0) {
+                                // requiere el mismo patrón en exportToDOCX (soporte de { rows, headers })
+                                exportToDOCX(chartRef, [], [], `${baseFileName}.docx`, headerLabels, {
+                                    rows: scatterRows,
+                                    headers: scatterHeaders,
+                                });
+                            } else {
+                                exportToDOCX(chartRef, exportLabels, exportValues, `${baseFileName}.docx`, headerLabels);
+                            }
+                        }}
                         title="Download DOCX"
                         aria-label="Export chart as DOCX"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                        hover:bg-orange-100 transition text-orange-600 text-xs"
+                       hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <DocumentTextIcon className="w-4 h-4"/>
+                        <DocumentTextIcon className="w-4 h-4" />
                         DOCX
                     </button>
 
@@ -315,9 +408,9 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                             title={`Download ${format.toUpperCase()}`}
                             aria-label={`Export chart as ${format.toUpperCase()}`}
                             className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                             hover:bg-orange-100 transition text-orange-600 text-xs"
+                         hover:bg-orange-100 transition text-orange-600 text-xs"
                         >
-                            <PhotoIcon className="w-4 h-4"/>
+                            <PhotoIcon className="w-4 h-4" />
                             {format.toUpperCase()}
                         </button>
                     ))}
@@ -326,10 +419,9 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
             {/* Chart */}
             <div ref={containerRef} className={`${chartWidthClass} mx-auto max-w-full`}>
-                <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
+                <ChartWithRef ref={chartRef} data={data} options={mergedOptions} />
             </div>
 
-            {/* Optional children (filters or controls) */}
             {children && (
                 <div className="my-3 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
                     {children}

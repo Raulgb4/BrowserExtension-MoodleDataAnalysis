@@ -6,10 +6,7 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-    - Paso 1: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
-
-    - Paso 2: Mandar correo con la limitación técnica para el resto de correlaciones.
-
+   Mandar correo con gráficas conseguidas y con la limitación técnica para el resto de correlaciones
 
    LIMITACIÓN TÉCNICA
    ------------------
