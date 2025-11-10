@@ -19,7 +19,7 @@ import React, {useEffect, useMemo, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {useTranslation} from "react-i18next";
-import {Participant} from "../../models/Participant";
+import {ActivityType, Participant} from "../../models/Participant";
 import {buildForumParticipationPct, buildQuizAvgGradeMap} from "../../utils/dataAggregation";
 import {
     buildCorrelationPoints,
@@ -38,7 +38,14 @@ const CorrelationsTab: React.FC = () => {
     const [quizAvgGrade, setQuizAvgGrade] = useState<Record<string, number>>({});
     const [participants, setParticipants] = useState<Participant[]>([]);
 
-    const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<Array<{ x: number; y: number; label: string }>>([]);
+    const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<Array<{
+        x: number;
+        y: number;
+        label: string
+    }>>([]);
+    const [evaluableViewsVsAvgPoints, setEvaluableViewsVsAvgPoints] = useState<
+        Array<{ x: number; y: number; label: string; activityType: ActivityType }>
+    >([]);
 
     // Derive once, reuse everywhere --------------------------------------------
     // Map for quick lookups by participant id (pid)
@@ -102,16 +109,13 @@ const CorrelationsTab: React.FC = () => {
 
                 if (grades.length > 0) {
                     const y = grades.reduce((a: number, b: number) => a + b, 0) / grades.length;
-                    points.push({ x, y, label });
+                    points.push({x, y, label});
                 }
             }
 
             setQuizViewsVsAvgPoints(points);
         });
     }, []);
-
-
-
 
     useEffect(() => {
         // Small helper to keep the effect body minimal
@@ -138,7 +142,6 @@ const CorrelationsTab: React.FC = () => {
         void loadCourseData();
     }, []);
 
-
     useEffect(() => {
         // Load forum participation from local storage and normalize to %
         chrome.storage.local.get(null, (result) => {
@@ -154,7 +157,6 @@ const CorrelationsTab: React.FC = () => {
         });
     }, []);
 
-
     useEffect(() => {
         // Load average quiz grades from local storage
         chrome.storage.local.get(null, (result) => {
@@ -169,6 +171,112 @@ const CorrelationsTab: React.FC = () => {
         });
     }, []);
 
+    useEffect(() => {
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
+            if (!courseKey) return;
+
+            const course = result[courseKey] ?? {};
+
+            // Listas seguras
+            const quizzes: any[] = Array.isArray(course?.quizzes) ? course.quizzes : [];
+            const workshops: any[] = Array.isArray(course?.workshops) ? course.workshops : [];
+            const assignments: any[] = Array.isArray(course?.assignments) ? course.assignments : [];
+
+            // Helper: nombre legible
+            const getName = (a: any, fallbackPrefix: string) =>
+                a?.name?.trim?.() ||
+                a?.title?.trim?.() ||
+                a?.activityName?.trim?.() ||
+                `${fallbackPrefix} ${a?.id ?? ""}`;
+
+            // Helper: visitas totales (preferir ActivityBase.numViews)
+            const getTotalViews = (a: any): number => {
+                if (typeof a?.numViews === "number") return a.numViews;
+                const stats = Array.isArray(a?.participantStats) ? a.participantStats : [];
+                // fallback por si algún modelo trae numViews por participante
+                const sum = stats.reduce(
+                    (acc: number, p: any) => acc + (typeof p?.numViews === "number" ? p.numViews : 0),
+                    0
+                );
+                return sum > 0 ? sum : 0;
+            };
+
+            // Helper: nota media normalizada (0–10)
+            // - Quizzes: usar participantStats[].normalizedGrade
+            // - Workshops/Assignments: usar participantStats[].grade (ya viene 0–10)
+            const getAvgNormalizedGrade = (a: any): number | null => {
+                const stats = Array.isArray(a?.participantStats) ? a.participantStats : [];
+                if (stats.length === 0) return null;
+
+                // 1) Intentar con normalizedGrade (quizzes)
+                const normVals: number[] = stats
+                    .map((p: any) => (typeof p?.normalizedGrade === "number" ? p.normalizedGrade : NaN))
+                    .filter((v: number) => Number.isFinite(v));
+
+                if (normVals.length > 0) {
+                    const sumNorm = normVals.reduce((s: number, v: number) => s + v, 0);
+                    const avgNorm = sumNorm / normVals.length;
+                    return Math.max(0, Math.min(10, avgNorm));
+                }
+
+                // 2) Si no hay normalizedGrade, usar grade (workshops/assignments ya 0–10)
+                const gradesNum: number[] = stats
+                    .map((p: any) => (typeof p?.grade === "number" ? p.grade : NaN))
+                    .filter((v: number) => Number.isFinite(v));
+
+                if (gradesNum.length === 0) return null;
+
+                const sumGrades = gradesNum.reduce((s: number, v: number) => s + v, 0);
+                const avgRaw = sumGrades / gradesNum.length;
+                return Math.max(0, Math.min(10, avgRaw));
+            };
+
+
+            const points: Array<{ x: number; y: number; label: string; activityType: ActivityType }> = [];
+
+            // Quizzes
+            for (const q of quizzes) {
+                const y = getAvgNormalizedGrade(q);
+                if (y == null) continue;
+                const x = getTotalViews(q);
+                points.push({
+                    x,
+                    y,
+                    label: getName(q, "Quiz"),
+                    activityType: ActivityType.Quiz,
+                });
+            }
+
+            // Workshops
+            for (const w of workshops) {
+                const y = getAvgNormalizedGrade(w);
+                if (y == null) continue;
+                const x = getTotalViews(w);
+                points.push({
+                    x,
+                    y,
+                    label: getName(w, "Workshop"),
+                    activityType: ActivityType.Workshop,
+                });
+            }
+
+            // Assignments
+            for (const a of assignments) {
+                const y = getAvgNormalizedGrade(a);
+                if (y == null) continue;
+                const x = getTotalViews(a);
+                points.push({
+                    x,
+                    y,
+                    label: getName(a, "Assignment"),
+                    activityType: ActivityType.Assignment,
+                });
+            }
+
+            setEvaluableViewsVsAvgPoints(points);
+        });
+    }, []);
 
     // Axis: compute a "nice" 0..100% X scale based on current points.
     const {min: minXAxis, max: maxXAxis, stepSize} = useMemo(() => {
@@ -191,11 +299,11 @@ const CorrelationsTab: React.FC = () => {
         });
     }, [t, strengthKey, directionKey]);
 
-    const { min: minQuizX, max: maxQuizX, stepSize: stepQuizX } = useMemo(() => {
+    const {min: minQuizX, max: maxQuizX, stepSize: stepQuizX} = useMemo(() => {
         // Si tu computeXAxisBounds soporta omitir el 2º parámetro, úsalo así:
         // return computeXAxisBounds(quizViewsVsAvgPoints);
         // Si no, calculamos unos márgenes "agradables":
-        if (quizViewsVsAvgPoints.length === 0) return { min: 0, max: 1, stepSize: 1 };
+        if (quizViewsVsAvgPoints.length === 0) return {min: 0, max: 1, stepSize: 1};
         const xs = quizViewsVsAvgPoints.map(p => p.x);
         const rawMin = Math.min(...xs);
         const rawMax = Math.max(...xs);
@@ -204,19 +312,63 @@ const CorrelationsTab: React.FC = () => {
         const max = rawMax + pad;
         // paso aproximado en 5-6 ticks
         const stepSize = Math.max(1, Math.round((max - min) / 6));
-        return { min, max, stepSize };
+        return {min, max, stepSize};
     }, [quizViewsVsAvgPoints]);
 
-    const { a: aQuiz, b: bQuiz, r: rQuiz, r2: r2Quiz } = useMemo(
+    const {
+        min: minEvaluableX,
+        max: maxEvaluableX,
+        stepSize: stepEvaluableX,
+    } = useMemo(() => {
+        if (evaluableViewsVsAvgPoints.length === 0) {
+            return { min: 0, max: 1, stepSize: 1 };
+        }
+        const xs = evaluableViewsVsAvgPoints.map((p) => p.x);
+        const rawMin = Math.min(...xs);
+        const rawMax = Math.max(...xs);
+        const pad = Math.max(1, Math.round((rawMax - rawMin) * 0.05));
+        const min = Math.max(0, rawMin - pad);
+        const max = rawMax + pad;
+        const stepSize = Math.max(1, Math.round((max - min) / 6));
+        return { min, max, stepSize };
+    }, [evaluableViewsVsAvgPoints]);
+
+
+    const {a: aQuiz, b: bQuiz, r: rQuiz, r2: r2Quiz} = useMemo(
         () => leastSquares(quizViewsVsAvgPoints),
         [quizViewsVsAvgPoints]
     );
 
     const quizCorrText = useMemo(() => {
-        const { strengthKey, directionKey } = classifyCorrelation(rQuiz);
-        return t("note.corr.template", { strength: t(strengthKey), direction: t(directionKey) });
+        const {strengthKey, directionKey} = classifyCorrelation(rQuiz);
+        return t("note.corr.template", {strength: t(strengthKey), direction: t(directionKey)});
     }, [rQuiz, t]);
 
+    const { a: aEval, b: bEval, r: rEval, r2: r2Eval } = useMemo(
+        () => leastSquares(evaluableViewsVsAvgPoints),
+        [evaluableViewsVsAvgPoints]
+    );
+
+    const evaluableCorrText = useMemo(() => {
+        const { strengthKey, directionKey } = classifyCorrelation(rEval);
+        return t("note.corr.template", {
+            strength: t(strengthKey),
+            direction: t(directionKey),
+        });
+    }, [rEval, t]);
+
+    const quizPoints = useMemo(
+        () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Quiz),
+        [evaluableViewsVsAvgPoints]
+    );
+    const workshopPoints = useMemo(
+        () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Workshop),
+        [evaluableViewsVsAvgPoints]
+    );
+    const assignmentPoints = useMemo(
+        () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Assignment),
+        [evaluableViewsVsAvgPoints]
+    );
 
 
     return (
@@ -327,8 +479,6 @@ const CorrelationsTab: React.FC = () => {
             )}
 
 
-
-
             {/* Scatter: quiz total views (X) vs average quiz grade (Y) */}
             {quizViewsVsAvgPoints.length >= 2 ? (
                 <GraphBlock
@@ -355,8 +505,8 @@ const CorrelationsTab: React.FC = () => {
                                 type: "line",
                                 label: t("chart.regression_line"),
                                 data: [
-                                    { x: minQuizX, y: regressionY(aQuiz, bQuiz, minQuizX) },
-                                    { x: maxQuizX, y: regressionY(aQuiz, bQuiz, maxQuizX) },
+                                    {x: minQuizX, y: regressionY(aQuiz, bQuiz, minQuizX)},
+                                    {x: maxQuizX, y: regressionY(aQuiz, bQuiz, maxQuizX)},
                                 ],
                                 pointRadius: 0,
                                 borderWidth: 2,
@@ -372,17 +522,17 @@ const CorrelationsTab: React.FC = () => {
                         maintainAspectRatio: false,
                         scales: {
                             x: {
-                                title: { display: true, text: t("axis.quiz_total_views") },
-                                min: minQuizX,
-                                max: maxQuizX,
+                                title: {display: true, text: t("axis.quiz_total_views")}, // <- QUIZ, no evaluable
+                                min: minQuizX,         // <- QUIZ bounds
+                                max: maxQuizX,         // <- QUIZ bounds
                                 ticks: {
-                                    stepSize: stepQuizX,
-                                    precision: 0, // fuerza valores enteros
-                                    callback: (value) => Math.round(value as number).toString(), // evita decimales en etiquetas
+                                    stepSize: stepQuizX, // <- QUIZ step
+                                    precision: 0,
+                                    callback: (value) => Math.round(value as number).toString(),
                                 },
                             },
                             y: {
-                                title: { display: true, text: t("axis.quiz_grade_0_10") },
+                                title: {display: true, text: t("axis.quiz_grade_0_10")}, // <- QUIZ label
                                 min: 0,
                                 max: 10,
                             },
@@ -408,22 +558,151 @@ const CorrelationsTab: React.FC = () => {
                     <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
                         <li>
                             <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", { slope: bQuiz.toFixed(3) })}
+                            {t("note.slope_explainer", {slope: bQuiz.toFixed(3)})}
                         </li>
                         <li>
                             <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", { r: rQuiz.toFixed(3), corr: quizCorrText })}
+                            {t("note.r_explainer", {r: rQuiz.toFixed(3), corr: quizCorrText})}
                         </li>
                         <li>
                             <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", { pct: (r2Quiz * 100).toFixed(1) })}
+                            {t("note.r2_explainer", {pct: (r2Quiz * 100).toFixed(1)})}
                         </li>
                     </ul>
                 </GraphBlock>
             ) : null}
 
 
+            {/* Scatter: evaluables total views (X) vs average grade (Y) */}
+            {evaluableViewsVsAvgPoints.length >= 2 ? (
+                <GraphBlock
+                    title={t("chart.predictive.evaluable_views_vs_avg_grade")}
+                    chartType="scatter"
+                    data={{
+                        datasets: [
+                            // Quizzes (morado)
+                            {
+                                type: "scatter",
+                                label: t("legend.quizzes"),
+                                data: quizPoints.map(p => ({ x: p.x, y: p.y, activityName: p.label, activityType: p.activityType })),
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(156,39,176,0.6)",
+                                pointBorderColor: "rgba(156,39,176,1)",
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: "rgba(156,39,176,1)",
+                                pointHoverBorderColor: "rgba(156,39,176,1)",
+                            },
+                            // Workshops (verde/teal)
+                            {
+                                type: "scatter",
+                                label: t("legend.workshops"),
+                                data: workshopPoints.map(p => ({ x: p.x, y: p.y, activityName: p.label, activityType: p.activityType })),
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(0,150,136,0.6)",
+                                pointBorderColor: "rgba(0,150,136,1)",
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: "rgba(0,150,136,1)",
+                                pointHoverBorderColor: "rgba(0,150,136,1)",
+                            },
+                            // Assignments (azul)
+                            {
+                                type: "scatter",
+                                label: t("legend.assignments"),
+                                data: assignmentPoints.map(p => ({ x: p.x, y: p.y, activityName: p.label, activityType: p.activityType })),
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(33,150,243,0.6)",
+                                pointBorderColor: "rgba(33,150,243,1)",
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: "rgba(33,150,243,1)",
+                                pointHoverBorderColor: "rgba(33,150,243,1)",
+                            },
+                            // Recta de regresión (sobre todos los puntos)
+                            {
+                                type: "line",
+                                label: t("chart.regression_line"),
+                                data: [
+                                    { x: minEvaluableX, y: regressionY(aEval, bEval, minEvaluableX) },
+                                    { x: maxEvaluableX, y: regressionY(aEval, bEval, maxEvaluableX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(249,128,18,1)",     // mismo naranja
+                                backgroundColor: "rgba(249,128,18,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+                        ]
+                    }}
 
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {display: true, text: t("axis.evaluable_total_views")}, // NUEVA clave i18n
+                                min: minEvaluableX,
+                                max: maxEvaluableX,
+                                ticks: {
+                                    stepSize: stepEvaluableX,
+                                    precision: 0,
+                                    callback: (value) => Math.round(value as number).toString(),
+                                },
+                            },
+                            y: {
+                                title: {display: true, text: t("axis.evaluable_avg_grade_0_10")}, // NUEVA clave i18n
+                                min: 0,
+                                max: 10,
+                            },
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    title: (items) => {
+                                        const raw = items?.[0]?.raw as any;
+                                        const name = raw?.activityName ?? t("legend.activities");
+                                        const type = raw?.activityType ? ` (${raw.activityType})` : "";
+                                        return name + type;
+                                    },
+                                    label: (ctx) => {
+                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x;
+                                        const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y;
+                                        return `${t("axis.evaluable_total_views")}: ${x} · ${t("axis.evaluable_avg_grade_0_10")}: ${y}/10`;
+                                    },
+                                },
+                            },
+                        },
+                    }}
+                >
+                    {/* Resumen de correlación (mismo esquema que el primero) */}
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                        <li>
+                            <span className="font-semibold">{t("note.slope_title")}: </span>
+                            {/* La pendiente es 'a' */}
+                            {t("note.slope_explainer", {slope: aEval.toFixed(3)})}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r_title")}: </span>
+                            {/* Si ya tienes un texto cualitativo (e.g., evaluableCorrText), úsalo aquí;
+            si no, mostramos el valor numérico con 3 decimales */}
+                            {t("note.r_explainer", {
+                                r: rEval.toFixed(3),
+                                corr: (typeof evaluableCorrText === "string" ? evaluableCorrText : rEval.toFixed(3))
+                            })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r2_title")}: </span>
+                            {t("note.r2_explainer", {pct: (r2Eval * 100).toFixed(1)})}
+                        </li>
+                    </ul>
+                </GraphBlock>
+            ) : (
+                <div
+                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md min-h-[300px] flex items-center justify-center">
+                    <p className="text-base text-orange-600 font-semibold">
+                        {t("note.not_enough_points")}
+                    </p>
+                </div>
+            )}
 
 
         </div>

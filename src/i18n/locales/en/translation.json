@@ -13,7 +13,7 @@
     "scraping_course_main": "Scraping course data…",
     "scraping_url": "Scraping links…",
     "scraping_workshop": "Scraping workshops…",
-    "scraping_assign": "Scraping assignments…",
+    "scraping_assignment": "Scraping assignments…",
     "scraping_resource": "Scraping resources…",
     "scraping_choice": "Scraping choices…",
     "scraping_quiz": "Scraping quizzes…",
@@ -64,7 +64,8 @@
     "other_top_n": "{{name}} - Top {{count}} activities",
     "predictive": {
       "participation_vs_grade": "Correlation between Forum Participation and Quiz Scores",
-      "quiz_views_vs_grade": "Correlation between total number of visits and average quiz grade"
+      "quiz_views_vs_grade": "Correlation between total number of visits and average quiz grade",
+      "evaluable_views_vs_avg_grade": "Correlation between the total number of visits to all graded activities and the average grade obtained"
     },
     "regression_line": "Regression line"
   },
@@ -87,7 +88,10 @@
     "participation_percentage": "Participation (%)",
     "subscriptions": "Subscriptions",
     "students": "Students",
-    "quizzes": "Quizzes"
+    "quizzes": "Quizzes",
+    "activities": "Evaluable activities",
+    "workshops": "Workshops",
+    "assignments": "Assignments"
   },
   "filter": {
     "by_role": "Filter by role:",
@@ -153,7 +157,9 @@
   "axis": {
     "forum_participation_percent": "Percentage of total forum activity (course-wide) (%)",
     "quiz_grade_0_10": "Average quiz grade (0-10)",
-    "quiz_total_views": "Total visits of all course quizzes"
+    "quiz_total_views": "Total visits of all course quizzes",
+    "evaluable_total_views": "Total visits (graded activities)",
+    "evaluable_avg_grade_0_10": "Average grade (0–10)"
   },
   "state": {
     "no_predictive_data": "Not enough data available to calculate and display the correlation graph"

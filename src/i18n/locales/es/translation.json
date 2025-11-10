@@ -13,7 +13,7 @@
     "scraping_course_main": "Extrayendo datos del curso…",
     "scraping_url": "Extrayendo enlaces…",
     "scraping_workshop": "Extrayendo talleres…",
-    "scraping_assign": "Extrayendo tareas…",
+    "scraping_assignment": "Extrayendo tareas…",
     "scraping_resource": "Extrayendo recursos…",
     "scraping_choice": "Extrayendo encuestas…",
     "scraping_quiz": "Extrayendo cuestionarios…",
@@ -64,7 +64,8 @@
     "other_top_n": "{{name}} - Top {{count}} actividades",
     "predictive": {
       "participation_vs_grade": "Correlación entre participación en foros y calificación en cuestionarios",
-      "quiz_views_vs_grade": "Correlación entre el número total de visitas y la calificación media en cuestionarios"
+      "quiz_views_vs_grade": "Correlación entre el número total de visitas y la calificación media en cuestionarios",
+      "evaluable_views_vs_avg_grade": "Correlación entre el número total de visitas de todas las actividades evaluables y la calificación media obtenida"
     },
     "regression_line": "Línea de regresión"
   },
@@ -87,7 +88,10 @@
     "participation_percentage": "Participación (%)",
     "subscriptions": "Suscripciones",
     "students": "Estudiantes",
-    "quizzes": "Cuestionarios"
+    "quizzes": "Cuestionarios",
+    "activities": "Actividades evaluables",
+    "workshops": "Talleres",
+    "assignments": "Tareas"
   },
   "filter": {
     "by_role": "Filtrar por rol:",
@@ -152,7 +156,9 @@
   "axis": {
     "forum_participation_percent": "Porcentaje del total de actividad en todos los foros del curso (%)",
     "quiz_grade_0_10": "Nota media de todos los cuestionarios del curso",
-    "quiz_total_views": "Visitas de todos los cuestionarios del curso"
+    "quiz_total_views": "Visitas de todos los cuestionarios del curso",
+    "evaluable_total_views": "Visitas totales (actividades evaluables)",
+    "evaluable_avg_grade_0_10": "Nota media (0–10)"
   },
   "state": {
     "no_predictive_data": "No hay datos suficientes para calcular y mostrar la gráfica de correlación"

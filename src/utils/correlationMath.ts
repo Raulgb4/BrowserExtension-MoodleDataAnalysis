@@ -48,6 +48,53 @@ export function average(arr: number[]): number {
     return s / arr.length;
 }
 
+// Convierte a número admitiendo comas, símbolos y basura tipo "8,5", "7/10", "9.0 pts", "85%"
+function toNumberSafe(v: unknown): number {
+    if (typeof v === "number") return v;
+    if (typeof v === "string") {
+        // Normaliza coma decimal y elimina lo que no sea dígito, punto o signo
+        const cleaned = v
+            .replace(",", ".")
+            .replace(/[^0-9.\-]+/g, ""); // quita %, "pts", etc.
+        const n = parseFloat(cleaned);
+        return Number.isFinite(n) ? n : NaN;
+    }
+    return NaN;
+}
+
+// Media segura (ignora no numéricos, NaN, etc.)
+export function safeMean(xs: Array<number | undefined | null>): number | undefined {
+    const nums = xs.map(Number).filter((v) => Number.isFinite(v)) as number[];
+    if (!nums.length) return undefined;
+    return nums.reduce((a, b) => a + b, 0) / nums.length;
+}
+
+// Calcula media 0–10 desde participantStats con fallback de clave: primero normalizedGrade, luego grade.
+export function avgFromStats(
+    stats: any[] | undefined,
+    gradeKeys: Array<"normalizedGrade" | "grade"> = ["normalizedGrade", "grade"]
+): number | undefined {
+    if (!Array.isArray(stats) || !stats.length) return undefined;
+
+    const vals: number[] = [];
+    for (const s of stats) {
+        let raw: number = NaN;
+        for (const key of gradeKeys) {
+            const candidate = toNumberSafe((s as any)?.[key]);
+            if (Number.isFinite(candidate)) {
+                raw = candidate;
+                break; // usamos la primera clave válida encontrada
+            }
+        }
+        if (Number.isFinite(raw)) {
+            vals.push(Math.max(0, Math.min(10, raw))); // clamp 0–10 por seguridad
+        }
+    }
+
+    return safeMean(vals);
+}
+
+
 // --- Linear regression (least squares) ---------------------------------------
 
 /**
@@ -57,18 +104,19 @@ export function average(arr: number[]): number {
  */
 export function leastSquares(pts: XYPoint[]) {
     const n = pts.length;
-    if (n < 2) return { a: 0, b: 0, r: 0, r2: 0 };
+    if (n < 2) return {a: 0, b: 0, r: 0, r2: 0};
 
     let sx = 0, sy = 0, sxy = 0, sxx = 0, syy = 0;
     for (let i = 0; i < n; i++) {
-        const { x, y } = pts[i];
-        sx += x; sy += y;
+        const {x, y} = pts[i];
+        sx += x;
+        sy += y;
         sxy += x * y;
         sxx += x * x;
         syy += y * y;
     }
 
-    const cov  = sxy - (sx * sy) / n;
+    const cov = sxy - (sx * sy) / n;
     const varx = sxx - (sx * sx) / n;
     const vary = syy - (sy * sy) / n;
 
@@ -76,7 +124,7 @@ export function leastSquares(pts: XYPoint[]) {
     const a = sy / n - b * (sx / n);
     const r = (varx === 0 || vary === 0) ? 0 : cov / Math.sqrt(varx * vary);
 
-    return { a, b, r, r2: r * r };
+    return {a, b, r, r2: r * r};
 }
 
 /**
@@ -100,7 +148,7 @@ export function computeXAxisBounds(
     points: Array<{ x: number }>,
     maxPercent = 100
 ): { min: number; max: number; stepSize: number } {
-    if (!points.length) return { min: 0, max: 10, stepSize: 2 };
+    if (!points.length) return {min: 0, max: 10, stepSize: 2};
 
     let maxX = 0;
     for (let i = 0; i < points.length; i++) {
@@ -124,7 +172,7 @@ export function computeXAxisBounds(
             upperBound <= 20 ? 2 :
                 upperBound <= 50 ? 5 : 10;
 
-    return { min: 0, max: upperBound, stepSize };
+    return {min: 0, max: upperBound, stepSize};
 }
 
 export function buildCorrelationPoints(
@@ -138,7 +186,7 @@ export function buildCorrelationPoints(
         const y = metricY[pid];
         if (x == null || y == null) continue;
         if (!participantsById.get(pid)) continue;
-        rows.push({ pid, x, y });
+        rows.push({pid, x, y});
     }
     return rows;
 }
@@ -160,5 +208,5 @@ export function classifyCorrelation(r: number): { strengthKey: string; direction
                             "note.corr.very_strong";
 
     const directionKey = r >= 0 ? "note.corr.positive" : "note.corr.negative";
-    return { strengthKey, directionKey };
+    return {strengthKey, directionKey};
 }
