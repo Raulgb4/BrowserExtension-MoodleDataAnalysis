@@ -47,6 +47,11 @@ const CorrelationsTab: React.FC = () => {
         Array<{ x: number; y: number; label: string; activityType: ActivityType }>
     >([]);
 
+    // Choice votes (X) vs Workshop avg grade (Y)
+    const [choiceWorkshopPoints, setChoiceWorkshopPoints] = useState<
+        Array<{ x: number; y: number; choiceName: string; workshopName: string }>
+    >([]);
+
     // Derive once, reuse everywhere --------------------------------------------
     // Map for quick lookups by participant id (pid)
     //   "123" => { id: "123", participantName: "Ana Pérez", role: "student" },
@@ -278,6 +283,60 @@ const CorrelationsTab: React.FC = () => {
         });
     }, []);
 
+    useEffect(() => {
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
+            if (!courseKey) return;
+
+            const course = result[courseKey] ?? {};
+            const choices: any[] = Array.isArray(course?.choices) ? course.choices : [];
+            const workshops: any[] = Array.isArray(course?.workshops) ? course.workshops : [];
+
+            const getName = (a: any, fallback: string) =>
+                a?.activityName?.trim?.() || a?.name?.trim?.() || a?.title?.trim?.() || `${fallback} ${a?.id ?? ""}`;
+
+            const getTotalVotesFromChoice = (c: any): number => {
+                const rc = c?.responseCounts && typeof c.responseCounts === "object" ? c.responseCounts : {};
+                const values = Object.values(rc) as number[];
+                return values.reduce((acc: number, v: number) => acc + (Number.isFinite(v) ? v : 0), 0);
+            };
+
+            const getWorkshopAvgGrade = (w: any): number | null => {
+                const stats = Array.isArray(w?.participantStats) ? w.participantStats : [];
+                if (stats.length === 0) return null;
+                const grades: number[] = stats
+                    .map((s: any) => (typeof s?.grade === "number" ? s.grade : NaN))
+                    .filter((v: number) => Number.isFinite(v));
+                if (grades.length === 0) return null;
+                const sum = grades.reduce((s: number, v: number) => s + v, 0);
+                const avg = sum / grades.length; // ya viene 0–10
+                return Math.max(0, Math.min(10, avg));
+            };
+
+            // Emparejamos por índice (Choice[i] ↔ Workshop[i]) como criterio determinista simple
+            const minLen = Math.min(choices.length, workshops.length);
+            const pts: Array<{ x: number; y: number; choiceName: string; workshopName: string }> = [];
+
+            for (let i = 0; i < minLen; i++) {
+                const c = choices[i];
+                const w = workshops[i];
+                const x = getTotalVotesFromChoice(c);
+                const y = getWorkshopAvgGrade(w);
+                if (y == null) continue;
+
+                pts.push({
+                    x,
+                    y,
+                    choiceName: getName(c, "Choice"),
+                    workshopName: getName(w, "Workshop"),
+                });
+            }
+
+            setChoiceWorkshopPoints(pts);
+        });
+    }, []);
+
+
     // Axis: compute a "nice" 0..100% X scale based on current points.
     const {min: minXAxis, max: maxXAxis, stepSize} = useMemo(() => {
         // keeps labels tidy as data scales
@@ -369,6 +428,35 @@ const CorrelationsTab: React.FC = () => {
         () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Assignment),
         [evaluableViewsVsAvgPoints]
     );
+
+    // Bounds X para Choice ↔ Workshop (mismo patrón que quiz/evaluable)
+    const { min: minCWX, max: maxCWX, stepSize: stepCWX } = useMemo(() => {
+        if (choiceWorkshopPoints.length === 0) return { min: 0, max: 1, stepSize: 1 };
+        const xs = choiceWorkshopPoints.map((p) => p.x);
+        const rawMin = Math.min(...xs);
+        const rawMax = Math.max(...xs);
+        const pad = Math.max(1, Math.round((rawMax - rawMin) * 0.05));
+        const min = Math.max(0, rawMin - pad);
+        const max = rawMax + pad;
+        const stepSize = Math.max(1, Math.round((max - min) / 6));
+        return { min, max, stepSize };
+    }, [choiceWorkshopPoints]);
+
+// Regresión y métricas para Choice ↔ Workshop
+    const { a: aCW, b: bCW, r: rCW, r2: r2CW } = useMemo(
+        () => leastSquares(choiceWorkshopPoints),
+        [choiceWorkshopPoints]
+    );
+
+// Texto cualitativo de correlación (i18n)
+    const cwCorrText = useMemo(() => {
+        const { strengthKey, directionKey } = classifyCorrelation(rCW);
+        return t("note.corr.template", {
+            strength: t(strengthKey),
+            direction: t(directionKey),
+        });
+    }, [rCW, t]);
+
 
 
     return (
@@ -703,6 +791,104 @@ const CorrelationsTab: React.FC = () => {
                     </p>
                 </div>
             )}
+
+            {/* Scatter: choice total votes (X) vs workshop average grade (Y) */}
+            {choiceWorkshopPoints.length >= 2 ? (
+                <GraphBlock
+                    title={t("chart.predictive.choice_votes_vs_workshop_grade")}
+                    chartType="scatter"
+                    data={{
+                        datasets: [
+                            {
+                                type: "scatter",
+                                label: t("legend.choices_vs_workshops"),
+                                data: choiceWorkshopPoints.map((p) => ({
+                                    x: p.x, // total votes in Choice
+                                    y: p.y, // average grade in Workshop (0–10)
+                                    choiceName: p.choiceName,
+                                    workshopName: p.workshopName,
+                                })),
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(63,81,181,0.6)",
+                                pointBorderColor: "rgba(63,81,181,1)",
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: "rgba(63,81,181,1)",
+                                pointHoverBorderColor: "rgba(63,81,181,1)",
+                            },
+                            {
+                                type: "line",
+                                label: t("chart.regression_line"),
+                                data: [
+                                    { x: minCWX, y: regressionY(aCW, bCW, minCWX) },
+                                    { x: maxCWX, y: regressionY(aCW, bCW, maxCWX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(249,128,18,1)",
+                                backgroundColor: "rgba(249,128,18,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+                        ],
+                    }}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: { display: true, text: t("axis.choice_total_votes") },
+                                min: minCWX,
+                                max: maxCWX,
+                                ticks: {
+                                    stepSize: stepCWX,
+                                    precision: 0,
+                                    callback: (value) => Math.round(value as number).toString(),
+                                },
+                            },
+                            y: {
+                                title: { display: true, text: t("axis.workshop_avg_grade_0_10") },
+                                min: 0,
+                                max: 10,
+                            },
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    title: (items) => {
+                                        const raw = items?.[0]?.raw as any;
+                                        const c = raw?.choiceName ?? "Choice";
+                                        const w = raw?.workshopName ?? "Workshop";
+                                        return `${c} ↔ ${w}`;
+                                    },
+                                    label: (ctx) => {
+                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x;
+                                        const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y;
+                                        return `${t("axis.choice_total_votes")}: ${x} · ${t("axis.workshop_avg_grade_0_10")}: ${y}/10`;
+                                    },
+                                },
+                            },
+                        },
+                    }}
+                >
+                    {/* Resumen de correlación */}
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                        <li>
+                            <span className="font-semibold">{t("note.slope_title")}: </span>
+                            {t("note.slope_explainer", { slope: aCW.toFixed(3) })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r_title")}: </span>
+                            {t("note.r_explainer", { r: rCW.toFixed(3), corr: cwCorrText })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r2_title")}: </span>
+                            {t("note.r2_explainer", { pct: (r2CW * 100).toFixed(1) })}
+                        </li>
+                    </ul>
+                </GraphBlock>
+            ) : null}
+
+
 
 
         </div>

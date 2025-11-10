@@ -6,31 +6,9 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-   - Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y
-   la nota media obtenida en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias,
-   Punto: Actividad evaluables. Mas info: Correlación entre el número de visitas a cada actividad evaluable
-   (quiz, workshop, assignment) y la nota media obtenida en esa actividad. Además, pueden establecerse distintos niveles de comparación
-   para las categorías evaluables (cuestionarios, talleres, tareas):
-   - Nota obtenida en la actividad concreta.
-   - Nota media del alumno en todas las actividades de esa misma categoría.
-   - Nota global final del alumno en el curso.
+    - Paso 1: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
 
-   ** También vamos a obtener el dato "Nota final" del curso para cada alumno. Que puede servir para otra correlación
-   en un futuro.
-
-    - Paso 1: Implementar la gráfica de la correlación en CorrelationsTab.tsx
-      (Correlación entre el número total de visitas a todas las actividades evaluables (quiz, workshop, assignment) y
-      la nota media obtenida en todas las actividades evaluables. Eje x: visitas, Eje y: notas medias Punto: Actividad evaluables.)
-
-
-    - Paso 2: Implementar la gráfica de esta correlación en CorrelationsTab.tsx
-      (Correlación entre la participación (suma de los votos = visitas totales) en encuestas (Choice) y la nota media
-      en talleres (Workshop). Esta relación puede verse limitada por el bajo número de respuestas en las encuestas.)
-
-
-    - Paso 3: Arreglar la exportación a CSV, PDF y DOCX para gráficas de correlaciones (3 dimensiones/columnas).
-
-    - Paso 4: Mandar correo con la limitación técnica para el resto de correlaciones.
+    - Paso 2: Mandar correo con la limitación técnica para el resto de correlaciones.
 
 
    LIMITACIÓN TÉCNICA

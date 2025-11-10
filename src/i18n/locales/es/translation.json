@@ -65,7 +65,8 @@
     "predictive": {
       "participation_vs_grade": "Correlación entre participación en foros y calificación en cuestionarios",
       "quiz_views_vs_grade": "Correlación entre el número total de visitas y la calificación media en cuestionarios",
-      "evaluable_views_vs_avg_grade": "Correlación entre el número total de visitas de todas las actividades evaluables y la calificación media obtenida"
+      "evaluable_views_vs_avg_grade": "Correlación entre el número total de visitas de todas las actividades evaluables y la calificación media obtenida",
+      "choice_votes_vs_workshop_grade": "Correlación entre las visitas totales en encuestas y la nota media en talleres"
     },
     "regression_line": "Línea de regresión"
   },
@@ -91,7 +92,8 @@
     "quizzes": "Cuestionarios",
     "activities": "Actividades evaluables",
     "workshops": "Talleres",
-    "assignments": "Tareas"
+    "assignments": "Tareas",
+    "choices_vs_workshops": "Encuestas ↔ Talleres"
   },
   "filter": {
     "by_role": "Filtrar por rol:",
@@ -158,7 +160,9 @@
     "quiz_grade_0_10": "Nota media de todos los cuestionarios del curso",
     "quiz_total_views": "Visitas de todos los cuestionarios del curso",
     "evaluable_total_views": "Visitas totales (actividades evaluables)",
-    "evaluable_avg_grade_0_10": "Nota media (0–10)"
+    "evaluable_avg_grade_0_10": "Nota media (0–10)",
+    "choice_total_votes": "Visitas totales (suma de votos) en encuestas",
+    "workshop_avg_grade_0_10": "Nota media en talleres (0–10)"
   },
   "state": {
     "no_predictive_data": "No hay datos suficientes para calcular y mostrar la gráfica de correlación"
