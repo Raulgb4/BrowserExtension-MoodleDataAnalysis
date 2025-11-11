@@ -65,7 +65,7 @@
     "predictive": {
       "participation_vs_grade": "Correlación entre participación en foros y calificación en cuestionarios",
       "quiz_views_vs_grade": "Correlación entre el número total de visitas y la calificación media en cuestionarios",
-      "evaluable_views_vs_avg_grade": "Correlación entre el número total de visitas de todas las actividades evaluables y la calificación media obtenida",
+      "evaluable_views_vs_avg_grade": "Correlación entre el número total de visitas y la calificación media en todas las actividades evaluables",
       "choice_votes_vs_workshop_grade": "Correlación entre la participación en encuestas y la nota media en talleres",
       "forum_views_vs_final_grade": "Correlación entre las visitas en foros y la calificación final"
     },

@@ -65,7 +65,7 @@
     "predictive": {
       "participation_vs_grade": "Correlation between Forum Participation and Quiz Scores",
       "quiz_views_vs_grade": "Correlation between total number of visits and average quiz grade",
-      "evaluable_views_vs_avg_grade": "Correlation between the total number of visits to all graded activities and the average grade obtained",
+      "evaluable_views_vs_avg_grade": "Correlation between the total number of visits and the average grade obtained across all assessable activities",
       "choice_votes_vs_workshop_grade": "Correlation between choices participation and average workshop grade",
       "forum_views_vs_final_grade": "Correlation between total number of visits in forums and final grade"
     },
