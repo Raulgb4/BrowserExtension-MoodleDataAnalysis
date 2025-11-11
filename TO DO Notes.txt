@@ -24,16 +24,6 @@
     Eje x: visitas, Eje y: nota final, Punto: Alumno) se necesita recorrer la lista de participantes y por cada uno de
     ellos obtener las visitas de cada actividad accediendo a "Informe Completo" ("Complete report")
 
-    Otras correlaciones que se iban a implementar y se ven afectadas debido a esta limitación son:
-
-    - "Correlación entre el nivel de participación del alumno y su calificación" (participación = visitas).
-      De forma análoga, puede analizarse a diferentes niveles:
-      - Participación en cada actividad específica.
-      - Participación media del alumno en todas las actividades de una categoría concreta.
-      - Participación media global en el conjunto del curso.
-
-    - "Correlación entre el número total de conexiones o visitas al curso y la calificación final"
-
 
 
 
