@@ -129,55 +129,146 @@ export abstract class AbstractDataExtractor {
     ): Promise<Choice[]> {
         const t0 = performance.now();
         devlog.info("dataExtractor", "scrapeChoices:start",
-            {id, activityName, numViews, numUsers, lastAccess});
+            { id, activityName, numViews, numUsers, lastAccess });
+
+        const normalize = (s?: string) =>
+            (s ?? "")
+                .trim()
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "");
 
         try {
             const choices: Choice[] = [];
-
             const url = getScrapeUrlChoice(id);
-
             const doc = await this.fetchAndParse(url.choiceResults);
 
+            const table = doc.querySelector('table.results.names');
+            if (!table) {
+                devlog.warn("dataExtractor", "scrapeChoices:table_not_found", { id, activityName });
+                return [];
+            }
+
+            // --- 1) Cabeceras: etiquetas de opciones ---
             const responseCounts: Record<string, number> = {};
-
-            const headerCells = doc.querySelectorAll('table.results.names thead tr th');
+            const headerCells = table.querySelectorAll('thead tr th');
             const labelCells = Array.from(headerCells)
-                .slice(1) // skip the first column
-                .map(th => th.querySelector('div.text-center')?.childNodes[0]?.textContent?.trim())
-                .filter((label): label is string => !!label); // filter out undefined/null
+                .slice(1) // saltar la cabecera de fila ("Choice options")
+                .map(th => {
+                    // En Moodle típico, el texto visible está en el primer textNode dentro de .text-center
+                    const txt =
+                        th.querySelector('div.text-center')?.childNodes?.[0]?.textContent ??
+                        th.textContent;
+                    return txt?.trim();
+                })
+                .filter((label): label is string => !!label);
 
-            const responseCells = doc.querySelectorAll('table.results.names tbody tr td');
-
-            responseCells.forEach((cell, i) => {
-                const label = labelCells[i];
-                if (!label) return;
-
-                const value = parseInt(cell.textContent?.trim() ?? '0', 10);
-                responseCounts[label] = isNaN(value) ? 0 : value;
+            // --- 2) Body: fila "Number of responses" -> responseCounts ---
+            const bodyRows = Array.from(table.querySelectorAll('tbody tr'));
+            const numberRow = bodyRows.find(tr => {
+                const th = tr.querySelector('th');
+                const key = normalize(th?.textContent || "");
+                // EN y ES (y variantes)
+                return key.includes("number of responses") || key.includes("numero de respuestas");
             });
 
+            if (numberRow) {
+                const tds = Array.from(numberRow.querySelectorAll('td'));
+                for (let i = 0; i < Math.min(labelCells.length, tds.length); i++) {
+                    const label = labelCells[i];
+                    const raw = tds[i]?.textContent?.trim() ?? "0";
+                    const value = parseInt(raw, 10);
+                    responseCounts[label] = Number.isFinite(value) ? value : 0;
+                }
+            } else {
+                devlog.warn("dataExtractor", "scrapeChoices:number_row_not_found", { id, activityName });
+            }
+
+            // --- 3) Body: fila "Users who chose this option" -> participantStats ---
+            // En inglés suele ser esa cadena; en ES algo como "Usuarios que eligieron esta opción".
+            // Además, Moodle marca esa fila como .lastrow: lo usamos como fallback.
+            let usersRow =
+                bodyRows.find(tr => {
+                    const th = tr.querySelector('th');
+                    const key = normalize(th?.textContent || "");
+                    return key.includes("users who chose this option") ||
+                        key.includes("usuarios que eligieron esta opcion");
+                }) ?? table.querySelector('tbody tr.lastrow') as HTMLTableRowElement | null;
+
+            const participantsMap = new Map<number, string>();
+
+            if (usersRow) {
+                const tds = Array.from(usersRow.querySelectorAll('td'));
+                // Recorremos por columnas (una columna por opción). No nos importa qué opción eligieron:
+                // queremos el conjunto de alumnos que han votado en la Choice.
+                for (let i = 0; i < tds.length; i++) {
+                    const td = tds[i];
+                    // Cada alumno aparece como <a href=".../user/view.php?id=XXX&course=Y">Nombre Apellidos</a>
+                    const links = Array.from(td.querySelectorAll('a[href*="user/view.php"]'));
+                    for (const a of links) {
+                        const href = a.getAttribute('href') ?? "";
+                        let pid: number | null = null;
+                        try {
+                            const urlObj = new URL(href, "http://dummy.local"); // base para URLs relativas
+                            const idParam = urlObj.searchParams.get("id");
+                            if (idParam) {
+                                const parsed = parseInt(idParam, 10);
+                                if (Number.isFinite(parsed)) pid = parsed;
+                            }
+                        } catch {
+                            // Si falla el parseo (URL relativa sin base), intentamos regex como fallback
+                            const m = href.match(/[?&]id=(\d+)/);
+                            if (m) pid = parseInt(m[1], 10);
+                        }
+                        if (pid == null) continue;
+
+                        // Nombre visible; si no, fallback al label "accesshide"
+                        const nameText =
+                            a.textContent?.trim() ||
+                            a.getAttribute("aria-label")?.trim() ||
+                            a.getAttribute("title")?.trim() ||
+                            // Fallback adicional: el <label.accesshide> cercano
+                            (a.parentElement?.querySelector("label.accesshide")?.textContent?.trim() ?? "");
+
+                        if (nameText) {
+                            // Deduplicamos por participantId
+                            if (!participantsMap.has(pid)) {
+                                participantsMap.set(pid, nameText);
+                            }
+                        }
+                    }
+                }
+            } else {
+                devlog.warn("dataExtractor", "scrapeChoices:users_row_not_found", { id, activityName });
+            }
+
+            const participantStats = Array.from(participantsMap.entries()).map(([participantId, participantName]) => ({
+                participantId,
+                participantName,
+            }));
+
+            // --- 4) Construir Choice y devolver ---
             const choice: Choice = {
                 id,
                 activityName,
                 numViews,
                 numUsers,
                 lastAccess,
-                responseCounts
+                responseCounts,
+                participantStats,
             };
 
-            choices.push(choice);
-
             const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeChoices:success", {id, activityName, durationMs: ms}, choice);
-
-            return choices;
+            devlog.info("dataExtractor", "scrapeChoices:success", { id, activityName, durationMs: ms }, choice);
+            return [choice];
 
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeChoices:error", {error: String(error), durationMs: ms});
+            devlog.error("dataExtractor", "scrapeChoices:error", { error: String(error), durationMs: ms });
             return [];
         }
     }
+
 
 
     /**

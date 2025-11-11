@@ -6,11 +6,9 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-   Paso 1. Obtener los alumnos que han participado en una encuesta.
+   Paso 1. Correlación entre la participación en encuestas (nº de votos) (Choice) y la calificación final.
 
-   Paso 2. Correlación entre la participación en encuestas (Choice) y la nota media en talleres (Workshop).
-
-   Paso 3. Mandar correo con gráficas conseguidas y con la limitación técnica para el resto de correlaciones.
+   Paso 2. Mandar correo con gráficas conseguidas y con la limitación técnica para el resto de correlaciones.
    Pidiendo siguientes pasos
 
    LIMITACIÓN TÉCNICA
