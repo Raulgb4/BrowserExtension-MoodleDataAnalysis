@@ -279,9 +279,6 @@
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
   }
-  .me-1 {
-    margin-inline-end: calc(var(--spacing) * 1);
-  }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
@@ -299,9 +296,6 @@
   }
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
-  }
-  .mb-1 {
-    margin-bottom: calc(var(--spacing) * 1);
   }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
@@ -374,10 +368,6 @@
   }
   .table-row-group {
     display: table-row-group;
-  }
-  .size-35 {
-    width: calc(var(--spacing) * 35);
-    height: calc(var(--spacing) * 35);
   }
   .h-0 {
     height: calc(var(--spacing) * 0);
@@ -670,9 +660,6 @@
   .object-cover {
     object-fit: cover;
   }
-  .p-0 {
-    padding: calc(var(--spacing) * 0);
-  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
@@ -702,9 +689,6 @@
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
-  }
-  .pe-2 {
-    padding-inline-end: calc(var(--spacing) * 2);
   }
   .pt-1 {
     padding-top: calc(var(--spacing) * 1);

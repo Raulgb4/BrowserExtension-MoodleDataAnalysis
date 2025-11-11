@@ -20,7 +20,7 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {useTranslation} from "react-i18next";
 import {ActivityType, Participant} from "../../models/Participant";
-import {buildForumParticipationPct, buildQuizAvgGradeMap} from "../../utils/dataAggregation";
+import {buildForumParticipationPct, buildQuizAvgGradeMap, buildWorkshopAvgGradeMap} from "../../utils/dataAggregation";
 import {
     buildCorrelationPoints,
     classifyCorrelation,
@@ -48,6 +48,9 @@ const CorrelationsTab: React.FC = () => {
     >([]);
 
     const [forumViewsByPid, setForumViewsByPid] = useState<Record<string, number>>({});
+    const [choiceVotesByPid, setChoiceVotesByPid] = useState<Record<string, number>>({});
+    const [workshopAvgGradeByPid, setWorkshopAvgGradeByPid] = useState<Record<string, number>>({});
+
 
 
     // Derive once, reuse everywhere --------------------------------------------
@@ -295,6 +298,46 @@ const CorrelationsTab: React.FC = () => {
         });
     }, []);
 
+    useEffect(() => {
+        // Load total votes per participant from local storage (Choices)
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
+            if (!courseKey) return;
+
+            const course = result[courseKey] ?? {};
+            const choices = Array.isArray(course?.choices) ? course.choices : [];
+
+            // Construir un mapa pid -> nº total de votos
+            const votesMap: Record<string, number> = {};
+
+            for (const choice of choices) {
+                const stats = Array.isArray(choice?.participantStats) ? choice.participantStats : [];
+                for (const s of stats) {
+                    const pid = String(s.participantId);
+                    votesMap[pid] = (votesMap[pid] ?? 0) + 1;
+                }
+            }
+
+            setChoiceVotesByPid(votesMap);
+        });
+    }, []);
+
+    // Cargar la nota media en talleres (0–10) por alumno desde chrome.storage.local
+    useEffect(() => {
+        chrome.storage.local.get(null, (result) => {
+            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
+            if (!courseKey) return;
+
+            const course = result[courseKey] ?? {};
+            const workshops = Array.isArray(course?.workshops) ? course.workshops : [];
+
+            const avgMap = buildWorkshopAvgGradeMap(workshops);
+            setWorkshopAvgGradeByPid(avgMap);
+        });
+    }, []);
+
+
+
 
     // Axis: compute a "nice" 0..100% X scale based on current points.
     const {min: minXAxis, max: maxXAxis, stepSize} = useMemo(() => {
@@ -419,6 +462,50 @@ const CorrelationsTab: React.FC = () => {
         const { strengthKey, directionKey } = classifyCorrelation(rViews);
         return t("note.corr.template", { strength: t(strengthKey), direction: t(directionKey) });
     }, [rViews, t]);
+
+    // X = participación en encuestas (suma de votos), Y = nota media en talleres (0..10)
+    const xyPointsChoiceVotesWorkshop = useMemo(() => {
+        const pts: { pid: number; x: number; y: number }[] = [];
+
+        // Unión de PIDs que tienen votos o nota media de talleres
+        const allPids = new Set<string>([
+            ...Object.keys(choiceVotesByPid ?? {}),
+            ...Object.keys(workshopAvgGradeByPid ?? {}),
+        ]);
+
+        for (const pidStr of allPids) {
+            const pid = Number(pidStr);
+            const votes = Number(choiceVotesByPid?.[pidStr] ?? 0);
+            const yAvgWorkshop = Number(workshopAvgGradeByPid?.[pidStr]);
+
+            if (Number.isFinite(yAvgWorkshop)) {
+                const x = Math.max(0, Math.floor(votes));              // votos enteros >= 0
+                const y = Math.max(0, Math.min(10, yAvgWorkshop));     // clamp 0..10
+                pts.push({ pid, x, y });
+            }
+        }
+        return pts;
+    }, [choiceVotesByPid, workshopAvgGradeByPid]);
+
+// Límites dinámicos del eje X (mín, máx, paso)
+    const { min: minChoiceX, max: maxChoiceX, stepSize: stepSizeChoice } = useMemo(() => {
+        return computeXAxisBounds(xyPointsChoiceVotesWorkshop);
+    }, [xyPointsChoiceVotesWorkshop]);
+
+// Regresión lineal y coeficientes para esta correlación
+    const { a: aChoiceW, b: bChoiceW, r: rChoiceW, r2: r2ChoiceW } = useMemo(
+        () => leastSquares(xyPointsChoiceVotesWorkshop),
+        [xyPointsChoiceVotesWorkshop]
+    );
+
+// Texto cualitativo de correlación (débil/moderada/fuerte + signo)
+    const choiceWorkshopCorrText = useMemo(() => {
+        const { strengthKey, directionKey } = classifyCorrelation(rChoiceW);
+        return t("note.corr.template", {
+            strength: t(strengthKey),
+            direction: t(directionKey),
+        });
+    }, [rChoiceW, t]);
 
 
 
@@ -873,6 +960,105 @@ const CorrelationsTab: React.FC = () => {
                 </div>
             )}
 
+
+            {/* Scatter: choice votes (X) vs workshop average grade (Y) */}
+            {xyPointsChoiceVotesWorkshop.length >= 3 ? (
+                <GraphBlock
+                    title={t("chart.predictive.choice_votes_vs_workshop_grade")}
+                    chartType="scatter"
+                    data={{
+                        datasets: [
+                            {
+                                type: "scatter",
+                                label: t("legend.students"),
+                                data: xyPointsChoiceVotesWorkshop.map((p) => ({
+                                    x: p.x, // total choice votes (sum across all choices)
+                                    y: p.y, // average workshop grade 0–10
+                                    studentName:
+                                        participantsById.get(String(p.pid))?.participantName ?? String(p.pid),
+                                })),
+                                pointRadius: 4,
+                                pointBackgroundColor: "rgba(100,181,246,0.6)",
+                                pointBorderColor: "rgba(100,181,246,1)",
+                                pointHoverRadius: 6,
+                                pointHoverBackgroundColor: "rgba(100,181,246,1)",
+                                pointHoverBorderColor: "rgba(100,181,246,1)",
+                            },
+                            // Recta de regresión: y = a*x + b
+                            {
+                                type: "line",
+                                label: t("chart.regression_line"),
+                                data: [
+                                    { x: minChoiceX, y: regressionY(aChoiceW, bChoiceW, minChoiceX) },
+                                    { x: maxChoiceX, y: regressionY(aChoiceW, bChoiceW, maxChoiceX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(249,128,18,1)",
+                                backgroundColor: "rgba(249,128,18,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+                        ],
+                    }}
+                    options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: { display: true, text: t("axis.choice_votes") },
+                                min: minChoiceX,
+                                max: maxChoiceX,
+                                ticks: {
+                                    stepSize: stepSizeChoice, // paso "bonito" según tus datos
+                                },
+                            },
+                            y: {
+                                title: { display: true, text: t("axis.workshop_avg_grade_0_10") },
+                                min: 0,
+                                max: 10,
+                            },
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    title: (items) => {
+                                        const raw = items?.[0]?.raw as any;
+                                        return raw?.studentName ?? t("legend.students");
+                                    },
+                                    label: (ctx) => {
+                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x; // votes: entero
+                                        const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y; // nota media talleres
+                                        return `${x} ${t("legend.votes")} · ${y}/10`;
+                                    },
+                                },
+                            },
+                        },
+                    }}
+                >
+                    {/* Resumen de correlación */}
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                        <li>
+                            <span className="font-semibold">{t("note.slope_title")}: </span>
+                            {t("note.slope_explainer", { slope: aChoiceW.toFixed(3) })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r_title")}: </span>
+                            {t("note.r_explainer", { r: rChoiceW.toFixed(3), corr: choiceWorkshopCorrText })}
+                        </li>
+                        <li>
+                            <span className="font-semibold">{t("note.r2_title")}: </span>
+                            {t("note.r2_explainer", { pct: (r2ChoiceW * 100).toFixed(1) })}
+                        </li>
+                    </ul>
+                </GraphBlock>
+            ) : (
+                <div className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md min-h-[300px] flex items-center justify-center">
+                    <p className="text-base text-orange-600 font-semibold">
+                        {t("state.no_predictive_data")}
+                    </p>
+                </div>
+            )}
 
 
 

@@ -98,3 +98,48 @@ export function buildQuizAvgGradeMap(quizzes: any[]): Record<string, number> {
     return gradesMap;
 }
 
+// Calcula pid -> nota media en talleres (normalizada a 0–10, con robustez)
+export function buildWorkshopAvgGradeMap(workshops: any[]): Record<string, number> {
+    const perPidGrades: Record<string, number[]> = {};
+
+    const toNumber = (v: any) =>
+        typeof v === "number"
+            ? v
+            : typeof v === "string"
+                ? parseFloat(v.replace(",", "."))
+                : NaN;
+
+    for (const w of workshops ?? []) {
+        const stats: any[] = Array.isArray(w?.participantStats) ? w.participantStats : [];
+
+        // Intento de detectar máximo para normalizar si viniera sin 0–10
+        // (algunos Moodle exponen maxGrade/gradingMax/maxgrade en el propio workshop)
+        const rawMax =
+            toNumber(w?.maxGrade) ??
+            toNumber(w?.gradingMax) ??
+            toNumber(w?.maxgrade);
+        const maxForScale = Number.isFinite(rawMax) && rawMax > 0 ? rawMax : 10;
+
+        for (const s of stats) {
+            const pid = String(s.participantId);
+            const gRaw = toNumber(s?.grade);
+            if (!Number.isFinite(gRaw)) continue;
+
+            // Si ya viene 0–10, esto no lo altera; si viene 0–max, lo normaliza a 0–10.
+            const g10 = Math.max(0, Math.min(10, (gRaw / maxForScale) * 10));
+
+            (perPidGrades[pid] ??= []).push(g10);
+        }
+    }
+
+    const gradesMap: Record<string, number> = {};
+    for (const [pid, arr] of Object.entries(perPidGrades)) {
+        if (!arr.length) continue;
+        const avg = arr.reduce((a, b) => a + b, 0) / arr.length;
+        gradesMap[pid] = Math.round(avg * 100) / 100; // 2 decimales
+    }
+
+    return gradesMap;
+}
+
+
