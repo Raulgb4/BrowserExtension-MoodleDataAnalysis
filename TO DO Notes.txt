@@ -6,7 +6,12 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-   Mandar correo con gráficas conseguidas y con la limitación técnica para el resto de correlaciones
+   Paso 1. Obtener los alumnos que han participado en una encuesta.
+
+   Paso 2. Correlación entre la participación en encuestas (Choice) y la nota media en talleres (Workshop).
+
+   Paso 3. Mandar correo con gráficas conseguidas y con la limitación técnica para el resto de correlaciones.
+   Pidiendo siguientes pasos
 
    LIMITACIÓN TÉCNICA
    ------------------

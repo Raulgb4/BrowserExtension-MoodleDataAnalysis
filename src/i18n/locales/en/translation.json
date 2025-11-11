@@ -66,7 +66,8 @@
       "participation_vs_grade": "Correlation between Forum Participation and Quiz Scores",
       "quiz_views_vs_grade": "Correlation between total number of visits and average quiz grade",
       "evaluable_views_vs_avg_grade": "Correlation between the total number of visits to all graded activities and the average grade obtained",
-      "choice_votes_vs_workshop_grade": "Correlation between total number of visits in choices and average grades in workshops"
+      "choice_votes_vs_workshop_grade": "Correlation between total number of visits in choices and average grades in workshops",
+      "forum_views_vs_final_grade": "Correlation between total number of visits in forums and final grade"
     },
     "regression_line": "Regression line"
   },
@@ -163,7 +164,9 @@
     "evaluable_total_views": "Total visits (graded activities)",
     "evaluable_avg_grade_0_10": "Average grade (0–10)",
     "choice_total_votes": "Total visits (sum of votes) in surveys",
-    "workshop_avg_grade_0_10": "Average grade in workshops (0–10)"
+    "workshop_avg_grade_0_10": "Average grade in workshops (0–10)",
+    "final_grade_0_10": "Final grade (0–10)",
+    "forum_views": "Forum views"
   },
   "state": {
     "no_predictive_data": "Not enough data available to calculate and display the correlation graph"

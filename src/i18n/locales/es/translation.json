@@ -66,7 +66,8 @@
       "participation_vs_grade": "Correlación entre participación en foros y calificación en cuestionarios",
       "quiz_views_vs_grade": "Correlación entre el número total de visitas y la calificación media en cuestionarios",
       "evaluable_views_vs_avg_grade": "Correlación entre el número total de visitas de todas las actividades evaluables y la calificación media obtenida",
-      "choice_votes_vs_workshop_grade": "Correlación entre las visitas totales en encuestas y la nota media en talleres"
+      "choice_votes_vs_workshop_grade": "Correlación entre las visitas totales en encuestas y la nota media en talleres",
+      "forum_views_vs_final_grade": "Correlación entre las visitas en foros y la calificación final"
     },
     "regression_line": "Línea de regresión"
   },
@@ -162,7 +163,9 @@
     "evaluable_total_views": "Visitas totales (actividades evaluables)",
     "evaluable_avg_grade_0_10": "Nota media (0–10)",
     "choice_total_votes": "Visitas totales (suma de votos) en encuestas",
-    "workshop_avg_grade_0_10": "Nota media en talleres (0–10)"
+    "workshop_avg_grade_0_10": "Nota media en talleres (0–10)",
+    "final_grade_0_10": "Nota final (0–10)",
+    "forum_views": "Visitas a foros"
   },
   "state": {
     "no_predictive_data": "No hay datos suficientes para calcular y mostrar la gráfica de correlación"
