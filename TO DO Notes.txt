@@ -6,8 +6,6 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-   Mandar correo con gráficas conseguidas y con la limitación técnica para el resto de correlaciones.
-   Pidiendo siguientes pasos
 
    LIMITACIÓN TÉCNICA
    ------------------
