@@ -6,6 +6,62 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
+- Tarea 0: Refactoring/Limpieza/Documentación de CorrelationsTab.tsx. (correlationMath.ts, dataAggregation.ts)
+
+- Tarea 1: Correlación entre las visitas en foros y la calificación final.
+
+  En esta gráfica aparecen estudiantes con calificación final igual a 0, generalmente porque no se han presentado o
+  no han participado en la asignatura. Este alumnado introduce ruido en la visualización y afecta al cálculo de la
+  regresión, generando una correlación poco representativa.
+  Para obtener un análisis más realista, es necesario ofrecer una versión de la gráfica que excluya a los estudiantes
+  con calificación final = 0. Una solución viable es incorporar un checkbox como: “Excluir estudiantes con nota = 0”,
+  que al activarse filtre los datos y recalcule automáticamente la línea de regresión y todas las métricas asociadas.
+
+- Tarea 2: Correlación entre el número total de visitas y la calificación media en todas las actividades evaluables.
+
+  - Normalización de calificaciones a escala 0–10:
+    Adaptar las notas de todas las actividades a una escala común, ya que algunas tienen puntuaciones máximas
+    diferentes (p. ej., talleres configurados sobre 100 puntos).
+    La puntuación máxima de cada actividad puede obtenerse desde:
+    Administración → Administración de calificación → Ajuste → Configuración de Calificaciones.
+    https://informatica.cv.uma.es/grade/edit/tree/index.php?id=5121
+
+  - Regresiones por tipo de actividad:
+    Añadir una línea de regresión independiente para cada categoría evaluable (cuestionarios, talleres y tareas) para
+    reflejar la tendencia específica de cada una.
+
+  - Eliminación de actividades concretas:
+    Incluir una opción para eliminar puntos individuales desde la gráfica (por ejemplo, con clic derecho). Esto permite
+    excluir actividades no relevantes, como el “Cuestionario CHAEA”, y tras cada eliminación recalcular la regresión y
+    las métricas.
+
+
+TAREAS INALCANZABLES:
+---------------------
+
+- (Inalcanzable) Tarea 3: Solucionar la limitación técnica, en lugar de recorrer uno a uno los participantes,
+  es posible que sea mejor a través de la opción de menú Administración > Administración de la asignatura >
+  Informes > Registros.
+  https://informatica.cv.uma.es/report/log/index.php?chooselog=1&showusers=0&showcourses=0&id=5121&user=&date=&modid=&modaction=&origin=&edulevel=-1&logreader=logstore_standard
+
+  Esta solución a la limitación técnica no es viable porque es difícil manejar la tabla de los logs.
+  No está muy bien organizada además de ser una tabla con muchas filas y no es posible eliminar la paginación
+  como en otras tablas del curso.
+
+- (Inalcanzable) Tarea 4: Implementar correlación entre el número total de visitas al curso (participación del alumno)
+  y la calificación final.
+  ALTERNATIVA POSIBLE: correlación entre la participación en foros y encuestas y la calificación final.
+
+
+TAREAS REALIZADAS:
+------------------
+
+- (Realizada) Tarea: La extensión no funciona en moodle local.
+  La extensión funciona de forma correcta en moodle local, se ha ido implementando toda la ampliación
+  tanto en el entorno local como el oficial del cv de la UMA. Puede que se haya intentado empezar un
+  análisis desde una URL no reconocida. La URL de la página principal del curso debe funcionar.
+  Yo lo he probado: http://localhost:8080/course/view.php?id=2
+
 
    LIMITACIÓN TÉCNICA
    ------------------
