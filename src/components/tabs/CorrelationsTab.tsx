@@ -366,10 +366,19 @@ const CorrelationsTab: React.FC = () => {
     const {
         min: minXAxisViews,
         max: maxXAxisViews,
-        stepSize: stepSizeViews,
+        stepSize: rawStepSizeViews,
     } = useMemo(
         () => computeDynamicXAxis(xyPointsFinalViews),
         [xyPointsFinalViews]
+    );
+
+    /**
+     * Force an integer step on the X axis for forum views,
+     * since views are count data (0, 1, 2, ...).
+     */
+    const stepSizeViews = useMemo(
+        () => Math.max(1, Math.round(rawStepSizeViews || 1)),
+        [rawStepSizeViews]
     );
 
     const {a: aViews, b: bViews, r: rViews, r2: r2Views} = useMemo(
@@ -837,8 +846,15 @@ const CorrelationsTab: React.FC = () => {
                                 min: minXAxisViews,
                                 max: maxXAxisViews,
                                 ticks: {
-                                    stepSize: stepSizeViews, // calcula un paso "bonito" según tus datos
-                                    // sin callback de %, son valores absolutos
+                                    stepSize: stepSizeViews, // ya lo estamos pasando desde fuera
+                                    /**
+                                     * Force integer labels on the X axis (0, 1, 2, ...).
+                                     * This avoids decimal tick labels and therefore commas.
+                                     */
+                                    callback: (value) => {
+                                        const n = Number(value);
+                                        return Number.isFinite(n) ? n.toFixed(0) : value;
+                                    },
                                 },
                             },
                             y: {
