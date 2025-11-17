@@ -2,17 +2,25 @@
  * @file dataAggregation.ts
  *
  * @description
- * Data aggregation utilities are used to compute participant-level metrics
- * from raw Moodle activity data within the Moodle Data Analyzer extension.
+ * Data aggregation utilities used to compute participant-level and activity-level
+ * metrics from raw Moodle activity data within the Moodle Data Analyzer extension.
  *
- * Provides helper functions for:
+ * This module provides helper functions for:
+ *  - Extracting the current Course object from chrome.storage.
  *  - Calculating relative forum participation percentages per participant
  *    based on total discussions, replies, and views.
+ *  - Aggregating total forum views per participant (PID).
  *  - Computing average normalized quiz grades (0–10) for each participant,
  *    handling both numeric and localized decimal string inputs.
+ *  - Computing average normalized workshop grades (0–10) for each participant,
+ *    inferring max grade metadata when necessary.
+ *  - Building scatter points for quiz views vs. average quiz grades.
+ *  - Building scatter points for evaluable activities (quizzes, workshops,
+ *    assignments) using total views (X) and average normalized grades (Y).
+ *  - Aggregating total Choice votes per participant across all Choice activities.
  *
- * These aggregations serve as the numerical foundations for the correlation
- * analysis modules, enabling the generation of predictive charts that relate
+ * These aggregations serve as the numerical foundations for the correlation and
+ * predictive analysis modules, enabling the generation of charts that relate
  * student engagement metrics to academic performance indicators.
  *
  * @author Raúl García Balongo
@@ -573,4 +581,3 @@ export function buildChoiceVotesByPid(choices: any[]): Record<string, number> {
 
     return votesMap;
 }
-
