@@ -6,7 +6,7 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-- Tarea 0: Refactoring/Limpieza/Documentación de CorrelationsTab.tsx. (correlationMath.ts, dataAggregation.ts)
+- Tarea 0: Refactoring/Limpieza/Documentación de dataAggregation.ts, correlationMath.ts y GraphBlock.tsx
 
 - Tarea 1: Correlación entre las visitas en foros y la calificación final.
 

@@ -210,3 +210,48 @@ export function classifyCorrelation(r: number): { strengthKey: string; direction
     const directionKey = r >= 0 ? "note.corr.positive" : "note.corr.negative";
     return {strengthKey, directionKey};
 }
+
+
+/**
+ * Compute all derived correlation metrics for a given set of (x, y) points.
+ *
+ * This helper is intentionally UI-agnostic: it only deals with numbers and
+ * correlation keys. The caller is responsible for applying translations.
+ */
+export function buildCorrelationStats(points: XYPoint[]) {
+    const { min, max, stepSize } = computeXAxisBounds(points, 100);
+    const { a, b, r, r2 } = leastSquares(points);
+    const { strengthKey, directionKey } = classifyCorrelation(r);
+
+    return {
+        axis: { min, max, stepSize },
+        regression: { a, b, r, r2 },
+        labels: { strengthKey, directionKey },
+    };
+}
+
+/**
+ * Compute a padded X-axis range and a reasonable tick step
+ * for scatter plots where X is an unbounded numeric measure
+ * (e.g. total views, attempts, etc.).
+ */
+export function computeDynamicXAxis(points: { x: number; y: number }[]) {
+    if (!points || points.length === 0) {
+        return { min: 0, max: 1, stepSize: 1 };
+    }
+
+    const xs = points.map((p) => p.x);
+    const rawMin = Math.min(...xs);
+    const rawMax = Math.max(...xs);
+
+    // 5% padding to avoid points touching chart borders
+    const pad = Math.max(1, Math.round((rawMax - rawMin) * 0.05));
+
+    const min = Math.max(0, rawMin - pad);
+    const max = rawMax + pad;
+
+    // Aim for roughly 5–6 ticks on the X axis
+    const stepSize = Math.max(1, Math.round((max - min) / 6));
+
+    return { min, max, stepSize };
+}

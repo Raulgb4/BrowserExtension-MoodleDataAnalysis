@@ -20,11 +20,23 @@ import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
 import {useTranslation} from "react-i18next";
 import {ActivityType, Participant} from "../../models/Participant";
-import {buildForumParticipationPct, buildQuizAvgGradeMap, buildWorkshopAvgGradeMap} from "../../utils/dataAggregation";
+import {
+    buildChoiceVotesByPid,
+    buildEvaluableViewsVsAvgPoints,
+    buildForumParticipationPct,
+    buildForumViewsByPid,
+    buildQuizAvgGradeMap,
+    buildQuizViewsVsAvgPoints,
+    buildWorkshopAvgGradeMap,
+    EvaluablePoint,
+    getCurrentCourseFromStorage,
+    LabeledPoint
+} from "../../utils/dataAggregation";
 import {
     buildCorrelationPoints,
+    buildCorrelationStats,
     classifyCorrelation,
-    computeXAxisBounds,
+    computeDynamicXAxis,
     leastSquares,
     regressionY
 } from "../../utils/correlationMath";
@@ -37,104 +49,79 @@ const CorrelationsTab: React.FC = () => {
     const [forumParticipationPct, setForumParticipationPct] = useState<Record<string, number>>({});
     const [quizAvgGrade, setQuizAvgGrade] = useState<Record<string, number>>({});
     const [participants, setParticipants] = useState<Participant[]>([]);
-
-    const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<Array<{
-        x: number;
-        y: number;
-        label: string
-    }>>([]);
-    const [evaluableViewsVsAvgPoints, setEvaluableViewsVsAvgPoints] = useState<
-        Array<{ x: number; y: number; label: string; activityType: ActivityType }>
-    >([]);
-
     const [forumViewsByPid, setForumViewsByPid] = useState<Record<string, number>>({});
     const [choiceVotesByPid, setChoiceVotesByPid] = useState<Record<string, number>>({});
-    const [workshopAvgGradeByPid, setWorkshopAvgGradeByPid] = useState<Record<string, number>>({});
+    const [workshopAvgGradeByPid, setWorkshopAvgGradeByPid] = useState<Record<string, number>>({})
 
+    // Pre-aggregated points for specific correlation plots
+    const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<LabeledPoint[]>([]);
+    const [evaluableViewsVsAvgPoints, setEvaluableViewsVsAvgPoints] = useState<EvaluablePoint[]>([]);
 
-
-    // Derive once, reuse everywhere --------------------------------------------
-    // Map for quick lookups by participant id (pid)
-    //   "123" => { id: "123", participantName: "Ana Pérez", role: "student" },
+    /**
+     * Fast lookup map indexed by participant ID.
+     * Avoids repeatedly scanning the participant array when resolving names,
+     * roles, or other participant metadata inside correlation calculations.
+     */
     const participantsById = useMemo(() => {
         const m = new Map<string, Participant>();
         for (const p of participants) m.set(String(p.id), p);
         return m;
     }, [participants]);
 
-    // Build XY points on the fly (don’t store derived arrays in state)
+    /**
+     * Precompute XY correlation points for:
+     *   X = forum participation percentage
+     *   Y = quiz average grade
+     *
+     * This is derived data, so we keep it in a memo instead of a component state.
+     * Names are resolved on-demand through `participantsById` to avoid duplication.
+     */
     const xyPoints = useMemo(
-        () => buildCorrelationPoints(forumParticipationPct, quizAvgGrade, participantsById),
+        () => buildCorrelationPoints(
+            forumParticipationPct,
+            quizAvgGrade,
+            participantsById
+        ),
         [forumParticipationPct, quizAvgGrade, participantsById]
     );
 
-    // NOTE: we deliberately do NOT store `name` inside xyPoints:
-    // it avoids duplication; resolve names from `participantsById` where needed.
-
+    /**
+     * Load all quizzes from chrome storage and derive XY points for:
+     *   X = total quiz views
+     *   Y = average normalized grade (0–10)
+     *
+     * NOTE:
+     *  - A quiz may have `numViews` directly, otherwise sum participant views.
+     *  - Only quizzes with valid participantStats are processed.
+     */
     useEffect(() => {
-        // Retrieve quizzes from local storage
-        chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
+        chrome.storage.local.get(null, result => {
+            const courseKey = Object.keys(result).find(k => k.startsWith("course_"));
             if (!courseKey) return;
 
             const rawQuizzes = result[courseKey]?.quizzes;
             if (!Array.isArray(rawQuizzes)) return;
 
-            // Filtrar solo cuestionarios con participantStats válidos
-            const quizzes: any[] = rawQuizzes.filter(
-                (quiz: any) =>
-                    quiz &&
-                    Array.isArray(quiz.participantStats) &&
-                    quiz.participantStats.length > 0
-            );
-
-            const points: Array<{ x: number; y: number; label: string }> = [];
-
-            for (const q of quizzes) {
-                // Extraer el nombre original del cuestionario
-                const label =
-                    q?.name?.trim?.() ||
-                    q?.title?.trim?.() ||
-                    q?.quizName?.trim?.() ||
-                    q?.activityName?.trim?.() ||
-                    `Cuestionario ${q?.id ?? ""}`;
-
-                // X: total de visitas del cuestionario (usa numViews si existe, si no, suma las vistas de los participantes)
-                const x =
-                    typeof q?.numViews === "number"
-                        ? q.numViews
-                        : q.participantStats.reduce(
-                            (acc: number, p: any) => acc + (p?.numViews || 0),
-                            0
-                        );
-
-                // Y: nota media normalizada del cuestionario (media de normalizedGrade de sus participantes)
-                const grades = q.participantStats
-                    .map((p: any) => p?.normalizedGrade)
-                    .filter((g: any) => typeof g === "number");
-
-                if (grades.length > 0) {
-                    const y = grades.reduce((a: number, b: number) => a + b, 0) / grades.length;
-                    points.push({x, y, label});
-                }
-            }
-
-            setQuizViewsVsAvgPoints(points);
+            setQuizViewsVsAvgPoints(buildQuizViewsVsAvgPoints(rawQuizzes));
         });
     }, []);
 
+    /**
+     * Load course-level data from chrome storage:
+     *  - Resolve the current course (first key that matches "course_*").
+     *  - Extract participants and store them in the local state.
+     *  - Initialize default participant scopes for forums/quizzes in storage.
+     *
+     * NOTE:
+     *  - Available roles and other derived structures are computed later via useMemo.
+     */
     useEffect(() => {
-        // Small helper to keep the effect body minimal
-        const loadCourseData = async () => {
+        const loadCourseData = () => {
             chrome.storage.local.get(null, (result) => {
-                // Find the first key that starts with "course_"
-                const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
-                if (!courseKey) return;
+                const course = getCurrentCourseFromStorage(result);
+                if (!course) return;
 
-                const course = result[courseKey] ?? {};
                 const allParticipants = Array.isArray(course.participants) ? course.participants : [];
-
-                // Load participants only (availableRoles derived later via useMemo)
                 setParticipants(allParticipants);
 
                 // Initialize default scopes (not critical but keeps consistency)
@@ -145,191 +132,91 @@ const CorrelationsTab: React.FC = () => {
             });
         };
 
-        void loadCourseData();
+        loadCourseData();
     }, []);
 
+    /**
+     * Load forum-level metrics from chrome storage:
+     *  - forumParticipationPct: pid -> % of participation across all forums.
+     *  - forumViewsByPid: pid -> total number of forum views.
+     */
     useEffect(() => {
-        // Load forum participation from local storage and normalize to %
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
-            if (!courseKey) return;
+            const course = getCurrentCourseFromStorage(result);
+            if (!course) return;
 
-            const course = result[courseKey] ?? {};
-            const forums = Array.isArray(course?.forums) ? course.forums : [];
+            const forums = Array.isArray(course.forums) ? course.forums : [];
 
-            // Delegate aggregation to a reusable helper
             const pctMap = buildForumParticipationPct(forums);
             setForumParticipationPct(pctMap);
 
-            // 2.2) NUEVO: total de visitas a foros por participante (pid -> views)
-            const viewsMap: Record<string, number> = {};
-            for (const f of forums) {
-                const stats = Array.isArray(f?.participantsStats) ? f.participantsStats : [];
-                for (const s of stats) {
-                    const pid = String(s.participantId);
-                    const v = Number(s?.views ?? 0);
-                    if (Number.isFinite(v) && v > 0) {
-                        viewsMap[pid] = (viewsMap[pid] ?? 0) + v;
-                    }
-                }
-            }
+            const viewsMap = buildForumViewsByPid(forums);
             setForumViewsByPid(viewsMap);
         });
     }, []);
 
+    /**
+     * Load quiz-level average grades from chrome storage.
+     *  - quizAvgGrade: quizId -> average normalized grade (0–10).
+     */
     useEffect(() => {
-        // Load average quiz grades from local storage
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
-            if (!courseKey) return;
+            const course = getCurrentCourseFromStorage(result);
+            if (!course) return;
 
-            const course = result[courseKey] ?? {};
-            const quizzes = Array.isArray(course?.quizzes) ? course.quizzes : [];
+            const quizzes = Array.isArray(course.quizzes) ? course.quizzes : [];
 
             const avgGradesMap = buildQuizAvgGradeMap(quizzes);
             setQuizAvgGrade(avgGradesMap);
         });
     }, []);
 
+    /**
+     * Load evaluable activities (quizzes, workshops, assignments) and derive XY points for:
+     *  X = total activity views
+     *  Y = average normalized grade (0–10)
+     *  activityType = Quiz | Workshop | Assignment
+     */
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
-            if (!courseKey) return;
+            const course = getCurrentCourseFromStorage(result);
+            if (!course) return;
 
-            const course = result[courseKey] ?? {};
+            const quizzes = Array.isArray(course.quizzes) ? course.quizzes : [];
+            const workshops = Array.isArray(course.workshops) ? course.workshops : [];
+            const assignments = Array.isArray(course.assignments) ? course.assignments : [];
 
-            // Listas seguras
-            const quizzes: any[] = Array.isArray(course?.quizzes) ? course.quizzes : [];
-            const workshops: any[] = Array.isArray(course?.workshops) ? course.workshops : [];
-            const assignments: any[] = Array.isArray(course?.assignments) ? course.assignments : [];
-
-            // Helper: nombre legible
-            const getName = (a: any, fallbackPrefix: string) =>
-                a?.name?.trim?.() ||
-                a?.title?.trim?.() ||
-                a?.activityName?.trim?.() ||
-                `${fallbackPrefix} ${a?.id ?? ""}`;
-
-            // Helper: visitas totales (preferir ActivityBase.numViews)
-            const getTotalViews = (a: any): number => {
-                if (typeof a?.numViews === "number") return a.numViews;
-                const stats = Array.isArray(a?.participantStats) ? a.participantStats : [];
-                // fallback por si algún modelo trae numViews por participante
-                const sum = stats.reduce(
-                    (acc: number, p: any) => acc + (typeof p?.numViews === "number" ? p.numViews : 0),
-                    0
-                );
-                return sum > 0 ? sum : 0;
-            };
-
-            // Helper: nota media normalizada (0–10)
-            // - Quizzes: usar participantStats[].normalizedGrade
-            // - Workshops/Assignments: usar participantStats[].grade (ya viene 0–10)
-            const getAvgNormalizedGrade = (a: any): number | null => {
-                const stats = Array.isArray(a?.participantStats) ? a.participantStats : [];
-                if (stats.length === 0) return null;
-
-                // 1) Intentar con normalizedGrade (quizzes)
-                const normVals: number[] = stats
-                    .map((p: any) => (typeof p?.normalizedGrade === "number" ? p.normalizedGrade : NaN))
-                    .filter((v: number) => Number.isFinite(v));
-
-                if (normVals.length > 0) {
-                    const sumNorm = normVals.reduce((s: number, v: number) => s + v, 0);
-                    const avgNorm = sumNorm / normVals.length;
-                    return Math.max(0, Math.min(10, avgNorm));
-                }
-
-                // 2) Si no hay normalizedGrade, usar grade (workshops/assignments ya 0–10)
-                const gradesNum: number[] = stats
-                    .map((p: any) => (typeof p?.grade === "number" ? p.grade : NaN))
-                    .filter((v: number) => Number.isFinite(v));
-
-                if (gradesNum.length === 0) return null;
-
-                const sumGrades = gradesNum.reduce((s: number, v: number) => s + v, 0);
-                const avgRaw = sumGrades / gradesNum.length;
-                return Math.max(0, Math.min(10, avgRaw));
-            };
-
-
-            const points: Array<{ x: number; y: number; label: string; activityType: ActivityType }> = [];
-
-            // Quizzes
-            for (const q of quizzes) {
-                const y = getAvgNormalizedGrade(q);
-                if (y == null) continue;
-                const x = getTotalViews(q);
-                points.push({
-                    x,
-                    y,
-                    label: getName(q, "Quiz"),
-                    activityType: ActivityType.Quiz,
-                });
-            }
-
-            // Workshops
-            for (const w of workshops) {
-                const y = getAvgNormalizedGrade(w);
-                if (y == null) continue;
-                const x = getTotalViews(w);
-                points.push({
-                    x,
-                    y,
-                    label: getName(w, "Workshop"),
-                    activityType: ActivityType.Workshop,
-                });
-            }
-
-            // Assignments
-            for (const a of assignments) {
-                const y = getAvgNormalizedGrade(a);
-                if (y == null) continue;
-                const x = getTotalViews(a);
-                points.push({
-                    x,
-                    y,
-                    label: getName(a, "Assignment"),
-                    activityType: ActivityType.Assignment,
-                });
-            }
-
+            const points = buildEvaluableViewsVsAvgPoints(quizzes, workshops, assignments);
             setEvaluableViewsVsAvgPoints(points);
         });
     }, []);
 
+    /**
+     * Load total votes per participant for Choice activities:
+     *  - choiceVotesByPid: pid -> total number of votes across all choices.
+     */
     useEffect(() => {
-        // Load total votes per participant from local storage (Choices)
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
-            if (!courseKey) return;
+            const course = getCurrentCourseFromStorage(result);
+            if (!course) return;
 
-            const course = result[courseKey] ?? {};
-            const choices = Array.isArray(course?.choices) ? course.choices : [];
+            const choices = Array.isArray(course.choices) ? course.choices : [];
 
-            // Construir un mapa pid -> nº total de votos
-            const votesMap: Record<string, number> = {};
-
-            for (const choice of choices) {
-                const stats = Array.isArray(choice?.participantStats) ? choice.participantStats : [];
-                for (const s of stats) {
-                    const pid = String(s.participantId);
-                    votesMap[pid] = (votesMap[pid] ?? 0) + 1;
-                }
-            }
-
+            const votesMap = buildChoiceVotesByPid(choices);
             setChoiceVotesByPid(votesMap);
         });
     }, []);
 
-    // Cargar la nota media en talleres (0–10) por alumno desde chrome.storage.local
+    /**
+     * Load per-participant average workshop grade (0–10) from chrome storage.
+     *  - workshopAvgGradeByPid: pid -> average workshop grade.
+     */
     useEffect(() => {
         chrome.storage.local.get(null, (result) => {
-            const courseKey = Object.keys(result).find((key) => key.startsWith("course_"));
-            if (!courseKey) return;
+            const course = getCurrentCourseFromStorage(result);
+            if (!course) return;
 
-            const course = result[courseKey] ?? {};
-            const workshops = Array.isArray(course?.workshops) ? course.workshops : [];
+            const workshops = Array.isArray(course.workshops) ? course.workshops : [];
 
             const avgMap = buildWorkshopAvgGradeMap(workshops);
             setWorkshopAvgGradeByPid(avgMap);
@@ -337,63 +224,75 @@ const CorrelationsTab: React.FC = () => {
     }, []);
 
 
+    // ---------------------------------------------------------------------------
+    // 1) Forum participation % vs average quiz grade
+    // ---------------------------------------------------------------------------
+
+    /**
+     * Derived metrics for the first correlation:
+     * X = forum participation percentage per participant
+     * Y = average quiz grade for that participant.
+     *
+     * These values are used both for the scatter plot (raw points) and
+     * for the regression line and qualitative correlation summary.
+     */
+    const {
+        axis: {min: minXAxis, max: maxXAxis, stepSize},
+        regression: {a, b, r, r2},
+        labels: {strengthKey, directionKey},
+    } = useMemo(() => buildCorrelationStats(xyPoints), [xyPoints]);
+
+    // Final human-readable correlation summary, using i18n keys
+    const corrText = useMemo(
+        () =>
+            t("note.corr.template", {
+                strength: t(strengthKey),
+                direction: t(directionKey),
+            }),
+        [t, strengthKey, directionKey]
+    );
 
 
-    // Axis: compute a "nice" 0..100% X scale based on current points.
-    const {min: minXAxis, max: maxXAxis, stepSize} = useMemo(() => {
-        // keeps labels tidy as data scales
-        return computeXAxisBounds(xyPoints, 100);
-    }, [xyPoints]);
+    // ---------------------------------------------------------------------------
+    // 2) Quiz total views vs average quiz grade
+    // ---------------------------------------------------------------------------
 
-    // Regression and correlation stats for current points
-    const {a, b, r, r2} = useMemo(() => leastSquares(xyPoints), [xyPoints]);
+    /**
+     * X = total quiz views per participant (aggregated across all quizzes)
+     * Y = average quiz grade for each participant.
+     *
+     * This axis computation dynamically pads min/max to create spacing in scatter plots
+     * where X is an unbounded integer count.
+     */
+    const {
+        min: minQuizX,
+        max: maxQuizX,
+        stepSize: stepQuizX
+    } = useMemo(
+        () => computeDynamicXAxis(quizViewsVsAvgPoints),
+        [quizViewsVsAvgPoints]
+    );
 
-    // Human-friendly labels (i18n) describing correlation strength and direction
-    const {strengthKey, directionKey} = useMemo(() => classifyCorrelation(r), [r]);
 
-    // Final note shown in UI (e.g., legend or caption)
-    const corrText = useMemo(() => {
-        // Keep it pure and derived; default values can live in your i18n JSON
-        return t("note.corr.template", {
-            strength: t(strengthKey),
-            direction: t(directionKey),
-        });
-    }, [t, strengthKey, directionKey]);
+    // ---------------------------------------------------------------------------
+    // 3) Total views (quizzes+workshops+assignments) vs average grade
+    // ---------------------------------------------------------------------------
 
-    const {min: minQuizX, max: maxQuizX, stepSize: stepQuizX} = useMemo(() => {
-        // Si tu computeXAxisBounds soporta omitir el 2º parámetro, úsalo así:
-        // return computeXAxisBounds(quizViewsVsAvgPoints);
-        // Si no, calculamos unos márgenes "agradables":
-        if (quizViewsVsAvgPoints.length === 0) return {min: 0, max: 1, stepSize: 1};
-        const xs = quizViewsVsAvgPoints.map(p => p.x);
-        const rawMin = Math.min(...xs);
-        const rawMax = Math.max(...xs);
-        const pad = Math.max(1, Math.round((rawMax - rawMin) * 0.05));
-        const min = Math.max(0, rawMin - pad);
-        const max = rawMax + pad;
-        // paso aproximado en 5-6 ticks
-        const stepSize = Math.max(1, Math.round((max - min) / 6));
-        return {min, max, stepSize};
-    }, [quizViewsVsAvgPoints]);
-
+    /**
+     * X = total views across all evaluable activities (quizzes, workshops, assignments)
+     * Y = average grade across those evaluable activities.
+     *
+     * The X-axis range is computed dynamically with a small padding so scatter
+     * points do not stick to the chart borders.
+     */
     const {
         min: minEvaluableX,
         max: maxEvaluableX,
         stepSize: stepEvaluableX,
-    } = useMemo(() => {
-        if (evaluableViewsVsAvgPoints.length === 0) {
-            return {min: 0, max: 1, stepSize: 1};
-        }
-        const xs = evaluableViewsVsAvgPoints.map((p) => p.x);
-        const rawMin = Math.min(...xs);
-        const rawMax = Math.max(...xs);
-        const pad = Math.max(1, Math.round((rawMax - rawMin) * 0.05));
-        const min = Math.max(0, rawMin - pad);
-        const max = rawMax + pad;
-        const stepSize = Math.max(1, Math.round((max - min) / 6));
-        return {min, max, stepSize};
-    }, [evaluableViewsVsAvgPoints]);
-
+    } = useMemo(
+        () => computeDynamicXAxis(evaluableViewsVsAvgPoints),
+        [evaluableViewsVsAvgPoints]
+    );
 
     const {a: aQuiz, b: bQuiz, r: rQuiz, r2: r2Quiz} = useMemo(
         () => leastSquares(quizViewsVsAvgPoints),
@@ -419,51 +318,78 @@ const CorrelationsTab: React.FC = () => {
     }, [rEval, t]);
 
     const quizPoints = useMemo(
-        () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Quiz),
+        () =>
+            evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Quiz),
         [evaluableViewsVsAvgPoints]
     );
     const workshopPoints = useMemo(
-        () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Workshop),
+        () =>
+            evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Workshop),
         [evaluableViewsVsAvgPoints]
     );
     const assignmentPoints = useMemo(
-        () => evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Assignment),
+        () =>
+            evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Assignment),
         [evaluableViewsVsAvgPoints]
     );
 
+    // ---------------------------------------------------------------------------
+    // 4) Forum views vs final grade
+    // ---------------------------------------------------------------------------
 
-// X = visitas a foros, Y = nota final (0..10)
+    /**
+     * X = total forum views per participant (aggregated across all forums)
+     * Y = final grade for that participant (clamped to 0–10).
+     */
     const xyPointsFinalViews = useMemo(() => {
         const pts: { pid: number; x: number; y: number }[] = [];
+
         for (const [pidStr, views] of Object.entries(forumViewsByPid)) {
             const pid = Number(pidStr);
             const student = participantsById.get(String(pid));
             const yFinal = student?.finalGrade;
 
             if (Number.isFinite(views) && Number.isFinite(yFinal)) {
-                const x = Math.max(0, Math.floor(Number(views)));      // entero >= 0
+                const x = Math.max(0, Math.floor(Number(views)));      // integer >= 0
                 const y = Math.max(0, Math.min(10, Number(yFinal)));   // clamp 0..10
-                pts.push({ pid, x, y });
+                pts.push({pid, x, y});
             }
         }
+
         return pts;
     }, [forumViewsByPid, participantsById]);
 
-    const { min: minXAxisViews, max: maxXAxisViews, stepSize: stepSizeViews } = useMemo(() => {
-        return computeXAxisBounds(xyPointsFinalViews); // sin % ni 100 fijo
-    }, [xyPointsFinalViews]);
+    /**
+     * Dynamic X-axis range for total forum views.
+     * Uses a small padding so scatter points do not stick to chart borders.
+     */
+    const {
+        min: minXAxisViews,
+        max: maxXAxisViews,
+        stepSize: stepSizeViews,
+    } = useMemo(
+        () => computeDynamicXAxis(xyPointsFinalViews),
+        [xyPointsFinalViews]
+    );
 
-    const { a: aViews, b: bViews, r: rViews, r2: r2Views } = useMemo(
+    const {a: aViews, b: bViews, r: rViews, r2: r2Views} = useMemo(
         () => leastSquares(xyPointsFinalViews),
         [xyPointsFinalViews]
     );
 
     const finalCorrTextViews = useMemo(() => {
-        const { strengthKey, directionKey } = classifyCorrelation(rViews);
-        return t("note.corr.template", { strength: t(strengthKey), direction: t(directionKey) });
+        const {strengthKey, directionKey} = classifyCorrelation(rViews);
+        return t("note.corr.template", {
+            strength: t(strengthKey),
+            direction: t(directionKey),
+        });
     }, [rViews, t]);
 
-    // X = participación en encuestas (suma de votos), Y = nota media en talleres (0..10)
+
+    // ---------------------------------------------------------------------------
+    // 5) Choice votes vs workshop average grade
+    // ---------------------------------------------------------------------------
+
     const xyPointsChoiceVotesWorkshop = useMemo(() => {
         const pts: { pid: number; x: number; y: number }[] = [];
 
@@ -481,33 +407,34 @@ const CorrelationsTab: React.FC = () => {
             if (Number.isFinite(yAvgWorkshop)) {
                 const x = Math.max(0, Math.floor(votes));              // votos enteros >= 0
                 const y = Math.max(0, Math.min(10, yAvgWorkshop));     // clamp 0..10
-                pts.push({ pid, x, y });
+                pts.push({pid, x, y});
             }
         }
+
         return pts;
     }, [choiceVotesByPid, workshopAvgGradeByPid]);
-
-// Límites dinámicos del eje X (mín, máx, paso)
-    const { min: minChoiceX, max: maxChoiceX, stepSize: stepSizeChoice } = useMemo(() => {
-        return computeXAxisBounds(xyPointsChoiceVotesWorkshop);
-    }, [xyPointsChoiceVotesWorkshop]);
-
-// Regresión lineal y coeficientes para esta correlación
-    const { a: aChoiceW, b: bChoiceW, r: rChoiceW, r2: r2ChoiceW } = useMemo(
+    // Límites dinámicos del eje X (mín, máx, paso)
+    const {
+        min: minChoiceX,
+        max: maxChoiceX,
+        stepSize: stepSizeChoice,
+    } = useMemo(
+        () => computeDynamicXAxis(xyPointsChoiceVotesWorkshop),
+        [xyPointsChoiceVotesWorkshop]
+    );
+    // Regresión lineal y coeficientes para esta correlación
+    const {a: aChoiceW, b: bChoiceW, r: rChoiceW, r2: r2ChoiceW} = useMemo(
         () => leastSquares(xyPointsChoiceVotesWorkshop),
         [xyPointsChoiceVotesWorkshop]
     );
-
-// Texto cualitativo de correlación (débil/moderada/fuerte + signo)
+    // Texto cualitativo de correlación (débil/moderada/fuerte + signo)
     const choiceWorkshopCorrText = useMemo(() => {
-        const { strengthKey, directionKey } = classifyCorrelation(rChoiceW);
+        const {strengthKey, directionKey} = classifyCorrelation(rChoiceW);
         return t("note.corr.template", {
             strength: t(strengthKey),
             direction: t(directionKey),
         });
     }, [rChoiceW, t]);
-
-
 
 
     return (
@@ -610,7 +537,8 @@ const CorrelationsTab: React.FC = () => {
             ) : (
                 // Empty-state fallback
                 <div
-                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md min-h-[300px] flex items-center justify-center">
+                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl
+                    shadow-md min-h-[300px] flex items-center justify-center">
                     <p className="text-base text-orange-600 font-semibold">
                         {t("state.no_predictive_data")}
                     </p>
@@ -694,7 +622,8 @@ const CorrelationsTab: React.FC = () => {
                     }}
                 >
                     {/* Resumen de correlación */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
+                    leading-relaxed text-gray-700 space-y-1">
                         <li>
                             <span className="font-semibold">{t("note.slope_title")}: </span>
                             {t("note.slope_explainer", {slope: bQuiz.toFixed(3)})}
@@ -787,7 +716,6 @@ const CorrelationsTab: React.FC = () => {
                             },
                         ]
                     }}
-
                     options={{
                         responsive: true,
                         maintainAspectRatio: false,
@@ -851,7 +779,8 @@ const CorrelationsTab: React.FC = () => {
                 </GraphBlock>
             ) : (
                 <div
-                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md min-h-[300px] flex items-center justify-center">
+                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md
+                    min-h-[300px] flex items-center justify-center">
                     <p className="text-base text-orange-600 font-semibold">
                         {t("note.not_enough_points")}
                     </p>
@@ -859,7 +788,7 @@ const CorrelationsTab: React.FC = () => {
             )}
 
 
-            {/* Scatter: forum views (X) vs final course grade (Y) */}
+            {/* Scatter: forum views (X) vs. final course grade (Y) */}
             {xyPointsFinalViews.length >= 3 ? (
                 <GraphBlock
                     title={t("chart.predictive.forum_views_vs_final_grade")}
@@ -887,8 +816,8 @@ const CorrelationsTab: React.FC = () => {
                                 type: "line",
                                 label: t("chart.regression_line"),
                                 data: [
-                                    { x: minXAxisViews, y: regressionY(aViews, bViews, minXAxisViews) },
-                                    { x: maxXAxisViews, y: regressionY(aViews, bViews, maxXAxisViews) },
+                                    {x: minXAxisViews, y: regressionY(aViews, bViews, minXAxisViews)},
+                                    {x: maxXAxisViews, y: regressionY(aViews, bViews, maxXAxisViews)},
                                 ],
                                 pointRadius: 0,
                                 borderWidth: 2,
@@ -904,7 +833,7 @@ const CorrelationsTab: React.FC = () => {
                         maintainAspectRatio: false,
                         scales: {
                             x: {
-                                title: { display: true, text: t("axis.forum_views") },
+                                title: {display: true, text: t("axis.forum_views")},
                                 min: minXAxisViews,
                                 max: maxXAxisViews,
                                 ticks: {
@@ -913,7 +842,7 @@ const CorrelationsTab: React.FC = () => {
                                 },
                             },
                             y: {
-                                title: { display: true, text: t("axis.final_grade_0_10") },
+                                title: {display: true, text: t("axis.final_grade_0_10")},
                                 min: 0,
                                 max: 10,
                             },
@@ -937,23 +866,26 @@ const CorrelationsTab: React.FC = () => {
                     }}
                 >
                     {/* Resumen de correlación */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
+                    leading-relaxed text-gray-700 space-y-1">
                         <li>
                             <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", { slope: bViews.toFixed(3) })}
+                            {t("note.slope_explainer", {slope: bViews.toFixed(3)})}
                         </li>
                         <li>
                             <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", { r: rViews.toFixed(3), corr: finalCorrTextViews })}
+                            {t("note.r_explainer", {r: rViews.toFixed(3), corr: finalCorrTextViews})}
                         </li>
                         <li>
                             <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", { pct: (r2Views * 100).toFixed(1) })}
+                            {t("note.r2_explainer", {pct: (r2Views * 100).toFixed(1)})}
                         </li>
                     </ul>
                 </GraphBlock>
             ) : (
-                <div className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md min-h-[300px] flex items-center justify-center">
+                <div
+                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md
+                    min-h-[300px] flex items-center justify-center">
                     <p className="text-base text-orange-600 font-semibold">
                         {t("state.no_predictive_data")}
                     </p>
@@ -989,8 +921,8 @@ const CorrelationsTab: React.FC = () => {
                                 type: "line",
                                 label: t("chart.regression_line"),
                                 data: [
-                                    { x: minChoiceX, y: regressionY(aChoiceW, bChoiceW, minChoiceX) },
-                                    { x: maxChoiceX, y: regressionY(aChoiceW, bChoiceW, maxChoiceX) },
+                                    {x: minChoiceX, y: regressionY(aChoiceW, bChoiceW, minChoiceX)},
+                                    {x: maxChoiceX, y: regressionY(aChoiceW, bChoiceW, maxChoiceX)},
                                 ],
                                 pointRadius: 0,
                                 borderWidth: 2,
@@ -1006,7 +938,7 @@ const CorrelationsTab: React.FC = () => {
                         maintainAspectRatio: false,
                         scales: {
                             x: {
-                                title: { display: true, text: t("axis.choice_votes") },
+                                title: {display: true, text: t("axis.choice_votes")},
                                 min: minChoiceX,
                                 max: maxChoiceX,
                                 ticks: {
@@ -1014,7 +946,7 @@ const CorrelationsTab: React.FC = () => {
                                 },
                             },
                             y: {
-                                title: { display: true, text: t("axis.workshop_avg_grade_0_10") },
+                                title: {display: true, text: t("axis.workshop_avg_grade_0_10")},
                                 min: 0,
                                 max: 10,
                             },
@@ -1027,8 +959,8 @@ const CorrelationsTab: React.FC = () => {
                                         return raw?.studentName ?? t("legend.students");
                                     },
                                     label: (ctx) => {
-                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x; // votes: entero
-                                        const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y; // nota media talleres
+                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x;
+                                        const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y;
                                         return `${x} ${t("legend.votes")} · ${y}/10`;
                                     },
                                 },
@@ -1037,30 +969,31 @@ const CorrelationsTab: React.FC = () => {
                     }}
                 >
                     {/* Resumen de correlación */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
+                    leading-relaxed text-gray-700 space-y-1">
                         <li>
                             <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", { slope: aChoiceW.toFixed(3) })}
+                            {t("note.slope_explainer", {slope: aChoiceW.toFixed(3)})}
                         </li>
                         <li>
                             <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", { r: rChoiceW.toFixed(3), corr: choiceWorkshopCorrText })}
+                            {t("note.r_explainer", {r: rChoiceW.toFixed(3), corr: choiceWorkshopCorrText})}
                         </li>
                         <li>
                             <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", { pct: (r2ChoiceW * 100).toFixed(1) })}
+                            {t("note.r2_explainer", {pct: (r2ChoiceW * 100).toFixed(1)})}
                         </li>
                     </ul>
                 </GraphBlock>
             ) : (
-                <div className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md min-h-[300px] flex items-center justify-center">
+                <div
+                    className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md
+                    min-h-[300px] flex items-center justify-center">
                     <p className="text-base text-orange-600 font-semibold">
                         {t("state.no_predictive_data")}
                     </p>
                 </div>
             )}
-
-
 
 
         </div>
