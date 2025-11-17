@@ -14,7 +14,6 @@
  * @date 2025
  */
 
-
 import React, {useEffect, useMemo, useState} from "react";
 import GraphBlock from "../GraphBlock";
 import "../../chartConfig";
@@ -40,7 +39,6 @@ import {
     leastSquares,
     regressionY
 } from "../../utils/correlationMath";
-
 
 const CorrelationsTab: React.FC = () => {
     const {t} = useTranslation();

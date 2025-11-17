@@ -17,6 +17,79 @@
 import {ChartData} from "chart.js";
 import {Quiz} from "../models/Quiz";
 
+// src/utils/chartUtils.ts
+
+/** Supported chart types across the extension. */
+export type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea" | "scatter";
+
+/**
+ * Truncate helper for axis/category labels.
+ * Keeps labels readable on dense charts while preserving meaning.
+ */
+export const truncateText = (text: string, maxLength = 15): string =>
+    text.length > maxLength ? `${text.slice(0, maxLength - 1)}…` : text;
+
+/**
+ * Flatten all numeric values from the given datasets into a single array.
+ * Non-numeric values (null, undefined, NaN) are ignored.
+ */
+export function flattenNumbers(
+    datasets?: { data?: unknown[] }[]
+): number[] {
+    if (!datasets) return [];
+
+    const out: number[] = [];
+
+    for (const ds of datasets) {
+        const rawData = (ds.data ?? []) as (number | null | undefined)[];
+
+        for (const v of rawData) {
+            if (typeof v === "number" && Number.isFinite(v)) {
+                out.push(v);
+            }
+        }
+    }
+
+    return out;
+}
+
+/**
+ * Compute suggested Y-axis limits with a small padding around the
+ * min/max values. The minimum is clamped to 0 to keep charts readable.
+ */
+export function computeAxisLimits(values: number[]) {
+    if (values.length === 0) {
+        return {suggestedMin: 0, suggestedMax: 1};
+    }
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+
+    if (min === max) {
+        // Keep axis readable even with a flat line; never below zero
+        return {
+            suggestedMin: Math.max(0, min - 1),
+            suggestedMax: max + 1,
+        };
+    }
+
+    const range = max - min;
+    const pad = range * 0.05;
+
+    return {
+        suggestedMin: Math.max(0, min - pad),
+        suggestedMax: max + pad,
+    };
+}
+
+/**
+ * Compute a reasonable tick step size for the Y axis based on the
+ * maximum value and a target number of ticks.
+ */
+export function computeStepSize(max: number, targetTicks = 8) {
+    return Math.max(1, Math.ceil(max / targetTicks));
+}
+
 /**
  * Calculates the average number of views per user for each activity.
  *
@@ -75,7 +148,6 @@ export const extractUniqueRoles = (participants: any[]): string[] => {
     return Array.from(roles);
 };
 
-
 /**
  * Filters a list of participants based on selected roles.
  *
@@ -91,14 +163,10 @@ export const filterByRoles = (participants: any[], selectedRoles: string[]): any
 // Default threshold (used if no custom value is provided)
 export const DEFAULT_ACTIVE_THRESHOLD_DAYS = 14;
 
-/**
- * Minimal shape: only requires lastAccessToCourse in ms.
- * Export it si lo necesitas fuera.
- */
 export type HasLastAccess = { lastAccessToCourse?: number | null };
 
 /**
- * Computes the number of active vs inactive participants based on their last access time.
+ * Computes the number of active vs. inactive participants based on their last access time.
  *
  * @param participants Array with `lastAccessToCourse` (ms since last access).
  * @param thresholdDays Participant is ACTIVE if last access is within `thresholdDays`.

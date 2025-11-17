@@ -1,13 +1,16 @@
 /**
  * @file GraphBlock.tsx
- * @description
- * Reusable React component that renders a Chart.js-based graph (Pie, Bar, Line, or Radar)
- * with built-in export options. It supports rendering chart visualizations with custom titles,
- * configurable sizes, export buttons, and optional custom filters passed as children.
  *
- * The component receives data and configuration props and dynamically chooses
- * the appropriate Chart.js component based on the specified chart type.
- * It also includes a ref to access the chart instance for export functionality.
+ * @description
+ * Reusable chart wrapper component built on top of react-charts-2 and Chart.js.
+ * It renders multiple chart types (pie, bar, line, radar, polarArea, scatter)
+ * with a unified layout, responsive behavior, and built-in export capabilities
+ * (CSV, PDF, DOCX, PNG/JPEG).
+ *
+ * The component selects the appropriate Chart.js renderer based on `chartType`,
+ * applies sensible per-type defaults, merges custom options, and exposes the
+ * underlying chart instance through a ref for export operations. Optional
+ * filter/selector controls can be provided via `children`.
  *
  * @author Raúl García Balongo
  * @date 2025
@@ -23,7 +26,11 @@ import {useTranslation} from "react-i18next";
 import {DocumentTextIcon} from "@heroicons/react/16/solid";
 import {useExportContext} from "../context/ExportContext";
 
-type ChartType = "pie" | "bar" | "line" | "radar" | "polarArea" | "scatter";
+import {ChartType, computeAxisLimits, computeStepSize, flattenNumbers, truncateText,} from "../utils/chartDataUtils";
+
+// ============================================================================
+// 1. Public API & chart configuration (types, component maps, sizes)
+// ============================================================================
 
 interface GraphBlockProps {
     title: string;
@@ -51,9 +58,6 @@ const chartSizes: Record<ChartType, string> = {
     scatter: "w-full max-w-6xl h-[380px]",
 };
 
-//const truncate = (label: string, maxLength = 15): string =>
-//    label.length > maxLength ? label.slice(0, maxLength) + "…" : label;
-
 const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    title,
                                                    chartType,
@@ -61,24 +65,34 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    options,
                                                    children,
                                                }) => {
+
+    // =========================================================================
+    // 2. Core setup: refs, contexts, responsive behavior, base export data
+    // =========================================================================
+
     const {t} = useTranslation();
     const chartRef = useRef<ChartJS>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const {lastAnalyzedAt} = useAnalysisContext();
     const {register, unregister} = useExportContext();
 
-    /** Truncate helper for axis labels */
-    const truncateText = (text: string, max = 15) =>
-        text.length > max ? `${text.slice(0, max - 1)}…` : text;
-
-    /** Observe container size and trigger chart resize after the layout settles */
+    /**
+     * Observe the container size and trigger a chart resize
+     * once the layout has settled. This keeps charts responsive
+     * when the side panel or window is resized.
+     */
     useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+
         const observer = new ResizeObserver(() => {
             if (!chartRef.current) return;
+            // Small timeout to avoid thrashing layout while the
+            // browser is still resolving flex/grid changes.
             setTimeout(() => chartRef.current?.resize(), 100);
         });
-        const el = containerRef.current;
-        if (el) observer.observe(el);
+
+        observer.observe(el);
         return () => observer.disconnect();
     }, []);
 
@@ -86,136 +100,183 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     const ChartComponent = chartComponents[chartType];
     const chartWidthClass = chartSizes[chartType] || "w-[300px]";
 
-    /** Safe export payload (labels and first dataset values only) */
-    const exportLabels =
-        Array.isArray(data.labels) && data.labels.every((l) => typeof l === "string")
-            ? (data.labels as string[])
-            : [];
+    /**
+     * Safe export payload (labels and first dataset numeric values only).
+     * This is intentionally conservative to avoid runtime errors when
+     * datasets contain mixed or non-numeric values.
+     */
+    const exportLabels = useMemo<string[]>(() => {
+        if (Array.isArray(data.labels) && data.labels.every((l) => typeof l === "string")) {
+            return data.labels as string[];
+        }
+        return [];
+    }, [data.labels]);
 
-    const exportValues =
-        Array.isArray(data.datasets?.[0]?.data) &&
-        data.datasets[0].data.every((v: unknown) => typeof v === "number")
-            ? (data.datasets[0].data as number[])
-            : [];
+    const exportValues = useMemo<number[]>(() => {
+        const firstDataset = data.datasets?.[0];
+        if (
+            Array.isArray(firstDataset?.data) &&
+            firstDataset.data.every((v: unknown) => typeof v === "number")
+        ) {
+            return firstDataset.data as number[];
+        }
+        return [];
+    }, [data.datasets]);
 
 
+    // =========================================================================
+    // 3. Scatter export model (rows and headers) & ExportContext registration
+    // =========================================================================
 
-
-
-
-    // === NUEVO: soporte de exportación para SCATTER (3 columnas) ===
+    // --- Scatter export support (3-column layout: X, Y, Label) ---
     const isScatter = chartType === "scatter";
 
-    // Intenta leer títulos de ejes si existen, para usarlos como cabeceras
-    const xAxisTitle =
-        (options as any)?.scales?.x?.title?.text ||
-        (data as any)?.options?.scales?.x?.title?.text ||
-        // fallback traducido genérico
-        (isScatter ? t("axis.x") : t("category"));
+    /**
+     * Try to read axis titles from the chart options, if available.
+     * They will be used as column headers when exporting scatter data.
+     * Falls back to generic translated labels for X/Y axes.
+     */
+    const xAxisTitle = useMemo(() => {
+        const explicitTitle =
+            (options as any)?.scales?.x?.title?.text ??
+            (data as any)?.options?.scales?.x?.title?.text;
 
-    const yAxisTitle =
-        (options as any)?.scales?.y?.title?.text ||
-        (data as any)?.options?.scales?.y?.title?.text ||
-        (isScatter ? t("axis.y") : t("value"));
+        if (explicitTitle) return explicitTitle;
+        // Generic fallback (scatter vs non-scatter)
+        return isScatter ? t("axis.x") : t("category");
+    }, [options, data, isScatter, t]);
 
-    // Construye filas a partir de los datasets tipo scatter (ignora la recta de regresión)
+    const yAxisTitle = useMemo(() => {
+        const explicitTitle =
+            (options as any)?.scales?.y?.title?.text ??
+            (data as any)?.options?.scales?.y?.title?.text;
+
+        if (explicitTitle) return explicitTitle;
+        return isScatter ? t("axis.y") : t("value");
+    }, [options, data, isScatter, t]);
+
+    /**
+     * Build row-wise data for scatter export: [x, y, label].
+     * Only true scatter datasets are considered (regression lines are ignored).
+     */
     const scatterRows: (string | number)[][] = useMemo(() => {
         if (!isScatter || !Array.isArray(data?.datasets)) return [];
 
+        type ScatterPointLike = {
+            x: number;
+            y: number;
+            studentName?: string;
+            quizName?: string;
+            label?: string;
+            // Allow extra fields without typing them explicitly
+            [key: string]: unknown;
+        };
+
         const rows: (string | number)[][] = [];
+
         for (const ds of data.datasets as any[]) {
             if (ds?.type !== "scatter" || !Array.isArray(ds?.data)) continue;
-            for (const p of ds.data) {
-                if (p && typeof p.x === "number" && typeof p.y === "number") {
+
+            for (const rawPoint of ds.data as ScatterPointLike[]) {
+                if (rawPoint) {
                     const label3 =
-                        p.studentName ??
-                        p.quizName ??
-                        p.label ??
-                        // si quieres, usa el label del dataset como 3ª columna por defecto
+                        rawPoint.studentName ??
+                        rawPoint.quizName ??
+                        rawPoint.label ??
+                        // As a last resort, use the dataset label
                         ds?.label ??
                         "";
-                    rows.push([p.x, p.y, label3]);
+
+                    rows.push([rawPoint.x, rawPoint.y, label3]);
                 }
             }
         }
+
         return rows;
     }, [isScatter, data]);
 
-    // Cabeceras para 3 columnas; la tercera intenta inferirse del label del dataset principal
+    /**
+     * Column headers for scatter exports (X, Y, Label).
+     * The third column attempts to infer a semantic label based on the
+     * main scatter dataset (students, quizzes, ...).
+     */
     const scatterHeaders: string[] = useMemo(() => {
         if (!isScatter) return [];
-        // Intenta detectar si el dataset principal representa "students", "quizzes", etc.
-        const mainScatter = (data?.datasets as any[])?.find((d) => d?.type === "scatter");
+
+        const mainScatter = (data?.datasets as any[])?.find(
+            (d) => d?.type === "scatter"
+        );
         const dsLabel = (mainScatter?.label as string) || "";
+
+        // Default to a generic "label" translation
         let thirdCol = t("label");
-        if (/student/i.test(dsLabel)) thirdCol = t("legend.students");
-        else if (/quiz/i.test(dsLabel)) thirdCol = t("legend.quizzes");
-        // añade más heurísticas si quieres
+
+        if (/student/i.test(dsLabel)) {
+            thirdCol = t("legend.students");
+        } else if (/quiz/i.test(dsLabel)) {
+            thirdCol = t("legend.quizzes");
+        }
+        // Additional heuristics could be added here if needed
+
         return [String(xAxisTitle), String(yAxisTitle), thirdCol];
     }, [isScatter, data, xAxisTitle, yAxisTitle, t]);
 
-    // ... (sigue igual: register/unregister, defaults, etc.)
 
-    // (Opcional) registra también rows + headers para "Export All" si tu contexto lo admite
+    /**
+     * Export metadata consumed by the ExportContext so this chart can be
+     * included in "Export all" operations (combined PDF/DOCX/…).
+     *
+     * - `labels` / `values`: classic 2-column export (category, value).
+     * - `rows` / `headers3`: optional 3-column layout for scatter charts.
+     */
     const exportable = useMemo(
         () => ({
             chartRef,
             title,
             labels: exportLabels,
             values: exportValues,
-            // nuevos opcionales:
+            // Optional: row-wise data for scatter exports (X, Y, label)
             rows: scatterRows,
             headers3: scatterHeaders,
             chartType,
         }),
-        [title, exportLabels, exportValues, scatterRows, scatterHeaders, chartType]
+        [
+            chartRef,
+            title,
+            exportLabels,
+            exportValues,
+            scatterRows,
+            scatterHeaders,
+            chartType,
+        ]
     );
 
+    /**
+     * Register this chart instance in the ExportContext when it is rendered
+     * and automatically unregister it when it unmounts or its registration
+     * key changes.
+     */
     useEffect(() => {
         register(exportable);
         return () => unregister(chartRef);
-    }, [exportable, register, unregister]);
+    }, [exportable, register, unregister, chartRef]);
 
-    /** ---- Y‑axis limits helpers (bar/line only) ---- */
 
-    // Collect numeric values from all datasets
-    function flattenNumbers(datasets?: { data?: unknown[] }[]): number[] {
-        if (!datasets) return [];
-        const out: number[] = [];
-        for (const ds of datasets) {
-            for (const v of (ds.data ?? []) as (number | null | undefined)[]) {
-                if (typeof v === "number" && Number.isFinite(v)) out.push(v);
-            }
-        }
-        return out;
-    }
+    // =========================================================================
+    // 4. Chart.js axis limits & per-type default options
+    // =========================================================================
 
-    // Compute min/max with 5% padding; clamp min to 0
-    function computeAxisLimits(values: number[]) {
-        if (values.length === 0) return {suggestedMin: 0, suggestedMax: 1};
+    /** ---- Y-axis limits helpers (bar/line only) ---- */
 
-        const min = Math.min(...values);
-        const max = Math.max(...values);
+    const numericValues = useMemo(
+        () => flattenNumbers(data.datasets as { data?: unknown[] }[]),
+        [data.datasets]
+    );
 
-        if (min === max) {
-            // Keep axis readable even with a flat line; never below zero
-            return {suggestedMin: Math.max(0, min - 1), suggestedMax: max + 1};
-        }
-
-        const range = max - min;
-        const pad = range * 0.05;
-        return {
-            suggestedMin: Math.max(0, min - pad),
-            suggestedMax: max + pad,
-        };
-    }
-
-    function computeStepSize(max: number, targetTicks = 8) {
-        return Math.max(1, Math.ceil(max / targetTicks));
-    }
-
-    const numericValues = flattenNumbers(data.datasets as { data?: unknown[] }[]);
-    const {suggestedMin, suggestedMax} = computeAxisLimits(numericValues);
+    const {suggestedMin, suggestedMax} = useMemo(
+        () => computeAxisLimits(numericValues),
+        [numericValues]
+    );
 
     /** ---- Default chart options (merged with incoming `options`) ---- */
     const baseLegend = {
@@ -230,7 +291,18 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
         },
     };
 
-    const defaultOptions: ChartOptions = (() => {
+    /**
+     * Default Chart.js options per chart type.
+     *
+     * These options provide:
+     * - sensible Y-axis limits for bar/line charts (using suggestedMin/Max)
+     * - truncated X-axis labels for dense categorical charts
+     * - linear axes for scatter plots
+     * - simple legend configuration for radar / pie / polarArea
+     *
+     * Incoming `options` are later merged on top of this object.
+     */
+    const defaultOptions: ChartOptions = useMemo(() => {
         // Cartesian charts: bar / line
         if (chartType === "bar" || chartType === "line") {
             return {
@@ -251,16 +323,20 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                     },
                     x: {
                         ticks: {
-                            // Use index to read the original label and truncate it
+                            /**
+                             * Use the index to read the original label and
+                             * apply truncation so long labels don't break layout.
+                             */
                             callback: (val: unknown) => {
                                 const idx =
-                                    typeof val === "number"
-                                        ? val
-                                        : Number(val); // category scale passes the index
+                                    typeof val === "number" ? val : Number(val); // category scale passes the index
+
                                 const raw =
-                                    Array.isArray(data.labels) && typeof data.labels[idx] === "string"
+                                    Array.isArray(data.labels) &&
+                                    typeof data.labels[idx] === "string"
                                         ? (data.labels[idx] as string)
                                         : String(val);
+
                                 return truncateText(raw, 15);
                             },
                             maxRotation: 30,
@@ -272,15 +348,16 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             };
         }
 
+        // Scatter: keep both axes linear; scales tuned by each chart
         if (chartType === "scatter") {
             return {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: baseLegend },
+                plugins: {legend: baseLegend},
                 scales: {
-                    x: { type: "linear", beginAtZero: true },
-                    y: { type: "linear", beginAtZero: true }
-                }
+                    x: {type: "linear", beginAtZero: true},
+                    y: {type: "linear", beginAtZero: true},
+                },
             };
         }
 
@@ -300,128 +377,215 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             aspectRatio: 1,             // square canvas to match w-*/h-* above
             plugins: {legend: baseLegend},
         };
-    })();
+    }, [chartType, data.labels, suggestedMax]);
 
-    // Merge defaults with per‑chart overrides while preserving scales
-    const mergedOptions: ChartOptions = {
-        ...defaultOptions,
-        ...options,
-        scales: {
-            ...(defaultOptions.scales ?? {}),
-            ...(options?.scales ?? {}),
-        },
-    };
+
+    /**
+     * Merge per-chart default options with caller-provided overrides.
+     *
+     * Note:
+     * - Top-level properties from `options` override `defaultOptions`.
+     * - `scales` are merged shallowly so that callers can customize axes
+     *   without losing the sensible defaults defined above.
+     */
+    const mergedOptions: ChartOptions = useMemo(
+        () => ({
+            ...defaultOptions,
+            ...options,
+            scales: {
+                ...(defaultOptions.scales ?? {}),
+                ...(options?.scales ?? {}),
+            },
+        }),
+        [defaultOptions, options]
+    );
+
+
+    // =========================================================================
+    // 5. Export metadata
+    // =========================================================================
 
     /** ---- Export metadata ---- */
     const sanitizedId = `chart-title-${title.replace(/\s+/g, "-").toLowerCase()}`;
+
+    /**
+     * Fixed the list of raster formats supported for image export.
+     * (SVG is not used here because we export directly from the canvas.)
+     */
     const imageFormats: ("png" | "jpeg")[] = ["png", "jpeg"];
-    const formattedDate = lastAnalyzedAt ? formatDateForExport(lastAnalyzedAt) : "unknown";
+
+    const formattedDate = lastAnalyzedAt
+        ? formatDateForExport(lastAnalyzedAt)
+        : "unknown";
+
+    // Title is passed as an i18n key; we use the translated version
+    // for both on-screen label and exported file names.
     const translatedTitle = t(title);
     const baseFileName = `${translatedTitle}__${formattedDate}`;
+
+    // Default 2-column headers for non-scatter exports
     const headerLabels: [string, string] = [t("category"), t("value")];
 
-    // Chart components are already forward‑ref capable in the map
+    // Chart components from react-chartjs-2 are forwardRef-capable;
+    // we cast here to make the ref type explicit for TypeScript.
     const ChartWithRef = ChartComponent as React.ForwardRefExoticComponent<any>;
+
+
+    // =========================================================================
+    // 6. Action handlers
+    // =========================================================================
+
+    /**
+     * Handlers for export actions (CSV / PDF / DOCX / image).
+     * Scatter charts use a row-wise 3-column export, while
+     * other charts fall back to the classic 2-column format.
+     */
+    const handleExportCSV = () => {
+        if (isScatter && scatterRows.length > 0) {
+            // Row-wise mode for scatter charts
+            exportToCSV({
+                rows: scatterRows,
+                filename: baseFileName,
+                headers: scatterHeaders,
+            });
+        } else {
+            // Classic 2-column mode: category / value
+            exportToCSV(exportLabels, exportValues, baseFileName, headerLabels);
+        }
+    };
+
+    const handleExportPDF = () => {
+        if (isScatter && scatterRows.length > 0) {
+            // Requires exportToPDF to support { rows, headers }
+            exportToPDF(chartRef, [], [], `${baseFileName}.pdf`, headerLabels, {
+                rows: scatterRows,
+                headers: scatterHeaders,
+            });
+        } else {
+            exportToPDF(
+                chartRef,
+                exportLabels,
+                exportValues,
+                `${baseFileName}.pdf`,
+                headerLabels
+            );
+        }
+    };
+
+    const handleExportDOCX = () => {
+        if (isScatter && scatterRows.length > 0) {
+            exportToDOCX(
+                chartRef,
+                [],
+                [],
+                `${baseFileName}.docx`,
+                headerLabels,
+                {rows: scatterRows, headers: scatterHeaders}
+            )
+                .then(() => {
+                    // No-op: DOCX generated
+                })
+                .catch(() => {
+                    // Optional: silent catch to avoid unhandled promise warnings
+                });
+        } else {
+            exportToDOCX(
+                chartRef,
+                exportLabels,
+                exportValues,
+                `${baseFileName}.docx`,
+                headerLabels
+            )
+                .then(() => {
+                    // No-op: DOCX generated
+                })
+                .catch(() => {
+                    // Optional: silent catch
+                });
+        }
+    };
+
+    const handleExportImage = (format: "png" | "jpeg") => {
+        exportToImage(chartRef, format, baseFileName);
+    };
+
+    // =========================================================================
+    // 7. Render
+    // =========================================================================
 
     return (
         <div className="mb-6 relative" role="region" aria-labelledby={sanitizedId}>
-            {/* Title y botones */}
+            {/* Title + export buttons */}
             <div className="mb-2 flex flex-col gap-2">
-                <p id={sanitizedId} className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
-           bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full break-words text-left">
+                <p
+                    id={sanitizedId}
+                    className="text-sm sm:text-base font-semibold text-orange-600 tracking-wide
+                               bg-orange-100 px-2 py-0.5 rounded shadow-sm inline-block max-w-full
+                               break-words text-left"
+                >
                     {translatedTitle}
                 </p>
 
                 <div className="flex gap-2 flex-wrap justify-end">
                     {/* CSV */}
                     <button
-                        onClick={() => {
-                            if (isScatter && scatterRows.length > 0) {
-                                // NUEVO modo por filas
-                                exportToCSV({
-                                    rows: scatterRows,
-                                    filename: baseFileName,
-                                    headers: scatterHeaders,
-                                });
-                            } else {
-                                // Modo clásico 2 columnas
-                                exportToCSV(exportLabels, exportValues, baseFileName, headerLabels);
-                            }
-                        }}
+                        onClick={handleExportCSV}
                         title="Download CSV"
                         aria-label="Export chart as CSV"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                       hover:bg-orange-100 transition text-orange-600 text-xs"
+                                   hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <DocumentArrowDownIcon className="w-4 h-4" />
+                        <DocumentArrowDownIcon className="w-4 h-4"/>
                         CSV
                     </button>
 
                     {/* PDF */}
                     <button
-                        onClick={() => {
-                            if (isScatter && scatterRows.length > 0) {
-                                // requiere el mismo patrón en exportToPDF (soporte de { rows, headers })
-                                exportToPDF(chartRef, [], [], `${baseFileName}.pdf`, headerLabels, {
-                                    rows: scatterRows,
-                                    headers: scatterHeaders,
-                                });
-                            } else {
-                                exportToPDF(chartRef, exportLabels, exportValues, `${baseFileName}.pdf`, headerLabels);
-                            }
-                        }}
+                        onClick={handleExportPDF}
                         title="Download PDF"
                         aria-label="Export chart as PDF"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                       hover:bg-orange-100 transition text-orange-600 text-xs"
+                                   hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <ArrowDownTrayIcon className="w-4 h-4" />
+                        <ArrowDownTrayIcon className="w-4 h-4"/>
                         PDF
                     </button>
 
                     {/* DOCX */}
                     <button
-                        onClick={() => {
-                            if (isScatter && scatterRows.length > 0) {
-                                // requiere el mismo patrón en exportToDOCX (soporte de { rows, headers })
-                                exportToDOCX(chartRef, [], [], `${baseFileName}.docx`, headerLabels, {
-                                    rows: scatterRows,
-                                    headers: scatterHeaders,
-                                });
-                            } else {
-                                exportToDOCX(chartRef, exportLabels, exportValues, `${baseFileName}.docx`, headerLabels);
-                            }
-                        }}
+                        onClick={handleExportDOCX}
                         title="Download DOCX"
                         aria-label="Export chart as DOCX"
                         className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                       hover:bg-orange-100 transition text-orange-600 text-xs"
+                                   hover:bg-orange-100 transition text-orange-600 text-xs"
                     >
-                        <DocumentTextIcon className="w-4 h-4" />
+                        <DocumentTextIcon className="w-4 h-4"/>
                         DOCX
                     </button>
 
+                    {/* Images (PNG / JPEG) */}
                     {imageFormats.map((format) => (
                         <button
                             key={format}
-                            onClick={() => exportToImage(chartRef, format, baseFileName)}
+                            onClick={() => handleExportImage(format)}
                             title={`Download ${format.toUpperCase()}`}
                             aria-label={`Export chart as ${format.toUpperCase()}`}
                             className="flex items-center gap-1 px-2 py-1 border border-orange-500 rounded
-                         hover:bg-orange-100 transition text-orange-600 text-xs"
+                                       hover:bg-orange-100 transition text-orange-600 text-xs"
                         >
-                            <PhotoIcon className="w-4 h-4" />
+                            <PhotoIcon className="w-4 h-4"/>
                             {format.toUpperCase()}
                         </button>
                     ))}
                 </div>
             </div>
 
-            {/* Chart */}
+            {/* Chart canvas */}
             <div ref={containerRef} className={`${chartWidthClass} mx-auto max-w-full`}>
-                <ChartWithRef ref={chartRef} data={data} options={mergedOptions} />
+                <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
             </div>
 
+            {/* Optional filters / role selectors / controls */}
             {children && (
                 <div className="my-3 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
                     {children}
@@ -429,6 +593,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
             )}
         </div>
     );
+
 };
 
 export default GraphBlock;

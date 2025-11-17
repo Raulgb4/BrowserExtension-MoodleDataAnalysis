@@ -6,8 +6,6 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-- Tarea 0: Refactoring/Limpieza/Documentación de GraphBlock.tsx
-
 - Tarea 1: Correlación entre las visitas en foros y la calificación final.
 
   En esta gráfica aparecen estudiantes con calificación final igual a 0, generalmente porque no se han presentado o
@@ -61,6 +59,8 @@ TAREAS REALIZADAS:
   tanto en el entorno local como el oficial del cv de la UMA. Puede que se haya intentado empezar un
   análisis desde una URL no reconocida. La URL de la página principal del curso debe funcionar.
   Yo lo he probado: http://localhost:8080/course/view.php?id=2
+
+- (Realizada) Tarea: Refactoring/Limpieza/Documentación previa a nueva implementación
 
 
    LIMITACIÓN TÉCNICA

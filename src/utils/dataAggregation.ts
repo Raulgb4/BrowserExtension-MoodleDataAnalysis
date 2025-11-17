@@ -2,33 +2,22 @@
  * @file dataAggregation.ts
  *
  * @description
- * Data aggregation utilities used to compute participant-level and activity-level
- * metrics from raw Moodle activity data within the Moodle Data Analyzer extension.
+ * Utility functions for aggregating Moodle activity data at participant
+ * and activity level. These helpers compute:
+ *  - Forum participation percentages and total forum views per participant.
+ *  - Normalized average grades (0–10) for quizzes, workshops, and assignments.
+ *  - Scatter data points for correlations (e.g., views vs. grades).
+ *  - Total Choice votes per participant.
  *
- * This module provides helper functions for:
- *  - Extracting the current Course object from chrome.storage.
- *  - Calculating relative forum participation percentages per participant
- *    based on total discussions, replies, and views.
- *  - Aggregating total forum views per participant (PID).
- *  - Computing average normalized quiz grades (0–10) for each participant,
- *    handling both numeric and localized decimal string inputs.
- *  - Computing average normalized workshop grades (0–10) for each participant,
- *    inferring max grade metadata when necessary.
- *  - Building scatter points for quiz views vs. average quiz grades.
- *  - Building scatter points for evaluable activities (quizzes, workshops,
- *    assignments) using total views (X) and average normalized grades (Y).
- *  - Aggregating total Choice votes per participant across all Choice activities.
- *
- * These aggregations serve as the numerical foundations for the correlation and
- * predictive analysis modules, enabling the generation of charts that relate
- * student engagement metrics to academic performance indicators.
+ * These aggregations feed the correlation and predictive analysis modules,
+ * providing the numerical basis for the charts in the extension.
  *
  * @author Raúl García Balongo
  * @date 2025
  */
+
 import {ActivityType} from "../models/Participant";
 import {Course} from "../models/Course";
-
 
 // -----------------------------------------------------------------------------
 // Minimal helper types (local projections of your real domain models)
@@ -202,63 +191,6 @@ export function buildForumViewsByPid(forums: Forum[]): Record<string, number> {
 }
 
 /**
- * Builds a map pid -> average normalized quiz grade (0–10).
- *
- * For each quiz:
- *   - Reads `participantStats[].normalizedGrade`
- *   - Accepts both numeric values and string values with comma/point decimals
- *   - Invalid or missing grades are ignored
- *   - Each participant's grades are averaged and rounded to 2 decimals
- *
- * @param quizzes - Array of quiz objects with participantStats
- * @returns pid -> average normalized grade in the 0–10 scale
- */
-export function buildQuizAvgGradeMap(quizzes: any[]): Record<string, number> {
-    const perPidGrades: Record<string, number[]> = {};
-
-    /**
-     * Coerces a value to a number, supporting comma decimal separators.
-     * Returns NaN when conversion fails.
-     */
-    const toNumber = (v: any): number =>
-        typeof v === "number"
-            ? v
-            : typeof v === "string"
-                ? parseFloat(v.replace(",", "."))
-                : NaN;
-
-    for (const quiz of quizzes) {
-        const stats: any[] = Array.isArray(quiz?.participantStats)
-            ? quiz.participantStats
-            : [];
-
-        for (const stat of stats) {
-            const pid = String(stat.participantId);
-            const g10 = toNumber(stat.normalizedGrade);
-
-            // Only accumulate valid numbers
-            if (Number.isFinite(g10)) {
-                // Ensure the grade stays within the 0–10 range
-                const clamped = Math.max(0, Math.min(10, g10));
-                (perPidGrades[pid] ??= []).push(clamped);
-            }
-        }
-    }
-
-    // Build final averaged map
-    const gradesMap: Record<string, number> = {};
-    for (const pid of Object.keys(perPidGrades)) {
-        const grades = perPidGrades[pid];
-        if (grades.length === 0) continue;
-
-        const avg = grades.reduce((acc, g) => acc + g, 0) / grades.length;
-        gradesMap[pid] = Math.round(avg * 100) / 100; // round to 2 decimals
-    }
-
-    return gradesMap;
-}
-
-/**
  * Builds a map pid -> average normalized workshop grade (0–10).
  *
  * Each workshop may expose participant stats with raw grades that are either:
@@ -334,6 +266,63 @@ export function buildWorkshopAvgGradeMap(workshops: any[]): Record<string, numbe
 }
 
 /**
+ * Builds a map pid -> average normalized quiz grade (0–10).
+ *
+ * For each quiz:
+ *   - Reads `participantStats[].normalizedGrade`
+ *   - Accepts both numeric values and string values with comma/point decimals
+ *   - Invalid or missing grades are ignored
+ *   - Each participant's grades are averaged and rounded to 2 decimals
+ *
+ * @param quizzes - Array of quiz objects with participantStats
+ * @returns pid -> average normalized grade in the 0–10 scale
+ */
+export function buildQuizAvgGradeMap(quizzes: any[]): Record<string, number> {
+    const perPidGrades: Record<string, number[]> = {};
+
+    /**
+     * Coerces a value to a number, supporting comma decimal separators.
+     * Returns NaN when conversion fails.
+     */
+    const toNumber = (v: any): number =>
+        typeof v === "number"
+            ? v
+            : typeof v === "string"
+                ? parseFloat(v.replace(",", "."))
+                : NaN;
+
+    for (const quiz of quizzes) {
+        const stats: any[] = Array.isArray(quiz?.participantStats)
+            ? quiz.participantStats
+            : [];
+
+        for (const stat of stats) {
+            const pid = String(stat.participantId);
+            const g10 = toNumber(stat.normalizedGrade);
+
+            // Only accumulate valid numbers
+            if (Number.isFinite(g10)) {
+                // Ensure the grade stays within the 0–10 range
+                const clamped = Math.max(0, Math.min(10, g10));
+                (perPidGrades[pid] ??= []).push(clamped);
+            }
+        }
+    }
+
+    // Build final averaged map
+    const gradesMap: Record<string, number> = {};
+    for (const pid of Object.keys(perPidGrades)) {
+        const grades = perPidGrades[pid];
+        if (grades.length === 0) continue;
+
+        const avg = grades.reduce((acc, g) => acc + g, 0) / grades.length;
+        gradesMap[pid] = Math.round(avg * 100) / 100; // round to 2 decimals
+    }
+
+    return gradesMap;
+}
+
+/**
  * Builds scatter points for the correlation:
  *   X = total quiz views
  *   Y = average normalized quiz grade (0–10)
@@ -395,6 +384,36 @@ export function buildQuizViewsVsAvgPoints(rawQuizzes: any[]): LabeledPoint[] {
             },
         ];
     });
+}
+
+/**
+ * Aggregates the total number of Choice votes per participant (PID).
+ *
+ * Each entry in `participantStats[]` represents exactly **one vote** made by
+ * the participant, regardless of whether the choice includes multiple options
+ * or additional metadata.
+ *
+ * Returns a map:
+ *   pid -> number of votes cast across all Choice activities
+ *
+ * @param choices - Array of choice-like objects with participantStats
+ * @returns Record<string, number> mapping each PID to its total vote count
+ */
+export function buildChoiceVotesByPid(choices: any[]): Record<string, number> {
+    const votesMap: Record<string, number> = {};
+
+    for (const choice of choices) {
+        const stats = Array.isArray(choice?.participantStats)
+            ? choice.participantStats
+            : [];
+
+        for (const stat of stats) {
+            const pid = String(stat.participantId);
+            votesMap[pid] = (votesMap[pid] ?? 0) + 1; // 1 vote per stat entry
+        }
+    }
+
+    return votesMap;
 }
 
 /**
@@ -550,34 +569,4 @@ export function buildEvaluableViewsVsAvgPoints(
     }
 
     return points;
-}
-
-/**
- * Aggregates the total number of Choice votes per participant (PID).
- *
- * Each entry in `participantStats[]` represents exactly **one vote** made by
- * the participant, regardless of whether the choice includes multiple options
- * or additional metadata.
- *
- * Returns a map:
- *   pid -> number of votes cast across all Choice activities
- *
- * @param choices - Array of choice-like objects with participantStats
- * @returns Record<string, number> mapping each PID to its total vote count
- */
-export function buildChoiceVotesByPid(choices: any[]): Record<string, number> {
-    const votesMap: Record<string, number> = {};
-
-    for (const choice of choices) {
-        const stats = Array.isArray(choice?.participantStats)
-            ? choice.participantStats
-            : [];
-
-        for (const stat of stats) {
-            const pid = String(stat.participantId);
-            votesMap[pid] = (votesMap[pid] ?? 0) + 1; // 1 vote per stat entry
-        }
-    }
-
-    return votesMap;
 }
