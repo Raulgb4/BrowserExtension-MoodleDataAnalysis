@@ -8,20 +8,6 @@
 
 - Tarea 2: Correlación entre el número total de visitas y la calificación media en todas las actividades evaluables.
 
-  - Normalización de calificaciones a escala 0–10:
-    Adaptar las notas de todas las actividades a una escala común, ya que algunas tienen puntuaciones máximas
-    diferentes (p. ej., talleres configurados sobre 100 puntos).
-    La puntuación máxima de cada actividad puede obtenerse desde:
-    Administración → Administración de calificación → Ajuste → Configuración de Calificaciones.
-    https://informatica.cv.uma.es/grade/edit/tree/index.php?id=5121
-
-
-
-
-  - Regresiones por tipo de actividad:
-    Añadir una línea de regresión independiente para cada categoría evaluable (cuestionarios, talleres y tareas) para
-    reflejar la tendencia específica de cada una.
-
   - Eliminación de actividades concretas:
     Incluir una opción para eliminar puntos individuales desde la gráfica (por ejemplo, con clic derecho). Esto permite
     excluir actividades no relevantes, como el “Cuestionario CHAEA”, y tras cada eliminación recalcular la regresión y
@@ -64,6 +50,19 @@ TAREAS REALIZADAS:
     Para obtener un análisis más realista, es necesario ofrecer una versión de la gráfica que excluya a los estudiantes
     con calificación final = 0. Una solución viable es incorporar un checkbox como: “Excluir estudiantes con nota = 0”,
     que al activarse filtre los datos y recalcule automáticamente la línea de regresión y todas las métricas asociadas.
+
+- (Realizada) Tarea: Normalización de calificaciones a escala 0–10:
+      Adaptar las notas de todas las actividades a una escala común, ya que algunas tienen puntuaciones máximas
+      diferentes (p. ej., talleres configurados sobre 100 puntos).
+      La puntuación máxima de cada actividad puede obtenerse desde:
+      Administración → Administración de calificación → Ajuste → Configuración de Calificaciones.
+      https://informatica.cv.uma.es/grade/edit/tree/index.php?id=5121
+      Si detectais algún bug me lo comentáis. No he podido testear mucho esto porque en los cursos en los que
+      tengo acceso la nota normalizada estaba ya calculada.
+
+- (Realizada) Tarea: Regresiones por tipo de actividad:
+    Añadir una línea de regresión independiente para cada categoría evaluable (cuestionarios, talleres y tareas) para
+    reflejar la tendencia específica de cada una. Si se clicka en la leyenda se ocultan los valores qeu se desee.
 
 
    LIMITACIÓN TÉCNICA

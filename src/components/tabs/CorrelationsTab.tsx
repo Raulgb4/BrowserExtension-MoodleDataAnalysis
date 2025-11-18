@@ -238,18 +238,7 @@ const CorrelationsTab: React.FC = () => {
     const {
         axis: {min: minXAxis, max: maxXAxis, stepSize},
         regression: {a, b, r, r2},
-        labels: {strengthKey, directionKey},
     } = useMemo(() => buildCorrelationStats(xyPoints), [xyPoints]);
-
-    // Final human-readable correlation summary, using i18n keys
-    const corrText = useMemo(
-        () =>
-            t("note.corr.template", {
-                strength: t(strengthKey),
-                direction: t(directionKey),
-            }),
-        [t, strengthKey, directionKey]
-    );
 
 
     // ---------------------------------------------------------------------------
@@ -298,23 +287,10 @@ const CorrelationsTab: React.FC = () => {
         [quizViewsVsAvgPoints]
     );
 
-    const quizCorrText = useMemo(() => {
-        const {strengthKey, directionKey} = classifyCorrelation(rQuiz);
-        return t("note.corr.template", {strength: t(strengthKey), direction: t(directionKey)});
-    }, [rQuiz, t]);
-
     const {a: aEval, b: bEval, r: rEval, r2: r2Eval} = useMemo(
         () => leastSquares(evaluableViewsVsAvgPoints),
         [evaluableViewsVsAvgPoints]
     );
-
-    const evaluableCorrText = useMemo(() => {
-        const {strengthKey, directionKey} = classifyCorrelation(rEval);
-        return t("note.corr.template", {
-            strength: t(strengthKey),
-            direction: t(directionKey),
-        });
-    }, [rEval, t]);
 
     const quizPoints = useMemo(
         () =>
@@ -331,6 +307,29 @@ const CorrelationsTab: React.FC = () => {
             evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Assignment),
         [evaluableViewsVsAvgPoints]
     );
+
+    // Regresiones separadas por tipo de actividad (sobre los puntos ya filtrados)
+    const {
+        a: aQuizEval,
+        b: bQuizEval,
+        r: rQuizEval,
+        r2: r2QuizEval,
+    } = useMemo(() => leastSquares(quizPoints), [quizPoints]);
+
+    const {
+        a: aWorkshopEval,
+        b: bWorkshopEval,
+        r: rWorkshopEval,
+        r2: r2WorkshopEval,
+    } = useMemo(() => leastSquares(workshopPoints), [workshopPoints]);
+
+    const {
+        a: aAssignmentEval,
+        b: bAssignmentEval,
+        r: rAssignmentEval,
+        r2: r2AssignmentEval,
+    } = useMemo(() => leastSquares(assignmentPoints), [assignmentPoints]);
+
 
     // ---------------------------------------------------------------------------
     // 4) Forum views vs final grade
@@ -390,15 +389,6 @@ const CorrelationsTab: React.FC = () => {
         [xyPointsFinalViews]
     );
 
-    const finalCorrTextViews = useMemo(() => {
-        const {strengthKey, directionKey} = classifyCorrelation(rViews);
-        return t("note.corr.template", {
-            strength: t(strengthKey),
-            direction: t(directionKey),
-        });
-    }, [rViews, t]);
-
-
     // ---------------------------------------------------------------------------
     // 5) Choice votes vs workshop average grade
     // ---------------------------------------------------------------------------
@@ -440,15 +430,6 @@ const CorrelationsTab: React.FC = () => {
         () => leastSquares(xyPointsChoiceVotesWorkshop),
         [xyPointsChoiceVotesWorkshop]
     );
-    // Texto cualitativo de correlación (débil/moderada/fuerte + signo)
-    const choiceWorkshopCorrText = useMemo(() => {
-        const {strengthKey, directionKey} = classifyCorrelation(rChoiceW);
-        return t("note.corr.template", {
-            strength: t(strengthKey),
-            direction: t(directionKey),
-        });
-    }, [rChoiceW, t]);
-
 
     return (
         <div className="space-y-8">
@@ -529,23 +510,14 @@ const CorrelationsTab: React.FC = () => {
                     }}
                 >
                     {/* Correlation summary below the graph */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
                         <li>
-                            <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", {slope: b.toFixed(3)})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", {
-                                r: r.toFixed(3),
-                                corr: corrText, // e.g., "moderate positive correlation"
-                            })}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", {pct: (r2 * 100).toFixed(1)})}
+                            m={b.toFixed(3)} ·
+                            r={r.toFixed(3)} ({t(classifyCorrelation(r).strengthKey)}) ·
+                            R²={(r2 * 100).toFixed(1)}%
                         </li>
                     </ul>
+
                 </GraphBlock>
             ) : (
                 // Empty-state fallback
@@ -635,21 +607,14 @@ const CorrelationsTab: React.FC = () => {
                     }}
                 >
                     {/* Resumen de correlación */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
-                    leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
                         <li>
-                            <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", {slope: bQuiz.toFixed(3)})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", {r: rQuiz.toFixed(3), corr: quizCorrText})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", {pct: (r2Quiz * 100).toFixed(1)})}
+                            m={bQuiz.toFixed(3)} ·
+                            r={rQuiz.toFixed(3)} ({t(classifyCorrelation(rQuiz).strengthKey)}) ·
+                            R²={(r2Quiz * 100).toFixed(1)}%
                         </li>
                     </ul>
+
                 </GraphBlock>
             ) : null}
 
@@ -712,21 +677,70 @@ const CorrelationsTab: React.FC = () => {
                                 pointHoverBackgroundColor: "rgba(33,150,243,1)",
                                 pointHoverBorderColor: "rgba(33,150,243,1)",
                             },
-                            // Recta de regresión (sobre todos los puntos)
+                            // Recta de regresión — QUIZZES
+                            {
+                                type: "line",
+                                label: t("chart.regression_line_quizzes"),
+                                data: [
+                                    { x: minEvaluableX, y: regressionY(aQuizEval, bQuizEval, minEvaluableX) },
+                                    { x: maxEvaluableX, y: regressionY(aQuizEval, bQuizEval, maxEvaluableX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(156,39,176,1)",    // mismo morado que los puntos
+                                backgroundColor: "rgba(156,39,176,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+
+                            // Recta de regresión — WORKSHOPS
+                            {
+                                type: "line",
+                                label: t("chart.regression_line_workshops"),
+                                data: [
+                                    { x: minEvaluableX, y: regressionY(aWorkshopEval, bWorkshopEval, minEvaluableX) },
+                                    { x: maxEvaluableX, y: regressionY(aWorkshopEval, bWorkshopEval, maxEvaluableX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(0,150,136,1)",     // mismo verde/teal
+                                backgroundColor: "rgba(0,150,136,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+
+                            // Recta de regresión — ASSIGNMENTS
+                            {
+                                type: "line",
+                                label: t("chart.regression_line_assignments"),
+                                data: [
+                                    { x: minEvaluableX, y: regressionY(aAssignmentEval, bAssignmentEval, minEvaluableX) },
+                                    { x: maxEvaluableX, y: regressionY(aAssignmentEval, bAssignmentEval, maxEvaluableX) },
+                                ],
+                                pointRadius: 0,
+                                borderWidth: 2,
+                                borderColor: "rgba(33,150,243,1)",    // mismo azul
+                                backgroundColor: "rgba(33,150,243,0.08)",
+                                fill: false,
+                                tension: 0,
+                            },
+
+                            // Recta de regresión — GLOBAL (la original)
                             {
                                 type: "line",
                                 label: t("chart.regression_line"),
                                 data: [
-                                    {x: minEvaluableX, y: regressionY(aEval, bEval, minEvaluableX)},
-                                    {x: maxEvaluableX, y: regressionY(aEval, bEval, maxEvaluableX)},
+                                    { x: minEvaluableX, y: regressionY(aEval, bEval, minEvaluableX) },
+                                    { x: maxEvaluableX, y: regressionY(aEval, bEval, maxEvaluableX) },
                                 ],
                                 pointRadius: 0,
                                 borderWidth: 2,
-                                borderColor: "rgba(249,128,18,1)",     // mismo naranja
+                                borderColor: "rgba(249,128,18,1)",     // naranja
                                 backgroundColor: "rgba(249,128,18,0.08)",
                                 fill: false,
                                 tension: 0,
                             },
+
                         ]
                     }}
                     options={{
@@ -768,27 +782,46 @@ const CorrelationsTab: React.FC = () => {
                         },
                     }}
                 >
-                    {/* Resumen de correlación (mismo esquema que el primero) */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
+
+                        {/* Quizzes */}
                         <li>
-                            <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {/* La pendiente es 'a' */}
-                            {t("note.slope_explainer", {slope: aEval.toFixed(3)})}
+                            <span className="font-semibold">{t("legend.quizzes")}:</span>
+                            {" "}
+                            m={aQuizEval.toFixed(3)} ·
+                            r={rQuizEval.toFixed(3)} ({t(classifyCorrelation(rQuizEval).strengthKey)}) ·
+                            R²={(r2QuizEval * 100).toFixed(1)}%
                         </li>
+
+                        {/* Workshops */}
                         <li>
-                            <span className="font-semibold">{t("note.r_title")}: </span>
-                            {/* Si ya tienes un texto cualitativo (e.g., evaluableCorrText), úsalo aquí;
-            si no, mostramos el valor numérico con 3 decimales */}
-                            {t("note.r_explainer", {
-                                r: rEval.toFixed(3),
-                                corr: (typeof evaluableCorrText === "string" ? evaluableCorrText : rEval.toFixed(3))
-                            })}
+                            <span className="font-semibold">{t("legend.workshops")}:</span>
+                            {" "}
+                            m={aWorkshopEval.toFixed(3)} ·
+                            r={rWorkshopEval.toFixed(3)} ({t(classifyCorrelation(rWorkshopEval).strengthKey)}) ·
+                            R²={(r2WorkshopEval * 100).toFixed(1)}%
                         </li>
+
+                        {/* Assignments */}
                         <li>
-                            <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", {pct: (r2Eval * 100).toFixed(1)})}
+                            <span className="font-semibold">{t("legend.assignments")}:</span>
+                            {" "}
+                            m={aAssignmentEval.toFixed(3)} ·
+                            r={rAssignmentEval.toFixed(3)} ({t(classifyCorrelation(rAssignmentEval).strengthKey)}) ·
+                            R²={(r2AssignmentEval * 100).toFixed(1)}%
                         </li>
+
+                        {/* Global */}
+                        <li>
+                            <span className="font-semibold">{t("legend.all_types")}:</span>
+                            {" "}
+                            m={aEval.toFixed(3)} ·
+                            r={rEval.toFixed(3)} ({t(classifyCorrelation(rEval).strengthKey)}) ·
+                            R²={(r2Eval * 100).toFixed(1)}%
+                        </li>
+
                     </ul>
+
                 </GraphBlock>
             ) : (
                 <div
@@ -879,42 +912,38 @@ const CorrelationsTab: React.FC = () => {
                         },
                     }}
                 >
-                    <div className="flex justify-center my-4">
+                    <div className="flex flex-col items-center justify-center my-4 space-y-3">
+
+                        {/* Checkbox */}
                         <label
                             className="inline-flex items-center cursor-pointer space-x-2 select-none
-                            bg-orange-50 px-3 py-1 rounded-full border border-orange-200
-                            hover:bg-orange-100 transition-colors"
+                   bg-orange-50 px-3 py-1 rounded-full border border-orange-200
+                   hover:bg-orange-100 transition-colors"
                         >
                             <input
                                 type="checkbox"
                                 className="form-checkbox h-4 w-4 text-orange-600 rounded border-orange-300
-                                        focus:ring-orange-500 transition duration-150 ease-in-out"
+                       focus:ring-orange-500 transition duration-150 ease-in-out"
                                 checked={excludeZeroGrades}
                                 onChange={(e) => setExcludeZeroGrades(e.target.checked)}
                             />
                             <span className="text-sm text-orange-700 font-medium">
-                                {t("filter.exclude_zeros") || "Excluir estudiantes con nota = 0"}
-                            </span>
+            {t("filter.exclude_zeros") || "Excluir estudiantes con nota = 0"}
+        </span>
                         </label>
+
+                        {/* Resumen de correlación */}
+                        <ul className="text-sm sm:text-[15px] leading-relaxed text-gray-700">
+                            <li>
+                                m={bViews.toFixed(3)} ·
+                                r={rViews.toFixed(3)} ({t(classifyCorrelation(rViews).strengthKey)}) ·
+                                R²={(r2Views * 100).toFixed(1)}%
+                            </li>
+                        </ul>
+
                     </div>
 
 
-                    {/* Resumen de correlación */}
-                    <ul className="max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
-                    leading-relaxed text-gray-700 space-y-1">
-                        <li>
-                            <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", {slope: bViews.toFixed(3)})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", {r: rViews.toFixed(3), corr: finalCorrTextViews})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", {pct: (r2Views * 100).toFixed(1)})}
-                        </li>
-                    </ul>
                 </GraphBlock>
             ) : (
                 <div
@@ -1003,21 +1032,14 @@ const CorrelationsTab: React.FC = () => {
                     }}
                 >
                     {/* Resumen de correlación */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
-                    leading-relaxed text-gray-700 space-y-1">
+                    <ul className="mt-3 max-w-prose mx-auto text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
                         <li>
-                            <span className="font-semibold">{t("note.slope_title")}: </span>
-                            {t("note.slope_explainer", {slope: aChoiceW.toFixed(3)})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r_title")}: </span>
-                            {t("note.r_explainer", {r: rChoiceW.toFixed(3), corr: choiceWorkshopCorrText})}
-                        </li>
-                        <li>
-                            <span className="font-semibold">{t("note.r2_title")}: </span>
-                            {t("note.r2_explainer", {pct: (r2ChoiceW * 100).toFixed(1)})}
+                            m={aChoiceW.toFixed(3)} ·
+                            r={rChoiceW.toFixed(3)} ({t(classifyCorrelation(rChoiceW).strengthKey)}) ·
+                            R²={(r2ChoiceW * 100).toFixed(1)}%
                         </li>
                     </ul>
+
                 </GraphBlock>
             ) : (
                 <div

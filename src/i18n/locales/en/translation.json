@@ -69,7 +69,10 @@
       "choice_votes_vs_workshop_grade": "Correlation between choices participation and average workshop grade",
       "forum_views_vs_final_grade": "Correlation between total number of visits in forums and final grade"
     },
-    "regression_line": "Regression line"
+    "regression_line": "Regression line",
+    "regression_line_quizzes": "Regression line (Quizzes)",
+    "regression_line_workshops": "Regression line (Workshops)",
+    "regression_line_assignments": "Regression line (Assignments)"
   },
   "access": {
     "last_7_days": "Last 7 days",
@@ -95,7 +98,8 @@
     "workshops": "Workshops",
     "assignments": "Assignments",
     "choices_vs_workshops": "Surveys ↔ Workshops",
-    "votes": "choices"
+    "votes": "choices",
+    "all_types": "Global"
   },
   "filter": {
     "by_role": "Filter by role:",

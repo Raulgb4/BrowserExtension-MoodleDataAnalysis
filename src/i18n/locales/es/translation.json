@@ -69,7 +69,10 @@
       "choice_votes_vs_workshop_grade": "Correlación entre la participación en encuestas y la nota media en talleres",
       "forum_views_vs_final_grade": "Correlación entre las visitas en foros y la calificación final"
     },
-    "regression_line": "Línea de regresión"
+    "regression_line": "Línea de regresión",
+    "regression_line_quizzes": "Línea de regresión (Cuestionarios)",
+    "regression_line_workshops": "Línea de regresión (Talleres)",
+    "regression_line_assignments": "Línea de regresión (Tareas)"
   },
   "access": {
     "last_7_days": "Últimos 7 días",
@@ -95,7 +98,8 @@
     "workshops": "Talleres",
     "assignments": "Tareas",
     "choices_vs_workshops": "Encuestas ↔ Talleres",
-    "votes": "encuestas"
+    "votes": "encuestas",
+    "all_types": "Global"
   },
   "filter": {
     "by_role": "Filtrar por rol:",
@@ -174,5 +178,6 @@
   },
   "generic": {
     "unknown": "Desconocido"
-  }
+  },
+  "all_types": "Global"
 }
