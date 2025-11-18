@@ -99,7 +99,8 @@
   },
   "filter": {
     "by_role": "Filtrar por rol:",
-    "show_top": "Mostrar top"
+    "show_top": "Mostrar top",
+    "exclude_zeros": "Excluir estudiantes con nota final = 0"
   },
   "roles": {
     "none_selected": "Ningún rol seleccionado"

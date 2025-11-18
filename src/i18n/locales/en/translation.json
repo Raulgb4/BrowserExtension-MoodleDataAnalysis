@@ -99,7 +99,8 @@
   },
   "filter": {
     "by_role": "Filter by role:",
-    "show_top": "Show top"
+    "show_top": "Show top",
+    "exclude_zeros": "Exclude students with final grade = 0"
   },
   "roles": {
     "none_selected": "No roles selected"

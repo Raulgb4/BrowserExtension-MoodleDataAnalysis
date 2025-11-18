@@ -49,7 +49,8 @@ const CorrelationsTab: React.FC = () => {
     const [participants, setParticipants] = useState<Participant[]>([]);
     const [forumViewsByPid, setForumViewsByPid] = useState<Record<string, number>>({});
     const [choiceVotesByPid, setChoiceVotesByPid] = useState<Record<string, number>>({});
-    const [workshopAvgGradeByPid, setWorkshopAvgGradeByPid] = useState<Record<string, number>>({})
+    const [workshopAvgGradeByPid, setWorkshopAvgGradeByPid] = useState<Record<string, number>>({});
+    const [excludeZeroGrades, setExcludeZeroGrades] = useState<boolean>(false);
 
     // Pre-aggregated points for specific correlation plots
     const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<LabeledPoint[]>([]);
@@ -350,12 +351,17 @@ const CorrelationsTab: React.FC = () => {
             if (Number.isFinite(views) && Number.isFinite(yFinal)) {
                 const x = Math.max(0, Math.floor(Number(views)));      // integer >= 0
                 const y = Math.max(0, Math.min(10, Number(yFinal)));   // clamp 0..10
+
+
+                if (excludeZeroGrades && y === 0) {
+                    continue;
+                }
+
                 pts.push({pid, x, y});
             }
         }
-
         return pts;
-    }, [forumViewsByPid, participantsById]);
+    }, [forumViewsByPid, participantsById, excludeZeroGrades]);
 
     /**
      * Dynamic X-axis range for total forum views.
@@ -806,8 +812,8 @@ const CorrelationsTab: React.FC = () => {
                                 type: "scatter",
                                 label: t("legend.students"),
                                 data: xyPointsFinalViews.map((p) => ({
-                                    x: p.x, // total forum views (sum across all forums)
-                                    y: p.y, // final grade 0–10 from participant.finalGrade
+                                    x: p.x,
+                                    y: p.y,
                                     studentName:
                                         participantsById.get(String(p.pid))?.participantName ?? String(p.pid),
                                 })),
@@ -818,7 +824,6 @@ const CorrelationsTab: React.FC = () => {
                                 pointHoverBackgroundColor: "rgba(100,181,246,1)",
                                 pointHoverBorderColor: "rgba(100,181,246,1)",
                             },
-                            // Recta de regresión: y = a*x + b
                             {
                                 type: "line",
                                 label: t("chart.regression_line"),
@@ -844,11 +849,7 @@ const CorrelationsTab: React.FC = () => {
                                 min: minXAxisViews,
                                 max: maxXAxisViews,
                                 ticks: {
-                                    stepSize: stepSizeViews, // ya lo estamos pasando desde fuera
-                                    /**
-                                     * Force integer labels on the X axis (0, 1, 2, ...).
-                                     * This avoids decimal tick labels and therefore commas.
-                                     */
+                                    stepSize: stepSizeViews,
                                     callback: (value) => {
                                         const n = Number(value);
                                         return Number.isFinite(n) ? n.toFixed(0) : value;
@@ -869,9 +870,8 @@ const CorrelationsTab: React.FC = () => {
                                         return raw?.studentName ?? t("legend.students");
                                     },
                                     label: (ctx) => {
-                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x; // views: entero
+                                        const x = ctx.parsed.x?.toFixed?.(0) ?? ctx.parsed.x;
                                         const y = ctx.parsed.y?.toFixed?.(2) ?? ctx.parsed.y;
-                                        // Usa "legend.visits" si ya lo tienes; si no, deja "views".
                                         return `${x} ${t("legend.visits")} · ${y}/10`;
                                     },
                                 },
@@ -879,8 +879,28 @@ const CorrelationsTab: React.FC = () => {
                         },
                     }}
                 >
+                    <div className="flex justify-center my-4">
+                        <label
+                            className="inline-flex items-center cursor-pointer space-x-2 select-none
+                            bg-orange-50 px-3 py-1 rounded-full border border-orange-200
+                            hover:bg-orange-100 transition-colors"
+                        >
+                            <input
+                                type="checkbox"
+                                className="form-checkbox h-4 w-4 text-orange-600 rounded border-orange-300
+                                        focus:ring-orange-500 transition duration-150 ease-in-out"
+                                checked={excludeZeroGrades}
+                                onChange={(e) => setExcludeZeroGrades(e.target.checked)}
+                            />
+                            <span className="text-sm text-orange-700 font-medium">
+                                {t("filter.exclude_zeros") || "Excluir estudiantes con nota = 0"}
+                            </span>
+                        </label>
+                    </div>
+
+
                     {/* Resumen de correlación */}
-                    <ul className="mt-3 max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
+                    <ul className="max-w-prose mx-auto list-disc list-inside text-sm sm:text-[15px]
                     leading-relaxed text-gray-700 space-y-1">
                         <li>
                             <span className="font-semibold">{t("note.slope_title")}: </span>
