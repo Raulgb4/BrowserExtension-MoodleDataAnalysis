@@ -6,12 +6,7 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-- Tarea 2: Correlación entre el número total de visitas y la calificación media en todas las actividades evaluables.
 
-  - Eliminación de actividades concretas:
-    Incluir una opción para eliminar puntos individuales desde la gráfica (por ejemplo, con clic derecho). Esto permite
-    excluir actividades no relevantes, como el “Cuestionario CHAEA”, y tras cada eliminación recalcular la regresión y
-    las métricas.
 
 
 TAREAS INALCANZABLES:
@@ -63,6 +58,25 @@ TAREAS REALIZADAS:
 - (Realizada) Tarea: Regresiones por tipo de actividad:
     Añadir una línea de regresión independiente para cada categoría evaluable (cuestionarios, talleres y tareas) para
     reflejar la tendencia específica de cada una. Si se clicka en la leyenda se ocultan los valores qeu se desee.
+
+- (Realizada) Tarea: Correlación entre el número total de visitas y la calificación media en todas las actividades
+evaluables.
+
+  - Eliminación de actividades concretas:
+    Incluir una opción para eliminar puntos individuales desde la gráfica (por ejemplo, con clic derecho). Esto permite
+    excluir actividades no relevantes, como el “Cuestionario CHAEA”, y tras cada eliminación recalcular la regresión y
+    las métricas.
+
+    Paso 1. Garantizar identificador en los puntos evaluables
+    - Revisar EvaluablePoint y buildEvaluableViewsVsAvgPoints para que cada punto tenga activityId único.
+
+    Paso 2. Introducir el estado de exclusión + filtrado
+    - excludedActivityIds en CorrelationsTab.
+    - filteredEvaluablePoints y que toda la lógica de la gráfica #3 (eje X, regresiones, datasets) pase a
+      usar esta versión filtrada.
+
+    Paso 3. Añadir una UI mínima de control
+    - Quiero que cuando se clicke el punto de la actividad se excluya
 
 
    LIMITACIÓN TÉCNICA

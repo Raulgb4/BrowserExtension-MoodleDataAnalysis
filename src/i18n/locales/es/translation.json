@@ -99,7 +99,8 @@
     "assignments": "Tareas",
     "choices_vs_workshops": "Encuestas ↔ Talleres",
     "votes": "encuestas",
-    "all_types": "Global"
+    "all_types": "Global",
+    "excluded_activities": "Actividades excluidas"
   },
   "filter": {
     "by_role": "Filtrar por rol:",

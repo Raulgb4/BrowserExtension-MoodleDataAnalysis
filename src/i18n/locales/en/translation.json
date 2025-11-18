@@ -99,7 +99,8 @@
     "assignments": "Assignments",
     "choices_vs_workshops": "Surveys ↔ Workshops",
     "votes": "choices",
-    "all_types": "Global"
+    "all_types": "Global",
+    "excluded_activities": "Excluded activities"
   },
   "filter": {
     "by_role": "Filter by role:",

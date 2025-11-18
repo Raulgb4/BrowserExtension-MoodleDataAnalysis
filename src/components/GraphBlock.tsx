@@ -38,6 +38,7 @@ interface GraphBlockProps {
     data: ChartData<ChartType>;
     options?: ChartOptions;
     children?: React.ReactNode; // filters or role selectors
+    onPointClick?: (rawPoint: any) => void;
 }
 
 const chartComponents: Record<ChartType, React.ComponentType<any>> = {
@@ -64,6 +65,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
                                                    data,
                                                    options,
                                                    children,
+                                                   onPointClick,
                                                }) => {
 
     // =========================================================================
@@ -75,6 +77,35 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
     const containerRef = useRef<HTMLDivElement>(null);
     const {lastAnalyzedAt} = useAnalysisContext();
     const {register, unregister} = useExportContext();
+
+    // Maneja los clics sobre el canvas del gráfico y dispara onPointClick con el "raw" del punto
+    const handleChartClick = (event: any) => {
+        if (!onPointClick || !chartRef.current) return;
+
+        const chart = chartRef.current;
+
+        // Usamos el helper de Chart.js para obtener el elemento más cercano clicado
+        const points = chart.getElementsAtEventForMode(
+            event.nativeEvent,
+            "nearest",
+            { intersect: true },
+            true
+        );
+
+        if (!points || points.length === 0) return;
+
+        const firstPoint = points[0];
+        const datasetIndex = firstPoint.datasetIndex;
+        const index = firstPoint.index;
+
+        const dataset: any = chart.data.datasets?.[datasetIndex];
+        const raw = dataset?.data?.[index];
+
+        if (raw) {
+            onPointClick(raw);
+        }
+    };
+
 
     /**
      * Observe the container size and trigger a chart resize
@@ -582,7 +613,7 @@ const GraphBlock: React.FC<GraphBlockProps> = ({
 
             {/* Chart canvas */}
             <div ref={containerRef} className={`${chartWidthClass} mx-auto max-w-full`}>
-                <ChartWithRef ref={chartRef} data={data} options={mergedOptions}/>
+                <ChartWithRef ref={chartRef} data={data} options={mergedOptions} onClick={handleChartClick}/>
             </div>
 
             {/* Optional filters / role selectors / controls */}

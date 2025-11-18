@@ -73,9 +73,13 @@ export interface LabeledPoint {
  * Scatter point representing an "evaluable" data item (quiz, workshop, etc.).
  * It extends LabeledPoint with the activity type so charts can
  * distinguish between different evaluable categories.
+ *
+ * `activityId` is a stable identifier for the underlying activity
+ * (quiz, workshop, assignment...), used to filter/exclude points.
  */
 export interface EvaluablePoint extends LabeledPoint {
     activityType: ActivityType;
+    activityId: string; // o number | string si prefieres, pero string suele ser más cómodo
 }
 
 /**
@@ -434,8 +438,8 @@ export function buildEvaluableViewsVsAvgPoints(
     quizzes: any[],
     workshops: any[],
     assignments: any[]
-): Array<{ x: number; y: number; label: string; activityType: ActivityType }> {
-    const points: Array<{ x: number; y: number; label: string; activityType: ActivityType }> = [];
+): EvaluablePoint[] {
+    const points: EvaluablePoint[] = [];
 
     /**
      * Derives a human-friendly activity name from multiple possible fields.
@@ -541,6 +545,7 @@ export function buildEvaluableViewsVsAvgPoints(
             y,
             label: getName(quiz, "Quiz"),
             activityType: ActivityType.Quiz,
+            activityId: String(quiz?.id ?? ""),
         });
     }
 
@@ -557,6 +562,7 @@ export function buildEvaluableViewsVsAvgPoints(
             y,
             label: getName(workshop, "Workshop"),
             activityType: ActivityType.Workshop,
+            activityId: String(workshop?.id ?? ""),
         });
     }
 
@@ -573,6 +579,7 @@ export function buildEvaluableViewsVsAvgPoints(
             y,
             label: getName(assignment, "Assignment"),
             activityType: ActivityType.Assignment,
+            activityId: String(assignment?.id ?? ""),
         });
     }
 

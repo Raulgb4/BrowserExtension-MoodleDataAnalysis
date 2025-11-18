@@ -56,6 +56,8 @@ const CorrelationsTab: React.FC = () => {
     const [quizViewsVsAvgPoints, setQuizViewsVsAvgPoints] = useState<LabeledPoint[]>([]);
     const [evaluableViewsVsAvgPoints, setEvaluableViewsVsAvgPoints] = useState<EvaluablePoint[]>([]);
 
+    const [excludedActivityIds, setExcludedActivityIds] = useState<Set<string>>(new Set());
+
     /**
      * Fast lookup map indexed by participant ID.
      * Avoids repeatedly scanning the participant array when resolving names,
@@ -266,6 +268,27 @@ const CorrelationsTab: React.FC = () => {
     // 3) Total views (quizzes+workshops+assignments) vs average grade
     // ---------------------------------------------------------------------------
 
+    const filteredEvaluablePoints = useMemo(
+        () => evaluableViewsVsAvgPoints.filter(p => !excludedActivityIds.has(p.activityId)),
+        [evaluableViewsVsAvgPoints, excludedActivityIds]
+    );
+
+    // Handler de clic en un punto evaluable
+    const handleEvaluablePointClick = (rawPoint: any) => {
+        const id = rawPoint?.activityId;
+        if (!id) return;
+
+        setExcludedActivityIds(prev => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id); // si ya estaba excluido -> lo re-incluimos
+            } else {
+                next.add(id);    // si no estaba -> lo excluimos
+            }
+            return next;
+        });
+    };
+
     /**
      * X = total views across all evaluable activities (quizzes, workshops, assignments)
      * Y = average grade across those evaluable activities.
@@ -278,8 +301,8 @@ const CorrelationsTab: React.FC = () => {
         max: maxEvaluableX,
         stepSize: stepEvaluableX,
     } = useMemo(
-        () => computeDynamicXAxis(evaluableViewsVsAvgPoints),
-        [evaluableViewsVsAvgPoints]
+        () => computeDynamicXAxis(filteredEvaluablePoints),
+        [filteredEvaluablePoints]
     );
 
     const {a: aQuiz, b: bQuiz, r: rQuiz, r2: r2Quiz} = useMemo(
@@ -288,24 +311,29 @@ const CorrelationsTab: React.FC = () => {
     );
 
     const {a: aEval, b: bEval, r: rEval, r2: r2Eval} = useMemo(
-        () => leastSquares(evaluableViewsVsAvgPoints),
-        [evaluableViewsVsAvgPoints]
+        () => leastSquares(filteredEvaluablePoints),
+        [filteredEvaluablePoints]
     );
 
+    // --- PUNTOS ACTIVOS (para colores normales y para regresiones por tipo) ---
     const quizPoints = useMemo(
-        () =>
-            evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Quiz),
-        [evaluableViewsVsAvgPoints]
+        () => filteredEvaluablePoints.filter(p => p.activityType === ActivityType.Quiz),
+        [filteredEvaluablePoints]
     );
     const workshopPoints = useMemo(
-        () =>
-            evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Workshop),
-        [evaluableViewsVsAvgPoints]
+        () => filteredEvaluablePoints.filter(p => p.activityType === ActivityType.Workshop),
+        [filteredEvaluablePoints]
     );
     const assignmentPoints = useMemo(
-        () =>
-            evaluableViewsVsAvgPoints.filter(p => p.activityType === ActivityType.Assignment),
-        [evaluableViewsVsAvgPoints]
+        () => filteredEvaluablePoints.filter(p => p.activityType === ActivityType.Assignment),
+        [filteredEvaluablePoints]
+    );
+
+    // --- PUNTOS EXCLUIDOS (para pintarlos en gris) ---
+
+    const excludedEvaluablePoints = useMemo(
+        () => evaluableViewsVsAvgPoints.filter(p => excludedActivityIds.has(p.activityId)),
+        [evaluableViewsVsAvgPoints, excludedActivityIds]
     );
 
     // Regresiones separadas por tipo de actividad (sobre los puntos ya filtrados)
@@ -620,21 +648,22 @@ const CorrelationsTab: React.FC = () => {
 
 
             {/* Scatter: evaluables total views (X) vs average grade (Y) */}
-            {evaluableViewsVsAvgPoints.length >= 2 ? (
+            {filteredEvaluablePoints.length >= 2 ? (
                 <GraphBlock
                     title={t("chart.predictive.evaluable_views_vs_avg_grade")}
                     chartType="scatter"
                     data={{
                         datasets: [
-                            // Quizzes (morado)
+                            // Quizzes activos (morado)
                             {
                                 type: "scatter",
                                 label: t("legend.quizzes"),
                                 data: quizPoints.map(p => ({
                                     x: p.x,
                                     y: p.y,
+                                    activityId: p.activityId,
                                     activityName: p.label,
-                                    activityType: p.activityType
+                                    activityType: p.activityType,
                                 })),
                                 pointRadius: 5,
                                 pointBackgroundColor: "rgba(156,39,176,0.6)",
@@ -643,15 +672,17 @@ const CorrelationsTab: React.FC = () => {
                                 pointHoverBackgroundColor: "rgba(156,39,176,1)",
                                 pointHoverBorderColor: "rgba(156,39,176,1)",
                             },
-                            // Workshops (verde/teal)
+
+                            // Workshops activos (verde/teal)
                             {
                                 type: "scatter",
                                 label: t("legend.workshops"),
                                 data: workshopPoints.map(p => ({
                                     x: p.x,
                                     y: p.y,
+                                    activityId: p.activityId,
                                     activityName: p.label,
-                                    activityType: p.activityType
+                                    activityType: p.activityType,
                                 })),
                                 pointRadius: 5,
                                 pointBackgroundColor: "rgba(0,150,136,0.6)",
@@ -660,15 +691,17 @@ const CorrelationsTab: React.FC = () => {
                                 pointHoverBackgroundColor: "rgba(0,150,136,1)",
                                 pointHoverBorderColor: "rgba(0,150,136,1)",
                             },
-                            // Assignments (azul)
+
+                            // Assignments activos (azul)
                             {
                                 type: "scatter",
                                 label: t("legend.assignments"),
                                 data: assignmentPoints.map(p => ({
                                     x: p.x,
                                     y: p.y,
+                                    activityId: p.activityId,
                                     activityName: p.label,
-                                    activityType: p.activityType
+                                    activityType: p.activityType,
                                 })),
                                 pointRadius: 5,
                                 pointBackgroundColor: "rgba(33,150,243,0.6)",
@@ -676,6 +709,26 @@ const CorrelationsTab: React.FC = () => {
                                 pointHoverRadius: 7,
                                 pointHoverBackgroundColor: "rgba(33,150,243,1)",
                                 pointHoverBorderColor: "rgba(33,150,243,1)",
+                            },
+
+                            // 🔹 ÚNICO dataset de puntos EXCLUIDOS (gris)
+                            {
+                                type: "scatter",
+                                label: t("legend.excluded_activities"), // NUEVA clave i18n
+                                data: excludedEvaluablePoints.map(p => ({
+                                    x: p.x,
+                                    y: p.y,
+                                    activityId: p.activityId,
+                                    activityName: p.label,
+                                    activityType: p.activityType,
+                                    isExcluded: true,
+                                })),
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(160,160,160,0.4)",
+                                pointBorderColor: "rgba(160,160,160,0.9)",
+                                pointHoverRadius: 7,
+                                pointHoverBackgroundColor: "rgba(160,160,160,1)",
+                                pointHoverBorderColor: "rgba(160,160,160,1)",
                             },
                             // Recta de regresión — QUIZZES
                             {
@@ -740,7 +793,6 @@ const CorrelationsTab: React.FC = () => {
                                 fill: false,
                                 tension: 0,
                             },
-
                         ]
                     }}
                     options={{
@@ -748,7 +800,7 @@ const CorrelationsTab: React.FC = () => {
                         maintainAspectRatio: false,
                         scales: {
                             x: {
-                                title: {display: true, text: t("axis.evaluable_total_views")}, // NUEVA clave i18n
+                                title: { display: true, text: t("axis.evaluable_total_views") }, // NUEVA clave i18n
                                 min: minEvaluableX,
                                 max: maxEvaluableX,
                                 ticks: {
@@ -758,7 +810,7 @@ const CorrelationsTab: React.FC = () => {
                                 },
                             },
                             y: {
-                                title: {display: true, text: t("axis.evaluable_avg_grade_0_10")}, // NUEVA clave i18n
+                                title: { display: true, text: t("axis.evaluable_avg_grade_0_10") }, // NUEVA clave i18n
                                 min: 0,
                                 max: 10,
                             },
@@ -781,13 +833,12 @@ const CorrelationsTab: React.FC = () => {
                             },
                         },
                     }}
+                    onPointClick={handleEvaluablePointClick}
                 >
                     <ul className="mt-3 max-w-prose mx-auto text-sm sm:text-[15px] leading-relaxed text-gray-700 space-y-1">
-
                         {/* Quizzes */}
                         <li>
-                            <span className="font-semibold">{t("legend.quizzes")}:</span>
-                            {" "}
+                            <span className="font-semibold">{t("legend.quizzes")}:</span>{" "}
                             m={aQuizEval.toFixed(3)} ·
                             r={rQuizEval.toFixed(3)} ({t(classifyCorrelation(rQuizEval).strengthKey)}) ·
                             R²={(r2QuizEval * 100).toFixed(1)}%
@@ -795,8 +846,7 @@ const CorrelationsTab: React.FC = () => {
 
                         {/* Workshops */}
                         <li>
-                            <span className="font-semibold">{t("legend.workshops")}:</span>
-                            {" "}
+                            <span className="font-semibold">{t("legend.workshops")}:</span>{" "}
                             m={aWorkshopEval.toFixed(3)} ·
                             r={rWorkshopEval.toFixed(3)} ({t(classifyCorrelation(rWorkshopEval).strengthKey)}) ·
                             R²={(r2WorkshopEval * 100).toFixed(1)}%
@@ -804,8 +854,7 @@ const CorrelationsTab: React.FC = () => {
 
                         {/* Assignments */}
                         <li>
-                            <span className="font-semibold">{t("legend.assignments")}:</span>
-                            {" "}
+                            <span className="font-semibold">{t("legend.assignments")}:</span>{" "}
                             m={aAssignmentEval.toFixed(3)} ·
                             r={rAssignmentEval.toFixed(3)} ({t(classifyCorrelation(rAssignmentEval).strengthKey)}) ·
                             R²={(r2AssignmentEval * 100).toFixed(1)}%
@@ -813,25 +862,24 @@ const CorrelationsTab: React.FC = () => {
 
                         {/* Global */}
                         <li>
-                            <span className="font-semibold">{t("legend.all_types")}:</span>
-                            {" "}
+                            <span className="font-semibold">{t("legend.all_types")}:</span>{" "}
                             m={aEval.toFixed(3)} ·
                             r={rEval.toFixed(3)} ({t(classifyCorrelation(rEval).strengthKey)}) ·
                             R²={(r2Eval * 100).toFixed(1)}%
                         </li>
-
                     </ul>
-
                 </GraphBlock>
             ) : (
                 <div
                     className="p-4 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl shadow-md
-                    min-h-[300px] flex items-center justify-center">
+        min-h-[300px] flex items-center justify-center"
+                >
                     <p className="text-base text-orange-600 font-semibold">
                         {t("note.not_enough_points")}
                     </p>
                 </div>
             )}
+
 
 
             {/* Scatter: forum views (X) vs. final course grade (Y) */}
