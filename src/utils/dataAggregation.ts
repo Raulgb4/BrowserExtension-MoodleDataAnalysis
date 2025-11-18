@@ -210,10 +210,6 @@ export function buildForumViewsByPid(forums: Forum[]): Record<string, number> {
 export function buildWorkshopAvgGradeMap(workshops: any[]): Record<string, number> {
     const perPidGrades: Record<string, number[]> = {};
 
-    /**
-     * Safely converts numbers or number-like strings (including comma decimals)
-     * to a proper JS number. Returns NaN on invalid inputs.
-     */
     const toNumber = (v: any): number =>
         typeof v === "number"
             ? v
@@ -226,31 +222,33 @@ export function buildWorkshopAvgGradeMap(workshops: any[]): Record<string, numbe
             ? workshop.participantStats
             : [];
 
-        // Attempt to infer the workshop's maximum grade from multiple Moodle fields
-        const rawMax =
-            toNumber(workshop?.maxGrade) ??
-            toNumber(workshop?.gradingMax) ??
-            toNumber(workshop?.maxgrade);
-
-        // If no valid max is found, default to 10 (meaning values are already normalized)
+        // maxGrade viene ya del backend; lo usamos solo como fallback
+        const rawMax = toNumber(workshop?.maxGrade);
         const maxForScale =
-            Number.isFinite(rawMax) && rawMax > 0 ? rawMax : 10;
+            Number.isFinite(rawMax) && rawMax > 0 ? rawMax : NaN;
 
         for (const stat of stats) {
             const pid = String(stat.participantId);
-            const rawGrade = toNumber(stat?.grade);
 
-            if (!Number.isFinite(rawGrade)) {
-                continue; // skip invalid entries
+            // 1) Preferimos normalizedGrade (ya 0–10 desde el backend)
+            let value = toNumber(stat?.normalizedGrade);
+
+            // 2) Fallback: si no hay normalizedGrade pero sí grade + maxGrade, normalizamos aquí
+            if (!Number.isFinite(value)) {
+                const rawGrade = toNumber(stat?.grade);
+                if (Number.isFinite(rawGrade) && Number.isFinite(maxForScale) && maxForScale > 0) {
+                    value = Math.max(
+                        0,
+                        Math.min(10, (rawGrade / maxForScale) * 10)
+                    );
+                }
             }
 
-            // Normalize to the 0–10 scale. If already in 0–10, this does nothing.
-            const normalized10 = Math.max(
-                0,
-                Math.min(10, (rawGrade / maxForScale) * 10)
-            );
+            if (!Number.isFinite(value)) {
+                continue;
+            }
 
-            (perPidGrades[pid] ??= []).push(normalized10);
+            (perPidGrades[pid] ??= []).push(value);
         }
     }
 
@@ -494,7 +492,7 @@ export function buildEvaluableViewsVsAvgPoints(
 
         if (stats.length === 0) return null;
 
-        // First attempt: use normalizedGrade values
+        // 1) Preferimos normalizedGrade
         const normVals: number[] = stats
             .map((p: any) =>
                 typeof p?.normalizedGrade === "number" ? p.normalizedGrade : NaN
@@ -504,20 +502,30 @@ export function buildEvaluableViewsVsAvgPoints(
         if (normVals.length > 0) {
             const sumNorm = normVals.reduce((sum: number, v: number) => sum + v, 0);
             const avgNorm = sumNorm / normVals.length;
-            // Clamp to [0, 10] to avoid out-of-range artifacts
             return Math.max(0, Math.min(10, avgNorm));
         }
 
-        // Fallback: use grade values (assumed already normalized to 0–10)
-        const gradesNum: number[] = stats
-            .map((p: any) => (typeof p?.grade === "number" ? p.grade : NaN))
+        // 2) Fallback: si no hay normalizedGrade, intentamos normalizar con maxGrade
+        const maxForScale =
+            typeof activity?.maxGrade === "number" && activity.maxGrade > 0
+                ? activity.maxGrade
+                : NaN;
+
+        const fallbackVals: number[] = stats
+            .map((p: any) => {
+                const g = typeof p?.grade === "number" ? p.grade : NaN;
+                if (!Number.isFinite(g) || !Number.isFinite(maxForScale) || maxForScale <= 0) {
+                    return NaN;
+                }
+                return (g / maxForScale) * 10;
+            })
             .filter((v: number) => Number.isFinite(v));
 
-        if (gradesNum.length === 0) return null;
+        if (fallbackVals.length === 0) return null;
 
-        const sumGrades = gradesNum.reduce((sum: number, v: number) => sum + v, 0);
-        const avgRaw = sumGrades / gradesNum.length;
-        return Math.max(0, Math.min(10, avgRaw));
+        const sumFallback = fallbackVals.reduce((sum: number, v: number) => sum + v, 0);
+        const avgFallback = sumFallback / fallbackVals.length;
+        return Math.max(0, Math.min(10, avgFallback));
     };
 
     // -------------------------------------------------------------------------

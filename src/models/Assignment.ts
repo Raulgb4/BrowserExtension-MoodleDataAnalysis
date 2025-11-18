@@ -26,12 +26,21 @@ export interface AssignmentParticipantData {
      * Grade obtained by the student, on a scale defined by the assignment.
      */
     grade: number;
+
+    /**
+     * Normalized grade obtained by the student (out of 10).
+     */
+    normalizedGrade?: number;
 }
 /**
- * Represents a assignment activity in Moodle.
+ * Represents an assignment activity in Moodle.
  * Extends the common base fields from ActivityBase and includes specific assignment details.
  */
 export interface Assignment extends ActivityBase {
+    /**
+     * Maximum grade defined for this assigment (e.g., 1, 5, 10).
+     */
+    maxGrade?: number;
 
     /**
      * List of students who attempted the assignment, along with their stats.

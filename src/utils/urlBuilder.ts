@@ -121,6 +121,9 @@ export const URLS = {
     GRADER_REPORT: (courseId: string | number) =>
         `/grade/report/grader/index.php?id=${courseId}&report=grader&perpage=0`,
 
+    /** Gradebook setup */
+    GRADEBOOK_SETUP: (courseId: string | number) =>
+        `/grade/edit/tree/index.php?id=${courseId}`,
 
     /** Activity report */
     ACTIVITY_REPORT: (id: string | number) => `/report/outline/index.php?id=${id}`,
@@ -158,6 +161,10 @@ export function getScrapeUrlParticipants(
 
 export function getScrapeUrlGraderReport(courseId: string | number): Record<string, string> {
     return {graderReport: `${BASE}${URLS.GRADER_REPORT(courseId)}`};
+}
+
+export function getScrapeUrlGradebookSetup(courseId: string | number): Record<string, string> {
+    return {gradebookSetup: `${BASE}${URLS.GRADEBOOK_SETUP(courseId)}`};
 }
 
 export function getScrapeUrlActivityReport(courseId: string | number): Record<string, string> {

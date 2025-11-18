@@ -15,6 +15,9 @@
     Administración → Administración de calificación → Ajuste → Configuración de Calificaciones.
     https://informatica.cv.uma.es/grade/edit/tree/index.php?id=5121
 
+
+
+
   - Regresiones por tipo de actividad:
     Añadir una línea de regresión independiente para cada categoría evaluable (cuestionarios, talleres y tareas) para
     reflejar la tendencia específica de cada una.

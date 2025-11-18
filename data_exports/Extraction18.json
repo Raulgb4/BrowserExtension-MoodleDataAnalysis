@@ -2763,7 +2763,7 @@
       "roles": [
         "Student"
       ],
-      "lastAccessToCourse": 12344400000,
+      "lastAccessToCourse": 12945600000,
       "groups": [
         "No groups"
       ]
@@ -2775,231 +2775,231 @@
       "activityName": "Presentación de TALF",
       "numViews": 632,
       "numUsers": 171,
-      "lastAccess": 522000000
+      "lastAccess": 1123200000
     },
     {
       "id": 7,
       "activityName": "Apuntes y scripts (repo en bitbucket)",
       "numViews": 761,
       "numUsers": 157,
-      "lastAccess": 522000000
+      "lastAccess": 1123200000
     },
     {
       "id": 10,
       "activityName": "Apuntes de TALF (enlace externo a última versión)",
       "numViews": 827,
       "numUsers": 175,
-      "lastAccess": 12718800000
+      "lastAccess": 13320000000
     },
     {
       "id": 12,
       "activityName": "Grabación tutoría virtual",
       "numViews": 108,
       "numUsers": 44,
-      "lastAccess": 712800000
+      "lastAccess": 1314000000
     },
     {
       "id": 24,
       "activityName": "reparto TALF",
       "numViews": 5,
       "numUsers": 3,
-      "lastAccess": 12448800000
+      "lastAccess": 13050000000
     },
     {
       "id": 27,
       "activityName": "Sesión Presentación + T1 URL",
       "numViews": 408,
       "numUsers": 148,
-      "lastAccess": 57110400000
+      "lastAccess": 57628800000
     },
     {
       "id": 28,
       "activityName": "Vídeo del capítulo 1",
       "numViews": 236,
       "numUsers": 113,
-      "lastAccess": 12448800000
+      "lastAccess": 13046400000
     },
     {
       "id": 30,
       "activityName": "La biblioteca de Babel",
       "numViews": 67,
       "numUsers": 50,
-      "lastAccess": 69379200000
+      "lastAccess": 69984000000
     },
     {
       "id": 31,
       "activityName": "El hotel infinito de Hilbert",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 69120000000
+      "lastAccess": 69724800000
     },
     {
       "id": 32,
       "activityName": "Sesión del tema 2",
       "numViews": 459,
       "numUsers": 137,
-      "lastAccess": 56937600000
+      "lastAccess": 57542400000
     },
     {
       "id": 33,
       "activityName": "Vídeo del capítulo 2",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 71280000000
+      "lastAccess": 71884800000
     },
     {
       "id": 34,
       "activityName": "Noam Chomsky",
       "numViews": 40,
       "numUsers": 30,
-      "lastAccess": 70156800000
+      "lastAccess": 70761600000
     },
     {
       "id": 35,
       "activityName": "Anochecer",
       "numViews": 63,
       "numUsers": 45,
-      "lastAccess": 72403200000
+      "lastAccess": 73008000000
     },
     {
       "id": 36,
       "activityName": "Desarrollo embrionario",
       "numViews": 34,
       "numUsers": 26,
-      "lastAccess": 72403200000
+      "lastAccess": 73008000000
     },
     {
       "id": 38,
       "activityName": "Sesión del Tema 3",
       "numViews": 287,
       "numUsers": 105,
-      "lastAccess": 12524400000
+      "lastAccess": 13125600000
     },
     {
       "id": 39,
       "activityName": "IEEE Std 1003.1-2008",
       "numViews": 19,
       "numUsers": 17,
-      "lastAccess": 72316800000
+      "lastAccess": 72835200000
     },
     {
       "id": 40,
       "activityName": "Comparativa expresiones regulares en Perl, Python y Emacs",
       "numViews": 15,
       "numUsers": 14,
-      "lastAccess": 72316800000
+      "lastAccess": 72835200000
     },
     {
       "id": 41,
       "activityName": "Sesión de problemas",
       "numViews": 211,
       "numUsers": 90,
-      "lastAccess": 53136000000
+      "lastAccess": 53740800000
     },
     {
       "id": 48,
       "activityName": "Resumen Presentación prácticas",
       "numViews": 354,
       "numUsers": 132,
-      "lastAccess": 68515200000
+      "lastAccess": 69120000000
     },
     {
       "id": 49,
       "activityName": "Práctica 1",
       "numViews": 203,
       "numUsers": 106,
-      "lastAccess": 53308800000
+      "lastAccess": 53913600000
     },
     {
       "id": 50,
       "activityName": "Práctica 1 bis",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 71625600000
+      "lastAccess": 72230400000
     },
     {
       "id": 54,
       "activityName": "Máquina Virtual Ubuntu",
       "numViews": 614,
       "numUsers": 172,
-      "lastAccess": 54432000000
+      "lastAccess": 55036800000
     },
     {
       "id": 55,
       "activityName": "Distribución de Linux",
       "numViews": 200,
       "numUsers": 96,
-      "lastAccess": 54432000000
+      "lastAccess": 55036800000
     },
     {
       "id": 56,
       "activityName": "Intro a LaTeX",
       "numViews": 234,
       "numUsers": 111,
-      "lastAccess": 66960000000
+      "lastAccess": 67478400000
     },
     {
       "id": 57,
       "activityName": "Overleaf",
       "numViews": 101,
       "numUsers": 67,
-      "lastAccess": 53827200000
+      "lastAccess": 54432000000
     },
     {
       "id": 58,
       "activityName": "grep + Regular Expressions",
       "numViews": 48,
       "numUsers": 38,
-      "lastAccess": 53568000000
+      "lastAccess": 54172800000
     },
     {
       "id": 59,
       "activityName": "Bash Linux Tutorial",
       "numViews": 58,
       "numUsers": 40,
-      "lastAccess": 69033600000
+      "lastAccess": 69638400000
     },
     {
       "id": 60,
       "activityName": "Sesión Tema 4 - ING INF",
       "numViews": 222,
       "numUsers": 86,
-      "lastAccess": 53136000000
+      "lastAccess": 53740800000
     },
     {
       "id": 61,
       "activityName": "Sesión del Tema 4 - ING COM",
       "numViews": 2,
       "numUsers": 1,
-      "lastAccess": 72489600000
+      "lastAccess": 73094400000
     },
     {
       "id": 62,
       "activityName": "JFLAP",
       "numViews": 69,
       "numUsers": 46,
-      "lastAccess": 53308800000
+      "lastAccess": 53913600000
     },
     {
       "id": 63,
       "activityName": "Sesión del Tema 5",
       "numViews": 240,
       "numUsers": 90,
-      "lastAccess": 57110400000
+      "lastAccess": 57715200000
     },
     {
       "id": 64,
       "activityName": "The pumping lemma poem",
       "numViews": 37,
       "numUsers": 33,
-      "lastAccess": 53827200000
+      "lastAccess": 54432000000
     },
     {
       "id": 65,
       "activityName": "Sesión del Tema 6 ING INF",
       "numViews": 232,
       "numUsers": 92,
-      "lastAccess": 57110400000
+      "lastAccess": 57715200000
     },
     {
       "id": 66,
@@ -3012,35 +3012,35 @@
       "activityName": "Context free art",
       "numViews": 17,
       "numUsers": 15,
-      "lastAccess": 88473600000
+      "lastAccess": 89078400000
     },
     {
       "id": 68,
       "activityName": "Sistemas de Lindenmayer",
       "numViews": 11,
       "numUsers": 9,
-      "lastAccess": 88473600000
+      "lastAccess": 89078400000
     },
     {
       "id": 69,
       "activityName": "Context-free grammar programming",
       "numViews": 12,
       "numUsers": 10,
-      "lastAccess": 88300800000
+      "lastAccess": 88905600000
     },
     {
       "id": 70,
       "activityName": "Problemas 2 ING INF",
       "numViews": 113,
       "numUsers": 48,
-      "lastAccess": 57110400000
+      "lastAccess": 57715200000
     },
     {
       "id": 75,
       "activityName": "Sesión Práctica 2",
       "numViews": 93,
       "numUsers": 53,
-      "lastAccess": 65318400000
+      "lastAccess": 65923200000
     },
     {
       "id": 81,
@@ -3053,35 +3053,35 @@
       "activityName": "Tema 7 - sesión ING INF",
       "numViews": 405,
       "numUsers": 105,
-      "lastAccess": 54086400000
+      "lastAccess": 54691200000
     },
     {
       "id": 83,
       "activityName": "MT simulada",
       "numViews": 73,
       "numUsers": 55,
-      "lastAccess": 68601600000
+      "lastAccess": 69206400000
     },
     {
       "id": 84,
       "activityName": "La guerra de Turing",
       "numViews": 49,
       "numUsers": 41,
-      "lastAccess": 68860800000
+      "lastAccess": 69465600000
     },
     {
       "id": 85,
       "activityName": "Vídeo sobre incompletitud",
       "numViews": 45,
       "numUsers": 38,
-      "lastAccess": 54086400000
+      "lastAccess": 54691200000
     },
     {
       "id": 86,
       "activityName": "Tema 8 - sesión ING INF",
       "numViews": 354,
       "numUsers": 105,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 87,
@@ -3094,14 +3094,14 @@
       "activityName": "Sesión Tema 9",
       "numViews": 349,
       "numUsers": 102,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 89,
       "activityName": "sesión de repaso Temas 7-9",
       "numViews": 109,
       "numUsers": 58,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 90,
@@ -3114,21 +3114,21 @@
       "activityName": "Problemas 3 (Parte I)",
       "numViews": 290,
       "numUsers": 93,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 92,
       "activityName": "Problemas 3 (Parte II)",
       "numViews": 165,
       "numUsers": 68,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 97,
       "activityName": "Sesión Práctica 3 INF",
       "numViews": 114,
       "numUsers": 54,
-      "lastAccess": 65318400000
+      "lastAccess": 65923200000
     },
     {
       "id": 98,
@@ -3141,70 +3141,70 @@
       "activityName": "Compilador WHILE",
       "numViews": 359,
       "numUsers": 122,
-      "lastAccess": 68688000000
+      "lastAccess": 69292800000
     },
     {
       "id": 106,
       "activityName": "Sesión Tema 10",
       "numViews": 236,
       "numUsers": 89,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 107,
       "activityName": "Tesis Church-Turing",
       "numViews": 25,
       "numUsers": 19,
-      "lastAccess": 68515200000
+      "lastAccess": 69120000000
     },
     {
       "id": 108,
       "activityName": "Sesión Tema 11 (ING COM)",
       "numViews": 188,
       "numUsers": 72,
-      "lastAccess": 54172800000
+      "lastAccess": 54777600000
     },
     {
       "id": 109,
       "activityName": "sesión Tema 11 (ING INF)",
       "numViews": 207,
       "numUsers": 84,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 110,
       "activityName": "Scripts en Octave para codificación de programas While",
       "numViews": 22,
       "numUsers": 17,
-      "lastAccess": 68774400000
+      "lastAccess": 69379200000
     },
     {
       "id": 111,
       "activityName": "Octave Online",
       "numViews": 11,
       "numUsers": 9,
-      "lastAccess": 70848000000
+      "lastAccess": 71452800000
     },
     {
       "id": 112,
       "activityName": "Sesión Tema 12 (ING COM)",
       "numViews": 116,
       "numUsers": 49,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 113,
       "activityName": "Sesión Tema 12 (ING INF)",
       "numViews": 194,
       "numUsers": 75,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 114,
       "activityName": "Sobre Castor afanoso y los grandes números",
       "numViews": 43,
       "numUsers": 33,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 115,
@@ -3217,28 +3217,28 @@
       "activityName": "Crear un ordenador en Life",
       "numViews": 26,
       "numUsers": 16,
-      "lastAccess": 68428800000
+      "lastAccess": 69033600000
     },
     {
       "id": 117,
       "activityName": "Problemas 4 ING COM",
       "numViews": 3,
       "numUsers": 1,
-      "lastAccess": 71452800000
+      "lastAccess": 72057600000
     },
     {
       "id": 118,
       "activityName": "Problemas 4 ING INF",
       "numViews": 159,
       "numUsers": 60,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 123,
       "activityName": "Sesión Práctica 4 INF",
       "numViews": 78,
       "numUsers": 42,
-      "lastAccess": 68515200000
+      "lastAccess": 69120000000
     },
     {
       "id": 124,
@@ -3251,14 +3251,14 @@
       "activityName": "Francisco Vico",
       "numViews": 1,
       "numUsers": 1,
-      "lastAccess": 75340800000
+      "lastAccess": 75945600000
     },
     {
       "id": 132,
       "activityName": "Karl Thurnhofer",
       "numViews": 3,
       "numUsers": 2,
-      "lastAccess": 12722400000
+      "lastAccess": 13323600000
     },
     {
       "id": 133,
@@ -3309,205 +3309,205 @@
       "activityName": "Copia local del repo talfuma",
       "numViews": 181,
       "numUsers": 86,
-      "lastAccess": 11404800000
+      "lastAccess": 12006000000
     },
     {
       "id": 9,
       "activityName": "Apuntes de TALF (fichero PDF accesible desde lab, última versión)",
       "numViews": 4806,
       "numUsers": 203,
-      "lastAccess": 11764800000
+      "lastAccess": 12366000000
     },
     {
       "id": 37,
       "activityName": "Jerarquía de Chomsky y el lenguaje natural",
       "numViews": 127,
       "numUsers": 80,
-      "lastAccess": 712800000
+      "lastAccess": 1314000000
     },
     {
       "id": 42,
       "activityName": "Ejercicios 1",
       "numViews": 833,
       "numUsers": 180,
-      "lastAccess": 11764800000
+      "lastAccess": 12366000000
     },
     {
       "id": 43,
       "activityName": "Posibles soluciones a los ejercicios 1",
       "numViews": 492,
       "numUsers": 152,
-      "lastAccess": 57110400000
+      "lastAccess": 57715200000
     },
     {
       "id": 46,
       "activityName": "Práctica 1",
       "numViews": 2006,
       "numUsers": 195,
-      "lastAccess": 57456000000
+      "lastAccess": 58060800000
     },
     {
       "id": 47,
       "activityName": "Posibles soluciones Práctica 1",
       "numViews": 349,
       "numUsers": 146,
-      "lastAccess": 53308800000
+      "lastAccess": 53913600000
     },
     {
       "id": 51,
       "activityName": "Ejemplo de documento LaTex",
       "numViews": 232,
       "numUsers": 122,
-      "lastAccess": 87004800000
+      "lastAccess": 87609600000
     },
     {
       "id": 52,
       "activityName": "Ficheros Práctica 1",
       "numViews": 639,
       "numUsers": 180,
-      "lastAccess": 68860800000
+      "lastAccess": 69465600000
     },
     {
       "id": 71,
       "activityName": "Ejercicios 2",
       "numViews": 576,
       "numUsers": 150,
-      "lastAccess": 53308800000
+      "lastAccess": 53913600000
     },
     {
       "id": 72,
       "activityName": "Posibles soluciones a los ejercicios 2",
       "numViews": 451,
       "numUsers": 139,
-      "lastAccess": 57110400000
+      "lastAccess": 57715200000
     },
     {
       "id": 76,
       "activityName": "Práctica 2",
       "numViews": 814,
       "numUsers": 171,
-      "lastAccess": 53827200000
+      "lastAccess": 54432000000
     },
     {
       "id": 77,
       "activityName": "Posibles soluciones Práctica 2",
       "numViews": 161,
       "numUsers": 105,
-      "lastAccess": 68860800000
+      "lastAccess": 69465600000
     },
     {
       "id": 78,
       "activityName": "Ficheros Práctica 2",
       "numViews": 328,
       "numUsers": 161,
-      "lastAccess": 68860800000
+      "lastAccess": 69379200000
     },
     {
       "id": 79,
       "activityName": "JFLAP",
       "numViews": 409,
       "numUsers": 162,
-      "lastAccess": 53222400000
+      "lastAccess": 53827200000
     },
     {
       "id": 93,
       "activityName": "Ejercicios 3",
       "numViews": 718,
       "numUsers": 158,
-      "lastAccess": 59702400000
+      "lastAccess": 60307200000
     },
     {
       "id": 94,
       "activityName": "Posibles soluciones a los ejercicios 3",
       "numViews": 478,
       "numUsers": 131,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 99,
       "activityName": "Práctica 3",
       "numViews": 772,
       "numUsers": 156,
-      "lastAccess": 67737600000
+      "lastAccess": 68342400000
     },
     {
       "id": 100,
       "activityName": "Soluciones práctica 3",
       "numViews": 310,
       "numUsers": 125,
-      "lastAccess": 68428800000
+      "lastAccess": 69033600000
     },
     {
       "id": 101,
       "activityName": "EjemploMT",
       "numViews": 425,
       "numUsers": 133,
-      "lastAccess": 53827200000
+      "lastAccess": 54432000000
     },
     {
       "id": 102,
       "activityName": "EjemploWHILE",
       "numViews": 353,
       "numUsers": 127,
-      "lastAccess": 68688000000
+      "lastAccess": 69292800000
     },
     {
       "id": 105,
       "activityName": "Paquete whilecode para Latex",
       "numViews": 246,
       "numUsers": 115,
-      "lastAccess": 68601600000
+      "lastAccess": 69206400000
     },
     {
       "id": 119,
       "activityName": "Ejercicios 4",
       "numViews": 322,
       "numUsers": 112,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 120,
       "activityName": "Posibles soluciones a los ejercicios 4",
       "numViews": 188,
       "numUsers": 89,
-      "lastAccess": 63244800000
+      "lastAccess": 63849600000
     },
     {
       "id": 122,
       "activityName": "Posible solución al taller",
       "numViews": 18,
       "numUsers": 14,
-      "lastAccess": 68601600000
+      "lastAccess": 69206400000
     },
     {
       "id": 125,
       "activityName": "Práctica 4",
       "numViews": 434,
       "numUsers": 149,
-      "lastAccess": 67737600000
+      "lastAccess": 68342400000
     },
     {
       "id": 126,
       "activityName": "Posibles soluciones Práctica 4",
       "numViews": 237,
       "numUsers": 111,
-      "lastAccess": 68428800000
+      "lastAccess": 69033600000
     },
     {
       "id": 127,
       "activityName": "Ficheros de la Práctica 4",
       "numViews": 210,
       "numUsers": 111,
-      "lastAccess": 68688000000
+      "lastAccess": 69206400000
     }
   ],
   "choices": [
     {
       "id": 23,
       "activityName": "Día para E1_1+",
-      "numViews": 1532,
+      "numViews": 1560,
       "numUsers": 127,
-      "lastAccess": 592000,
+      "lastAccess": 441000,
       "responseCounts": {
         "07/11 - lunes": 44,
         "08/11 - martes": 7,
@@ -3945,9 +3945,9 @@
     {
       "id": 29,
       "activityName": "¿Cómo explicarías a un niño qué es la matemática discreta?",
-      "numViews": 907,
+      "numViews": 933,
       "numUsers": 82,
-      "lastAccess": 592000,
+      "lastAccess": 440000,
       "responseCounts": {
         "Estudia lo que se puede contar.": 21,
         "Son los números naturales.": 0,
@@ -4133,162 +4133,194 @@
       "activityName": "Taller Bloque 1",
       "numViews": 1029,
       "numUsers": 39,
-      "lastAccess": 154800000,
+      "lastAccess": 756000000,
+      "maxGrade": 50,
       "participantStats": [
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 168,
           "participantName": "anonfirstname166 anonlastname166",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 150,
           "participantName": "anonfirstname148 anonlastname148",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 65,
           "participantName": "anonfirstname63 anonlastname63",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 50,
           "participantName": "anonfirstname48 anonlastname48",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 57,
           "participantName": "anonfirstname55 anonlastname55",
-          "grade": 8.5
+          "grade": 42.5,
+          "normalizedGrade": 8.5
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 148,
           "participantName": "anonfirstname146 anonlastname146",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 56,
           "participantName": "anonfirstname54 anonlastname54",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 7.33
+          "grade": 36.67,
+          "normalizedGrade": 7.33
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 7.33
+          "grade": 36.67,
+          "normalizedGrade": 7.33
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 7.33
+          "grade": 36.67,
+          "normalizedGrade": 7.33
         },
         {
           "participantId": 136,
           "participantName": "anonfirstname134 anonlastname134",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 90,
           "participantName": "anonfirstname88 anonlastname88",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 4.67
+          "grade": 23.33,
+          "normalizedGrade": 4.67
         }
       ]
     },
@@ -4297,152 +4329,182 @@
       "activityName": "Taller Bloque 2",
       "numViews": 699,
       "numUsers": 37,
-      "lastAccess": 12445200000,
+      "lastAccess": 13046400000,
+      "maxGrade": 50,
       "participantStats": [
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 168,
           "participantName": "anonfirstname166 anonlastname166",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 133,
           "participantName": "anonfirstname131 anonlastname131",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 65,
           "participantName": "anonfirstname63 anonlastname63",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 7.33
+          "grade": 36.67,
+          "normalizedGrade": 7.33
         },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 150,
           "participantName": "anonfirstname148 anonlastname148",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         },
         {
           "participantId": 160,
           "participantName": "anonfirstname158 anonlastname158",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 5.33
+          "grade": 26.67,
+          "normalizedGrade": 5.33
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 4.67
+          "grade": 23.33,
+          "normalizedGrade": 4.67
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 4.67
+          "grade": 23.33,
+          "normalizedGrade": 4.67
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 4.67
+          "grade": 23.33,
+          "normalizedGrade": 4.67
         },
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 4
+          "grade": 20,
+          "normalizedGrade": 4
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 2.67
+          "grade": 13.33,
+          "normalizedGrade": 2.67
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 2.67
+          "grade": 13.33,
+          "normalizedGrade": 2.67
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 2.67
+          "grade": 13.33,
+          "normalizedGrade": 2.67
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 2
+          "grade": 10,
+          "normalizedGrade": 2
         },
         {
           "participantId": 188,
           "participantName": "anonfirstname186 anonlastname186",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         }
       ]
     },
@@ -4451,122 +4513,146 @@
       "activityName": "Taller Bloque 3",
       "numViews": 547,
       "numUsers": 33,
-      "lastAccess": 67737600000,
+      "lastAccess": 68342400000,
+      "maxGrade": 50,
       "participantStats": [
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 160,
           "participantName": "anonfirstname158 anonlastname158",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 6.13
+          "grade": 30.63,
+          "normalizedGrade": 6.13
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 4.67
+          "grade": 23.33,
+          "normalizedGrade": 4.67
         }
       ]
     },
@@ -4575,112 +4661,134 @@
       "activityName": "Taller Bloque 4",
       "numViews": 441,
       "numUsers": 32,
-      "lastAccess": 12531600000,
+      "lastAccess": 13132800000,
+      "maxGrade": 50,
       "participantStats": [
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 50,
+          "normalizedGrade": 10
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 9.33
+          "grade": 46.67,
+          "normalizedGrade": 9.33
         },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 8.67
+          "grade": 43.33,
+          "normalizedGrade": 8.67
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 8.5
+          "grade": 42.5,
+          "normalizedGrade": 8.5
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 8
+          "grade": 40,
+          "normalizedGrade": 8
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 7.33
+          "grade": 36.67,
+          "normalizedGrade": 7.33
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 7.33
+          "grade": 36.67,
+          "normalizedGrade": 7.33
         },
         {
           "participantId": 133,
           "participantName": "anonfirstname131 anonlastname131",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 6.67
+          "grade": 33.33,
+          "normalizedGrade": 6.67
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 6
+          "grade": 30,
+          "normalizedGrade": 6
         }
       ]
     }
@@ -4689,3736 +4797,4480 @@
     {
       "id": 53,
       "activityName": "Actividades Práctica 1",
-      "numViews": 7131,
+      "numViews": 7137,
       "numUsers": 178,
-      "lastAccess": 442800000,
+      "lastAccess": 5040000,
+      "maxGrade": 1,
       "participantStats": [
         {
           "participantId": 12,
           "participantName": "anonfirstname10 anonlastname10",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 102,
           "participantName": "anonfirstname100 anonlastname100",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 104,
           "participantName": "anonfirstname102 anonlastname102",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 105,
           "participantName": "anonfirstname103 anonlastname103",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 106,
           "participantName": "anonfirstname104 anonlastname104",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 107,
           "participantName": "anonfirstname105 anonlastname105",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 110,
           "participantName": "anonfirstname108 anonlastname108",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 111,
           "participantName": "anonfirstname109 anonlastname109",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 13,
           "participantName": "anonfirstname11 anonlastname11",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 113,
           "participantName": "anonfirstname111 anonlastname111",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 114,
           "participantName": "anonfirstname112 anonlastname112",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 116,
           "participantName": "anonfirstname114 anonlastname114",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 117,
           "participantName": "anonfirstname115 anonlastname115",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 118,
           "participantName": "anonfirstname116 anonlastname116",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 119,
           "participantName": "anonfirstname117 anonlastname117",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 120,
           "participantName": "anonfirstname118 anonlastname118",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 121,
           "participantName": "anonfirstname119 anonlastname119",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 14,
           "participantName": "anonfirstname12 anonlastname12",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 123,
           "participantName": "anonfirstname121 anonlastname121",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 124,
           "participantName": "anonfirstname122 anonlastname122",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 125,
           "participantName": "anonfirstname123 anonlastname123",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 127,
           "participantName": "anonfirstname125 anonlastname125",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 129,
           "participantName": "anonfirstname127 anonlastname127",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 130,
           "participantName": "anonfirstname128 anonlastname128",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 15,
           "participantName": "anonfirstname13 anonlastname13",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 132,
           "participantName": "anonfirstname130 anonlastname130",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 133,
           "participantName": "anonfirstname131 anonlastname131",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 135,
           "participantName": "anonfirstname133 anonlastname133",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 136,
           "participantName": "anonfirstname134 anonlastname134",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 139,
           "participantName": "anonfirstname137 anonlastname137",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 140,
           "participantName": "anonfirstname138 anonlastname138",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 144,
           "participantName": "anonfirstname142 anonlastname142",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 145,
           "participantName": "anonfirstname143 anonlastname143",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 146,
           "participantName": "anonfirstname144 anonlastname144",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 147,
           "participantName": "anonfirstname145 anonlastname145",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 148,
           "participantName": "anonfirstname146 anonlastname146",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 150,
           "participantName": "anonfirstname148 anonlastname148",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 151,
           "participantName": "anonfirstname149 anonlastname149",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 17,
           "participantName": "anonfirstname15 anonlastname15",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 152,
           "participantName": "anonfirstname150 anonlastname150",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 153,
           "participantName": "anonfirstname151 anonlastname151",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 154,
           "participantName": "anonfirstname152 anonlastname152",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 155,
           "participantName": "anonfirstname153 anonlastname153",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 156,
           "participantName": "anonfirstname154 anonlastname154",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 158,
           "participantName": "anonfirstname156 anonlastname156",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 159,
           "participantName": "anonfirstname157 anonlastname157",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 160,
           "participantName": "anonfirstname158 anonlastname158",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 161,
           "participantName": "anonfirstname159 anonlastname159",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 18,
           "participantName": "anonfirstname16 anonlastname16",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 162,
           "participantName": "anonfirstname160 anonlastname160",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 163,
           "participantName": "anonfirstname161 anonlastname161",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 164,
           "participantName": "anonfirstname162 anonlastname162",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 165,
           "participantName": "anonfirstname163 anonlastname163",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 166,
           "participantName": "anonfirstname164 anonlastname164",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 167,
           "participantName": "anonfirstname165 anonlastname165",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 168,
           "participantName": "anonfirstname166 anonlastname166",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 169,
           "participantName": "anonfirstname167 anonlastname167",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 170,
           "participantName": "anonfirstname168 anonlastname168",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 171,
           "participantName": "anonfirstname169 anonlastname169",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 172,
           "participantName": "anonfirstname170 anonlastname170",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 174,
           "participantName": "anonfirstname172 anonlastname172",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 176,
           "participantName": "anonfirstname174 anonlastname174",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 178,
           "participantName": "anonfirstname176 anonlastname176",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 179,
           "participantName": "anonfirstname177 anonlastname177",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 180,
           "participantName": "anonfirstname178 anonlastname178",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 181,
           "participantName": "anonfirstname179 anonlastname179",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 184,
           "participantName": "anonfirstname182 anonlastname182",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 185,
           "participantName": "anonfirstname183 anonlastname183",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 186,
           "participantName": "anonfirstname184 anonlastname184",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 188,
           "participantName": "anonfirstname186 anonlastname186",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 191,
           "participantName": "anonfirstname189 anonlastname189",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 21,
           "participantName": "anonfirstname19 anonlastname19",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 193,
           "participantName": "anonfirstname191 anonlastname191",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 195,
           "participantName": "anonfirstname193 anonlastname193",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 196,
           "participantName": "anonfirstname194 anonlastname194",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 197,
           "participantName": "anonfirstname195 anonlastname195",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 200,
           "participantName": "anonfirstname198 anonlastname198",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 22,
           "participantName": "anonfirstname20 anonlastname20",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 202,
           "participantName": "anonfirstname200 anonlastname200",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 204,
           "participantName": "anonfirstname202 anonlastname202",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 207,
           "participantName": "anonfirstname205 anonlastname205",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 208,
           "participantName": "anonfirstname206 anonlastname206",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 23,
           "participantName": "anonfirstname21 anonlastname21",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 27,
           "participantName": "anonfirstname25 anonlastname25",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 28,
           "participantName": "anonfirstname26 anonlastname26",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 29,
           "participantName": "anonfirstname27 anonlastname27",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 30,
           "participantName": "anonfirstname28 anonlastname28",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 33,
           "participantName": "anonfirstname31 anonlastname31",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 38,
           "participantName": "anonfirstname36 anonlastname36",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 41,
           "participantName": "anonfirstname39 anonlastname39",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 42,
           "participantName": "anonfirstname40 anonlastname40",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 44,
           "participantName": "anonfirstname42 anonlastname42",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 45,
           "participantName": "anonfirstname43 anonlastname43",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 46,
           "participantName": "anonfirstname44 anonlastname44",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 47,
           "participantName": "anonfirstname45 anonlastname45",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 48,
           "participantName": "anonfirstname46 anonlastname46",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 49,
           "participantName": "anonfirstname47 anonlastname47",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 52,
           "participantName": "anonfirstname50 anonlastname50",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 53,
           "participantName": "anonfirstname51 anonlastname51",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 54,
           "participantName": "anonfirstname52 anonlastname52",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 56,
           "participantName": "anonfirstname54 anonlastname54",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 57,
           "participantName": "anonfirstname55 anonlastname55",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 58,
           "participantName": "anonfirstname56 anonlastname56",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 59,
           "participantName": "anonfirstname57 anonlastname57",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 60,
           "participantName": "anonfirstname58 anonlastname58",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 61,
           "participantName": "anonfirstname59 anonlastname59",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 8,
           "participantName": "anonfirstname6 anonlastname6",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 62,
           "participantName": "anonfirstname60 anonlastname60",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 63,
           "participantName": "anonfirstname61 anonlastname61",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 65,
           "participantName": "anonfirstname63 anonlastname63",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 66,
           "participantName": "anonfirstname64 anonlastname64",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 67,
           "participantName": "anonfirstname65 anonlastname65",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 9,
           "participantName": "anonfirstname7 anonlastname7",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 72,
           "participantName": "anonfirstname70 anonlastname70",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 73,
           "participantName": "anonfirstname71 anonlastname71",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 74,
           "participantName": "anonfirstname72 anonlastname72",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 76,
           "participantName": "anonfirstname74 anonlastname74",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 77,
           "participantName": "anonfirstname75 anonlastname75",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 78,
           "participantName": "anonfirstname76 anonlastname76",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 79,
           "participantName": "anonfirstname77 anonlastname77",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 81,
           "participantName": "anonfirstname79 anonlastname79",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 84,
           "participantName": "anonfirstname82 anonlastname82",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 85,
           "participantName": "anonfirstname83 anonlastname83",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 86,
           "participantName": "anonfirstname84 anonlastname84",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 89,
           "participantName": "anonfirstname87 anonlastname87",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 90,
           "participantName": "anonfirstname88 anonlastname88",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 11,
           "participantName": "anonfirstname9 anonlastname9",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 92,
           "participantName": "anonfirstname90 anonlastname90",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 93,
           "participantName": "anonfirstname91 anonlastname91",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 94,
           "participantName": "anonfirstname92 anonlastname92",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 95,
           "participantName": "anonfirstname93 anonlastname93",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 97,
           "participantName": "anonfirstname95 anonlastname95",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 98,
           "participantName": "anonfirstname96 anonlastname96",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 99,
           "participantName": "anonfirstname97 anonlastname97",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 100,
           "participantName": "anonfirstname98 anonlastname98",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 210,
           "participantName": "anonfirstname208 anonlastname208",
-          "grade": 7
+          "grade": 0.7,
+          "normalizedGrade": 7
         },
         {
           "participantId": 112,
           "participantName": "anonfirstname110 anonlastname110",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 16,
           "participantName": "anonfirstname14 anonlastname14",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 19,
           "participantName": "anonfirstname17 anonlastname17",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 20,
           "participantName": "anonfirstname18 anonlastname18",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 189,
           "participantName": "anonfirstname187 anonlastname187",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 190,
           "participantName": "anonfirstname188 anonlastname188",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 192,
           "participantName": "anonfirstname190 anonlastname190",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 194,
           "participantName": "anonfirstname192 anonlastname192",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 203,
           "participantName": "anonfirstname201 anonlastname201",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 209,
           "participantName": "anonfirstname207 anonlastname207",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 212,
           "participantName": "anonfirstname210 anonlastname210",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 213,
           "participantName": "anonfirstname211 anonlastname211",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 214,
           "participantName": "anonfirstname212 anonlastname212",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 215,
           "participantName": "anonfirstname213 anonlastname213",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 25,
           "participantName": "anonfirstname23 anonlastname23",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 34,
           "participantName": "anonfirstname32 anonlastname32",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 36,
           "participantName": "anonfirstname34 anonlastname34",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 39,
           "participantName": "anonfirstname37 anonlastname37",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 40,
           "participantName": "anonfirstname38 anonlastname38",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 50,
           "participantName": "anonfirstname48 anonlastname48",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 51,
           "participantName": "anonfirstname49 anonlastname49",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 7,
           "participantName": "anonfirstname5 anonlastname5",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 55,
           "participantName": "anonfirstname53 anonlastname53",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 64,
           "participantName": "anonfirstname62 anonlastname62",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 75,
           "participantName": "anonfirstname73 anonlastname73",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 83,
           "participantName": "anonfirstname81 anonlastname81",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         }
       ]
     },
     {
       "id": 80,
       "activityName": "Actividades Práctica 2",
-      "numViews": 4718,
+      "numViews": 4720,
       "numUsers": 177,
-      "lastAccess": 504000000,
+      "lastAccess": 594000000,
+      "maxGrade": 1,
       "participantStats": [
         {
           "participantId": 12,
           "participantName": "anonfirstname10 anonlastname10",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 102,
           "participantName": "anonfirstname100 anonlastname100",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 104,
           "participantName": "anonfirstname102 anonlastname102",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 105,
           "participantName": "anonfirstname103 anonlastname103",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 106,
           "participantName": "anonfirstname104 anonlastname104",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 107,
           "participantName": "anonfirstname105 anonlastname105",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 110,
           "participantName": "anonfirstname108 anonlastname108",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 111,
           "participantName": "anonfirstname109 anonlastname109",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 13,
           "participantName": "anonfirstname11 anonlastname11",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 113,
           "participantName": "anonfirstname111 anonlastname111",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 114,
           "participantName": "anonfirstname112 anonlastname112",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 116,
           "participantName": "anonfirstname114 anonlastname114",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 117,
           "participantName": "anonfirstname115 anonlastname115",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 118,
           "participantName": "anonfirstname116 anonlastname116",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 119,
           "participantName": "anonfirstname117 anonlastname117",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 120,
           "participantName": "anonfirstname118 anonlastname118",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 121,
           "participantName": "anonfirstname119 anonlastname119",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 14,
           "participantName": "anonfirstname12 anonlastname12",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 123,
           "participantName": "anonfirstname121 anonlastname121",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 124,
           "participantName": "anonfirstname122 anonlastname122",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 125,
           "participantName": "anonfirstname123 anonlastname123",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 127,
           "participantName": "anonfirstname125 anonlastname125",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 129,
           "participantName": "anonfirstname127 anonlastname127",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 130,
           "participantName": "anonfirstname128 anonlastname128",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 15,
           "participantName": "anonfirstname13 anonlastname13",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 132,
           "participantName": "anonfirstname130 anonlastname130",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 133,
           "participantName": "anonfirstname131 anonlastname131",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 135,
           "participantName": "anonfirstname133 anonlastname133",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 136,
           "participantName": "anonfirstname134 anonlastname134",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 139,
           "participantName": "anonfirstname137 anonlastname137",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 140,
           "participantName": "anonfirstname138 anonlastname138",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 144,
           "participantName": "anonfirstname142 anonlastname142",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 145,
           "participantName": "anonfirstname143 anonlastname143",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 146,
           "participantName": "anonfirstname144 anonlastname144",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 147,
           "participantName": "anonfirstname145 anonlastname145",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 148,
           "participantName": "anonfirstname146 anonlastname146",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 150,
           "participantName": "anonfirstname148 anonlastname148",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 151,
           "participantName": "anonfirstname149 anonlastname149",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 17,
           "participantName": "anonfirstname15 anonlastname15",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 152,
           "participantName": "anonfirstname150 anonlastname150",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 153,
           "participantName": "anonfirstname151 anonlastname151",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 154,
           "participantName": "anonfirstname152 anonlastname152",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 155,
           "participantName": "anonfirstname153 anonlastname153",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 156,
           "participantName": "anonfirstname154 anonlastname154",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 158,
           "participantName": "anonfirstname156 anonlastname156",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 159,
           "participantName": "anonfirstname157 anonlastname157",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 160,
           "participantName": "anonfirstname158 anonlastname158",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 161,
           "participantName": "anonfirstname159 anonlastname159",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 162,
           "participantName": "anonfirstname160 anonlastname160",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 163,
           "participantName": "anonfirstname161 anonlastname161",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 164,
           "participantName": "anonfirstname162 anonlastname162",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 165,
           "participantName": "anonfirstname163 anonlastname163",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 166,
           "participantName": "anonfirstname164 anonlastname164",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 167,
           "participantName": "anonfirstname165 anonlastname165",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 168,
           "participantName": "anonfirstname166 anonlastname166",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 169,
           "participantName": "anonfirstname167 anonlastname167",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 170,
           "participantName": "anonfirstname168 anonlastname168",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 171,
           "participantName": "anonfirstname169 anonlastname169",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 172,
           "participantName": "anonfirstname170 anonlastname170",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 174,
           "participantName": "anonfirstname172 anonlastname172",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 176,
           "participantName": "anonfirstname174 anonlastname174",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 178,
           "participantName": "anonfirstname176 anonlastname176",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 179,
           "participantName": "anonfirstname177 anonlastname177",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 180,
           "participantName": "anonfirstname178 anonlastname178",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 181,
           "participantName": "anonfirstname179 anonlastname179",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 184,
           "participantName": "anonfirstname182 anonlastname182",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 185,
           "participantName": "anonfirstname183 anonlastname183",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 186,
           "participantName": "anonfirstname184 anonlastname184",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 188,
           "participantName": "anonfirstname186 anonlastname186",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 191,
           "participantName": "anonfirstname189 anonlastname189",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 21,
           "participantName": "anonfirstname19 anonlastname19",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 192,
           "participantName": "anonfirstname190 anonlastname190",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 193,
           "participantName": "anonfirstname191 anonlastname191",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 195,
           "participantName": "anonfirstname193 anonlastname193",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 196,
           "participantName": "anonfirstname194 anonlastname194",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 197,
           "participantName": "anonfirstname195 anonlastname195",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 200,
           "participantName": "anonfirstname198 anonlastname198",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 22,
           "participantName": "anonfirstname20 anonlastname20",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 202,
           "participantName": "anonfirstname200 anonlastname200",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 204,
           "participantName": "anonfirstname202 anonlastname202",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 207,
           "participantName": "anonfirstname205 anonlastname205",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 208,
           "participantName": "anonfirstname206 anonlastname206",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 23,
           "participantName": "anonfirstname21 anonlastname21",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 27,
           "participantName": "anonfirstname25 anonlastname25",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 28,
           "participantName": "anonfirstname26 anonlastname26",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 29,
           "participantName": "anonfirstname27 anonlastname27",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 30,
           "participantName": "anonfirstname28 anonlastname28",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 33,
           "participantName": "anonfirstname31 anonlastname31",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 38,
           "participantName": "anonfirstname36 anonlastname36",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 41,
           "participantName": "anonfirstname39 anonlastname39",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 42,
           "participantName": "anonfirstname40 anonlastname40",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 44,
           "participantName": "anonfirstname42 anonlastname42",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 45,
           "participantName": "anonfirstname43 anonlastname43",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 46,
           "participantName": "anonfirstname44 anonlastname44",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 47,
           "participantName": "anonfirstname45 anonlastname45",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 48,
           "participantName": "anonfirstname46 anonlastname46",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 49,
           "participantName": "anonfirstname47 anonlastname47",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 52,
           "participantName": "anonfirstname50 anonlastname50",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 53,
           "participantName": "anonfirstname51 anonlastname51",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 54,
           "participantName": "anonfirstname52 anonlastname52",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 56,
           "participantName": "anonfirstname54 anonlastname54",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 57,
           "participantName": "anonfirstname55 anonlastname55",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 58,
           "participantName": "anonfirstname56 anonlastname56",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 59,
           "participantName": "anonfirstname57 anonlastname57",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 60,
           "participantName": "anonfirstname58 anonlastname58",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 61,
           "participantName": "anonfirstname59 anonlastname59",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 8,
           "participantName": "anonfirstname6 anonlastname6",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 62,
           "participantName": "anonfirstname60 anonlastname60",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 63,
           "participantName": "anonfirstname61 anonlastname61",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 65,
           "participantName": "anonfirstname63 anonlastname63",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 66,
           "participantName": "anonfirstname64 anonlastname64",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 67,
           "participantName": "anonfirstname65 anonlastname65",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 9,
           "participantName": "anonfirstname7 anonlastname7",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 72,
           "participantName": "anonfirstname70 anonlastname70",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 73,
           "participantName": "anonfirstname71 anonlastname71",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 74,
           "participantName": "anonfirstname72 anonlastname72",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 76,
           "participantName": "anonfirstname74 anonlastname74",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 77,
           "participantName": "anonfirstname75 anonlastname75",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 78,
           "participantName": "anonfirstname76 anonlastname76",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 79,
           "participantName": "anonfirstname77 anonlastname77",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 81,
           "participantName": "anonfirstname79 anonlastname79",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 84,
           "participantName": "anonfirstname82 anonlastname82",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 85,
           "participantName": "anonfirstname83 anonlastname83",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 86,
           "participantName": "anonfirstname84 anonlastname84",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 89,
           "participantName": "anonfirstname87 anonlastname87",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 90,
           "participantName": "anonfirstname88 anonlastname88",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 11,
           "participantName": "anonfirstname9 anonlastname9",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 92,
           "participantName": "anonfirstname90 anonlastname90",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 93,
           "participantName": "anonfirstname91 anonlastname91",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 94,
           "participantName": "anonfirstname92 anonlastname92",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 95,
           "participantName": "anonfirstname93 anonlastname93",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 97,
           "participantName": "anonfirstname95 anonlastname95",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 98,
           "participantName": "anonfirstname96 anonlastname96",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 99,
           "participantName": "anonfirstname97 anonlastname97",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 100,
           "participantName": "anonfirstname98 anonlastname98",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 210,
           "participantName": "anonfirstname208 anonlastname208",
-          "grade": 7
+          "grade": 0.7,
+          "normalizedGrade": 7
         },
         {
           "participantId": 112,
           "participantName": "anonfirstname110 anonlastname110",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 16,
           "participantName": "anonfirstname14 anonlastname14",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 18,
           "participantName": "anonfirstname16 anonlastname16",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 19,
           "participantName": "anonfirstname17 anonlastname17",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 20,
           "participantName": "anonfirstname18 anonlastname18",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 189,
           "participantName": "anonfirstname187 anonlastname187",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 190,
           "participantName": "anonfirstname188 anonlastname188",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 194,
           "participantName": "anonfirstname192 anonlastname192",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 203,
           "participantName": "anonfirstname201 anonlastname201",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 209,
           "participantName": "anonfirstname207 anonlastname207",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 212,
           "participantName": "anonfirstname210 anonlastname210",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 213,
           "participantName": "anonfirstname211 anonlastname211",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 214,
           "participantName": "anonfirstname212 anonlastname212",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 215,
           "participantName": "anonfirstname213 anonlastname213",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 25,
           "participantName": "anonfirstname23 anonlastname23",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 34,
           "participantName": "anonfirstname32 anonlastname32",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 36,
           "participantName": "anonfirstname34 anonlastname34",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 39,
           "participantName": "anonfirstname37 anonlastname37",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 40,
           "participantName": "anonfirstname38 anonlastname38",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 50,
           "participantName": "anonfirstname48 anonlastname48",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 51,
           "participantName": "anonfirstname49 anonlastname49",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 7,
           "participantName": "anonfirstname5 anonlastname5",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 55,
           "participantName": "anonfirstname53 anonlastname53",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 64,
           "participantName": "anonfirstname62 anonlastname62",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 75,
           "participantName": "anonfirstname73 anonlastname73",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 83,
           "participantName": "anonfirstname81 anonlastname81",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         }
       ]
     },
     {
       "id": 103,
       "activityName": "Actividades Práctica 3",
-      "numViews": 4318,
+      "numViews": 4320,
       "numUsers": 162,
-      "lastAccess": 504000000,
+      "lastAccess": 594000000,
+      "maxGrade": 1,
       "participantStats": [
         {
           "participantId": 12,
           "participantName": "anonfirstname10 anonlastname10",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 102,
           "participantName": "anonfirstname100 anonlastname100",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 104,
           "participantName": "anonfirstname102 anonlastname102",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 105,
           "participantName": "anonfirstname103 anonlastname103",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 106,
           "participantName": "anonfirstname104 anonlastname104",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 107,
           "participantName": "anonfirstname105 anonlastname105",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 110,
           "participantName": "anonfirstname108 anonlastname108",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 111,
           "participantName": "anonfirstname109 anonlastname109",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 114,
           "participantName": "anonfirstname112 anonlastname112",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 116,
           "participantName": "anonfirstname114 anonlastname114",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 117,
           "participantName": "anonfirstname115 anonlastname115",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 118,
           "participantName": "anonfirstname116 anonlastname116",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 120,
           "participantName": "anonfirstname118 anonlastname118",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 121,
           "participantName": "anonfirstname119 anonlastname119",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 14,
           "participantName": "anonfirstname12 anonlastname12",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 123,
           "participantName": "anonfirstname121 anonlastname121",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 124,
           "participantName": "anonfirstname122 anonlastname122",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 125,
           "participantName": "anonfirstname123 anonlastname123",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 127,
           "participantName": "anonfirstname125 anonlastname125",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 129,
           "participantName": "anonfirstname127 anonlastname127",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 130,
           "participantName": "anonfirstname128 anonlastname128",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 15,
           "participantName": "anonfirstname13 anonlastname13",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 132,
           "participantName": "anonfirstname130 anonlastname130",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 133,
           "participantName": "anonfirstname131 anonlastname131",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 135,
           "participantName": "anonfirstname133 anonlastname133",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 136,
           "participantName": "anonfirstname134 anonlastname134",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 139,
           "participantName": "anonfirstname137 anonlastname137",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 140,
           "participantName": "anonfirstname138 anonlastname138",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 144,
           "participantName": "anonfirstname142 anonlastname142",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 145,
           "participantName": "anonfirstname143 anonlastname143",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 146,
           "participantName": "anonfirstname144 anonlastname144",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 147,
           "participantName": "anonfirstname145 anonlastname145",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 148,
           "participantName": "anonfirstname146 anonlastname146",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 150,
           "participantName": "anonfirstname148 anonlastname148",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 151,
           "participantName": "anonfirstname149 anonlastname149",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 17,
           "participantName": "anonfirstname15 anonlastname15",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 152,
           "participantName": "anonfirstname150 anonlastname150",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 153,
           "participantName": "anonfirstname151 anonlastname151",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 154,
           "participantName": "anonfirstname152 anonlastname152",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 155,
           "participantName": "anonfirstname153 anonlastname153",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 156,
           "participantName": "anonfirstname154 anonlastname154",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 158,
           "participantName": "anonfirstname156 anonlastname156",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 159,
           "participantName": "anonfirstname157 anonlastname157",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 160,
           "participantName": "anonfirstname158 anonlastname158",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 161,
           "participantName": "anonfirstname159 anonlastname159",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 163,
           "participantName": "anonfirstname161 anonlastname161",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 164,
           "participantName": "anonfirstname162 anonlastname162",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 165,
           "participantName": "anonfirstname163 anonlastname163",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 166,
           "participantName": "anonfirstname164 anonlastname164",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 167,
           "participantName": "anonfirstname165 anonlastname165",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 168,
           "participantName": "anonfirstname166 anonlastname166",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 169,
           "participantName": "anonfirstname167 anonlastname167",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 170,
           "participantName": "anonfirstname168 anonlastname168",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 171,
           "participantName": "anonfirstname169 anonlastname169",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 172,
           "participantName": "anonfirstname170 anonlastname170",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 174,
           "participantName": "anonfirstname172 anonlastname172",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 176,
           "participantName": "anonfirstname174 anonlastname174",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 178,
           "participantName": "anonfirstname176 anonlastname176",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 179,
           "participantName": "anonfirstname177 anonlastname177",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 180,
           "participantName": "anonfirstname178 anonlastname178",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 181,
           "participantName": "anonfirstname179 anonlastname179",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 184,
           "participantName": "anonfirstname182 anonlastname182",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 185,
           "participantName": "anonfirstname183 anonlastname183",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 186,
           "participantName": "anonfirstname184 anonlastname184",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 188,
           "participantName": "anonfirstname186 anonlastname186",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 191,
           "participantName": "anonfirstname189 anonlastname189",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 21,
           "participantName": "anonfirstname19 anonlastname19",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 193,
           "participantName": "anonfirstname191 anonlastname191",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 195,
           "participantName": "anonfirstname193 anonlastname193",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 196,
           "participantName": "anonfirstname194 anonlastname194",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 197,
           "participantName": "anonfirstname195 anonlastname195",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 200,
           "participantName": "anonfirstname198 anonlastname198",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 22,
           "participantName": "anonfirstname20 anonlastname20",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 202,
           "participantName": "anonfirstname200 anonlastname200",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 204,
           "participantName": "anonfirstname202 anonlastname202",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 207,
           "participantName": "anonfirstname205 anonlastname205",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 208,
           "participantName": "anonfirstname206 anonlastname206",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 23,
           "participantName": "anonfirstname21 anonlastname21",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 28,
           "participantName": "anonfirstname26 anonlastname26",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 29,
           "participantName": "anonfirstname27 anonlastname27",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 30,
           "participantName": "anonfirstname28 anonlastname28",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 33,
           "participantName": "anonfirstname31 anonlastname31",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 41,
           "participantName": "anonfirstname39 anonlastname39",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 42,
           "participantName": "anonfirstname40 anonlastname40",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 44,
           "participantName": "anonfirstname42 anonlastname42",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 45,
           "participantName": "anonfirstname43 anonlastname43",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 46,
           "participantName": "anonfirstname44 anonlastname44",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 47,
           "participantName": "anonfirstname45 anonlastname45",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 48,
           "participantName": "anonfirstname46 anonlastname46",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 49,
           "participantName": "anonfirstname47 anonlastname47",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 52,
           "participantName": "anonfirstname50 anonlastname50",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 53,
           "participantName": "anonfirstname51 anonlastname51",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 54,
           "participantName": "anonfirstname52 anonlastname52",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 58,
           "participantName": "anonfirstname56 anonlastname56",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 60,
           "participantName": "anonfirstname58 anonlastname58",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 61,
           "participantName": "anonfirstname59 anonlastname59",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 8,
           "participantName": "anonfirstname6 anonlastname6",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 62,
           "participantName": "anonfirstname60 anonlastname60",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 63,
           "participantName": "anonfirstname61 anonlastname61",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 65,
           "participantName": "anonfirstname63 anonlastname63",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 66,
           "participantName": "anonfirstname64 anonlastname64",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 67,
           "participantName": "anonfirstname65 anonlastname65",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 72,
           "participantName": "anonfirstname70 anonlastname70",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 73,
           "participantName": "anonfirstname71 anonlastname71",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 74,
           "participantName": "anonfirstname72 anonlastname72",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 76,
           "participantName": "anonfirstname74 anonlastname74",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 77,
           "participantName": "anonfirstname75 anonlastname75",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 78,
           "participantName": "anonfirstname76 anonlastname76",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 79,
           "participantName": "anonfirstname77 anonlastname77",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 81,
           "participantName": "anonfirstname79 anonlastname79",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 84,
           "participantName": "anonfirstname82 anonlastname82",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 85,
           "participantName": "anonfirstname83 anonlastname83",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 86,
           "participantName": "anonfirstname84 anonlastname84",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 89,
           "participantName": "anonfirstname87 anonlastname87",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 90,
           "participantName": "anonfirstname88 anonlastname88",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 11,
           "participantName": "anonfirstname9 anonlastname9",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 92,
           "participantName": "anonfirstname90 anonlastname90",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 93,
           "participantName": "anonfirstname91 anonlastname91",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 94,
           "participantName": "anonfirstname92 anonlastname92",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 95,
           "participantName": "anonfirstname93 anonlastname93",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 97,
           "participantName": "anonfirstname95 anonlastname95",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 98,
           "participantName": "anonfirstname96 anonlastname96",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 99,
           "participantName": "anonfirstname97 anonlastname97",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 100,
           "participantName": "anonfirstname98 anonlastname98",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 210,
           "participantName": "anonfirstname208 anonlastname208",
-          "grade": 7
+          "grade": 0.7,
+          "normalizedGrade": 7
         },
         {
           "participantId": 13,
           "participantName": "anonfirstname11 anonlastname11",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 112,
           "participantName": "anonfirstname110 anonlastname110",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 113,
           "participantName": "anonfirstname111 anonlastname111",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 119,
           "participantName": "anonfirstname117 anonlastname117",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 16,
           "participantName": "anonfirstname14 anonlastname14",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 18,
           "participantName": "anonfirstname16 anonlastname16",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 162,
           "participantName": "anonfirstname160 anonlastname160",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 19,
           "participantName": "anonfirstname17 anonlastname17",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 20,
           "participantName": "anonfirstname18 anonlastname18",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 189,
           "participantName": "anonfirstname187 anonlastname187",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 190,
           "participantName": "anonfirstname188 anonlastname188",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 192,
           "participantName": "anonfirstname190 anonlastname190",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 194,
           "participantName": "anonfirstname192 anonlastname192",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 203,
           "participantName": "anonfirstname201 anonlastname201",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 209,
           "participantName": "anonfirstname207 anonlastname207",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 212,
           "participantName": "anonfirstname210 anonlastname210",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 213,
           "participantName": "anonfirstname211 anonlastname211",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 214,
           "participantName": "anonfirstname212 anonlastname212",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 215,
           "participantName": "anonfirstname213 anonlastname213",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 25,
           "participantName": "anonfirstname23 anonlastname23",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 27,
           "participantName": "anonfirstname25 anonlastname25",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 34,
           "participantName": "anonfirstname32 anonlastname32",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 36,
           "participantName": "anonfirstname34 anonlastname34",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 38,
           "participantName": "anonfirstname36 anonlastname36",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 39,
           "participantName": "anonfirstname37 anonlastname37",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 40,
           "participantName": "anonfirstname38 anonlastname38",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 50,
           "participantName": "anonfirstname48 anonlastname48",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 51,
           "participantName": "anonfirstname49 anonlastname49",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 7,
           "participantName": "anonfirstname5 anonlastname5",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 55,
           "participantName": "anonfirstname53 anonlastname53",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 56,
           "participantName": "anonfirstname54 anonlastname54",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 57,
           "participantName": "anonfirstname55 anonlastname55",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 59,
           "participantName": "anonfirstname57 anonlastname57",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 64,
           "participantName": "anonfirstname62 anonlastname62",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 9,
           "participantName": "anonfirstname7 anonlastname7",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 75,
           "participantName": "anonfirstname73 anonlastname73",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 83,
           "participantName": "anonfirstname81 anonlastname81",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         }
       ]
     },
     {
       "id": 128,
       "activityName": "Actividades Práctica 4",
-      "numViews": 3779,
+      "numViews": 3781,
       "numUsers": 153,
-      "lastAccess": 504000000,
+      "lastAccess": 594000000,
+      "maxGrade": 1,
       "participantStats": [
         {
           "participantId": 12,
           "participantName": "anonfirstname10 anonlastname10",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 102,
           "participantName": "anonfirstname100 anonlastname100",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 103,
           "participantName": "anonfirstname101 anonlastname101",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 104,
           "participantName": "anonfirstname102 anonlastname102",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 105,
           "participantName": "anonfirstname103 anonlastname103",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 106,
           "participantName": "anonfirstname104 anonlastname104",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 107,
           "participantName": "anonfirstname105 anonlastname105",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 108,
           "participantName": "anonfirstname106 anonlastname106",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 109,
           "participantName": "anonfirstname107 anonlastname107",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 110,
           "participantName": "anonfirstname108 anonlastname108",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 111,
           "participantName": "anonfirstname109 anonlastname109",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 114,
           "participantName": "anonfirstname112 anonlastname112",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 115,
           "participantName": "anonfirstname113 anonlastname113",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 116,
           "participantName": "anonfirstname114 anonlastname114",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 117,
           "participantName": "anonfirstname115 anonlastname115",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 118,
           "participantName": "anonfirstname116 anonlastname116",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 120,
           "participantName": "anonfirstname118 anonlastname118",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 121,
           "participantName": "anonfirstname119 anonlastname119",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 14,
           "participantName": "anonfirstname12 anonlastname12",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 123,
           "participantName": "anonfirstname121 anonlastname121",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 124,
           "participantName": "anonfirstname122 anonlastname122",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 125,
           "participantName": "anonfirstname123 anonlastname123",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 127,
           "participantName": "anonfirstname125 anonlastname125",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 129,
           "participantName": "anonfirstname127 anonlastname127",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 130,
           "participantName": "anonfirstname128 anonlastname128",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 15,
           "participantName": "anonfirstname13 anonlastname13",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 132,
           "participantName": "anonfirstname130 anonlastname130",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 133,
           "participantName": "anonfirstname131 anonlastname131",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 135,
           "participantName": "anonfirstname133 anonlastname133",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 136,
           "participantName": "anonfirstname134 anonlastname134",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 137,
           "participantName": "anonfirstname135 anonlastname135",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 139,
           "participantName": "anonfirstname137 anonlastname137",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 140,
           "participantName": "anonfirstname138 anonlastname138",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 141,
           "participantName": "anonfirstname139 anonlastname139",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 142,
           "participantName": "anonfirstname140 anonlastname140",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 144,
           "participantName": "anonfirstname142 anonlastname142",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 145,
           "participantName": "anonfirstname143 anonlastname143",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 146,
           "participantName": "anonfirstname144 anonlastname144",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 147,
           "participantName": "anonfirstname145 anonlastname145",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 148,
           "participantName": "anonfirstname146 anonlastname146",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 150,
           "participantName": "anonfirstname148 anonlastname148",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 151,
           "participantName": "anonfirstname149 anonlastname149",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 17,
           "participantName": "anonfirstname15 anonlastname15",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 152,
           "participantName": "anonfirstname150 anonlastname150",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 153,
           "participantName": "anonfirstname151 anonlastname151",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 154,
           "participantName": "anonfirstname152 anonlastname152",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 155,
           "participantName": "anonfirstname153 anonlastname153",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 156,
           "participantName": "anonfirstname154 anonlastname154",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 158,
           "participantName": "anonfirstname156 anonlastname156",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 159,
           "participantName": "anonfirstname157 anonlastname157",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 160,
           "participantName": "anonfirstname158 anonlastname158",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 161,
           "participantName": "anonfirstname159 anonlastname159",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 163,
           "participantName": "anonfirstname161 anonlastname161",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 164,
           "participantName": "anonfirstname162 anonlastname162",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 165,
           "participantName": "anonfirstname163 anonlastname163",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 166,
           "participantName": "anonfirstname164 anonlastname164",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 167,
           "participantName": "anonfirstname165 anonlastname165",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 168,
           "participantName": "anonfirstname166 anonlastname166",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 169,
           "participantName": "anonfirstname167 anonlastname167",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 170,
           "participantName": "anonfirstname168 anonlastname168",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 171,
           "participantName": "anonfirstname169 anonlastname169",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 172,
           "participantName": "anonfirstname170 anonlastname170",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 174,
           "participantName": "anonfirstname172 anonlastname172",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 176,
           "participantName": "anonfirstname174 anonlastname174",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 178,
           "participantName": "anonfirstname176 anonlastname176",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 179,
           "participantName": "anonfirstname177 anonlastname177",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 180,
           "participantName": "anonfirstname178 anonlastname178",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 181,
           "participantName": "anonfirstname179 anonlastname179",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 183,
           "participantName": "anonfirstname181 anonlastname181",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 184,
           "participantName": "anonfirstname182 anonlastname182",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 185,
           "participantName": "anonfirstname183 anonlastname183",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 186,
           "participantName": "anonfirstname184 anonlastname184",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 188,
           "participantName": "anonfirstname186 anonlastname186",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 191,
           "participantName": "anonfirstname189 anonlastname189",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 21,
           "participantName": "anonfirstname19 anonlastname19",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 193,
           "participantName": "anonfirstname191 anonlastname191",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 195,
           "participantName": "anonfirstname193 anonlastname193",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 196,
           "participantName": "anonfirstname194 anonlastname194",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 197,
           "participantName": "anonfirstname195 anonlastname195",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 198,
           "participantName": "anonfirstname196 anonlastname196",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 199,
           "participantName": "anonfirstname197 anonlastname197",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 200,
           "participantName": "anonfirstname198 anonlastname198",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 22,
           "participantName": "anonfirstname20 anonlastname20",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 202,
           "participantName": "anonfirstname200 anonlastname200",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 204,
           "participantName": "anonfirstname202 anonlastname202",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 206,
           "participantName": "anonfirstname204 anonlastname204",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 207,
           "participantName": "anonfirstname205 anonlastname205",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 208,
           "participantName": "anonfirstname206 anonlastname206",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 23,
           "participantName": "anonfirstname21 anonlastname21",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 28,
           "participantName": "anonfirstname26 anonlastname26",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 29,
           "participantName": "anonfirstname27 anonlastname27",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 30,
           "participantName": "anonfirstname28 anonlastname28",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 31,
           "participantName": "anonfirstname29 anonlastname29",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 32,
           "participantName": "anonfirstname30 anonlastname30",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 33,
           "participantName": "anonfirstname31 anonlastname31",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 41,
           "participantName": "anonfirstname39 anonlastname39",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 42,
           "participantName": "anonfirstname40 anonlastname40",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 43,
           "participantName": "anonfirstname41 anonlastname41",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 44,
           "participantName": "anonfirstname42 anonlastname42",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 45,
           "participantName": "anonfirstname43 anonlastname43",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 46,
           "participantName": "anonfirstname44 anonlastname44",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 47,
           "participantName": "anonfirstname45 anonlastname45",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 48,
           "participantName": "anonfirstname46 anonlastname46",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 49,
           "participantName": "anonfirstname47 anonlastname47",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 52,
           "participantName": "anonfirstname50 anonlastname50",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 53,
           "participantName": "anonfirstname51 anonlastname51",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 54,
           "participantName": "anonfirstname52 anonlastname52",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 58,
           "participantName": "anonfirstname56 anonlastname56",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 60,
           "participantName": "anonfirstname58 anonlastname58",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 61,
           "participantName": "anonfirstname59 anonlastname59",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 8,
           "participantName": "anonfirstname6 anonlastname6",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 62,
           "participantName": "anonfirstname60 anonlastname60",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 63,
           "participantName": "anonfirstname61 anonlastname61",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 65,
           "participantName": "anonfirstname63 anonlastname63",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 66,
           "participantName": "anonfirstname64 anonlastname64",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 67,
           "participantName": "anonfirstname65 anonlastname65",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 68,
           "participantName": "anonfirstname66 anonlastname66",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 69,
           "participantName": "anonfirstname67 anonlastname67",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 70,
           "participantName": "anonfirstname68 anonlastname68",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 71,
           "participantName": "anonfirstname69 anonlastname69",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 72,
           "participantName": "anonfirstname70 anonlastname70",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 73,
           "participantName": "anonfirstname71 anonlastname71",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 74,
           "participantName": "anonfirstname72 anonlastname72",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 76,
           "participantName": "anonfirstname74 anonlastname74",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 77,
           "participantName": "anonfirstname75 anonlastname75",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 78,
           "participantName": "anonfirstname76 anonlastname76",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 79,
           "participantName": "anonfirstname77 anonlastname77",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 81,
           "participantName": "anonfirstname79 anonlastname79",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 10,
           "participantName": "anonfirstname8 anonlastname8",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 82,
           "participantName": "anonfirstname80 anonlastname80",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 84,
           "participantName": "anonfirstname82 anonlastname82",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 85,
           "participantName": "anonfirstname83 anonlastname83",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 86,
           "participantName": "anonfirstname84 anonlastname84",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 89,
           "participantName": "anonfirstname87 anonlastname87",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 90,
           "participantName": "anonfirstname88 anonlastname88",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 91,
           "participantName": "anonfirstname89 anonlastname89",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 11,
           "participantName": "anonfirstname9 anonlastname9",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 92,
           "participantName": "anonfirstname90 anonlastname90",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 93,
           "participantName": "anonfirstname91 anonlastname91",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 94,
           "participantName": "anonfirstname92 anonlastname92",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 95,
           "participantName": "anonfirstname93 anonlastname93",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 96,
           "participantName": "anonfirstname94 anonlastname94",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 97,
           "participantName": "anonfirstname95 anonlastname95",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 98,
           "participantName": "anonfirstname96 anonlastname96",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 99,
           "participantName": "anonfirstname97 anonlastname97",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 100,
           "participantName": "anonfirstname98 anonlastname98",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 101,
           "participantName": "anonfirstname99 anonlastname99",
-          "grade": 10
+          "grade": 1,
+          "normalizedGrade": 10
         },
         {
           "participantId": 210,
           "participantName": "anonfirstname208 anonlastname208",
-          "grade": 7
+          "grade": 0.7,
+          "normalizedGrade": 7
         },
         {
           "participantId": 13,
           "participantName": "anonfirstname11 anonlastname11",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 112,
           "participantName": "anonfirstname110 anonlastname110",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 113,
           "participantName": "anonfirstname111 anonlastname111",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 119,
           "participantName": "anonfirstname117 anonlastname117",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 16,
           "participantName": "anonfirstname14 anonlastname14",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 18,
           "participantName": "anonfirstname16 anonlastname16",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 162,
           "participantName": "anonfirstname160 anonlastname160",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 19,
           "participantName": "anonfirstname17 anonlastname17",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 20,
           "participantName": "anonfirstname18 anonlastname18",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 189,
           "participantName": "anonfirstname187 anonlastname187",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 190,
           "participantName": "anonfirstname188 anonlastname188",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 192,
           "participantName": "anonfirstname190 anonlastname190",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 194,
           "participantName": "anonfirstname192 anonlastname192",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 203,
           "participantName": "anonfirstname201 anonlastname201",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 209,
           "participantName": "anonfirstname207 anonlastname207",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 212,
           "participantName": "anonfirstname210 anonlastname210",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 213,
           "participantName": "anonfirstname211 anonlastname211",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 214,
           "participantName": "anonfirstname212 anonlastname212",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 215,
           "participantName": "anonfirstname213 anonlastname213",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 25,
           "participantName": "anonfirstname23 anonlastname23",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 27,
           "participantName": "anonfirstname25 anonlastname25",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 34,
           "participantName": "anonfirstname32 anonlastname32",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 36,
           "participantName": "anonfirstname34 anonlastname34",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 38,
           "participantName": "anonfirstname36 anonlastname36",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 39,
           "participantName": "anonfirstname37 anonlastname37",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 40,
           "participantName": "anonfirstname38 anonlastname38",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 50,
           "participantName": "anonfirstname48 anonlastname48",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 51,
           "participantName": "anonfirstname49 anonlastname49",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 7,
           "participantName": "anonfirstname5 anonlastname5",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 55,
           "participantName": "anonfirstname53 anonlastname53",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 56,
           "participantName": "anonfirstname54 anonlastname54",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 57,
           "participantName": "anonfirstname55 anonlastname55",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 59,
           "participantName": "anonfirstname57 anonlastname57",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 64,
           "participantName": "anonfirstname62 anonlastname62",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 9,
           "participantName": "anonfirstname7 anonlastname7",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 75,
           "participantName": "anonfirstname73 anonlastname73",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         },
         {
           "participantId": 83,
           "participantName": "anonfirstname81 anonlastname81",
-          "grade": 0
+          "grade": 0,
+          "normalizedGrade": 0
         }
       ]
     }
@@ -8426,9 +9278,9 @@
   "quizzes": [
     {
       "activityName": "E1_1+",
-      "numViews": 3638,
+      "numViews": 3667,
       "numUsers": 147,
-      "lastAccess": 594000,
+      "lastAccess": 442000,
       "id": 14,
       "maxGrade": 1,
       "participantStats": [
@@ -8926,9 +9778,9 @@
     },
     {
       "activityName": "E2_1",
-      "numViews": 16397,
+      "numViews": 16423,
       "numUsers": 156,
-      "lastAccess": 593000,
+      "lastAccess": 442000,
       "id": 15,
       "maxGrade": 5,
       "participantStats": [
@@ -9930,9 +10782,9 @@
     },
     {
       "activityName": "E1_2",
-      "numViews": 7295,
+      "numViews": 7321,
       "numUsers": 93,
-      "lastAccess": 593000,
+      "lastAccess": 441000,
       "id": 17,
       "maxGrade": 5,
       "participantStats": [
@@ -10423,9 +11275,9 @@
     },
     {
       "activityName": "E2_2",
-      "numViews": 9011,
+      "numViews": 9037,
       "numUsers": 103,
-      "lastAccess": 593000,
+      "lastAccess": 441000,
       "id": 18,
       "maxGrade": 4.67,
       "participantStats": [
@@ -11028,9 +11880,9 @@
     },
     {
       "activityName": "E1_3",
-      "numViews": 3577,
+      "numViews": 3603,
       "numUsers": 43,
-      "lastAccess": 592000,
+      "lastAccess": 441000,
       "id": 20,
       "maxGrade": 5,
       "participantStats": [
@@ -11220,9 +12072,9 @@
     },
     {
       "activityName": "E2_3",
-      "numViews": 3703,
+      "numViews": 3729,
       "numUsers": 41,
-      "lastAccess": 592000,
+      "lastAccess": 441000,
       "id": 21,
       "maxGrade": 5,
       "participantStats": [
@@ -11468,9 +12320,9 @@
     },
     {
       "activityName": "Cuestionario CHAEA",
-      "numViews": 1565,
+      "numViews": 1591,
       "numUsers": 133,
-      "lastAccess": 592000,
+      "lastAccess": 440000,
       "id": 25,
       "maxGrade": 10,
       "participantStats": [
@@ -11872,9 +12724,9 @@
   "forums": [
     {
       "activityName": "Foro de dudas",
-      "numViews": 7458,
+      "numViews": 7536,
       "numUsers": 171,
-      "lastAccess": 595000,
+      "lastAccess": 443000,
       "id": 3,
       "forumId": 1,
       "subscriptions": 205,
@@ -13523,9 +14375,9 @@
     },
     {
       "activityName": "Novedades y anuncios",
-      "numViews": 4833,
+      "numViews": 4911,
       "numUsers": 180,
-      "lastAccess": 594000,
+      "lastAccess": 443000,
       "id": 4,
       "forumId": 2,
       "subscriptions": 214,
@@ -14966,9 +15818,9 @@
     },
     {
       "activityName": "Trabajos TALF 2022-23",
-      "numViews": 3961,
+      "numViews": 4039,
       "numUsers": 19,
-      "lastAccess": 594000,
+      "lastAccess": 442000,
       "id": 5,
       "forumId": 3,
       "subscriptions": 14,

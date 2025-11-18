@@ -26,8 +26,8 @@ import {
     parseViewsAndUsers
 } from "./dataProcessor";
 import {Resource, URLResource} from "../models/ActivityBase";
-import {AbstractDataExtractor, AnalysisProgress, GraderReportData} from "./AbstractDataExtractor";
-import {getScrapeUrlGraderReport, getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {AbstractDataExtractor, AnalysisProgress, GradebookSetupData, GraderReportData} from "./AbstractDataExtractor";
+import {getScrapeUrlGradebookSetup, getScrapeUrlGraderReport, getScrapeUrlQuiz} from "../utils/urlBuilder";
 import {Workshop} from "../models/Workshop";
 import {Assignment} from "../models/Assignment";
 
@@ -350,143 +350,9 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     }
 
     /**
-     * Scrapes all Workshop activities within a course. PLANTILLA A RELLENAR
-     */
-    /*
-    async scrapeWorkshops(
-        id: number,
-        activityName: string,
-        numViews: number,
-        numUsers: number,
-        lastAccess: number | undefined,
-        courseId: string
-    ): Promise<Workshop[]> {
-        const t0 = performance.now();
-        devlog.info("dataExtractor", "scrapeWorkshops:start", {
-            id, activityName, numViews, numUsers, lastAccess, courseId
-        });
-
-        try {
-            const workshops: Workshop[] = [];
-            const url = getScrapeUrlGraderReport(courseId);
-            const doc = await this.fetchAndParse(url.graderReport);
-
-            // Scraping del DOM de Moodle de la página TO DO
-
-            const participantStats: WorkshopParticipantData[] = []; // participantId, participantName, grade
-
-            for (const rowWorkshop of rowsResultsWorkshop) {
-
-                // Scraping del DOM de Moodle de la página TO DO
-
-                participantStats.push({
-                    participantId,
-                    participantName,
-                    grade,
-                });
-            }
-
-            const workshop: Workshop = {
-                activityName,
-                numViews,
-                numUsers,
-                lastAccess,
-                id,
-                participantStats,
-            };
-
-            workshops.push(workshop);
-
-            const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeWorkshops:success", {
-                id,
-                activityName,
-                participantsParsed: participantStats.length,
-                durationMs: ms,
-            }, workshop);
-
-            return workshops;
-
-        } catch (error) {
-            const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeWorkshops:error", {error: String(error), durationMs: ms});
-            return [];
-        }
-    }
-    */
-
-    /**
-     * Scrapes all Assignment activities within a course. PLANTILLA A RELLENAR
-     */
-
-    /*
-    async scrapeAssignments(
-        id: number,
-        activityName: string,
-        numViews: number,
-        numUsers: number,
-        lastAccess: number | undefined,
-        courseId: string
-    ): Promise<Assignment[]> {
-        const t0 = performance.now();
-        devlog.info("dataExtractor", "scrapeAssignments:start", {
-            id, activityName, numViews, numUsers, lastAccess, courseId
-        });
-
-        try {
-            const assignments: Assignment[] = [];
-            const url = getScrapeUrlGraderReport(courseId);
-            const doc = await this.fetchAndParse(url.graderReport);
-
-            // Scraping del DOM de Moodle de la página TO DO
-
-            const participantStats: AssignmentParticipantData[] = []; // participantId, participantName, grade
-
-            for (const rowAssignment of rowsResultsAssignment) {
-
-                // Scraping del DOM de Moodle de la página TO DO
-
-                participantStats.push({
-                    participantId,
-                    participantName,
-                    grade,
-                });
-            }
-
-            const assignment: Assignment = {
-                activityName,
-                numViews,
-                numUsers,
-                lastAccess,
-                id,
-                participantStats,
-            };
-
-            assignments.push(assignment);
-
-            const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeAssignments:success", {
-                id,
-                activityName,
-                participantsParsed: participantStats.length,
-                durationMs: ms,
-            }, assignment);
-
-            return assignments;
-
-        } catch (error) {
-            const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeAssignments:error", {error: String(error), durationMs: ms});
-            return [];
-        }
-    }
-    */
-
-
-    /**
      * Scrapea la página del Grader Report de Moodle (entorno local)
      */
-    private async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
+    async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
         const url = getScrapeUrlGraderReport(courseId);
         const doc = await this.fetchAndParse(url.graderReport);
 
@@ -572,26 +438,25 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 const val = parseFloat(raw.replace(',', '.'));
                 if (!Number.isFinite(val)) return;
 
-                // --- Normalización según tipo ---
-                const normalized = this.normalizeLocalByType(val, meta.type);
-
-                if (meta.type === 'final') {
-                    finalGradesByPid.set(pid, normalized);
+                // --- Guardamos SIEMPRE la nota cruda tal y como viene del GR ---
+                if (meta.type === "final") {
+                    // Ya viene en 0–10, la dejamos tal cual
+                    finalGradesByPid.set(pid, val);
                     return;
                 }
 
-                if (meta.type === 'workshop' && Number.isFinite(meta.activityId!)) {
+                if (meta.type === "workshop" && Number.isFinite(meta.activityId!)) {
                     const wid = meta.activityId!;
                     const byPid = workshopGradesByWid.get(wid) ?? new Map<number, number>();
-                    byPid.set(pid, normalized);
+                    byPid.set(pid, val);  // nota cruda (0–50, 0–100, etc.)
                     workshopGradesByWid.set(wid, byPid);
                     return;
                 }
 
-                if (meta.type === 'assignment' && Number.isFinite(meta.activityId!)) {
+                if (meta.type === "assignment" && Number.isFinite(meta.activityId!)) {
                     const aid = meta.activityId!;
                     const byPid = assignmentGradesByAid.get(aid) ?? new Map<number, number>();
-                    byPid.set(pid, normalized);
+                    byPid.set(pid, val);  // nota cruda (0–1, 0–10, etc.)
                     assignmentGradesByAid.set(aid, byPid);
                     return;
                 }
@@ -606,36 +471,87 @@ export class LocalDataExtractor extends AbstractDataExtractor {
     }
 
     /**
-     * Normaliza una nota según el tipo de actividad:
-     * - Workshop: escala 0–50 → 0–10
-     * - Assignment: escala 0–1 → 0–10
-     * - Final: escala ya en 0–10
+     * Scrapea la página del Gradebook Setup de Moodle (entorno local)
      */
-    private normalizeLocalByType(value: number, type: "workshop" | "assignment" | "final"): number {
-        let normalized: number;
+    async scrapeGradebookSetup(courseId: string | number): Promise<GradebookSetupData> {
+        const url = getScrapeUrlGradebookSetup(courseId);
+        const doc = await this.fetchAndParse(url.gradebookSetup);
 
-        switch (type) {
-            case "workshop":
-                normalized = (value / 50) * 10;
-                break;
-            case "assignment":
-                normalized = (value / 1) * 10;
-                break;
-            case "final":
-            default:
-                normalized = value;
-                break;
+        const workshopMaxGradeByCmid = new Map<number, number>();
+        const assignmentMaxGradeByCmid = new Map<number, number>();
+
+        const table = doc.querySelector<HTMLTableElement>(
+            "table.generaltable.simple.setup-grades#grade_edit_tree_table"
+        );
+
+        if (!table) {
+            // Si quieres loguear algo:
+            // devlog.warn("gradebook_setup", "table_not_found", { courseId });
+            return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
         }
 
-        // Redondear a 2 decimales y clamp en [0, 10]
-        return Math.min(10, Math.max(0, Number(normalized.toFixed(2))));
+        const tbody = table.querySelector("tbody");
+        if (!tbody) {
+            return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+        }
+
+        // Filas de tipo item (ignoramos categorías, totales, etc.)
+        const rows = Array.from(tbody.querySelectorAll<HTMLTableRowElement>("tr.item"));
+
+        for (const row of rows) {
+            // Columna de nombre (donde está el icono y el enlace)
+            const nameCell = row.querySelector<HTMLTableCellElement>("td.column-name");
+            if (!nameCell) continue;
+
+            // Tipo de actividad: "Workshop", "Assignment", etc.
+            const typeLabelSpan = nameCell.querySelector<HTMLSpanElement>(
+                "span.d-block.text-uppercase.small.dimmed_text"
+            );
+            const typeLabel = typeLabelSpan?.textContent?.trim() ?? "";
+
+            // Solo nos interesan Workshop y Assignment
+            const isWorkshop = typeLabel.toLowerCase() === "workshop";
+            const isAssignment = typeLabel.toLowerCase() === "assignment";
+            if (!isWorkshop && !isAssignment) continue;
+
+            // Enlace a la actividad: .../mod/workshop/view.php?id=44
+            const headerLink = nameCell.querySelector<HTMLAnchorElement>("a.gradeitemheader");
+            const href = headerLink?.getAttribute("href") ?? "";
+            if (!href) continue;
+
+            // Extraemos el "id" (cmid) del query string del href
+            // Ejemplo: id=44
+            let cmid: number | null = null;
+            const match = href.match(/[?&]id=(\d+)/);
+            if (match && match[1]) {
+                cmid = Number(match[1]);
+            }
+            if (!cmid || !Number.isFinite(cmid)) continue;
+
+            // Nota máxima: preferimos data-grademax por ser más exacto
+            const maxGradeAttr = row.getAttribute("data-grademax");
+            let maxGrade = Number(maxGradeAttr);
+
+            if (!Number.isFinite(maxGrade)) {
+                // Fallback: texto de la columna "Max grade" (column-range)
+                const rangeCell = row.querySelector<HTMLTableCellElement>("td.column-range");
+                const rangeText = rangeCell?.textContent?.trim() ?? "";
+                maxGrade = Number(rangeText.replace(",", "."));
+            }
+
+            if (!Number.isFinite(maxGrade) || maxGrade <= 0) {
+                continue;
+            }
+
+            if (isWorkshop) {
+                workshopMaxGradeByCmid.set(cmid, maxGrade);
+            } else if (isAssignment) {
+                assignmentMaxGradeByCmid.set(cmid, maxGrade);
+            }
+        }
+
+        return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
     }
-
-
-
-
-
-
 
     /**
      * Orchestrates the scraping of a full course, including its metadata
@@ -781,40 +697,6 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                             break;
                         }
 
-                        /*
-                        case href.includes("/mod/workshop/"): {
-                            progress?.setLabel("status.scraping_workshop");
-                            const workshopResults = await this.scrapeWorkshops(
-                                id,
-                                activityName,
-                                numViews,
-                                numUsers,
-                                lastAccess,
-                                courseId
-                            );
-                            workshops.push(...workshopResults);
-                            typeCounts.workshop += workshopResults.length;
-                            break;
-                        }
-                         */
-
-                        /*
-                        case href.includes("/mod/assign/"): {
-                            progress?.setLabel("status.scraping_assign");
-                            const assignmentResults = await this.scrapeAssignments(
-                                id,
-                                activityName,
-                                numViews,
-                                numUsers,
-                                lastAccess,
-                                courseId
-                            );
-                            assignments.push(...assignmentResults);
-                            typeCounts.assignment += assignmentResults.length;
-                            break;
-                        }
-                         */
-
                         case href.includes("/mod/quiz/"): {
                             progress?.setLabel("status.scraping_quiz");
                             const quizResults = await this.scrapeQuizzes(
@@ -862,11 +744,13 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             // 1) Recopilar datos crudos del Grader Report
             try {
                 const graderData = await this.scrapeGraderReport(courseId);
+                const gradebookSetup = await this.scrapeGradebookSetup(courseId);
                 this.enrichFromGraderReport({
                     participants,
                     workshops,
                     assignments,
                     graderData,
+                    gradebookSetup,
                 });
             } catch (err) {
                 // Si falla el GR, no tiramos el scrape: lo registramos y seguimos con los datos base

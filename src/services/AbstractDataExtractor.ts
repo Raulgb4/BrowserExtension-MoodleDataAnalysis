@@ -30,7 +30,8 @@ import {
     getScrapeUrlForumSubscriptions
 } from "../utils/urlBuilder";
 import {Assignment, AssignmentParticipantData} from "../models/Assignment";
-import {Workshop} from "../models/Workshop";
+import {Workshop, WorkshopParticipantData} from "../models/Workshop";
+import {normalizeGradeTo10} from "./dataProcessor";
 
 /**
  * Progress tracker used during long-running scraping operations.
@@ -54,6 +55,21 @@ export interface GraderReportData {
     assignmentGradesByAid: Map<number, Map<number, number>>;
 }
 
+/**
+ * Estructura base con los datos del Gradebook Setup
+ * (rellenaremos las Maps más adelante)
+ */
+export interface GradebookSetupData {
+    /**
+     * Nota máxima por workshop, indexada por course module id (cmid).
+     */
+    workshopMaxGradeByCmid: Map<number, number>;
+
+    /**
+     * Nota máxima por assignment, indexada por course module id (cmid).
+     */
+    assignmentMaxGradeByCmid: Map<number, number>;
+}
 
 
 /**
@@ -117,9 +133,6 @@ export abstract class AbstractDataExtractor {
     /**
      * Scrapes all Choice activities within a course.
      */
-    /**
-     * Scrapes all Choice activities within a course.
-     */
     async scrapeChoices(
         id: number,
         activityName: string,
@@ -129,7 +142,7 @@ export abstract class AbstractDataExtractor {
     ): Promise<Choice[]> {
         const t0 = performance.now();
         devlog.info("dataExtractor", "scrapeChoices:start",
-            { id, activityName, numViews, numUsers, lastAccess });
+            {id, activityName, numViews, numUsers, lastAccess});
 
         const normalize = (s?: string) =>
             (s ?? "")
@@ -139,13 +152,12 @@ export abstract class AbstractDataExtractor {
                 .replace(/\p{Diacritic}/gu, "");
 
         try {
-            const choices: Choice[] = [];
             const url = getScrapeUrlChoice(id);
             const doc = await this.fetchAndParse(url.choiceResults);
 
             const table = doc.querySelector('table.results.names');
             if (!table) {
-                devlog.warn("dataExtractor", "scrapeChoices:table_not_found", { id, activityName });
+                devlog.warn("dataExtractor", "scrapeChoices:table_not_found", {id, activityName});
                 return [];
             }
 
@@ -181,7 +193,7 @@ export abstract class AbstractDataExtractor {
                     responseCounts[label] = Number.isFinite(value) ? value : 0;
                 }
             } else {
-                devlog.warn("dataExtractor", "scrapeChoices:number_row_not_found", { id, activityName });
+                devlog.warn("dataExtractor", "scrapeChoices:number_row_not_found", {id, activityName});
             }
 
             // --- 3) Body: fila "Users who chose this option" -> participantStats ---
@@ -239,7 +251,7 @@ export abstract class AbstractDataExtractor {
                     }
                 }
             } else {
-                devlog.warn("dataExtractor", "scrapeChoices:users_row_not_found", { id, activityName });
+                devlog.warn("dataExtractor", "scrapeChoices:users_row_not_found", {id, activityName});
             }
 
             const participantStats = Array.from(participantsMap.entries()).map(([participantId, participantName]) => ({
@@ -259,17 +271,15 @@ export abstract class AbstractDataExtractor {
             };
 
             const ms = Math.round(performance.now() - t0);
-            devlog.info("dataExtractor", "scrapeChoices:success", { id, activityName, durationMs: ms }, choice);
+            devlog.info("dataExtractor", "scrapeChoices:success", {id, activityName, durationMs: ms}, choice);
             return [choice];
 
         } catch (error) {
             const ms = Math.round(performance.now() - t0);
-            devlog.error("dataExtractor", "scrapeChoices:error", { error: String(error), durationMs: ms });
+            devlog.error("dataExtractor", "scrapeChoices:error", {error: String(error), durationMs: ms});
             return [];
         }
     }
-
-
 
     /**
      * Scrapes all Quiz activities within a course.
@@ -283,31 +293,14 @@ export abstract class AbstractDataExtractor {
         totalParticipants: number
     ): Promise<Quiz[]>;
 
-    /*
-    abstract scrapeWorkshops(
-        id: number,
-        activityName: string,
-        numViews: number,
-        numUsers: number,
-        lastAccess: number | undefined,
-        courseId: string
-    ): Promise<Workshop[]>;
-     */
+    abstract scrapeGraderReport(
+        courseId: string | number
+    ): Promise<GraderReportData>;
 
-    /*
-    async scrapeAssignments(
-        id: number,
-        activityName: string,
-        numViews: number,
-        numUsers: number,
-        lastAccess: number | undefined,
-        courseId: string
-    ): Promise<Assignment[]>;
-    */
+    abstract scrapeGradebookSetup(
+        courseId: string | number
+    ): Promise<GradebookSetupData>
 
-    /**
-     * Scrapes all Forum activities within a course.
-     */
     /**
      * Scrapes all Forum activities within a course.
      */
@@ -511,16 +504,23 @@ export abstract class AbstractDataExtractor {
         workshops: Workshop[];
         assignments: Assignment[];
         graderData: GraderReportData;
+        gradebookSetup?: GradebookSetupData;
     }): void {
-        const { participants, workshops, assignments, graderData } = args;
+        const {
+            participants,
+            workshops,
+            assignments,
+            graderData,
+            gradebookSetup,
+        } = args;
 
-        // Índices O(1) para lookup
+        // Índices O(1) para lookup de nombre por participante
         const nameByPid = new Map<number, string>();
         for (const p of participants) {
             nameByPid.set(p.id, p.participantName ?? p.email ?? String(p.id));
         }
 
-        // 1) Final grade por participante
+        // 1) Final grade por participante (nota final del curso, ya en 0–10)
         if (graderData.finalGradesByPid?.size) {
             for (const p of participants) {
                 const g = graderData.finalGradesByPid.get(p.id);
@@ -530,8 +530,38 @@ export abstract class AbstractDataExtractor {
             }
         }
 
-        // Helper genérico para volcar mapas (aid/wid -> (pid -> grade)) en participantStats[]
-        function fillParticipantStatsForActivities<T extends { id: number; participantStats?: AssignmentParticipantData[] }>(
+        // 1bis) maxGrade por actividad (a partir del Gradebook Setup)
+        const workshopMaxById = gradebookSetup?.workshopMaxGradeByCmid;
+        const assignmentMaxById = gradebookSetup?.assignmentMaxGradeByCmid;
+
+        if (workshopMaxById && workshops?.length) {
+            for (const w of workshops) {
+                // ActivityBase.id = identificador interno (coincide con el cmid que usamos en el setup)
+                const gmax = workshopMaxById.get(w.id);
+                if (Number.isFinite(gmax as number) && (gmax as number) > 0) {
+                    w.maxGrade = gmax as number;
+                }
+            }
+        }
+
+        if (assignmentMaxById && assignments?.length) {
+            for (const a of assignments) {
+                const gmax = assignmentMaxById.get(a.id);
+                if (Number.isFinite(gmax as number) && (gmax as number) > 0) {
+                    a.maxGrade = gmax as number;
+                }
+            }
+        }
+
+        /**
+         * Helper genérico para volcar mapas (aid/wid -> (pid -> grade)) en participantStats[],
+         * calculando también normalizedGrade (0–10) cuando maxGrade está disponible.
+         */
+        function fillParticipantStatsForActivities<T extends {
+            id: number;
+            maxGrade?: number;
+            participantStats?: (AssignmentParticipantData | WorkshopParticipantData)[];
+        }>(
             activities: T[],
             gradesByActivity: Map<number, Map<number, number>>
         ) {
@@ -545,27 +575,43 @@ export abstract class AbstractDataExtractor {
                 const activity = byId.get(activityId);
                 if (!activity) continue;
 
-                const stats: AssignmentParticipantData[] = [];
+                const maxGrade = activity.maxGrade;
+                const hasValidMax = Number.isFinite(maxGrade) && (maxGrade as number) > 0;
+
+                const stats: (AssignmentParticipantData | WorkshopParticipantData)[] = [];
+
                 for (const [pid, grade] of gradesByPid.entries()) {
                     if (!Number.isFinite(grade)) continue;
+
+                    let normalized: number | undefined = undefined;
+                    if (hasValidMax) {
+                        normalized = normalizeGradeTo10(grade, maxGrade as number);
+                    }
+
                     stats.push({
                         participantId: pid,
                         participantName: nameByPid.get(pid) ?? String(pid),
                         grade,
+                        normalizedGrade: normalized,
                     });
                 }
 
-                // Opcional: ordenar de mayor a menor (comenta si no lo quieres)
-                stats.sort((a, b) => (b.grade ?? 0) - (a.grade ?? 0));
+                // Opcional: ordenar de mayor a menor.
+                // Si hay normalizedGrade, ordenamos por ella; si no, por grade crudo.
+                stats.sort((a, b) => {
+                    const va = b.normalizedGrade ?? b.grade ?? 0;
+                    const vb = a.normalizedGrade ?? a.grade ?? 0;
+                    return va - vb; // descendente
+                });
 
                 activity.participantStats = stats;
             }
         }
 
-        // 2) Workshops → participantStats
+        // 2) Workshops → participantStats (usa w.id como clave y w.maxGrade para normalizar)
         fillParticipantStatsForActivities(workshops, graderData.workshopGradesByWid);
 
-        // 3) Assignments → participantStats
+        // 3) Assignments → participantStats (usa a.id como clave y a.maxGrade para normalizar)
         fillParticipantStatsForActivities(assignments, graderData.assignmentGradesByAid);
     }
 

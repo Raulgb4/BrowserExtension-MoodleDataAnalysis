@@ -8,7 +8,7 @@
  * @date 2025
  */
 
-import {AbstractDataExtractor, AnalysisProgress, GraderReportData} from "./AbstractDataExtractor";
+import {AbstractDataExtractor, AnalysisProgress, GradebookSetupData, GraderReportData} from "./AbstractDataExtractor";
 
 // Models
 import {Participant} from "../models/Participant";
@@ -17,7 +17,7 @@ import {Forum} from "../models/Forum";
 import {Choice} from "../models/Choice";
 import {Course} from "../models/Course";
 import {devlog} from "../utils/devlog";
-import {getScrapeUrlGraderReport, getScrapeUrlQuiz} from "../utils/urlBuilder";
+import {getScrapeUrlGradebookSetup, getScrapeUrlGraderReport, getScrapeUrlQuiz} from "../utils/urlBuilder";
 import {
     normalizeGradeTo10,
     normalizeTimeToMillis,
@@ -195,15 +195,6 @@ export class ProdDataExtractor extends AbstractDataExtractor {
         }
     }
 
-
-    /**
-     * Scrapes all Quiz activities within a course (adapted to Campus Virtual HTML).
-     * - Header cells use data-sortby (lastname/firstname/duration/sumgrades)
-     * - Rows with actual attempts to have: input[name="attempted[]"]
-     * - Name is in td.c2 (anchor to /user/view.php)
-     * - Duration is in td.c6 (Spanish text like "47 días 16 horas" or "15 min 32 s")
-     * - Grade is in td.c7 (anchor to review; comma decimal like "7,25")
-     */
     /**
      * Scrapes all Quiz activities within a course (adapted to Campus Virtual HTML).
      */
@@ -351,7 +342,7 @@ export class ProdDataExtractor extends AbstractDataExtractor {
     /**
      * Scrapea la página del Grader Report (UMA)
      */
-    private async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
+    async scrapeGraderReport(courseId: string | number): Promise<GraderReportData> {
         const url = getScrapeUrlGraderReport(courseId);
         const doc = await this.fetchAndParse(url.graderReport);
 
@@ -446,50 +437,48 @@ export class ProdDataExtractor extends AbstractDataExtractor {
                 // Ignorar "-" y notas “apagadas” (sin calificación)
                 if (!raw || raw === '-' || gv?.classList.contains('dimmed_text')) return;
 
-                // Convertir a número (admite coma decimal)
-                const parsed = parseFloat(raw.replace(',', '.'));
-                if (!Number.isFinite(parsed)) return;
+                const val = parseFloat(raw.replace(',', '.'));
+                if (!Number.isFinite(val)) return;
 
-                // UMA parece usar escala sobre 10. Mantenemos normalización como hook.
-                const normalized = parsed;
-
-                if (meta.type === 'final') {
-                    // En lugar de guardar ya en el Map, acumulamos crudo
-                    finalGradesRaw.push({pid, value: normalized});
+                // --- Guardamos SIEMPRE la nota CRUDA ---
+                if (meta.type === "final") {
+                    // Acumulamos crudo para decidir luego si hay que escalar 0–100 → 0–10
+                    finalGradesRaw.push({pid, value: val});
                     return;
                 }
 
-                if (meta.type === 'workshop' && Number.isFinite(meta.activityId!)) {
+                if (meta.type === "workshop" && Number.isFinite(meta.activityId!)) {
                     const wid = meta.activityId!;
                     const byPid = workshopGradesByWid.get(wid) ?? new Map<number, number>();
-                    byPid.set(pid, normalized);
+                    byPid.set(pid, val); // nota cruda (0–50, 0–100, etc.)
                     workshopGradesByWid.set(wid, byPid);
                     return;
                 }
 
-                if (meta.type === 'assignment' && Number.isFinite(meta.activityId!)) {
+                if (meta.type === "assignment" && Number.isFinite(meta.activityId!)) {
                     const aid = meta.activityId!;
                     const byPid = assignmentGradesByAid.get(aid) ?? new Map<number, number>();
-                    byPid.set(pid, normalized);
+                    byPid.set(pid, val); // nota cruda (0–1, 0–10, etc.)
                     assignmentGradesByAid.set(aid, byPid);
                     return;
                 }
+
+
             });
         });
 
         // --- Post-proceso de escala para la nota final ---
-        // Regla: si alguna nota final supera 10 de forma clara, asumimos escala 0–100 y convertimos a 0–10.
         if (finalGradesRaw.length > 0) {
             const maxFinal = Math.max(...finalGradesRaw.map(x => x.value));
             const needsDivideBy10 = maxFinal > 10.0001 && maxFinal <= 100.0001;
 
-            for (const { pid, value } of finalGradesRaw) {
+            for (const {pid, value} of finalGradesRaw) {
                 const normalizedTo10 = needsDivideBy10 ? value / 10 : value;
-                // Redondeo a dos decimales y clamp opcional a [0, 10]
                 const rounded = Math.min(10, Math.max(0, Number(normalizedTo10.toFixed(2))));
                 finalGradesByPid.set(pid, rounded);
             }
         }
+
 
         return {
             finalGradesByPid,
@@ -498,6 +487,119 @@ export class ProdDataExtractor extends AbstractDataExtractor {
         };
     }
 
+    async scrapeGradebookSetup(courseId: string | number): Promise<GradebookSetupData> {
+        const url = getScrapeUrlGradebookSetup(courseId);
+        const doc = await this.fetchAndParse(url.gradebookSetup);
+
+        const workshopMaxGradeByCmid = new Map<number, number>();
+        const assignmentMaxGradeByCmid = new Map<number, number>();
+
+        const table = doc.querySelector<HTMLTableElement>(
+            "table.generaltable.simple.setup-grades#grade_edit_tree_table"
+        );
+
+        if (!table) {
+            // devlog.warn("gradebook_setup", "table_not_found", { courseId });
+            return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+        }
+
+        const tbody = table.querySelector("tbody");
+        if (!tbody) {
+            return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+        }
+
+        // Filas de tipo item (ignoramos categorías, totales, etc.)
+        const rows = Array.from(
+            tbody.querySelectorAll<HTMLTableRowElement>("tr.item")
+        );
+
+
+        devlog.error("gradebook_setup_prod", "table_found", {
+            hasTable: !!table,
+        });
+
+        devlog.error("gradebook_setup_prod", "rows_count", {
+            rows: rows.length,
+        });
+
+        for (const row of rows.slice(0, 3)) {
+            const nameCell = row.querySelector("td.column-name");
+            const headerLink = nameCell?.querySelector("a.gradeitemheader");
+            const href = headerLink?.getAttribute("href") ?? "";
+            const rangeCell = row.querySelector("td.column-range");
+            const rangeText = rangeCell?.textContent?.trim() ?? "";
+
+            devlog.error("gradebook_setup_prod", "row_sample", { href, rangeText });
+        }
+
+        for (const row of rows) {
+            // Columna de nombre (donde está el icono y el enlace)
+            const nameCell = row.querySelector<HTMLTableCellElement>("td.column-name");
+            if (!nameCell) continue;
+
+            // Enlace a la actividad: .../mod/workshop/view.php?id=516601, .../mod/assign/view.php?id=513541
+            const headerLink = nameCell.querySelector<HTMLAnchorElement>("a.gradeitemheader");
+            if (!headerLink) continue;
+
+            const href = headerLink.getAttribute("href") ?? "";
+            if (!href) continue;
+
+            // Detectar tipo por la URL
+            let isWorkshop = false;
+            let isAssignment = false;
+
+            if (href.includes("/mod/workshop/")) {
+                isWorkshop = true;
+            } else if (href.includes("/mod/assign/")) {
+                isAssignment = true;
+            } else {
+                // Fallback opcional por alt del icono
+                const iconImg = headerLink.querySelector<HTMLImageElement>("img.itemicon");
+                const alt = iconImg?.getAttribute("alt")?.toLowerCase() ?? "";
+                if (alt === "workshop") isWorkshop = true;
+                if (alt === "assignment") isAssignment = true;
+            }
+
+            // Solo nos interesan Workshop y Assignment
+            if (!isWorkshop && !isAssignment) continue;
+
+            // Extraemos el "id" (cmid) del query string del href → id=516601, id=513541, etc.
+            let cmid: number | null = null;
+            const match = href.match(/[?&]id=(\d+)/);
+            if (match && match[1]) {
+                cmid = Number(match[1]);
+            }
+            if (!cmid || !Number.isFinite(cmid)) continue;
+
+            // ---- AQUÍ VIENE EL ARREGLO IMPORTANTE ----
+            // Primero intentamos data-grademax SOLO si existe; si no, pasamos al fallback
+            const maxGradeAttr = row.getAttribute("data-grademax");
+            let maxGrade = NaN;
+
+            if (maxGradeAttr != null && maxGradeAttr.trim() !== "") {
+                maxGrade = Number(maxGradeAttr.replace(",", "."));
+            }
+
+            if (!Number.isFinite(maxGrade)) {
+                // Fallback (habitual en prod): texto de la columna "Max grade" (column-range)
+                const rangeCell = row.querySelector<HTMLTableCellElement>("td.column-range");
+                const rangeText = rangeCell?.textContent?.trim() ?? "";
+                maxGrade = Number(rangeText.replace(",", "."));
+            }
+
+            if (!Number.isFinite(maxGrade) || maxGrade <= 0) {
+                continue;
+            }
+
+            if (isWorkshop) {
+                workshopMaxGradeByCmid.set(cmid, maxGrade);
+            } else if (isAssignment) {
+                assignmentMaxGradeByCmid.set(cmid, maxGrade);
+            }
+        }
+
+        return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+    }
 
     /**
      * Orchestrates the scraping of a full course, including its metadata
@@ -685,11 +787,13 @@ export class ProdDataExtractor extends AbstractDataExtractor {
             // 1) Recopilar datos crudos del Grader Report
             try {
                 const graderData = await this.scrapeGraderReport(courseId);
+                const gradebookSetup = await this.scrapeGradebookSetup(courseId);
                 this.enrichFromGraderReport({
                     participants,
                     workshops,
                     assignments,
                     graderData,
+                    gradebookSetup,
                 });
             } catch (err) {
                 // Si falla el GR, no tiramos el scrape: lo registramos y seguimos con los datos base
