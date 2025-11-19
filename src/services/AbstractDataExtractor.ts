@@ -51,7 +51,8 @@ export type AnalysisProgress = {
  */
 export interface GraderReportData {
     finalGradesByPid: Map<number, number>;
-    workshopGradesByWid: Map<number, Map<number, number>>;
+    workshopSubmissionGradesByWid: Map<number, Map<number, number>>;
+    workshopAssessmentGradesByWid: Map<number, Map<number, number>>;
     assignmentGradesByAid: Map<number, Map<number, number>>;
 }
 
@@ -60,14 +61,8 @@ export interface GraderReportData {
  * (rellenaremos las Maps más adelante)
  */
 export interface GradebookSetupData {
-    /**
-     * Nota máxima por workshop, indexada por course module id (cmid).
-     */
-    workshopMaxGradeByCmid: Map<number, number>;
-
-    /**
-     * Nota máxima por assignment, indexada por course module id (cmid).
-     */
+    workshopSubmissionMaxGradeByCmid: Map<number, number>;
+    workshopAssessmentMaxGradeByCmid: Map<number, number>;
     assignmentMaxGradeByCmid: Map<number, number>;
 }
 
@@ -531,19 +526,47 @@ export abstract class AbstractDataExtractor {
         }
 
         // 1bis) maxGrade por actividad (a partir del Gradebook Setup)
-        const workshopMaxById = gradebookSetup?.workshopMaxGradeByCmid;
+
+        // Para workshops tenemos ahora ambos máximos (submission + assessment)
+        const workshopSubmissionMaxById =
+            gradebookSetup?.workshopSubmissionMaxGradeByCmid;
+        const workshopAssessmentMaxById =
+            gradebookSetup?.workshopAssessmentMaxGradeByCmid;
+
+        // Para assignments seguimos igual: un único maxGrade
         const assignmentMaxById = gradebookSetup?.assignmentMaxGradeByCmid;
 
-        if (workshopMaxById && workshops?.length) {
+        // Workshops: rellenar maxSubmissionGrade, maxAssessmentGrade y maxGrade (total)
+        if (workshops?.length && (workshopSubmissionMaxById || workshopAssessmentMaxById)) {
             for (const w of workshops) {
-                // ActivityBase.id = identificador interno (coincide con el cmid que usamos en el setup)
-                const gmax = workshopMaxById.get(w.id);
-                if (Number.isFinite(gmax as number) && (gmax as number) > 0) {
-                    w.maxGrade = gmax as number;
+                const rawSubmissionMax = workshopSubmissionMaxById?.get(w.id);
+                const rawAssessmentMax = workshopAssessmentMaxById?.get(w.id);
+
+                let submissionMax: number | undefined;
+                let assessmentMax: number | undefined;
+
+                if (Number.isFinite(rawSubmissionMax as number) && (rawSubmissionMax as number) > 0) {
+                    submissionMax = rawSubmissionMax as number;
+                    w.maxSubmissionGrade = submissionMax;
+                }
+
+                if (Number.isFinite(rawAssessmentMax as number) && (rawAssessmentMax as number) > 0) {
+                    assessmentMax = rawAssessmentMax as number;
+                    w.maxAssessmentGrade = assessmentMax;
+                }
+
+                const totalMax =
+                    (submissionMax ?? 0) +
+                    (assessmentMax ?? 0);
+
+                if (totalMax > 0) {
+                    // maxGrade = nota máxima total del taller (submission + assessment)
+                    w.maxGrade = totalMax;
                 }
             }
         }
 
+        // Assignments: seguimos usando un único maxGrade
         if (assignmentMaxById && assignments?.length) {
             for (const a of assignments) {
                 const gmax = assignmentMaxById.get(a.id);
@@ -554,8 +577,11 @@ export abstract class AbstractDataExtractor {
         }
 
         /**
-         * Helper genérico para volcar mapas (aid/wid -> (pid -> grade)) en participantStats[],
+         * Helper genérico para volcar mapas (aid -> (pid -> grade)) en participantStats[],
          * calculando también normalizedGrade (0–10) cuando maxGrade está disponible.
+         *
+         * Se usa SOLO para Assignments. Los Workshops tienen lógica específica
+         * porque necesitamos submissionGrade + assessmentGrade.
          */
         function fillParticipantStatsForActivities<T extends {
             id: number;
@@ -567,7 +593,6 @@ export abstract class AbstractDataExtractor {
         ) {
             if (!gradesByActivity?.size || !activities?.length) return;
 
-            // Índice de actividad por id para no hacer .find() repetidos
             const byId = new Map<number, T>();
             for (const a of activities) byId.set(a.id, a);
 
@@ -593,23 +618,83 @@ export abstract class AbstractDataExtractor {
                         participantName: nameByPid.get(pid) ?? String(pid),
                         grade,
                         normalizedGrade: normalized,
-                    });
+                    } as AssignmentParticipantData);
                 }
 
-                // Opcional: ordenar de mayor a menor.
-                // Si hay normalizedGrade, ordenamos por ella; si no, por grade crudo.
                 stats.sort((a, b) => {
                     const va = b.normalizedGrade ?? b.grade ?? 0;
                     const vb = a.normalizedGrade ?? a.grade ?? 0;
-                    return va - vb; // descendente
+                    return va - vb;
                 });
 
                 activity.participantStats = stats;
             }
         }
 
-        // 2) Workshops → participantStats (usa w.id como clave y w.maxGrade para normalizar)
-        fillParticipantStatsForActivities(workshops, graderData.workshopGradesByWid);
+        // 2) Workshops → participantStats con submission + assessment
+
+        const submissionByWid = graderData.workshopSubmissionGradesByWid;
+        const assessmentByWid = graderData.workshopAssessmentGradesByWid;
+
+        if (workshops?.length && (submissionByWid?.size || assessmentByWid?.size)) {
+            for (const w of workshops) {
+                const submissionMap = submissionByWid?.get(w.id);
+                const assessmentMap = assessmentByWid?.get(w.id);
+
+                if ((!submissionMap || submissionMap.size === 0) &&
+                    (!assessmentMap || assessmentMap.size === 0)) {
+                    continue;
+                }
+
+                const pids = new Set<number>();
+                if (submissionMap) {
+                    for (const pid of submissionMap.keys()) pids.add(pid);
+                }
+                if (assessmentMap) {
+                    for (const pid of assessmentMap.keys()) pids.add(pid);
+                }
+
+                const maxGrade = w.maxGrade;
+                const hasValidMax = Number.isFinite(maxGrade) && (maxGrade as number) > 0;
+
+                const stats: WorkshopParticipantData[] = [];
+
+                for (const pid of pids) {
+                    const rawSub = submissionMap?.get(pid);
+                    const rawAss = assessmentMap?.get(pid);
+
+                    const submissionGrade = Number.isFinite(rawSub as number) ? (rawSub as number) : 0;
+                    const assessmentGrade = Number.isFinite(rawAss as number) ? (rawAss as number) : 0;
+
+                    const grade = submissionGrade + assessmentGrade;
+
+                    let normalizedGrade: number;
+                    if (hasValidMax) {
+                        normalizedGrade = normalizeGradeTo10(grade, maxGrade as number);
+                    } else {
+                        // Fallback: si no tenemos maxGrade, dejamos la nota total tal cual
+                        normalizedGrade = grade;
+                    }
+
+                    stats.push({
+                        participantId: pid,
+                        participantName: nameByPid.get(pid) ?? String(pid),
+                        submissionGrade,
+                        assessmentGrade,
+                        grade,
+                        normalizedGrade,
+                    });
+                }
+
+                stats.sort((a, b) => {
+                    const va = b.normalizedGrade ?? b.grade ?? 0;
+                    const vb = a.normalizedGrade ?? a.grade ?? 0;
+                    return va - vb;
+                });
+
+                w.participantStats = stats;
+            }
+        }
 
         // 3) Assignments → participantStats (usa a.id como clave y a.maxGrade para normalizar)
         fillParticipantStatsForActivities(assignments, graderData.assignmentGradesByAid);

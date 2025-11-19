@@ -6,32 +6,6 @@
 
 1. [Alta] [Artículo] Análisis predictivo y minería de datos ampliado.
 
-- Tarea 1 (BACKEND): Normalización de calificaciones en talleres (workshops) a escala 0–10
-
-  Los talleres en Moodle utilizan un sistema de evaluación compuesto por dos partes:
-  - Puntuación de la entrega (Normalmente hasta 80 puntos)
-  - Puntuación de la evaluación (Normalmente hasta 20 puntos)
-
-  Esto da lugar a un total habitual de 100 puntos, aunque estos valores pueden variar según la configuración del curso.
-  Para integrar correctamente los talleres en los análisis comparativos del proyecto, es necesario normalizar
-  sus calificaciones a una escala común de 0 a 10.
-
-  Por cada participante:
-  - Nota de la entrega                                  (submissionGrade)    (Hay que scrapearla del grader report)
-  - Nota de la evaluación                               (assessmentGrade)    (Es el actual grade)
-  - Nota total                                          (grade)              (Nuevo campo calculado)
-  - Nota normalizada (debe ser sobre 10)                (normalizedGrade)    (Campo calculado)
-
-  Para cada taller:
-  - Nota máxima de la entrega (Normalmente sobre 80)    (maxSubmissionGrade) (Hay que scrapearla del gradebook setup)
-  - Nota máxima de la evaluación (Normalmente sobre 20) (maxAssessmentGrade) (Es el actual maxGrade)
-  - Nota máxima del taller (Normalmente sobre 100)      (maxGrade)           (Nuevo campo calculado)
-                                                             |
-                                                             v
-                                          maxSubmissionGrade + maxAssessmentGrade
-
-- Tarea 2: Mandar correo 6 con adjuntos. YA REDACTADO
-
 
 TAREAS INALCANZABLES:
 ---------------------

@@ -361,14 +361,20 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             devlog.warn("grader_report", "table_not_found", { courseId });
             return {
                 finalGradesByPid: new Map(),
-                workshopGradesByWid: new Map(),
+                workshopSubmissionGradesByWid: new Map(),
+                workshopAssessmentGradesByWid: new Map(),
                 assignmentGradesByAid: new Map(),
             };
         }
 
         // --- 1) Mapear columnas por data-itemid ---
         type ColType = "workshop" | "assignment" | "final";
-        const colMeta = new Map<number, { type: ColType; activityId?: number }>();
+        type WorkshopKind = "submission" | "assessment";
+
+        const colMeta = new Map<
+            number,
+            { type: ColType; activityId?: number; workshopKind?: WorkshopKind }
+        >();
         let finalItemId: number | null = null;
 
         const headerRow =
@@ -387,7 +393,10 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 // Detectar "Course total"
                 const isCourseTotal =
                     th.classList.contains('courseitem') ||
-                    th.querySelector('.gradeitemheader')?.textContent?.toLowerCase().includes('course total') ||
+                    th
+                        .querySelector('.gradeitemheader')
+                        ?.textContent?.toLowerCase()
+                        .includes('course total') ||
                     th.textContent?.toLowerCase().includes('course total');
 
                 if (isCourseTotal) {
@@ -409,13 +418,47 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 const activityId = Number((href.match(/id=(\d+)/)?.[1]) ?? NaN);
                 if (!Number.isFinite(activityId)) return;
 
-                colMeta.set(itemId, { type, activityId });
+                // Para workshops, distinguimos submission vs assessment por el título/texto
+                let workshopKind: WorkshopKind | undefined;
+                if (type === "workshop" && link) {
+                    const titleRaw =
+                        link.getAttribute('title') ??
+                        link.textContent ??
+                        '';
+                    const title = titleRaw.toLowerCase();
+
+                    const isSubmission =
+                        title.includes('submission') ||
+                        title.includes('envío') ||
+                        title.includes('envio');
+
+                    const isAssessment =
+                        title.includes('assessment') ||
+                        title.includes('evaluación') ||
+                        title.includes('evaluacion');
+
+                    if (isSubmission) {
+                        workshopKind = "submission";
+                    } else if (isAssessment) {
+                        workshopKind = "assessment";
+                    } else {
+                        // Fallback: si no lo podemos clasificar, lo tratamos como assessment
+                        workshopKind = "assessment";
+                    }
+                }
+
+                colMeta.set(itemId, {
+                    type,
+                    activityId,
+                    workshopKind,
+                });
             });
         }
 
         // --- 2) Estructuras de salida ---
         const finalGradesByPid = new Map<number, number>();
-        const workshopGradesByWid = new Map<number, Map<number, number>>();
+        const workshopSubmissionGradesByWid = new Map<number, Map<number, number>>();
+        const workshopAssessmentGradesByWid = new Map<number, Map<number, number>>();
         const assignmentGradesByAid = new Map<number, Map<number, number>>();
 
         // --- 3) Recorremos filas de usuarios ---
@@ -424,7 +467,10 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             const pid = Number(row.getAttribute('data-uid'));
             if (!Number.isFinite(pid)) return;
 
-            const cells = row.querySelectorAll<HTMLTableCellElement>('td.gradecell.grade[data-itemid]');
+            const cells = row.querySelectorAll<HTMLTableCellElement>(
+                'td.gradecell.grade[data-itemid]'
+            );
+
             cells.forEach((td) => {
                 const itemId = Number(td.getAttribute('data-itemid'));
                 if (!Number.isFinite(itemId)) return;
@@ -432,7 +478,8 @@ export class LocalDataExtractor extends AbstractDataExtractor {
                 const meta = colMeta.get(itemId);
                 if (!meta) return;
 
-                const raw = td.querySelector('.gradevalue')?.textContent?.trim() ?? '';
+                const raw =
+                    td.querySelector('.gradevalue')?.textContent?.trim() ?? '';
                 if (!raw || raw === '-') return;
 
                 const val = parseFloat(raw.replace(',', '.'));
@@ -447,17 +494,34 @@ export class LocalDataExtractor extends AbstractDataExtractor {
 
                 if (meta.type === "workshop" && Number.isFinite(meta.activityId!)) {
                     const wid = meta.activityId!;
-                    const byPid = workshopGradesByWid.get(wid) ?? new Map<number, number>();
-                    byPid.set(pid, val);  // nota cruda (0–50, 0–100, etc.)
-                    workshopGradesByWid.set(wid, byPid);
+                    const kind: WorkshopKind = meta.workshopKind ?? "assessment";
+
+                    if (kind === "submission") {
+                        let byPid = workshopSubmissionGradesByWid.get(wid);
+                        if (!byPid) {
+                            byPid = new Map<number, number>();
+                            workshopSubmissionGradesByWid.set(wid, byPid);
+                        }
+                        byPid.set(pid, val); // nota cruda de la entrega
+                    } else {
+                        let byPid = workshopAssessmentGradesByWid.get(wid);
+                        if (!byPid) {
+                            byPid = new Map<number, number>();
+                            workshopAssessmentGradesByWid.set(wid, byPid);
+                        }
+                        byPid.set(pid, val); // nota cruda de la evaluación
+                    }
                     return;
                 }
 
                 if (meta.type === "assignment" && Number.isFinite(meta.activityId!)) {
                     const aid = meta.activityId!;
-                    const byPid = assignmentGradesByAid.get(aid) ?? new Map<number, number>();
-                    byPid.set(pid, val);  // nota cruda (0–1, 0–10, etc.)
-                    assignmentGradesByAid.set(aid, byPid);
+                    let byPid = assignmentGradesByAid.get(aid);
+                    if (!byPid) {
+                        byPid = new Map<number, number>();
+                        assignmentGradesByAid.set(aid, byPid);
+                    }
+                    byPid.set(pid, val); // nota cruda (0–1, 0–10, etc.)
                     return;
                 }
             });
@@ -465,7 +529,8 @@ export class LocalDataExtractor extends AbstractDataExtractor {
 
         return {
             finalGradesByPid,
-            workshopGradesByWid,
+            workshopSubmissionGradesByWid,
+            workshopAssessmentGradesByWid,
             assignmentGradesByAid,
         };
     }
@@ -477,7 +542,8 @@ export class LocalDataExtractor extends AbstractDataExtractor {
         const url = getScrapeUrlGradebookSetup(courseId);
         const doc = await this.fetchAndParse(url.gradebookSetup);
 
-        const workshopMaxGradeByCmid = new Map<number, number>();
+        const workshopSubmissionMaxGradeByCmid = new Map<number, number>();
+        const workshopAssessmentMaxGradeByCmid = new Map<number, number>();
         const assignmentMaxGradeByCmid = new Map<number, number>();
 
         const table = doc.querySelector<HTMLTableElement>(
@@ -485,14 +551,13 @@ export class LocalDataExtractor extends AbstractDataExtractor {
         );
 
         if (!table) {
-            // Si quieres loguear algo:
             // devlog.warn("gradebook_setup", "table_not_found", { courseId });
-            return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+            return {workshopSubmissionMaxGradeByCmid, workshopAssessmentMaxGradeByCmid, assignmentMaxGradeByCmid};
         }
 
         const tbody = table.querySelector("tbody");
         if (!tbody) {
-            return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+            return {workshopSubmissionMaxGradeByCmid, workshopAssessmentMaxGradeByCmid, assignmentMaxGradeByCmid};
         }
 
         // Filas de tipo item (ignoramos categorías, totales, etc.)
@@ -509,7 +574,6 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             );
             const typeLabel = typeLabelSpan?.textContent?.trim() ?? "";
 
-            // Solo nos interesan Workshop y Assignment
             const isWorkshop = typeLabel.toLowerCase() === "workshop";
             const isAssignment = typeLabel.toLowerCase() === "assignment";
             if (!isWorkshop && !isAssignment) continue;
@@ -519,14 +583,34 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             const href = headerLink?.getAttribute("href") ?? "";
             if (!href) continue;
 
-            // Extraemos el "id" (cmid) del query string del href
-            // Ejemplo: id=44
+            // Extraemos el "id" (cmid) del query string del href. Ejemplo: id=44
             let cmid: number | null = null;
             const match = href.match(/[?&]id=(\d+)/);
             if (match && match[1]) {
                 cmid = Number(match[1]);
             }
             if (!cmid || !Number.isFinite(cmid)) continue;
+
+            // Detectar si esta fila es de "envío" (submission) o "evaluación" (assessment)
+            if (!headerLink) continue;
+
+            const headerTitleRaw =
+                headerLink.getAttribute("title") ??
+                headerLink.textContent ??
+                "";
+
+            const headerTitle = headerTitleRaw.toLowerCase();
+
+
+            const isSubmissionRow =
+                headerTitle.includes("envío") ||
+                headerTitle.includes("envio") ||
+                headerTitle.includes("submission");
+
+            const isAssessmentRow =
+                headerTitle.includes("evaluación") ||
+                headerTitle.includes("evaluacion") ||
+                headerTitle.includes("assessment");
 
             // Nota máxima: preferimos data-grademax por ser más exacto
             const maxGradeAttr = row.getAttribute("data-grademax");
@@ -544,14 +628,24 @@ export class LocalDataExtractor extends AbstractDataExtractor {
             }
 
             if (isWorkshop) {
-                workshopMaxGradeByCmid.set(cmid, maxGrade);
+                if (isSubmissionRow) {
+                    // Fila "Taller Bloque 1 (envío)"
+                    workshopSubmissionMaxGradeByCmid.set(cmid, maxGrade);
+                } else if (isAssessmentRow) {
+                    // Fila "Taller Bloque 1 (evaluación)"
+                    workshopAssessmentMaxGradeByCmid.set(cmid, maxGrade);
+                } else {
+                    // Fallback por si cambia el texto: mantenemos el comportamiento antiguo (assessment)
+                    workshopAssessmentMaxGradeByCmid.set(cmid, maxGrade);
+                }
             } else if (isAssignment) {
                 assignmentMaxGradeByCmid.set(cmid, maxGrade);
             }
         }
 
-        return {workshopMaxGradeByCmid, assignmentMaxGradeByCmid};
+        return {workshopSubmissionMaxGradeByCmid, workshopAssessmentMaxGradeByCmid, assignmentMaxGradeByCmid};
     }
+
 
     /**
      * Orchestrates the scraping of a full course, including its metadata
